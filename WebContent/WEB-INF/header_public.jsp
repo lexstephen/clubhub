@@ -3,14 +3,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>ClubHub</title>
-		<link href="/clubhub/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<title>Rivendell Curling Club</title>
+		<link href="style.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
-		<nav class="navbar navbar-inverse navbar-static-top">
+		<nav class="navbar navbar-static-top">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="Main">Logo goes here</a>
+					<a href="#" class="pull-left"><img src="images/rcc.png" id="rcc_circle_logo"></a>
 				</div>
 							    <div class="collapse navbar-collapse navbar-right">
 					<input type="text" name="search" placeholder="search">
