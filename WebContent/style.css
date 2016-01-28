@@ -6737,25 +6737,51 @@ button.close {
 #sidebarCalendar {
   width: 174px;
 }
+#sidebar .hidden {
+  display: none;
+}
+.boldText {
+  font-weight: bold;
+  text-align: center;
+  display: block;
+}
+.frontend {
+  /* the Posted by X at 2pm section */
+}
 .frontend h1,
 .frontend h2,
 .frontend h3,
 .frontend h4,
 .frontend h5,
 .frontend h6 {
+  text-align: center;
   color: #92c47d;
+}
+.frontend .postMeta {
+  font-size: 12px;
+  font-style: italic;
+}
+.frontend .expand,
+.frontend .pagination {
+  display: block;
+  font-size: 12px;
+  text-align: right;
 }
 .frontend .navbar {
   background: url(/clubhub/images/greenfade.png) repeat-x;
   border: 0;
+  padding-top: 10px;
 }
 .frontend .navbar-nav > li > a {
-  color: #777;
+  color: #eaf4e6;
 }
 .frontend .navbar-nav > li > a:hover,
 .frontend .navbar-nav > li > a:focus {
   color: #333;
   background-color: #a1cc8f;
+}
+.backend {
+  /* the You are now logged in as.. section */
 }
 .backend h1,
 .backend h2,
