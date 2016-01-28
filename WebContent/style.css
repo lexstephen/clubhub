@@ -6757,6 +6757,10 @@ button.close {
   text-align: center;
   color: #92c47d;
 }
+.frontend h2 {
+  border-bottom: 1px #92c47d solid;
+  margin-bottom: 5px;
+}
 .frontend .postMeta {
   font-size: 12px;
   font-style: italic;

@@ -15,18 +15,18 @@
 	
 	<h1>Join the Rivendell Curling Club</h1>
 	
-	<form>
+	<form action="/clubhub/UserController" method="post" class="form" role="form">
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptFirstName">First Name</label>
-			    	<input type="text" class="form-control" id="inptFirstName" placeholder="First Name">
+			    	<input type="text" name="firstName" class="form-control" id="inptFirstName" placeholder="First Name">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptLastName">Last Name</label>
-			    	<input type="text" class="form-control" id="inptLastName" placeholder="Last Name">
+			    	<input type="text" name="lastName" class="form-control" id="inptLastName" placeholder="Last Name">
 			  	</div>
 			</div>
 		</div>
@@ -35,13 +35,13 @@
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptUserName">User Name</label>
-			    	<input type="text" class="form-control" id="inptUserName" placeholder="User Name">
+			    	<input type="text" name="username" class="form-control" id="inptUserName" placeholder="User Name">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptPhoneNumber">Phone Number</label>
-			    	<input type="text" class="form-control" id="inptPhoneNumber" placeholder="Phone Number">
+			    	<input type="text" name="phoneNumber" class="form-control" id="inptPhoneNumber" placeholder="Phone Number">
 			  	</div>
 			</div>
 		</div>
@@ -50,13 +50,13 @@
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptEmailAddress">Email Address</label>
-			    	<input type="text" class="form-control" id="inptEmailAddress" placeholder="Email Address">
+			    	<input type="text" name="emailAddress" class="form-control" id="inptEmailAddress" placeholder="Email Address">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptEmailAddress2">Confirm Email Address</label>
-			    	<input type="text" class="form-control" id="inptEmailAddress2" placeholder="Confirm Email Address">
+			    	<input type="text" name="emailAddress2" class="form-control" id="inptEmailAddress2" placeholder="Confirm Email Address">
 			  	</div>
 			</div>
 		</div>
@@ -64,14 +64,14 @@
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group">
-			    	<label for="inptProvince">Province</label>
-			    	<input type="text" class="form-control" id="inptProvince" placeholder="Province">
+			    	<label for="inptPassword">Password</label>
+			    	<input type="text" name="Password" class="form-control" id="inptPassword" placeholder="Password">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
-			    	<label for="inptProvince2">Confirm Province</label>
-			    	<input type="text" class="form-control" id="inptProvince2" placeholder="Confirm Province">
+			    	<label for="inptPassword2">Confirm Password</label>
+			    	<input type="text" name="Password2" class="form-control" id="inptPassword2" placeholder="Confirm Password">
 			  	</div>
 			</div>
 		</div>
@@ -91,7 +91,7 @@
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptDOB">Date of Birth</label>
-			    	<input type="date" class="form-control" id="inptDOB">
+			    	<input type="date" name="dateOfBirth" class="form-control" id="inptDOB">
 			  	</div>
 			</div>
 		</div>
@@ -100,7 +100,7 @@
 			<div class="col-xs-12">
 				<div class="form-group">
 			    <label for="inptStreetAddress">Street</label>
-			    	<input type="text" class="form-control" id="inptStreetAddress" placeholder="123 Fake Street">
+			    	<input type="text" name="streetAddress" class="form-control" id="inptStreetAddress" placeholder="123 Fake Street">
 			  	</div>
 			</div>
 		</div>
@@ -109,13 +109,13 @@
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptCity">City</label>
-			    	<input type="text" class="form-control" id="inptCity" placeholder="City">
+			    	<input type="text" name="city" class="form-control" id="inptCity" placeholder="City">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptProvince">Confirm Province</label>
-			    	<input type="text" class="form-control" id="inptProvince" placeholder="Confirm Province">
+			    	<input type="text" name="province" class="form-control" id="inptProvince" placeholder="Confirm Province">
 			  	</div>
 			</div>
 		</div>
@@ -124,13 +124,13 @@
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptPostalCode">Postal Code</label>
-			    	<input type="text" class="form-control" id="inptPostalCode" placeholder="Postal Code">
+			    	<input type="text" name="postalCode" class="form-control" id="inptPostalCode" placeholder="Postal Code">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptCountry">Confirm Country</label>
-					<select class="form-control" id="inptCountry">
+					<select name="country" class="form-control" id="inptCountry">
 					  <option>Canada</option>
 					  <option>United States of America</option>
 					</select>
@@ -142,11 +142,11 @@
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptProfilePhoto">Profile Photo</label>
-			    	<input type="file" class="form-control" id="inptProfilePhoto" placeholder="Postal Code">
+			    	<input type="file" name="profilePhoto" class="form-control" id="inptProfilePhoto" placeholder="Postal Code">
 	    			<p class="help-block">Upload a square jpg or png.</p>
 			  	</div>
 			</div>
-			<div class="col-xs-6">
+			<div class="col-xs-6 pull-right">
 		    	<label>Preview</label>
 				<img src="/clubhub/images/avatar.gif">
 			</div>
@@ -155,7 +155,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="form-group">
-			    	<input type="submit" class="form-control" value="Submit Registration">
+			    	<input type="submit" class="btn btn-default" value="Submit Registration">
 			  	</div>
 			</div>
 		</div>
