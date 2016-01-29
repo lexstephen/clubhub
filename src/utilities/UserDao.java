@@ -42,7 +42,7 @@ public class UserDao {
 		    try {
 
 					String option = request.getParameter("option");
-					String email = request.getParameter("email");
+					String emailAddress = request.getParameter("emailAddress");
 					String password = request.getParameter("password");
 				
 			      // Statements allow to issue SQL queries to the database
@@ -50,10 +50,10 @@ public class UserDao {
 			      
 			      switch(option) {
 				      case "register":
-					      resultSet = statement.executeQuery("select * from hackers_User where email = \"" + email + "\""); 
+					      resultSet = statement.executeQuery("select * from ch_user where emailAddress = \"" + emailAddress + "\""); 
 			    	  break;
 				      case "login":
-					      resultSet = statement.executeQuery("select * from hackers_User where email = \"" + email + "\" and password = \"" + password + "\""); 
+					      resultSet = statement.executeQuery("select * from ch_user where emailAddress = \"" + emailAddress + "\" and password = \"" + password + "\""); 
 			    	  break;
 			    	  default:
 			    		  resultSet = null;
@@ -75,10 +75,10 @@ public class UserDao {
 		
 		public String getUserId(HttpServletRequest request) throws Exception {
 		    try {
-		    	  String email = request.getParameter("email");
+		    	  String emailAddress = request.getParameter("emailAddress");
 				  String password = request.getParameter("password");
 			      statement = connect.createStatement();
-			      resultSet = statement.executeQuery("select id from hackers_User where email = \"" + email + "\" and password = \"" + password + "\"");
+			      resultSet = statement.executeQuery("select id from ch_user where emailAddress = \"" + emailAddress + "\" and password = \"" + password + "\"");
 			      while (resultSet.next()) {
 			    	  String userID = resultSet.getString("id");
 					     return userID; 
@@ -93,7 +93,7 @@ public class UserDao {
 		    try {
 		    	  String userID = getUserId(request);
 			      statement = connect.createStatement();
-			      resultSet = statement.executeQuery("select firstName, lastName from hackers_User where id = \"" + userID + "\"");
+			      resultSet = statement.executeQuery("select firstName, lastName from ch_user where id = \"" + userID + "\"");
 			      while (resultSet.next()) {
 			    	  String username = resultSet.getString("firstName") + " " + resultSet.getString("lastName");
 					     return username; 
@@ -110,20 +110,15 @@ public class UserDao {
 		      statement = connect.createStatement();
 		      
 		      // PreparedStatements can use variables and are more efficient
-		      preparedStatement = connect.prepareStatement("insert into hackers_User values (default, ?, ?, ?, ?, ?)");
+		      preparedStatement = connect.prepareStatement("insert into ch_user values (default, ?, ?, ?, ?, ?)");
 		      // columns are firstName, lastName, email, telephone, password
 		      // Parameters start with 1 because we are sending 'default' to the auto incrementing id
 		      preparedStatement.setString(1, request.getParameter("firstName"));	// firstName
 		      preparedStatement.setString(2, request.getParameter("lastName")); 	// lastName
-		      preparedStatement.setString(3, request.getParameter("email1")); 		// email
+		      preparedStatement.setString(3, request.getParameter("emailAddress"));	// email
 		      preparedStatement.setString(4, request.getParameter("telephone"));	// telephone (will have to concatenate the 3 separate inputs prior to posting to db)
 		      preparedStatement.setString(5, request.getParameter("password1")); 	// password
 		      preparedStatement.executeUpdate();
-
-		     // preparedStatement = connect.prepareStatement("SELECT * from hackers_User");
-		     // resultSet = preparedStatement.executeQuery();
-		      //writeResultSet(response,resultSet);
-
 		    } catch (Exception e) {
 		      throw e;
 		    }
@@ -135,7 +130,7 @@ public class UserDao {
 			  	try{
 				    // Statements allow to issue SQL queries to the database
 				    statement = connect.createStatement();
-				    resultSet = statement.executeQuery("select * from hackers_post");
+				    resultSet = statement.executeQuery("select * from ch_post");
 				      
 				    while (resultSet.next()) {
 				    	  Post post = new Post();
@@ -143,7 +138,7 @@ public class UserDao {
 				    	  post.setId(resultSet.getString("id"));
 				    	  post.setPost_date(resultSet.getString("post_date"));
 				    	  post.setContent(resultSet.getString("content"));
-				    	  post.setUserid(resultSet.getString("userid"));
+				    	  post.setUserid(resultSet.getString("Userid"));
 				    	  posts.add(post);
 				    }
 			    

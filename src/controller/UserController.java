@@ -31,13 +31,13 @@ public class UserController extends HttpServlet {
     					if(dao.isInDatabase(request, response)) {
 			    			// Yes - User already exists, send error, redisplay registration form
 							request.setAttribute("errorString", "Something went wrong..");
-			    			address = "/assignment2/Register.jsp";
+			    			address = "/clubhub/Register.jsp";
 			    		} else {
 			    			// User was entered successfully and is new!
 		    				// Add user to database then redirect to login form
 							request.setAttribute("errorString", null);
 				    		dao.addToDatabase(request, response);
-							address = "/assignment2/Login.jsp";
+							address = "/clubhub/Login.jsp";
 			    		}
 			    	// the form is not filled out correctly. send an error back and send them 
 		    		// back to the registration form

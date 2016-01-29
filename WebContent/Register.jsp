@@ -20,13 +20,13 @@
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptFirstName">First Name</label>
-			    	<input type="text" name="firstName" class="form-control" id="inptFirstName" placeholder="First Name">
+			    	<input type="text" name="firstName" class="form-control" id="inptFirstName" placeholder="First Name" value="Test">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptLastName">Last Name</label>
-			    	<input type="text" name="lastName" class="form-control" id="inptLastName" placeholder="Last Name">
+			    	<input type="text" name="lastName" class="form-control" id="inptLastName" placeholder="Last Name" value="Test">
 			  	</div>
 			</div>
 		</div>
@@ -35,13 +35,13 @@
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptUserName">User Name</label>
-			    	<input type="text" name="username" class="form-control" id="inptUserName" placeholder="User Name">
+			    	<input type="text" name="username" class="form-control" id="inptUserName" placeholder="User Name" value="Test">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptPhoneNumber">Phone Number</label>
-			    	<input type="text" name="phoneNumber" class="form-control" id="inptPhoneNumber" placeholder="Phone Number">
+			    	<input type="text" name="telephone" class="form-control" id="inptPhoneNumber" placeholder="Phone Number" value="1234567890">
 			  	</div>
 			</div>
 		</div>
@@ -50,13 +50,13 @@
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptEmailAddress">Email Address</label>
-			    	<input type="text" name="emailAddress" class="form-control" id="inptEmailAddress" placeholder="Email Address">
+			    	<input type="text" name="emailAddress" class="form-control" id="inptEmailAddress" placeholder="Email Address" value="test@test.com">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptEmailAddress2">Confirm Email Address</label>
-			    	<input type="text" name="emailAddress2" class="form-control" id="inptEmailAddress2" placeholder="Confirm Email Address">
+			    	<input type="text" name="emailAddress2" class="form-control" id="inptEmailAddress2" placeholder="Confirm Email Address" value="test@test.com">
 			  	</div>
 			</div>
 		</div>
@@ -65,13 +65,13 @@
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptPassword">Password</label>
-			    	<input type="text" name="Password" class="form-control" id="inptPassword" placeholder="Password">
+			    	<input type="text" name="password1" class="form-control" id="inptPassword" placeholder="Password">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptPassword2">Confirm Password</label>
-			    	<input type="text" name="Password2" class="form-control" id="inptPassword2" placeholder="Confirm Password">
+			    	<input type="text" name="password2" class="form-control" id="inptPassword2" placeholder="Confirm Password">
 			  	</div>
 			</div>
 		</div>
@@ -155,6 +155,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="form-group">
+					<input type="hidden" name="option" value="register">
 			    	<input type="submit" class="btn btn-default" value="Submit Registration">
 			  	</div>
 			</div>

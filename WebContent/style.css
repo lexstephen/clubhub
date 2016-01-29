@@ -6740,6 +6740,10 @@ button.close {
 #sidebar .hidden {
   display: none;
 }
+.centerImage {
+  display: block;
+  margin: 0 auto;
+}
 .boldText {
   font-weight: bold;
   text-align: center;
@@ -6757,9 +6761,10 @@ button.close {
   text-align: center;
   color: #92c47d;
 }
-.frontend h2 {
+.frontend h1 {
   border-bottom: 1px #92c47d solid;
-  margin-bottom: 5px;
+  padding: 5px;
+  margin: 5px;
 }
 .frontend .postMeta {
   font-size: 12px;
