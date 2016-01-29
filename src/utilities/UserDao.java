@@ -12,8 +12,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -110,14 +112,30 @@ public class UserDao {
 		      statement = connect.createStatement();
 		      
 		      // PreparedStatements can use variables and are more efficient
-		      preparedStatement = connect.prepareStatement("insert into ch_user values (default, ?, ?, ?, ?, ?)");
-		      // columns are firstName, lastName, email, telephone, password
-		      // Parameters start with 1 because we are sending 'default' to the auto incrementing id
-		      preparedStatement.setString(1, request.getParameter("firstName"));	// firstName
-		      preparedStatement.setString(2, request.getParameter("lastName")); 	// lastName
-		      preparedStatement.setString(3, request.getParameter("emailAddress"));	// email
-		      preparedStatement.setString(4, request.getParameter("telephone"));	// telephone (will have to concatenate the 3 separate inputs prior to posting to db)
-		      preparedStatement.setString(5, request.getParameter("password1")); 	// password
+		      preparedStatement = connect.prepareStatement("insert into ch_user values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		      // columns are 0 `id`, 1 `username`, 2 `password`, 3 `emailAddress`
+		      // 4 `dateCreated`, `userStatus`, `firstName`, `lastName`, `gender`, 
+		      // 9 `phoneNumber`, `streetAddress`, `city`, `province`, `postalCode`, 
+		      // 14 `country`, `photo`, `dateOfBirth`, `emergencyContactName`, 
+		      // 18 `emergencyContactPhoneNumber`
+		      preparedStatement.setString(1, request.getParameter("username")); 					// username
+		      preparedStatement.setString(2, request.getParameter("password1")); 					// password
+		      preparedStatement.setString(3, request.getParameter("emailAddress"));					// emailAddress
+		      preparedStatement.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())); // dateCreated
+		      preparedStatement.setString(5, "unverified");											// userStatus
+		      preparedStatement.setString(6, request.getParameter("firstName"));					// firstName
+		      preparedStatement.setString(7, request.getParameter("lastName")); 					// lastName
+		      preparedStatement.setString(8, request.getParameter("gender")); 						// gender
+		      preparedStatement.setString(9, request.getParameter("telephone"));					// phoneNumber
+		      preparedStatement.setString(10, request.getParameter("streetAddress"));				// streetAddress
+		      preparedStatement.setString(11, request.getParameter("city"));						// city
+		      preparedStatement.setString(12, request.getParameter("province"));					// province
+		      preparedStatement.setString(13, request.getParameter("postalCode"));					// postalCode
+		      preparedStatement.setString(14, request.getParameter("country"));						// country
+		      preparedStatement.setString(15, request.getParameter("photo"));						// photo
+		      preparedStatement.setString(16, request.getParameter("dateOfBirth"));					// dateOfBirth
+		      preparedStatement.setString(17, request.getParameter("emergencyContactName"));		// emergencyContactName
+		      preparedStatement.setString(18, request.getParameter("emergencyContactPhoneNumber"));	// emergencyContactPhoneNumber
 		      preparedStatement.executeUpdate();
 		    } catch (Exception e) {
 		      throw e;

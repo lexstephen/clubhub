@@ -8,9 +8,128 @@ package model;
 * Description: User model
 ****************************************************************************************************/
 public class User {
-	private String userid = "", firstName = "", lastName = "", email = "", telephone = "", password = "";
-	
+	private String userid = "", username = "", password = "", emailAddress = "", 
+			dateCreated = "", userStatus = "", firstName = "", lastName = "", gender = "", 
+			telephone = "", streetAddress = "", city = "", province = "", postalCode = "",
+			country = "", photo = "", dateOfBirth = "", emergencyContactName = "", emergencyContactPhoneNumber = "";
+    // columns are 0 `id`, 1 `username`, 2 `password`, 3 `emailAddress`, etc 
+    // 4 `dateCreated`, `userStatus`, `firstName`, `lastName`, `gender`, 
+    // 9 `phoneNumber`, `streetAddress`, `city`, `province`, `postalCode`, 
+    // 14 `country`, `photo`, `dateOfBirth`, `emergencyContactName`, 
+    // 18 `emergencyContactPhoneNumber`
 	public User() {}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	public String getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(String dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public String getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getEmergencyContactName() {
+		return emergencyContactName;
+	}
+
+	public void setEmergencyContactName(String emergencyContactName) {
+		this.emergencyContactName = emergencyContactName;
+	}
+
+	public String getEmergencyContactPhoneNumber() {
+		return emergencyContactPhoneNumber;
+	}
+
+	public void setEmergencyContactPhoneNumber(String emergencyContactPhoneNumber) {
+		this.emergencyContactPhoneNumber = emergencyContactPhoneNumber;
+	}
 
 	public String getUserid() {
 		return userid;
@@ -37,11 +156,11 @@ public class User {
 	}
 
 	public String getEmail() {
-		return email;
+		return emailAddress;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmail(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 
 	public String getTelephone() {

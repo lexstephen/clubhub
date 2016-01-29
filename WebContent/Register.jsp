@@ -45,18 +45,18 @@
 			  	</div>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptEmailAddress">Email Address</label>
-			    	<input type="text" name="emailAddress" class="form-control" id="inptEmailAddress" placeholder="Email Address" value="test@test.com">
+			    	<input type="text" name="emailAddress" class="form-control" id="inptEmailAddress" placeholder="Email Address" value="${email1}" <c:if test="${!empty errorEmail1}">style="border: 1px red solid;"</c:if>>
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptEmailAddress2">Confirm Email Address</label>
-			    	<input type="text" name="emailAddress2" class="form-control" id="inptEmailAddress2" placeholder="Confirm Email Address" value="test@test.com">
+			    	<input type="text" name="emailAddress2" class="form-control" id="inptEmailAddress2" placeholder="Confirm Email Address" value="${email1}" <c:if test="${!empty errorEmail1}">style="border: 1px red solid;"</c:if>>
 			  	</div>
 			</div>
 		</div>
@@ -91,7 +91,7 @@
 			<div class="col-xs-6">
 				<div class="form-group">
 			    	<label for="inptDOB">Date of Birth</label>
-			    	<input type="date" name="dateOfBirth" class="form-control" id="inptDOB">
+			    	<input type="date" name="dateOfBirth" class="form-control" id="inptDOB" value="1933-12-02">
 			  	</div>
 			</div>
 		</div>

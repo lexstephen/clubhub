@@ -1,4 +1,7 @@
 package utilities;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /****************************************************************************************************
 * Project: Hackers 1995
 * Assignment: COMP 3095 Assignment 2
@@ -38,21 +41,43 @@ public class ValidationUtilities {
 	
 	public static boolean isValidRegistration(HttpServletRequest request) {
 		boolean isValid = true;
+		String username = request.getParameter("username");
+		String password1 = request.getParameter("password1");	
+		String password2 = request.getParameter("password2");	
+		String emailAddress = request.getParameter("emailAddress");	
+		String emailAddress2 = request.getParameter("emailAddress2");	
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
+		String gender = request.getParameter("gender");
 		String telephone = request.getParameter("telephone");
-		String email1 = request.getParameter("email1");	
-		String email2 = request.getParameter("email2");
-		String password1 = request.getParameter("password1");	
-		String password2 = request.getParameter("password2");		
+		String streetAddress = request.getParameter("streetAddress");
+		String city = request.getParameter("city");
+		String province = request.getParameter("province");
+		String postalCode = request.getParameter("postalCode");
+		String country = request.getParameter("country");
+		String photo = request.getParameter("photo");
+		String dateOfBirth = request.getParameter("dateOfBirth");
+		String emergencyContactName = request.getParameter("emergencyContactName");
+		String emergencyContactPhoneNumber = request.getParameter("emergencyContactPhoneNumber");
 
-		request.setAttribute("firstName", firstName);
-		request.setAttribute("lastName", lastName);
-		request.setAttribute("telephone", telephone);
-		request.setAttribute("email1", email1);
-		request.setAttribute("email2", email2);
+		request.setAttribute("username", username);
 		request.setAttribute("password1", password1);
 		request.setAttribute("password2", password2);
+		request.setAttribute("emailAddress", emailAddress);
+		request.setAttribute("emailAddress2", emailAddress2);
+		request.setAttribute("firstName", firstName);
+		request.setAttribute("lastName", lastName);
+		request.setAttribute("gender", gender);
+		request.setAttribute("telephone", telephone);
+		request.setAttribute("streetAddress", streetAddress);
+		request.setAttribute("city", city);
+		request.setAttribute("province", province);
+		request.setAttribute("postalCode", postalCode);
+		request.setAttribute("country", country);
+		request.setAttribute("photo", photo);
+		request.setAttribute("dateOfBirth", dateOfBirth);
+		request.setAttribute("emergencyContactName", emergencyContactName);
+		request.setAttribute("emergencyContactPhoneNumber", emergencyContactPhoneNumber);
 		
 		if (!isString(firstName)) {
 			isValid = false;
@@ -66,11 +91,11 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString2", "Please enter only numbers in your telephone number");
 			request.setAttribute("errorTelephone", true);}
-		if (!isEmail(email1)) {
+		if (!isEmail(emailAddress)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorEmail1", true);}
-		if (!isEmail(email2)) {
+		if (!isEmail(emailAddress2)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorEmail2", true);} 
@@ -82,7 +107,7 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPassword2", true);}
-		if (!email1.equals(email2)) {
+		if (!emailAddress.equals(emailAddress2)) {
 			isValid = false;
 			request.setAttribute("errorString3", "Email addresses do not match");
 			request.setAttribute("errorEmail1", true);

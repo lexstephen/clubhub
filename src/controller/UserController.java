@@ -31,13 +31,13 @@ public class UserController extends HttpServlet {
     					if(dao.isInDatabase(request, response)) {
 			    			// Yes - User already exists, send error, redisplay registration form
 							request.setAttribute("errorString", "Something went wrong..");
-			    			address = "/clubhub/Register.jsp";
+			    			address = "/Register.jsp";
 			    		} else {
 			    			// User was entered successfully and is new!
 		    				// Add user to database then redirect to login form
 							request.setAttribute("errorString", null);
 				    		dao.addToDatabase(request, response);
-							address = "/clubhub/Login.jsp";
+							address = "/Login.jsp";
 			    		}
 			    	// the form is not filled out correctly. send an error back and send them 
 		    		// back to the registration form
@@ -62,21 +62,21 @@ public class UserController extends HttpServlet {
 			    			session.setAttribute("userID", dao.getUserId(request));
 			    			session.setAttribute("userName", dao.getName(request));
 							request.setAttribute("errorString", null);
-			    			address = "/assignment2/Posts.jsp";
+			    			address = "/Posts.jsp";
 			    		} else {
 			    			// wrong username or password, send back to login form
 							request.setAttribute("errorString", "Wrong username or password.");
-							address = "/assignment2/Login.jsp";
+							address = "/Login.jsp";
 			    		}
 					} else {
 						// the form was not filled in correctly, send them back
 						request.setAttribute("errorString", "The form was not filled out correctly");
-						address = "/assignment2/Login.jsp";
+						address = "/Login.jsp";
 					}
 	    		break;
 		    	default:
 		    		// something went wrong, display main page
-					address = "/assignment2/Home";
+					address = "/index.jsp";
 	    		break;
 	    	}
 	    	// we've done what we needed to do, where should we send them?
