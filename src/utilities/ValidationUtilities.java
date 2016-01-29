@@ -78,6 +78,40 @@ public class ValidationUtilities {
 		request.setAttribute("dateOfBirth", dateOfBirth);
 		request.setAttribute("emergencyContactName", emergencyContactName);
 		request.setAttribute("emergencyContactPhoneNumber", emergencyContactPhoneNumber);
+
+
+		if (!isMissing(username)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorUsername", true);}
+		
+		if (!isPwd(password1)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorPassword1", true);}
+		if (!isPwd(password2)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorPassword2", true);}
+		if (!password1.equals(password2)) {
+			isValid = false;
+			request.setAttribute("errorString4", "Passwords do not match");
+			request.setAttribute("errorPassword1", true);
+			request.setAttribute("errorPassword2", true);}
+		
+		if (!isEmail(emailAddress)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorEmail1", true);}
+		if (!isEmail(emailAddress2)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorEmail2", true);} 
+		if (!emailAddress.equals(emailAddress2)) {
+			isValid = false;
+			request.setAttribute("errorString3", "Email addresses do not match");
+			request.setAttribute("errorEmail1", true);
+			request.setAttribute("errorEmail2", true);}
 		
 		if (!isString(firstName)) {
 			isValid = false;
@@ -87,39 +121,52 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorLastName", true);} 
+
+		if (!isMissing(gender)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorGender", true);} 
+
 		if (!isInt(telephone)) {
 			isValid = false;
 			request.setAttribute("errorString2", "Please enter only numbers in your telephone number");
 			request.setAttribute("errorTelephone", true);}
-		if (!isEmail(emailAddress)) {
+
+		if (!isMissing(streetAddress)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
-			request.setAttribute("errorEmail1", true);}
-		if (!isEmail(emailAddress2)) {
+			request.setAttribute("errorStreetAddress", true);}
+		if (!isMissing(city)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
-			request.setAttribute("errorEmail2", true);} 
-		if (!isPwd(password1)) {
+			request.setAttribute("errorCity", true);}
+		if (!isMissing(province)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
-			request.setAttribute("errorPassword1", true);}
-		if (!isPwd(password2)) {
+			request.setAttribute("errorProvince", true);}
+		if (!isRightLength(postalCode,6)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
-			request.setAttribute("errorPassword2", true);}
-		if (!emailAddress.equals(emailAddress2)) {
+			request.setAttribute("errorPostalCode", true);}
+		if (!isMissing(country)) {
 			isValid = false;
-			request.setAttribute("errorString3", "Email addresses do not match");
-			request.setAttribute("errorEmail1", true);
-			request.setAttribute("errorEmail2", true);}
-		if (!password1.equals(password2)) {
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorCountry", true);}
+		if (!isMissing(dateOfBirth)) {
 			isValid = false;
-			request.setAttribute("errorString4", "Passwords do not match");
-			request.setAttribute("errorPassword1", true);
-			request.setAttribute("errorPassword2", true);}
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorDateOfBirth", true);}
+		if (!isMissing(emergencyContactName)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorEmergencyContactName", true);}
+		if (!isInt(emergencyContactPhoneNumber)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorEmergencyContactPhoneNumber", true);}
 		return isValid;
 	}
-
+	
 	public static boolean isValidPost(HttpServletRequest request) {
 		boolean isValid = true;
 		String title = request.getParameter("title");
@@ -147,10 +194,15 @@ public class ValidationUtilities {
 			request.setAttribute("errorNewPostContent", true);} 
 		return isValid;
 	}
-	
+
 	// check that an input field was filled out
 	public static boolean isMissing(String theInput) {
 		return theInput.matches("");
+	}
+	
+	// check that an input field is the correct length
+	public static boolean isRightLength(String theInput, int fieldSize ) {
+		return theInput.length() == fieldSize;
 	}
 
 	// check that value is a String
