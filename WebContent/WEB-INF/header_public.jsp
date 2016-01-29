@@ -9,27 +9,27 @@
 	<body class="frontend">	
 	<nav class="navbar navbar-static-top sidebar">
 		<div class="container">
-		<div class="row">
-			<div class="navbar-header">
-				<a href="/clubhub/index.jsp" class="pull-left"><img src="images/rcc.png" id="rcc_circle_logo"></a>
+			<div class="row">
+				<div class="navbar-header">
+					<a href="/clubhub/index.jsp" class="pull-left"><img src="images/rcc.png" id="rcc_circle_logo"></a>
+				</div>
+				<div class="collapse navbar-collapse navbar-right">
+					<form>
+					  	<div class="form-group">
+							<input type="text" class="form-control" name="search" placeholder="search">
+						</div>
+					</form>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="/clubhub/Register.jsp">Register</a></li>
+						<li><a href="/clubhub/Updates.jsp">Updates</a></li>
+						<li><a href="/clubhub/Contact.jsp">Contact Us</a></li>
+						<li><a href="/clubhub/Fees.jsp">Fees</a></li>
+						<li><a href="/clubhub/Rent.jsp">Rent Us</a></li>
+					</ul>
+				</div>
 			</div>
-			<div class="collapse navbar-collapse navbar-right">
-				<form>
-				  	<div class="form-group">
-						<input type="text" class="form-control" name="search" placeholder="search">
-					</div>
-				</form>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="/clubhub/Register.jsp">Register</a></li>
-					<li><a href="/clubhub/Updates.jsp">Updates</a></li>
-					<li><a href="/clubhub/Contact.jsp">Contact Us</a></li>
-					<li><a href="/clubhub/Fees.jsp">Fees</a></li>
-					<li><a href="/clubhub/Rent.jsp">Rent Us</a></li>
-				</ul>
-			</div>
-		</div>
 		</div>
 	</nav>
 	<div class="container">

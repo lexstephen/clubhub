@@ -14,7 +14,7 @@
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
 	<div class="row">
 		<div class="col-xs-12">
-			<h2>Exciting Blog Post</h2>
+			<h1>Exciting Blog Post</h1>
 			<span class="postMeta">Posted in {Schedules} by Admin on Sept 7, 2015</span>
 			<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 			<span class="expand">
@@ -25,7 +25,7 @@
 	
 	<div class="row">
 		<div class="col-xs-12">
-			<h2>Exciting Blog Post 2</h2>
+			<h1>Exciting Blog Post 2</h1>
 			<span class="postMeta">Posted in {Schedules} by Admin on Sept 7, 2015</span>
 			<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 			<span class="expand">
@@ -36,7 +36,7 @@
 	
 	<div class="row">
 		<div class="col-xs-12">
-			<h2>Exciting Blog Post 3</h2>
+			<h1>Exciting Blog Post 3</h1>
 			<span class="postMeta">Posted in {Schedules} by Admin on Sept 7, 2015</span>
 			<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 			<span class="expand">
