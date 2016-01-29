@@ -55,7 +55,7 @@ public class ValidationUtilities {
 		String province = request.getParameter("province");
 		String postalCode = request.getParameter("postalCode");
 		String country = request.getParameter("country");
-		String photo = request.getParameter("photo");
+		String profilePhoto = request.getParameter("profilePhoto");
 		String dateOfBirth = request.getParameter("dateOfBirth");
 		String emergencyContactName = request.getParameter("emergencyContactName");
 		String emergencyContactPhoneNumber = request.getParameter("emergencyContactPhoneNumber");
@@ -74,13 +74,13 @@ public class ValidationUtilities {
 		request.setAttribute("province", province);
 		request.setAttribute("postalCode", postalCode);
 		request.setAttribute("country", country);
-		request.setAttribute("photo", photo);
+		request.setAttribute("profilePhoto", profilePhoto);
 		request.setAttribute("dateOfBirth", dateOfBirth);
 		request.setAttribute("emergencyContactName", emergencyContactName);
 		request.setAttribute("emergencyContactPhoneNumber", emergencyContactPhoneNumber);
 
 
-		if (!isMissing(username)) {
+		if (isMissing(username)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorUsername", true);}
@@ -122,7 +122,7 @@ public class ValidationUtilities {
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorLastName", true);} 
 
-		if (!isMissing(gender)) {
+		if (isMissing(gender)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorGender", true);} 
@@ -132,15 +132,15 @@ public class ValidationUtilities {
 			request.setAttribute("errorString2", "Please enter only numbers in your telephone number");
 			request.setAttribute("errorTelephone", true);}
 
-		if (!isMissing(streetAddress)) {
+		if (isMissing(streetAddress)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorStreetAddress", true);}
-		if (!isMissing(city)) {
+		if (isMissing(city)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorCity", true);}
-		if (!isMissing(province)) {
+		if (isMissing(province)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorProvince", true);}
@@ -148,15 +148,15 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPostalCode", true);}
-		if (!isMissing(country)) {
+		if (isMissing(country)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorCountry", true);}
-		if (!isMissing(dateOfBirth)) {
+		if (isMissing(dateOfBirth)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorDateOfBirth", true);}
-		if (!isMissing(emergencyContactName)) {
+		if (isMissing(emergencyContactName)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorEmergencyContactName", true);}

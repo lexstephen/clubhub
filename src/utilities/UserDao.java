@@ -132,7 +132,7 @@ public class UserDao {
 		      preparedStatement.setString(12, request.getParameter("province"));					// province
 		      preparedStatement.setString(13, request.getParameter("postalCode"));					// postalCode
 		      preparedStatement.setString(14, request.getParameter("country"));						// country
-		      preparedStatement.setString(15, request.getParameter("photo"));						// photo
+		      preparedStatement.setString(15, request.getParameter("profilePhoto"));				// profilePhoto
 		      preparedStatement.setString(16, request.getParameter("dateOfBirth"));					// dateOfBirth
 		      preparedStatement.setString(17, request.getParameter("emergencyContactName"));		// emergencyContactName
 		      preparedStatement.setString(18, request.getParameter("emergencyContactPhoneNumber"));	// emergencyContactPhoneNumber
