@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<title>Rivendell Curling Club | Admin</title>
-		<link href="/clubhub/style.css" rel="stylesheet" type="text/css" />
+		<link href="/clubhub/css/style.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<nav class="navbar navbar-static-top backend">
@@ -12,7 +12,7 @@
 				<div class="navbar-header">
 					<a href="#" class="pull-left"><img src="/clubhub/images/rcc.png" id="rcc_circle_logo"></a>
 				</div>
-							    <div class="collapse navbar-collapse navbar-right">
+				<div class="collapse navbar-collapse navbar-right">
 					<input type="text" name="search" placeholder="search">
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
@@ -23,7 +23,6 @@
 						<li><a href="/clubhub/Fees.jsp">Fees</a> | </li>
 						<li><a href="/clubhub/Rent.jsp">Rent Us</a></li>
 					</ul>
-
 				</div>
 			</div>
 		</nav>
