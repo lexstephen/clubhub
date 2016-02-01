@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>Rivendell Curling Club | Admin</title>
+		<title><%= request.getAttribute("thisPage") %></title>
 		<link href="/clubhub/css/style.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
@@ -16,14 +16,15 @@
 					<input type="text" name="search" placeholder="search">
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li><a href="/clubhub/Register.jsp">Register</a> | </li>
-						<li><a href="/clubhub/Updates.jsp">Updates</a> | </li>
-						<li><a href="/clubhub/Contact.jsp">Contact Us</a> | </li>
-						<li><a href="/clubhub/Fees.jsp">Fees</a> | </li>
-						<li><a href="/clubhub/Rent.jsp">Rent Us</a></li>
-					</ul>
+					<span class="memberMeta"><img src="/clubhub/images/avatar.gif"> You are now logged in as this puppy</span>
 				</div>
 			</div>
 		</nav>
 		<div>
+			<div class="container backend">
+				<div class="row">
+					<div class="sidebar col-sm-2 col-xs-12">
+						<%@ include file="/WEB-INF/sidebar_backend.jsp" %>
+					</div>
+					
+					<div class="content col-sm-10 col-xs-12">
