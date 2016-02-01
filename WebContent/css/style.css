@@ -6799,6 +6799,7 @@ button.close {
 .backend h5,
 .backend h6 {
   color: #00ace0;
+  text-align: center;
 }
 .backend .sidebar {
   background-color: #00ace0;

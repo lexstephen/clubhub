@@ -8,14 +8,14 @@
  
 <%-- Should we get the page title here? Can more of this go into the header? --%>
 
-<% request.setAttribute("thisPage", "Add/Edit Post"); %>
+<% request.setAttribute("thisPage", "Add Post"); %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-<h2>Add/Update Post</h2>
+<h1>Add/Update Post</h1>
 <br><hr><br>
 
 <form action="/clubhub/PostDao" method="post" class="form" role="form">
