@@ -1,7 +1,6 @@
 package controller;
 /****************************************************************************************************
 * Project: ClubHub
-* Assignment: Capstone
 * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
 * Student Number: 100563954, 100911472, 100898311
 * Date: February 03, 2016
@@ -32,7 +31,7 @@ public class PostController extends HttpServlet {
 		PostDao dao = new PostDao();
 		String address = null;
 		//
-		String errorChecker = "poo";
+		String errorChecker = "blank";
 	    try {
 	    	switch(option) {
 		    	case "add":

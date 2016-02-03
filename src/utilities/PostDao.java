@@ -1,10 +1,9 @@
 package utilities;
 /****************************************************************************************************
-* Project: Hackers 1995
-* Assignment: COMP 3095 Assignment 2
+* Project: ClubHub
 * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
 * Student Number: 100563954, 100911472, 100898311
-* Date: December 4th, 2016
+* Date: Feb 03, 2016
 * Description: PostDao - prepares a database access object for the Post model
 ****************************************************************************************************/
 import java.sql.Connection;
@@ -93,7 +92,6 @@ public class PostDao {
 			    	  post.setId(resultSet.getString("hp.id"));
 			    	  post.setUserFirstName(resultSet.getString("usr.firstName"));
 			    	  post.setUserLastName(resultSet.getString("usr.lastName"));
-			    	  post.setPost_date(resultSet.getString("hp.post_date"));
 			    	  post.setContent(resultSet.getString("hp.content"));
 			    	  post.setUserid(resultSet.getString("hp.userid"));
 			    	  
@@ -121,29 +119,41 @@ public class PostDao {
 		  }
 	}
 	
-	public void findPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void findPost(HttpServletRequest request, HttpServletResponse response, String _postID, String _pageOrder) throws Exception {
 		  Post post = new Post();
-		  String postID = request.getParameter("postID");
+		  String postID = _postID;
+		  String pageOrder = _pageOrder;
 		  	try{
 			    statement = connect.createStatement();
-			    resultSet = statement.executeQuery("select usr.firstName, usr.lastName, hp.id, hp.title, hp.post_date, hp.content, hp.Userid from hackers_post hp INNER JOIN "
-			    		+ "hackers_user usr "
-						+ "on hp.Userid = usr.id "
-			    		+ "where hp.id = " + postID
-			    		+ " ORDER BY hp.id desc");
-//			    resultSet = statement.executeQuery("select * from hackers_post where id = " + postID);
+			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
+				+ "FROM clubhub.ch_post post "
+				+ "JOIN clubhub.ch_posttype posttype "
+				+ "ON post.Posttypeid = posttype.id "
+				+ "JOIN clubhub.ch_user user "
+				+ "ON post.Userid = user.id "
+				+ "JOIN clubhub.ch_access access "
+				+ "ON post.Accessid = access.id "
+				+ "JOIN clubhub.ch_category category "
+				+ "ON post.Categoryid = category.id "
+				+ "WHERE post.id = " + postID);
+			    
 			    while (resultSet.next()) {
 			    	  post.setTitle(resultSet.getString("title"));
-			    	  post.setUserFirstName(resultSet.getString("usr.firstName"));
-			    	  post.setUserLastName(resultSet.getString("usr.lastName"));
-			    	  post.setId(resultSet.getString("id"));
-			    	  post.setPost_date(resultSet.getString("post_date"));
 			    	  post.setContent(resultSet.getString("content"));
-			    	  post.setUserid(resultSet.getString("userid"));
+			    	  post.setId(resultSet.getString("id"));
+			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
+			    	  post.setUserLastName(resultSet.getString("user.lastName"));
+			    	//  post.setUserid(resultSet.getString("user.id"));
+			    	  post.setPostType(resultSet.getString("posttype.type"));
+			    	  System.out.println(post.getPostType() + " - postType");
+			    	  post.setAccessLevel(resultSet.getString("access.type"));
+			    	  System.out.println(post.getAccessLevel() + " - accessType");
+			    	  post.setCategory(resultSet.getString("category.type"));
+			    	  System.out.println(post.getCategory() + " - category");
 			    }
 			} catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("post", post);
+		  	request.setAttribute("post1", post);
 	} 
 }

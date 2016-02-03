@@ -154,7 +154,7 @@ public class UserDao {
 				    	  Post post = new Post();
 				    	  post.setTitle(resultSet.getString("title"));
 				    	  post.setId(resultSet.getString("id"));
-				    	  post.setPost_date(resultSet.getString("post_date"));
+				    	 // post.setPost_date(resultSet.getString("post_date"));
 				    	  post.setContent(resultSet.getString("content"));
 				    	  post.setUserid(resultSet.getString("Userid"));
 				    	  posts.add(post);
