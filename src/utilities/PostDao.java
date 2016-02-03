@@ -119,10 +119,9 @@ public class PostDao {
 		  }
 	}
 	
-	public void findPost(HttpServletRequest request, HttpServletResponse response, String _postID, String _pageOrder) throws Exception {
+	public void findPostsMain(HttpServletRequest request, HttpServletResponse response, String _postID) throws Exception {
 		  Post post = new Post();
 		  String postID = _postID;
-		  String pageOrder = _pageOrder;
 		  	try{
 			    statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
@@ -154,6 +153,6 @@ public class PostDao {
 			} catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("post1", post);
+		  	request.setAttribute("post", post);
 	} 
 }
