@@ -15,10 +15,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-<h1>Add/Update Post</h1>
-<br><hr><br>
-
-<form action="/clubhub/PostDao" method="post" class="form" role="form">
+<form action="/clubhub/PostController" method="post" class="form" role="form">
 	<div class="form-group">
 		<label class="col-sm-1 control-label">
 			Title
@@ -31,9 +28,9 @@
 		</label>
 		<div class="col-sm-3">
 			<select class="form-control" name="accessLevel">
-				<option value="draft">Draft</option>
-				<option value="public">Public</option>
-				<option value="members">Members Only</option>
+				<option value="3">Draft</option>
+				<option value="1">Public</option>
+				<option value="2">Members Only</option>
 			</select>
 		</div>
 		<br><br>
@@ -46,8 +43,8 @@
 		</label>
 		<div class="col-sm-3">
 			<select class="form-control" name="pageType">
-				<option value="blogPost">Blog Post</option>
-				<option value="webContent">Web Content</option>
+				<option value="1">Blog Post</option>
+				<option value="2">Web Content</option>
 			</select>
 		</div>
 		<label class="col-sm-2 control-label">
@@ -55,11 +52,12 @@
 		</label>
 		<div class="col-sm-3">
 			<select class="form-control" name="pageCategory">
-				<option value="curling">Curling</option>
-				<option value="news">Clubs News</option>
-				<option value="promotions">Promotions</option>
+				<option value="1">Announcements</option>
+				<option value="2">Events</option>
+				<option value="3">Contests</option>
 			</select>
 		</div>
+		<input type="hidden" name="option" value="add">
 		<input class="btn btn-info" type="submit" value="Submit">
 	</div>
 </form>		
