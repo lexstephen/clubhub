@@ -14,12 +14,12 @@
 				<span class="expand">
 					<form action="/clubhub/admin/EditPost.jsp" method="post">
 						<input type="hidden" name="postID" value="${post.id}">
-						<input class="btn btn-info" type="submit" value="Edit">
+						<input class="btn btn-primary btn-xs" type="submit" value="Edit">
 					</form>
 					<form action="/clubhub/Post.jsp" method="post">
 						<input type="hidden" name="postID" value="${post.id}">
 						<input type="hidden" name="blogTitle" value="${post.title}">
-						<input class="btn btn-info" type="submit" value="More">
+						<input class="btn btn-primary btn-xs" type="submit" value="More">
 					</form>
 				</span>
 			<hr>

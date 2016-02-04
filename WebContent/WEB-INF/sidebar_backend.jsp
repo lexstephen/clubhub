@@ -1,1 +1,1 @@
-links!
+<a href="/clubhub/admin/BatchPosts.jsp">View All Posts</a>

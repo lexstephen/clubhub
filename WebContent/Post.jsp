@@ -25,9 +25,13 @@ request.setAttribute("thisPage", request.getParameter("blogTitle")); %>
 				<span class="expand">
 					<form action="/clubhub/admin/EditPost.jsp" method="post">
 						<input type="hidden" name="postID" value="${post.id}">
-						<input class="btn btn-info" type="submit" value="Edit">
+						<input class="btn btn-primary btn-xs" type="submit" value="Edit">
 					</form>
 				</span>
 			<hr>
 		</div>
 	</div>
+	
+	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
+
+<%@ include file="/WEB-INF/footer_public.jsp" %>

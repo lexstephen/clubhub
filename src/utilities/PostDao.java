@@ -78,30 +78,38 @@ public class PostDao {
 	    }
 	}
 
-	public void listAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void listAll(HttpServletRequest request) throws Exception {
 		  List<Post> posts = new ArrayList<Post>();
 		  	try{
-			    statement = connect.createStatement();
-			    resultSet = statement.executeQuery("select usr.firstName, usr.lastName, hp.id, hp.title, hp.post_date, hp.content, hp.Userid from hackers_post hp INNER JOIN "
-			    		+ "hackers_user usr "
-						+ "on hp.Userid = usr.id "
-			    		+ "ORDER BY hp.id desc");
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
+				+ "FROM clubhub.ch_post post "
+				+ "JOIN clubhub.ch_posttype posttype "
+				+ "ON post.Posttypeid = posttype.id "
+				+ "JOIN clubhub.ch_user user "
+				+ "ON post.Userid = user.id "
+				+ "JOIN clubhub.ch_access access "
+				+ "ON post.Accessid = access.id "
+				+ "JOIN clubhub.ch_category category "
+				+ "ON post.Categoryid = category.id ");
 			      
 			    while (resultSet.next()) {
 			    	  Post post = new Post();
-			    	  post.setTitle(resultSet.getString("hp.title"));
-			    	  post.setId(resultSet.getString("hp.id"));
-			    	  post.setUserFirstName(resultSet.getString("usr.firstName"));
-			    	  post.setUserLastName(resultSet.getString("usr.lastName"));
-			    	  post.setContent(resultSet.getString("hp.content"));
-			    	  post.setUserid(resultSet.getString("hp.userid"));
+			    	  post.setTitle(resultSet.getString("title"));
+			    	  post.setContent(resultSet.getString("content"));
+			    	  post.setId(resultSet.getString("id"));
+			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
+			    	  post.setUserLastName(resultSet.getString("user.lastName"));
+			    	  post.setPostType(resultSet.getString("posttype.type"));
+			    	  post.setAccessLevel(resultSet.getString("access.type"));
+			    	  post.setCategory(resultSet.getString("category.type"));
 			    	  
 			    	  request.setAttribute("postID", post.getId());
 
 			    	  /*CommentDao cdao = new CommentDao();
 			    	  cdao.addCommentsToPost(request, response, post.getId());
-			    	  post.setComments(request.getAttribute("comments"));
-			    	  posts.add(post);*/
+			    	  post.setComments(request.getAttribute("comments"));*/
+			    	  posts.add(post);
 			    }
 		    } catch (SQLException e) {
 			      throw e;
