@@ -3,9 +3,20 @@
 	Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
 	Student Number: 100563954, 100911472, 100898311
 	Date: Feb 03, 2016
-	Description: displayPosts.jsp - HTML formatting for Main.jsp
+	Description: Post.jsp
  --%>
-     
+ 
+ <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ page import="utilities.PostDao"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%	PostDao post = new PostDao();
+post.findPost(request, request.getParameter("postID"));
+request.setAttribute("thisPage", request.getParameter("blogTitle")); %>
+
+<%@ include file="/WEB-INF/header_public.jsp"%>
+
 	<div class="row">
 		<div class="col-xs-12">
 			<h1>${post.title}</h1>
@@ -15,11 +26,6 @@
 					<form action="/clubhub/admin/EditPost.jsp" method="post">
 						<input type="hidden" name="postID" value="${post.id}">
 						<input class="btn btn-info" type="submit" value="Edit">
-					</form>
-					<form action="/clubhub/Post.jsp" method="post">
-						<input type="hidden" name="postID" value="${post.id}">
-						<input type="hidden" name="blogTitle" value="${post.title}">
-						<input class="btn btn-info" type="submit" value="More">
 					</form>
 				</span>
 			<hr>
