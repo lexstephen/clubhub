@@ -43,7 +43,7 @@ public class PostDao {
 	    try {
 			String id = request.getParameter("id");
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("select * from hackers_Post where id = \"" + id + "\""); 
+			resultSet = statement.executeQuery("select * from ch_post where id = \"" + id + "\""); 
 			// if there result set is before the first item, there are entries
 			// if it is not, there are not
 			if (!resultSet.isBeforeFirst() ) {    
@@ -68,8 +68,8 @@ public class PostDao {
 	      // Parameters start with 1 because we are sending 'default' to the auto incrementing id
 	      preparedStatement.setString(1, request.getParameter("blogTitle"));	// title
 	      preparedStatement.setString(2, request.getParameter("blogContent")); // content
-	      preparedStatement.setString(3, (String) session.getAttribute("userID"));	// Userid
-	      preparedStatement.setString(4, (String) request.getParameter("pageType")); // Posttypeid
+	      preparedStatement.setString(3, (String)session.getAttribute("userID"));	// Userid
+	      preparedStatement.setString(4, request.getParameter("pageType")); // Posttypeid
 	      preparedStatement.setString(5, request.getParameter("accessLevel")); // Accessid
 	      preparedStatement.setString(6, request.getParameter("pageCategory")); // Categoryid
 	      preparedStatement.executeUpdate();
@@ -110,17 +110,16 @@ public class PostDao {
 	} 
 	
 	public void deletePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		  String postID = request.getParameter("deletePostID");
+		  String postID = request.getParameter("postID");
 		  try {
 			  statement = connect.createStatement();
-			  statement.executeUpdate("delete from hackers_post where id =" + postID); 
-			  statement.executeUpdate("delete from hackers_comment where Postid =" + postID);
+			  statement.executeUpdate("delete from ch_post where id =" + postID); 
 		  } catch (SQLException e) {
 		      throw e;
 		  }
 	}
 	
-	public void findPostsMain(ServletRequest request, String _postID) throws Exception {
+	public void findPost(ServletRequest request, String _postID) throws Exception {
 		  Post post = new Post();
 		  String postID = _postID;
 		  	try{
@@ -143,18 +142,39 @@ public class PostDao {
 			    	  post.setId(resultSet.getString("id"));
 			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
 			    	  post.setUserLastName(resultSet.getString("user.lastName"));
-			    	//  post.setUserid(resultSet.getString("user.id"));
 			    	  post.setPostType(resultSet.getString("posttype.type"));
-			    	  System.out.println(post.getPostType() + " - postType");
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
-			    	  System.out.println(post.getAccessLevel() + " - accessType");
 			    	  post.setCategory(resultSet.getString("category.type"));
-			    	  System.out.println(post.getCategory() + " - category");
 			    }
 			} catch (SQLException e) {
 			      throw e;
 			}
 		  	request.setAttribute("post", post);
 	} 
-
+	
+	public void editPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    try {
+			HttpSession session = request.getSession();
+			
+			// this is temp  v v v
+			session.setAttribute("userID", "2");
+			// this is temp  ^ ^ ^
+	      
+	      /*UPDATE `clubhub`.`ch_post` SET `title`='blogtitle', `content`='schoop doopy', 
+	    		  `Userid`='1', `Posttypeid`='2', `Accessid`='2', `Categoryid`='2' WHERE `id`='6';*/
+	      
+		  statement = connect.createStatement();
+	      preparedStatement.executeUpdate("UPDATE ch_post values (?, ?, ?, ?, ?) WHERE id = " + request.getParameter("postID"));
+	      
+	      preparedStatement.setString(1, request.getParameter("blogTitle"));	// title
+	      preparedStatement.setString(2, request.getParameter("blogContent")); // content
+	      preparedStatement.setString(3, request.getParameter("pageType")); // Posttypeid
+	      preparedStatement.setString(4, request.getParameter("accessLevel")); // Accessid
+	      preparedStatement.setString(5, request.getParameter("pageCategory")); // Categoryid
+	      //preparedStatement.executeUpdate();
+	    } catch (Exception e) {
+	      throw e;
+	    }
+	}
 }
+

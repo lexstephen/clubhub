@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,9 +30,10 @@ public class PostController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String option = request.getParameter("option");
 		PostDao dao = new PostDao();
-		String address = null;
+		String address = "", postID = null;
 		//
-		String errorChecker = "blank";
+		String errorChecker = "n/a";
+		
 	    try {
 	    	switch(option) {
 		    	case "add":
@@ -46,13 +48,28 @@ public class PostController extends HttpServlet {
 		    			address = "/Main.jsp";
 		    		}
 	    		break;
+		    	case "edit":
+		    		postID = request.getParameter("postID");
+		    		if (ValidationUtilities.isValidPost(request)) {
+		    			dao.editPost(request, response);
+		    			//
+		    			errorChecker = "Post edited";
+		    			address = "/Main.jsp";
+		    		} else {
+		    			//
+			    		errorChecker = "Post failed to edit";
+		    			address = "/Main.jsp";
+		    		}
+	    		break;
 		    	case "delete":
 		    		try {
 						dao.deletePost(request, response);
+						//
+						errorChecker = "Post deleted";
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-		    		address = "/Posts.jsp";
+		    		address = "admin/AddPost.jsp";
 	    		break;
 	    		default:
 	    			errorChecker = "Something has gone horribly wrong";
