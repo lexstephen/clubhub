@@ -77,10 +77,10 @@ public class UserDao {
 		
 		public String getUserId(HttpServletRequest request) throws Exception {
 		    try {
-		    	  String emailAddress = request.getParameter("emailAddress");
+		    	  String username = request.getParameter("username");
 				  String password = request.getParameter("password");
 			      statement = connect.createStatement();
-			      resultSet = statement.executeQuery("select id from ch_user where emailAddress = \"" + emailAddress + "\" and password = \"" + password + "\"");
+			      resultSet = statement.executeQuery("select id from ch_user where username = \"" + username + "\" and password = \"" + password + "\"");
 			      while (resultSet.next()) {
 			    	  String userID = resultSet.getString("id");
 					     return userID; 
