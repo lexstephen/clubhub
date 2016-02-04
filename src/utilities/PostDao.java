@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -119,7 +120,7 @@ public class PostDao {
 		  }
 	}
 	
-	public void findPostsMain(HttpServletRequest request, HttpServletResponse response, String _postID) throws Exception {
+	public void findPostsMain(ServletRequest request, String _postID) throws Exception {
 		  Post post = new Post();
 		  String postID = _postID;
 		  	try{
@@ -155,4 +156,5 @@ public class PostDao {
 			}
 		  	request.setAttribute("post", post);
 	} 
+
 }

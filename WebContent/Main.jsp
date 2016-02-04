@@ -16,58 +16,15 @@
 	
 	<%	PostDao post = new PostDao(); %>
 	
-	<%-- <% 	// findPost requires blog id and order on page to be passsed //
-	PostDao post1 = new PostDao();
-	post1.findPostsMain(request, response, "1", "1");
-
-	PostDao post2 = new PostDao();
-	post2.findPostsMain(request, response, "4", "2");
+	<!-- findPost requires blog id to be passsed -->
+	<% post.findPostsMain(request, "1"); %>
+	<%@ include file="/WEB-INF/displayPosts.jsp" %>
 	
-	PostDao post3 = new PostDao();
-	post3.findPostsMain(request, response, "2", "3");
-	%>
- --%>	
+	<% post.findPostsMain(request, "4"); %>
+	<%@ include file="/WEB-INF/displayPosts.jsp" %>
 	
-	
-	<% 	// findPost requires blog id to be passsed //
-	post.findPostsMain(request, response, "1"); %>
-	<div class="row">
-		<div class="col-xs-12">
-			<h1>${post.title}</h1>
-			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on Sept 7, 2015. Access level: ${post.accessLevel}</span>
-			<p>"${post.content}".</p>
-			<span class="expand">
-				<a href="more">More</a><br>
-			</span>
-			<hr>
-		</div>
-	</div>
-	
-	<% post.findPostsMain(request, response, "4"); %>
-	<div class="row">
-		<div class="col-xs-12">
-			<h1>${post.title}</h1>
-			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on Sept 7, 2015. Access level: ${post.accessLevel}</span>
-			<p>"${post.content}".</p>
-			<span class="expand">
-				<a href="more">More</a><br>
-			</span>
-			<hr>
-		</div>
-	</div>
-	
-	<% post.findPostsMain(request, response, "2"); %>
-	<div class="row">
-		<div class="col-xs-12">
-			<h1>${post.title}</h1>
-			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on Sept 7, 2015. Access level: ${post.accessLevel}</span>
-			<p>"${post.content}".</p>
-			<span class="expand">
-				<a href="more">More</a><br>
-			</span>
-			<hr>
-		</div>
-	</div>
+	<% post.findPostsMain(request, "2"); %>
+	<%@ include file="/WEB-INF/displayPosts.jsp" %>
 	
 	<span class="pagination">
 		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>
