@@ -19,16 +19,16 @@
 	
 	<% post.listAll(request); %>
 	
-	
-	<c:forEach items="${posts}" var="post">
-		<form>
-			<input type="hidden" name="postIDs" value="${post.id}">
-			<input type="checkbox" value="batchDelete">Delete
-		</form>
-		<%@ include file="/WEB-INF/displayPosts.jsp" %>
-	</c:forEach>
-	
-	<input class="btn btn-danger" type="submit" value="Delete Marked">
+	<!-- This form wont work because there are embedded forms in the included file. I dont know how to work around this.  --> 
+		
+	<form action="/clubhub/PostController" method="post" class="form" role="form" id="batchDelete">
+		<c:forEach items="${posts}" var="post">
+			<input type="checkbox" name="markedForDeletion" value="${post.id}">Delete
+			<%@ include file="/WEB-INF/displayPosts.jsp" %>			
+		</c:forEach>
+		<input type="hidden" name="option" value="batchDelete" form="batchDelete">
+		<input class="btn btn-danger" type="submit" value="Delete Marked" form="batchDelete">
+	</form>
 	
 	<span class="pagination">
 		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>

@@ -27,8 +27,8 @@
 		<div class="col-sm-3">
 			<select class="form-control" name="accessLevel">
 				<option value="3">Draft</option>
+				<option value="2">Members Only</option>				
 				<option value="1">Public</option>
-				<option value="2">Members Only</option>
 			</select>
 		</div>
 		<br><br>

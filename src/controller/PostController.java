@@ -30,9 +30,11 @@ public class PostController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String option = request.getParameter("option");
 		PostDao dao = new PostDao();
-		String address = "", postID = null;
+		String address = "";
 		//
 		String errorChecker = "n/a";
+		
+		System.out.println(option);
 		
 	    try {
 	    	switch(option) {
@@ -49,7 +51,6 @@ public class PostController extends HttpServlet {
 		    		}
 	    		break;
 		    	case "edit":
-		    		postID = request.getParameter("postID");
 		    		if (ValidationUtilities.isValidPost(request)) {
 		    			dao.editPost(request, response);
 		    			//
@@ -66,6 +67,16 @@ public class PostController extends HttpServlet {
 						dao.deletePost(request, response);
 						//
 						errorChecker = "Post deleted";
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+		    		address = "admin/BatchPosts.jsp";
+	    		break;
+		    	case "batchDelete":
+		    		try {
+						dao.batchDelete(request, response);
+						//
+						errorChecker = "Posts deleted";
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

@@ -106,9 +106,6 @@ public class PostDao {
 			    	  
 			    	  request.setAttribute("postID", post.getId());
 
-			    	  /*CommentDao cdao = new CommentDao();
-			    	  cdao.addCommentsToPost(request, response, post.getId());
-			    	  post.setComments(request.getAttribute("comments"));*/
 			    	  posts.add(post);
 			    }
 		    } catch (SQLException e) {
@@ -125,6 +122,13 @@ public class PostDao {
 		  } catch (SQLException e) {
 		      throw e;
 		  }
+	}
+	
+	public void batchDelete(HttpServletRequest request, HttpServletResponse response) {
+		String [] markedForDeletion = request.getParameterValues("markedForDeletion");
+		
+		System.out.println(markedForDeletion.toString());
+		
 	}
 	
 	public void findPost(ServletRequest request, String _postID) throws Exception {
