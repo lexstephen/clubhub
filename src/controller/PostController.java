@@ -41,7 +41,7 @@ public class PostController extends HttpServlet {
 		    			dao.addToDatabase(request, response);
 		    			//
 		    			errorChecker = "Post successful";
-		    			address = "/Main.jsp";
+		    			address = "admin/BatchPosts.jsp";
 		    		} else {
 		    			//
 			    		errorChecker = "Post fail";
@@ -69,7 +69,7 @@ public class PostController extends HttpServlet {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-		    		address = "admin/AddPost.jsp";
+		    		address = "admin/BatchPosts.jsp";
 	    		break;
 	    		default:
 	    			errorChecker = "Something has gone horribly wrong";

@@ -19,7 +19,7 @@
 					<form action="/clubhub/Post.jsp" method="post">
 						<input type="hidden" name="postID" value="${post.id}">
 						<input type="hidden" name="blogTitle" value="${post.title}">
-						<input class="btn btn-primary btn-xs" type="submit" value="More">
+						<input class="btn btn-link" type="submit" value="More">
 					</form>
 				</span>
 			<hr>

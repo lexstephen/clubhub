@@ -19,9 +19,16 @@
 	
 	<% post.listAll(request); %>
 	
+	
 	<c:forEach items="${posts}" var="post">
+		<form>
+			<input type="hidden" name="postIDs" value="${post.id}">
+			<input type="checkbox" value="batchDelete">Delete
+		</form>
 		<%@ include file="/WEB-INF/displayPosts.jsp" %>
 	</c:forEach>
+	
+	<input class="btn btn-danger" type="submit" value="Delete Marked">
 	
 	<span class="pagination">
 		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>

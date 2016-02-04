@@ -21,10 +21,10 @@
 	<% post.findPost(request, "1"); %>
 	<%@ include file="/WEB-INF/displayPosts.jsp" %>
 	
-	<% post.findPost(request, "4"); %>
+	<% post.findPost(request, "2"); %>
 	<%@ include file="/WEB-INF/displayPosts.jsp" %>
 	
-	<% post.findPost(request, "2"); %>
+	<% post.findPost(request, "3"); %>
 	<%@ include file="/WEB-INF/displayPosts.jsp" %>
 	
 	<span class="pagination">

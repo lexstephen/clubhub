@@ -69,7 +69,7 @@ post.findPost(request, postID);
 	<form action="/clubhub/PostController" method="post">
 		<input type="hidden" name="postID" value="${post.id}">
 		<input type="hidden" name="option" value="delete">
-		<input class="btn btn-info" type="submit" value="Delete">
+		<input class="btn btn-danger" type="submit" value="Delete">
 	</form>
 </div>
 		
