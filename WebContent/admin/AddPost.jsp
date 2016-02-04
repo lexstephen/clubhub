@@ -55,8 +55,7 @@
 				<option value="3">Contests</option>
 			</select>
 		</div>
-		<input type="hidden" name="option" value="add">
-		<input class="btn btn-info" type="submit" value="Submit">
+		<button class="btn btn-info" type="submit" value="add" name="option">Submit</button>
 	</div>
 </form>		
 			 

@@ -21,13 +21,14 @@
 	
 	<!-- This form wont work because there are embedded forms in the included file. I dont know how to work around this.  --> 
 		
-	<form action="/clubhub/PostController" method="post" class="form" role="form" id="batchDelete">
+	<form action="/clubhub/PostController" method="post" class="form" role="form">
 		<c:forEach items="${posts}" var="post">
-			<input type="checkbox" name="markedForDeletion" value="${post.id}">Delete
+			<input type="checkbox" name="postSelected" value="${post.id}">
 			<%@ include file="/WEB-INF/displayPosts.jsp" %>			
 		</c:forEach>
-		<input type="hidden" name="option" value="batchDelete" form="batchDelete">
-		<input class="btn btn-danger" type="submit" value="Delete Marked" form="batchDelete">
+		<!-- <input type="hidden" name="option" value="batchDelete"> -->
+		<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked ~does not work~</button>
+		<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
 	</form>
 	
 	<span class="pagination">

@@ -62,6 +62,15 @@ public class PostController extends HttpServlet {
 		    			address = "/Main.jsp";
 		    		}
 	    		break;
+		    	case "batchEdit":
+		    		try {
+		    			dao.batchEdit(request, response);
+		    			errorChecker = "Posts edited";
+		    		} catch (Exception e){
+		    			e.printStackTrace();
+		    		}
+		    		address = "admin/BatchPosts.jsp";
+	    		break;
 		    	case "delete":
 		    		try {
 		    			String postID = request.getParameter("postID");

@@ -126,7 +126,7 @@ public class PostDao {
 	
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String [] markedForDeletion = request.getParameterValues("markedForDeletion");
+		String [] markedForDeletion = request.getParameterValues("postSelected");
 		for (String x : markedForDeletion) {
 			deletePost(request, response, x);
 		}		
@@ -169,25 +169,33 @@ public class PostDao {
 	    try {
 			HttpSession session = request.getSession();
 			
-			// this is temp  v v v
-			session.setAttribute("userID", "2");
-			// this is temp  ^ ^ ^
+			String postID = request.getParameter("postID");
+
+		    String title = request.getParameter("blogTitle");	// title
+		    String content = request.getParameter("blogContent"); // content
+		    String pageType = request.getParameter("pageType"); // Posttypeid
+		    String accessLevel = request.getParameter("accessLevel"); // Accessid
+		    String category = request.getParameter("pageCategory"); // Categoryid
+			
 	      
-	      /*UPDATE `clubhub`.`ch_post` SET `title`='blogtitle', `content`='schoop doopy', 
+		    /*UPDATE `clubhub`.`ch_post` SET `title`='blogtitle', `content`='schoop doopy', 
 	    		  `Userid`='1', `Posttypeid`='2', `Accessid`='2', `Categoryid`='2' WHERE `id`='6';*/
 	      
-		  statement = connect.createStatement();
-	      preparedStatement.executeUpdate("UPDATE ch_post values (?, ?, ?, ?, ?) WHERE id = " + request.getParameter("postID"));
+			statement = connect.createStatement();
+			statement.executeUpdate("UPDATE ch_post SET title='" + title + "', content='" + content + "', Posttypeid='" + pageType + 
+					"', Accessid='" + accessLevel + "', Categoryid='" + category + "' WHERE id='" + postID + "'");
 	      
-	      preparedStatement.setString(1, request.getParameter("blogTitle"));	// title
-	      preparedStatement.setString(2, request.getParameter("blogContent")); // content
-	      preparedStatement.setString(3, request.getParameter("pageType")); // Posttypeid
-	      preparedStatement.setString(4, request.getParameter("accessLevel")); // Accessid
-	      preparedStatement.setString(5, request.getParameter("pageCategory")); // Categoryid
 	      //preparedStatement.executeUpdate();
 	    } catch (Exception e) {
 	      throw e;
 	    }
+	}
+
+	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String [] markedForEdit = request.getParameterValues("postSelected");
+		for (String x : markedForEdit) {
+			deletePost(request, response, x);
+		}				
 	}
 }
 
