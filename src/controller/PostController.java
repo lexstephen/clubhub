@@ -64,7 +64,9 @@ public class PostController extends HttpServlet {
 	    		break;
 		    	case "delete":
 		    		try {
-						dao.deletePost(request, response);
+		    			String postID = request.getParameter("postID");
+		    			System.out.println("Delete postID = " + postID);
+						dao.deletePost(request, response, postID);
 						//
 						errorChecker = "Post deleted";
 					} catch (Exception e) {

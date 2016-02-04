@@ -11,17 +11,10 @@
 			<h1>${post.title}</h1>
 			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on Sept 7, 2015. Access level: ${post.accessLevel}</span>
 			<p>"${post.content}".</p>
-				<!-- <span class="expand"> -->
-					<form action="/clubhub/admin/EditPost.jsp" method="post" class="expand">
-						<input type="hidden" name="postID" value="${post.id}">
-						<input class="btn btn-primary btn-xs" type="submit" value="Edit">
-					</form>
-					<form action="/clubhub/Post.jsp" method="post" class="expand">
-						<input type="hidden" name="postID" value="${post.id}">
-						<input type="hidden" name="blogTitle" value="${post.title}">
-						<input class="btn btn-link" type="submit" value="More">
-					</form>
-				<!-- </span> -->
+				<span class="expand">
+					<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+					<a href="/clubhub/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
+				</span>
 			<hr>
 		</div>
 	</div>

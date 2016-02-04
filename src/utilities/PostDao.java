@@ -114,8 +114,8 @@ public class PostDao {
 		  	request.setAttribute("posts", posts);
 	} 
 	
-	public void deletePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		  String postID = request.getParameter("postID");
+	public void deletePost(HttpServletRequest request, HttpServletResponse response, String _postID) throws Exception {
+		  String postID = _postID;
 		  try {
 			  statement = connect.createStatement();
 			  statement.executeUpdate("delete from ch_post where id =" + postID); 
@@ -124,11 +124,12 @@ public class PostDao {
 		  }
 	}
 	
-	public void batchDelete(HttpServletRequest request, HttpServletResponse response) {
+	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		String [] markedForDeletion = request.getParameterValues("markedForDeletion");
-		
-		System.out.println(markedForDeletion.toString());
-		
+		for (String x : markedForDeletion) {
+			deletePost(request, response, x);
+		}		
 	}
 	
 	public void findPost(ServletRequest request, String _postID) throws Exception {

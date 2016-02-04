@@ -23,10 +23,7 @@ request.setAttribute("thisPage", request.getParameter("blogTitle")); %>
 			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on Sept 7, 2015. Access level: ${post.accessLevel}</span>
 			<p>"${post.content}".</p>
 				<span class="expand">
-					<form action="/clubhub/admin/EditPost.jsp" method="post">
-						<input type="hidden" name="postID" value="${post.id}">
-						<input class="btn btn-primary btn-xs" type="submit" value="Edit">
-					</form>
+					<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
 				</span>
 			<hr>
 		</div>
