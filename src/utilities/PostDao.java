@@ -165,12 +165,9 @@ public class PostDao {
 		  	request.setAttribute("post", post);
 	} 
 	
-	public void editPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    try {
-			HttpSession session = request.getSession();
-			
+	public void editPost(HttpServletRequest request, HttpServletResponse response, String _postID) throws Exception {
+	    try {			
 			String postID = request.getParameter("postID");
-
 		    String title = request.getParameter("blogTitle");	// title
 		    String content = request.getParameter("blogContent"); // content
 		    String pageType = request.getParameter("pageType"); // Posttypeid
@@ -193,8 +190,18 @@ public class PostDao {
 
 	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String [] markedForEdit = request.getParameterValues("postSelected");
+		String postID, pageType, accessLevel, category;
+		
+		pageType = request.getParameter("pageType"); // Posttypeid
+	    accessLevel = request.getParameter("accessLevel"); // Accessid
+	    category = request.getParameter("pageCategory"); // Categoryid
+		
 		for (String x : markedForEdit) {
-			deletePost(request, response, x);
+			postID = x;
+		    
+			statement = connect.createStatement();
+			statement.executeUpdate("UPDATE ch_post SET Posttypeid='" + pageType + 
+					"', Accessid='" + accessLevel + "', Categoryid='" + category + "' WHERE id='" + postID + "'");
 		}				
 	}
 }

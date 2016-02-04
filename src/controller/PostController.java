@@ -52,7 +52,8 @@ public class PostController extends HttpServlet {
 	    		break;
 		    	case "edit":
 		    		if (ValidationUtilities.isValidPost(request)) {
-		    			dao.editPost(request, response);
+		    			String postID = request.getParameter("postID");
+		    			dao.editPost(request, response, postID);
 		    			//
 		    			errorChecker = "Post edited";
 		    			address = "/Main.jsp";

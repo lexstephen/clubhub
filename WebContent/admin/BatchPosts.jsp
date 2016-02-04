@@ -26,7 +26,39 @@
 			<input type="checkbox" name="postSelected" value="${post.id}">
 			<%@ include file="/WEB-INF/displayPosts.jsp" %>			
 		</c:forEach>
-		<!-- <input type="hidden" name="option" value="batchDelete"> -->
+		
+		<label class="col-sm-2 control-label">
+			Access Level
+		</label>
+		<div class="col-sm-3">
+			<select class="form-control" name="accessLevel">
+				<option value="3">Draft</option>
+				<option value="1">Public</option>
+				<option value="2">Members Only</option>
+			</select>
+		</div>
+		<br>
+		<br>
+		<label class="col-sm-2 control-label">
+			Page Type
+		</label>
+		<div class="col-sm-3">
+			<select class="form-control" name="pageType">
+				<option value="1">Blog Post</option>
+				<option value="2">Web Content</option>
+			</select>
+		</div>
+		<label class="col-sm-2 control-label">
+			Category
+		</label>
+		<div class="col-sm-3">
+			<select class="form-control" name="pageCategory">
+				<option value="1">Announcements</option>
+				<option value="2">Events</option>
+				<option value="3">Contests</option>
+			</select>
+		</div>
+		
 		<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked ~does not work~</button>
 		<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
 	</form>
