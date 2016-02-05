@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<title>Rivendell Curling Club</title>
-		<link href="style.css" rel="stylesheet" type="text/css" />
+		<link href="/clubhub/css/style.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body class="frontend">	
 	<nav class="navbar navbar-static-top sidebar">

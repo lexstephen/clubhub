@@ -53,16 +53,16 @@ public class UserController extends HttpServlet {
 			    			// they are admins! send them to AdminController
 			    			session.setAttribute("isLoggedIn", true);
 			    			session.setAttribute("userID", dao.getUserId(request));
-			    			session.setAttribute("userName", dao.getName(request));
+			    			session.setAttribute("userFullName", dao.getName(request));
 							request.setAttribute("errorString", null);
-			    			address = "/assignment2/AdminController";
+			    			address = "/admin/index-admin.jsp";
 			    		} else if (dao.isInDatabase(request, response)) {
 			    			// yes they are, let's log them in
 			    			session.setAttribute("isLoggedIn", true);
 			    			session.setAttribute("userID", dao.getUserId(request));
-			    			session.setAttribute("userName", dao.getName(request));
+			    			session.setAttribute("userFullName", dao.getName(request));
 							request.setAttribute("errorString", null);
-			    			address = "/Posts.jsp";
+			    			address = "/admin/index.jsp";
 			    		} else {
 			    			// wrong username or password, send back to login form
 							request.setAttribute("errorString", "Wrong username or password.");
