@@ -37,8 +37,6 @@
 				<option value="2">Members Only</option>
 			</select>
 		</div>
-		<br>
-		<br>
 		<label class="col-sm-2 control-label">
 			Page Type
 		</label>
@@ -58,7 +56,7 @@
 				<option value="3">Contests</option>
 			</select>
 		</div>
-		
+		<br><br>
 		<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked ~does not work~</button>
 		<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
 	</form>
