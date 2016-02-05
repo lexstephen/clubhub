@@ -12,7 +12,7 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
-<%@ page import="utilities.UserDao"%>
+<%@ page import="utilities.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
@@ -22,7 +22,8 @@
 		UserDao user = new UserDao();
 //	String userID = request.getParameter("userID");
 	String userID = "2";
-		user.findUser(request, "2"); 
+		//user.findUser(request, "2");
+		user.findUser(request, "3");
 	%>
 	
 	<h1>Edit Profile - ${firstName}</h1>
