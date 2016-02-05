@@ -28,3 +28,7 @@
 					</div>
 					
 					<div class="content col-sm-10 col-xs-12">
+					
+					
+					<h1><%= request.getAttribute("thisPage") %></h1>
+					<hr><br>

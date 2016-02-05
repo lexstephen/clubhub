@@ -176,10 +176,10 @@ public class ValidationUtilities {
 	
 	public static boolean isValidPost(HttpServletRequest request) {
 		boolean isValid = true;
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
-		request.setAttribute("title", title);
-		request.setAttribute("content", content);
+		String title = request.getParameter("blogTitle");
+		String content = request.getParameter("blogContent");
+		request.setAttribute("blogTitle", title);
+		request.setAttribute("blogContent", content);
 		if (isMissing(title)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");

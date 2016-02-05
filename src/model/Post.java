@@ -1,28 +1,51 @@
 package model;
 /****************************************************************************************************
-* Project: Hackers 1995
-* Assignment: COMP 3095 Assignment 2
+* Project: ClubHub
 * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
 * Student Number: 100563954, 100911472, 100898311
-* Date: December 4th, 2016
+* Date: Feb 03, 2016
 * Description: Post model
 ****************************************************************************************************/
 public class Post {
-	private String id, title, post_date, content, Userid, userFirstName, userLastName, username;
-	Object comments = null;
+	private String id, title, content, Userid, userFirstName, userLastName, postType, accessLevel, category;
+	//Object comments = null;
 
-	public Object getComments() {
+/*	public Object getComments() {
 		return comments;
-	}
+	}*/
 
-	public void setComments(Object comments) {
+/*	public void setComments(Object comments) {
 		this.comments = comments;
-	}
-
+	}*/
+	
 	public String getUsername() {
 		return userFirstName + " " + userLastName;
 	}
 	
+	public String getPostType() {
+		return postType;
+	}
+
+	public void setPostType(String postType) {
+		this.postType = postType;
+	}
+
+	public String getAccessLevel() {
+		return accessLevel;
+	}
+
+	public void setAccessLevel(String accessLevel) {
+		this.accessLevel = accessLevel;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 	public String getUserFirstName() {
 		return userFirstName;
 	}
@@ -53,14 +76,6 @@ public class Post {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getPost_date() {
-		return post_date;
-	}
-
-	public void setPost_date(String post_date) {
-		this.post_date = post_date;
 	}
 
 	public String getContent() {
