@@ -1,6 +1,7 @@
 package utilities;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 
 /****************************************************************************************************
 * Project: Hackers 1995
@@ -19,10 +20,16 @@ public class ValidationUtilities {
 	public static boolean isValidLogin(HttpServletRequest request) {
 		boolean isValid = true;
 		HttpSession session = request.getSession();
+		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		
 		request.setAttribute("username", username);
+		System.out.println("Username is " + username);
+		
 		request.setAttribute("password", password);
+		System.out.println("Password is " + password);
+		
 		if (username.equals("admin") && password.equals("admin")) {
 			session.setAttribute("isAdmin", true);
 		} else {

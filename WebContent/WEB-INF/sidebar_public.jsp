@@ -19,7 +19,7 @@
 		    </label>
 		  </div>
 		  <input type="hidden" name="option" value="login">
-			    	<input type="submit" class="btn btn-default" value="Submit Registration">
+		  <input type="submit" class="btn btn-default" value="Login">
 		</form>
 	</div>
 	<div class="col-sm-12">

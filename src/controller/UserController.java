@@ -19,6 +19,7 @@ public class UserController extends HttpServlet {
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String option = request.getParameter("option");
+		System.out.println("Username is " + request.getParameter("username"));
 		UserDao dao = new UserDao();
 		String address = null;
 		HttpSession session = request.getSession();
