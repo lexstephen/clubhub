@@ -56,7 +56,7 @@ public class UserDao {
 					      resultSet = statement.executeQuery("select * from ch_user where username = \"" + username + "\""); 
 			    	  break;
 				      case "login":
-					      resultSet = statement.executeQuery("select * from ch_user where where username = \"" + username + "\" and password = \"" + password + "\""); 
+					      resultSet = statement.executeQuery("select * from ch_user where username = \"" + username + "\" and password = \"" + password + "\""); 
 			    	  break;
 			    	  default:
 			    		  resultSet = null;
