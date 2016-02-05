@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -44,7 +45,7 @@ public class UserDao {
 		    try {
 
 					String option = request.getParameter("option");
-					String emailAddress = request.getParameter("emailAddress");
+					String username = request.getParameter("username");
 					String password = request.getParameter("password");
 				
 			      // Statements allow to issue SQL queries to the database
@@ -52,10 +53,10 @@ public class UserDao {
 			      
 			      switch(option) {
 				      case "register":
-					      resultSet = statement.executeQuery("select * from ch_user where emailAddress = \"" + emailAddress + "\""); 
+					      resultSet = statement.executeQuery("select * from ch_user where username = \"" + username + "\""); 
 			    	  break;
 				      case "login":
-					      resultSet = statement.executeQuery("select * from ch_user where emailAddress = \"" + emailAddress + "\" and password = \"" + password + "\""); 
+					      resultSet = statement.executeQuery("select * from ch_user where where username = \"" + username + "\" and password = \"" + password + "\""); 
 			    	  break;
 			    	  default:
 			    		  resultSet = null;
@@ -113,11 +114,11 @@ public class UserDao {
 		      
 		      // PreparedStatements can use variables and are more efficient
 		      preparedStatement = connect.prepareStatement("insert into ch_user values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		      // columns are 0 `id`, 1 `username`, 2 `password`, 3 `emailAddress`
-		      // 4 `dateCreated`, `userStatus`, `firstName`, `lastName`, `gender`, 
-		      // 9 `phoneNumber`, `streetAddress`, `city`, `province`, `postalCode`, 
-		      // 14 `country`, `photo`, `dateOfBirth`, `emergencyContactName`, 
-		      // 18 `emergencyContactPhoneNumber`
+		      // columns are 0 id, 1 username, 2 password, 3 emailAddress
+		      // 4 dateCreated, userStatus, firstName, lastName, gender, 
+		      // 9 phoneNumber, streetAddress, city, province, postalCode, 
+		      // 14 country, photo, dateOfBirth, emergencyContactName, 
+		      // 18 emergencyContactPhoneNumber
 		      preparedStatement.setString(1, request.getParameter("username")); 					// username
 		      preparedStatement.setString(2, request.getParameter("password1")); 					// password
 		      preparedStatement.setString(3, request.getParameter("emailAddress"));					// emailAddress
@@ -165,4 +166,88 @@ public class UserDao {
 				  }
 			  	request.setAttribute("posts", posts);
 		} 
+		
+
+		public void findUser(HttpServletRequest request, String _userID) throws Exception {
+			  User user = new User();
+			  String userID = _userID;
+
+				    statement = connect.createStatement();
+				    resultSet = statement.executeQuery(
+		    		"SELECT * FROM clubhub.ch_user WHERE id = " + userID);
+				    while (resultSet.next()) {
+				    	  user.setUsername(resultSet.getString("username"));
+				    	  user.setPassword(resultSet.getString("password"));
+				    	  user.setEmailAddress(resultSet.getString("emailAddress"));
+				    	  user.setDateCreated(resultSet.getString("dateCreated"));
+				    	  user.setUserStatus(resultSet.getString("userStatus"));
+				    	  user.setFirstName(resultSet.getString("firstName"));
+				    	  user.setLastName(resultSet.getString("lastName"));
+				    	  user.setGender(resultSet.getString("gender"));
+				    	  user.setStreetAddress(resultSet.getString("streetAddress"));
+				    	  user.setTelephone(resultSet.getString("phoneNumber"));
+				    	  user.setCity(resultSet.getString("city"));
+				    	  user.setProvince(resultSet.getString("province"));
+				    	  user.setPostalCode(resultSet.getString("postalCode"));
+				    	  user.setCountry(resultSet.getString("country"));
+				    	  user.setPhoto(resultSet.getString("photo"));
+				    	  user.setDateOfBirth(resultSet.getString("dateOfBirth"));
+				    	  user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
+				    	  user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
+				    }
+
+			  	request.setAttribute("user", user);
+		}
+		
+		public void editPost(HttpServletRequest request, HttpServletResponse response, String _postID) throws Exception {
+		    try {			
+		    	  String username = request.getParameter("username");
+				  String password = request.getParameter("password");
+				  String emailAddress = request.getParameter("emailAddress");
+				  String dateCreated = request.getParameter("dateCreated");
+				  String userStatus = request.getParameter("userStatus");
+				  String firstName = request.getParameter("firstName");
+				  String lastName = request.getParameter("lastName");
+				  String gender = request.getParameter("gender");
+				  String streetAddress = request.getParameter("streetAddress");
+				  String city = request.getParameter("city");
+				  String province = request.getParameter("province");
+				  String postalCode = request.getParameter("postalCode");
+				  String country = request.getParameter("country");
+				  String dateOfBirth = request.getParameter("dateOfBirth");
+				  String emergencyContactName = request.getParameter("emergencyContactName");
+				  String emergencyContactPhoneNumber = request.getParameter("emergencyContactPhoneNumber");
+				
+		      
+				/*    UPDATE clubhub.ch_user SET username=dbs, password=bowie123s, 
+				 * emailAddress=s@s.com, dateCreated=2016-09-01, userStatus=admin, 
+				 * firstName=Davy, lastName=Bowiee, gender=F, 
+				 * streetAddress=123 Tuesdaay Lane, city=Suffolky, province=BC, 
+				 * postalCode=M6C4r4, country=United States of America, dateOfBirth=1945-01-08, 
+				 * emergencyContactName=Imani, emergencyContactPhoneNumber=3421244321 WHERE id=9;
+				 */
+		      
+				statement = connect.createStatement();
+				statement.executeUpdate("UPDATE ch_user SET username=" + username 
+						+ ", password=" + password 
+						+ ", emailAddress=" + emailAddress
+						+ ", dateCreated=" + dateCreated
+						+ ", userStatus=" + userStatus
+						+ ", firstName=" + firstName
+						+ ", lastName=" + lastName
+						+ ", gender=" + gender
+						+ ", streetAddress=" + streetAddress
+						+ ", city=" + city 
+						+ ", province=" + province
+						+ ", postalCode=" + postalCode
+						+ ", country=" + country
+						+ ", dateOfBirth=" + dateOfBirth
+						+ ", emergencyContactName=" + emergencyContactName
+						+ ", emergencyContactPhoneNumber=" + emergencyContactPhoneNumber
+						+ " WHERE id=" + _postID + ";");
+		      //preparedStatement.executeUpdate();
+		    } catch (Exception e) {
+		      throw e;
+		    }
+		}
 }
