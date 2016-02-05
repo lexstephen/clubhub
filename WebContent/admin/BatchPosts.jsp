@@ -57,7 +57,7 @@
 			</select>
 		</div>
 		<br><br>
-		<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked ~does not work~</button>
+		<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
 		<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
 	</form>
 	

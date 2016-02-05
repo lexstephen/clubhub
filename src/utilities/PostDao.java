@@ -114,8 +114,8 @@ public class PostDao {
 		  	request.setAttribute("posts", posts);
 	} 
 	
-	public void deletePost(HttpServletRequest request, HttpServletResponse response, String _postID) throws Exception {
-		  String postID = _postID;
+	public void deletePost(HttpServletRequest request, HttpServletResponse response, String postID) throws Exception {
+
 		  try {
 			  statement = connect.createStatement();
 			  statement.executeUpdate("delete from ch_post where id =" + postID); 
@@ -132,9 +132,9 @@ public class PostDao {
 		}		
 	}
 	
-	public void findPost(ServletRequest request, String _postID) throws Exception {
+	public void findPost(HttpServletRequest request, String postID) throws Exception {
 		  Post post = new Post();
-		  String postID = _postID;
+		  
 		  	try{
 			    statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
