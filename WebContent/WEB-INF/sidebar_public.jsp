@@ -3,22 +3,23 @@
 		<img src="images/tempcurlingpicture.png" id="sidebarImage">
 	</div>
 	<div class="col-sm-12">
-		<form>
+	<form action="/clubhub/UserController" method="post" class="form" role="form">
 		  <div class="form-group">
 		  	<h3>Member Login</h3>
-		    <label for="exampleInputEmail1" class="hidden">Email address</label>
-		    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+		    <label for="inptUsername" class="hidden">Username</label>
+		    <input type="text" class="form-control" name="username" id="inptUsername" value="${username}">
 		  </div>
 		  <div class="form-group">
-		    <label for="exampleInputPassword1" class="hidden">Password</label>
-		    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+		    <label for="inptPassword" class="hidden">Password</label>
+		    <input type="password" class="form-control" name="password" id="inptPassword" value="${password}">
 		  </div>
 		  <div class="checkbox">
 		    <label>
 		      <input type="checkbox"> Remember Me?
 		    </label>
 		  </div>
-		  <button type="submit" class="btn btn-default">Submit</button>
+		  <input type="hidden" name="option" value="login">
+			    	<input type="submit" class="btn btn-default" value="Submit Registration">
 		</form>
 	</div>
 	<div class="col-sm-12">

@@ -19,15 +19,15 @@ public class ValidationUtilities {
 	public static boolean isValidLogin(HttpServletRequest request) {
 		boolean isValid = true;
 		HttpSession session = request.getSession();
-		String email = request.getParameter("email");
+		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		request.setAttribute("email", email);
+		request.setAttribute("username", username);
 		request.setAttribute("password", password);
-		if (email.equals("admin") && password.equals("admin")) {
+		if (username.equals("admin") && password.equals("admin")) {
 			session.setAttribute("isAdmin", true);
 		} else {
 			session.setAttribute("isAdmin", false);
-			if (!isEmail(email)) {
+			if (isMissing(username)) {
 				isValid = false;
 				request.setAttribute("errorString", "Please check your input");
 				request.setAttribute("errorLoginEmail", true);}
