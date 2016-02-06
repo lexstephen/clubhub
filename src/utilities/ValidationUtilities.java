@@ -67,6 +67,16 @@ public class ValidationUtilities {
 		String emergencyContactName = request.getParameter("emergencyContactName");
 		String emergencyContactPhoneNumber = request.getParameter("emergencyContactPhoneNumber");
 
+		int postalCodeLength = 0;
+		switch(country) {
+		case "Canada":
+			postalCodeLength = 6;
+			break;
+		case "United States of America":
+			postalCodeLength = 5;
+			break;
+		}
+		
 		request.setAttribute("username", username);
 		request.setAttribute("password1", password1);
 		request.setAttribute("password2", password2);
@@ -151,7 +161,7 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorProvince", true);}
-		if (!isRightLength(postalCode,6)) {
+		if (!isRightLength(postalCode,postalCodeLength)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPostalCode", true);}

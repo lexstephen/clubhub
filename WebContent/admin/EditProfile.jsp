@@ -175,7 +175,6 @@
 			</div>
 		</div>
 		
-		
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorEmergencyContactName}">has-error</c:if>">
@@ -190,6 +189,29 @@
 			  	</div>
 			</div>
 		</div>
+		
+		
+		<div class="row bg-info">
+			<div class="col-xs-12">
+				<h3>Administrator Options</h3>
+			</div>
+			<div class="col-xs-6">
+				<div class="form-group <c:if test="${!empty errorUserStatus}">has-error</c:if>">
+			    	<label for="inptUserStatus">User Status</label>
+					<select name="userStatus" class="form-control" id="inptUserStatus">
+					  <option ${user.userStatus == 'unverified' ? 'selected' : ''}>unverified</option>
+					  <option ${user.userStatus == 'admin' ? 'selected' : ''}>admin</option>
+					  <option ${user.userStatus == 'user' ? 'selected' : ''}>user</option>
+					</select>
+			  	</div>
+			</div>
+			<div class="col-xs-6">
+			    	<label>Warning! User deletion cannot be undone. </label>
+			    	<input type="submit" class="btn btn-danger" value="Non-functioning Delete Button">
+
+			</div>
+		</div>
+		
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="form-group">

@@ -6807,6 +6807,18 @@ button.close {
 .backend .sidebar a {
   color: #fff;
 }
+.backend .sidebar h1,
+.backend .sidebar h2,
+.backend .sidebar h3,
+.backend .sidebar h4,
+.backend .sidebar h5,
+.backend .sidebar h6 {
+  color: #fff;
+  text-align: center;
+}
+.backend .sidebar li {
+  list-style-type: none;
+}
 .backend .navbar {
   border: 0;
 }
