@@ -6,29 +6,29 @@
 		<title><%= request.getAttribute("thisPage") %></title>
 		<link href="/clubhub/css/style.css" rel="stylesheet" type="text/css" />
 	</head>
-	<body>
-		<nav class="navbar navbar-static-top backend">
+	<body class="backend">
+		<nav class="navbar navbar-static-top">
 			<div class="container">
 				<div class="navbar-header">
-					<a href="#" class="pull-left"><img src="/clubhub/images/rcc.png" id="rcc_circle_logo"></a>
-				</div>
-				<div class="collapse navbar-collapse navbar-right">
-					<input type="text" name="search" placeholder="search">
+					<!--  todo: modify link to main page - modify image to pull dynamically -->
+					<a href="/clubhub/Post.jsp" class="pull-left"><img src="/clubhub/images/rcc-square.png"></a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
-					<span class="memberMeta"><img src="/clubhub/images/avatar.gif"> You are now logged in as this puppy</span>
+					<ul class="nav navbar-nav">
+						<li><a href="">Logged in as this puppy</a></li>
+						<li><img src="/clubhub/images/avatar.gif"></li>
+						<li><a href="">Log Out</a></li>
+						<li><a href="/clubhub/admin/">Dashboard Main</a></li>
+					</ul>
 				</div>
 			</div>
 		</nav>
-		<div>
-			<div class="container backend">
-				<div class="row">
-					<div class="sidebar col-sm-2 col-xs-12">
-						<%@ include file="/WEB-INF/sidebar_backend.jsp" %>
-					</div>
-					
-					<div class="content col-sm-10 col-xs-12">
-					
-					
+		<div class="container backend">
+			<div class="row">
+				<div class="sidebar col-sm-2 col-xs-12">
+					<%@ include file="/WEB-INF/sidebar_backend.jsp" %>
+				</div>
+				
+				<div class="content col-sm-10 col-xs-12">
 					<h1><%= request.getAttribute("thisPage") %></h1>
 					<hr><br>
