@@ -19,10 +19,11 @@ public class UserController extends HttpServlet {
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String option = request.getParameter("option");
-		System.out.println("Username is " + request.getParameter("username"));
 		UserDao dao = new UserDao();
 		String address = null;
 		HttpSession session = request.getSession();
+		String errorChecker = "n/a";
+		System.out.println(option);
 	    try {
 	    	switch(option) {
 		    	case "register":
@@ -44,6 +45,22 @@ public class UserController extends HttpServlet {
 		    		// back to the registration form
 		    		} else {
 		    			address = "Register.jsp";
+		    		}
+	    		break;
+		    	case "edit":
+	    			System.out.println("I am here " + request.getParameter("username"));
+		    		if (ValidationUtilities.isValidUser(request)) {
+		    			String userID = request.getParameter("userID");
+		    			System.out.println("Username is " + request.getParameter("username"));
+		    			dao.editUser(request, response, userID);
+		    			System.out.println("I edited user " + userID);
+		    			//
+		    			errorChecker = "Post edited";
+		    			address = "/admin/EditProfile.jsp";
+		    		} else {
+		    			//
+			    		errorChecker = "Post failed to edit";
+		    			address = "/admin/EditProfile.jsp";
 		    		}
 	    		break;
 		    	case "login":

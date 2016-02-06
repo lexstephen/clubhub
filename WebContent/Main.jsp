@@ -18,6 +18,7 @@
 	<%	PostDao post = new PostDao(); %>
 	
 	<!-- findPost requires blog id to be passed -->
+	<!--  we could write something that is like findLast5Posts?? -ADS -->
 	<% post.findPost(request, "1"); %>
 	<%@ include file="/WEB-INF/displayPosts.jsp" %>
 	

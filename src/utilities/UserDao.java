@@ -174,12 +174,12 @@ public class UserDao {
 
 				    statement = connect.createStatement();
 				    resultSet = statement.executeQuery(
-		    		"SELECT * FROM clubhub.ch_user WHERE id = " + userID);
+		    		"SELECT * FROM clubhub.ch_user WHERE id = '" + userID + "'");
 				    while (resultSet.next()) {
+				    	  user.setUserid(userID);
 				    	  user.setUsername(resultSet.getString("username"));
 				    	  user.setPassword(resultSet.getString("password"));
 				    	  user.setEmailAddress(resultSet.getString("emailAddress"));
-				    	  user.setDateCreated(resultSet.getString("dateCreated"));
 				    	  user.setUserStatus(resultSet.getString("userStatus"));
 				    	  user.setFirstName(resultSet.getString("firstName"));
 				    	  user.setLastName(resultSet.getString("lastName"));
@@ -199,12 +199,12 @@ public class UserDao {
 			  	request.setAttribute("user", user);
 		}
 		
-		public void editPost(HttpServletRequest request, HttpServletResponse response, String _postID) throws Exception {
+		public void editUser(HttpServletRequest request, HttpServletResponse response, String _userID) throws Exception {
 		    try {			
+		    	  String userID = _userID;
 		    	  String username = request.getParameter("username");
-				  String password = request.getParameter("password");
+				  String password = request.getParameter("password1");
 				  String emailAddress = request.getParameter("emailAddress");
-				  String dateCreated = request.getParameter("dateCreated");
 				  String userStatus = request.getParameter("userStatus");
 				  String firstName = request.getParameter("firstName");
 				  String lastName = request.getParameter("lastName");
@@ -228,23 +228,22 @@ public class UserDao {
 				 */
 		      
 				statement = connect.createStatement();
-				statement.executeUpdate("UPDATE ch_user SET username=" + username 
-						+ ", password=" + password 
-						+ ", emailAddress=" + emailAddress
-						+ ", dateCreated=" + dateCreated
-						+ ", userStatus=" + userStatus
-						+ ", firstName=" + firstName
-						+ ", lastName=" + lastName
-						+ ", gender=" + gender
-						+ ", streetAddress=" + streetAddress
-						+ ", city=" + city 
-						+ ", province=" + province
-						+ ", postalCode=" + postalCode
-						+ ", country=" + country
-						+ ", dateOfBirth=" + dateOfBirth
-						+ ", emergencyContactName=" + emergencyContactName
-						+ ", emergencyContactPhoneNumber=" + emergencyContactPhoneNumber
-						+ " WHERE id=" + _postID + ";");
+				statement.executeUpdate("UPDATE clubhub.ch_user SET username='" + username 
+						+ "', password='" + password 
+						+ "', emailAddress='" + emailAddress
+						+ "', userStatus='" + userStatus
+						+ "', firstName='" + firstName
+						+ "', lastName='" + lastName
+						+ "', gender='" + gender
+						+ "', streetAddress='" + streetAddress
+						+ "', city='" + city 
+						+ "', province='" + province
+						+ "', postalCode='" + postalCode
+						+ "', country='" + country
+						+ "', dateOfBirth='" + dateOfBirth
+						+ "', emergencyContactName='" + emergencyContactName
+						+ "', emergencyContactPhoneNumber='" + emergencyContactPhoneNumber
+						+ "' WHERE id='" + userID + "';");
 		      //preparedStatement.executeUpdate();
 		    } catch (Exception e) {
 		      throw e;
