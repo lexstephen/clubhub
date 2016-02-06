@@ -92,9 +92,24 @@ public class UserDao {
 		    return "";
 		}
 		
-		public String getName(HttpServletRequest request) throws Exception {
+		public String getUserAge(HttpServletRequest request, String _userID) throws Exception {
 		    try {
-		    	  String userID = getUserId(request);
+		    	  String userID = _userID;
+			      statement = connect.createStatement();
+			      resultSet = statement.executeQuery("select dateCreated from ch_user where id = '" + userID + "'");
+			      while (resultSet.next()) {
+			    	  	String dateCreated = resultSet.getString("dateCreated");
+					    return dateCreated; 
+			      }
+			    } catch (Exception e) {
+			      throw e;
+			    }
+		    return "";
+		}
+		
+		public String getName(HttpServletRequest request, String _userID) throws Exception {
+		    try {
+				  String userID = _userID;
 			      statement = connect.createStatement();
 			      resultSet = statement.executeQuery("select firstName, lastName from ch_user where id = \"" + userID + "\"");
 			      while (resultSet.next()) {
@@ -109,6 +124,17 @@ public class UserDao {
 		
 		public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		    try {
+
+				String province = null;
+				switch(request.getParameter("country")) {
+				case "Canada":
+					province = request.getParameter("province");
+					break;
+				case "United States of America":
+					province = request.getParameter("state");
+					break;
+				}
+				
 		      // Statements allow to issue SQL queries to the database
 		      statement = connect.createStatement();
 		      
@@ -130,7 +156,7 @@ public class UserDao {
 		      preparedStatement.setString(9, request.getParameter("telephone"));					// phoneNumber
 		      preparedStatement.setString(10, request.getParameter("streetAddress"));				// streetAddress
 		      preparedStatement.setString(11, request.getParameter("city"));						// city
-		      preparedStatement.setString(12, request.getParameter("province"));					// province
+		      preparedStatement.setString(12, province);											// province
 		      preparedStatement.setString(13, request.getParameter("postalCode"));					// postalCode
 		      preparedStatement.setString(14, request.getParameter("country"));						// country
 		      preparedStatement.setString(15, request.getParameter("profilePhoto"));				// profilePhoto
@@ -211,7 +237,15 @@ public class UserDao {
 				  String gender = request.getParameter("gender");
 				  String streetAddress = request.getParameter("streetAddress");
 				  String city = request.getParameter("city");
-				  String province = request.getParameter("province");
+				String province = null;
+				switch(request.getParameter("country")) {
+				case "Canada":
+					province = request.getParameter("province");
+					break;
+				case "United States of America":
+					province = request.getParameter("state");
+					break;
+				}
 				  String postalCode = request.getParameter("postalCode");
 				  String country = request.getParameter("country");
 				  String dateOfBirth = request.getParameter("dateOfBirth");

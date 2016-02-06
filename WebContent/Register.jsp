@@ -150,6 +150,11 @@
 					  <option ${province == 'SK' ? 'selected' : ''}>SK</option>
 					  <option ${province == 'YT' ? 'selected' : ''}>YT</option>
 					</select>
+					<select name="state" class="form-control" id="inptState">
+					  <option ${state == 'AL' ? 'selected' : ''}>AL</option>
+					  <option ${state == 'AK' ? 'selected' : ''}>AK</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>AZ</option>
+					</select>
 			  	</div>
 			</div>
 		</div>

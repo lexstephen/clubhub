@@ -59,7 +59,6 @@ public class ValidationUtilities {
 		String telephone = request.getParameter("telephone");
 		String streetAddress = request.getParameter("streetAddress");
 		String city = request.getParameter("city");
-		String province = request.getParameter("province");
 		String postalCode = request.getParameter("postalCode");
 		String country = request.getParameter("country");
 		String profilePhoto = request.getParameter("profilePhoto");
@@ -67,13 +66,16 @@ public class ValidationUtilities {
 		String emergencyContactName = request.getParameter("emergencyContactName");
 		String emergencyContactPhoneNumber = request.getParameter("emergencyContactPhoneNumber");
 
+		String province = null;
 		int postalCodeLength = 0;
 		switch(country) {
 		case "Canada":
 			postalCodeLength = 6;
+			province = request.getParameter("province");
 			break;
 		case "United States of America":
 			postalCodeLength = 5;
+			province = request.getParameter("state");
 			break;
 		}
 		

@@ -142,7 +142,7 @@
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorProvince}">has-error</c:if>">
 			    	<label for="inptProvince">Province / State</label>
-					<select name="province" class="form-control" id="inptProvince">
+					<select name="province" class="form-control ${user.country == 'United States of America' ? ' hiddenest' : ''}" id="inptProvince">
 					  <option ${user.province == 'AB' ? 'selected' : ''}>AB</option>
 					  <option ${user.province == 'BC' ? 'selected' : ''}>BC</option>
 					  <option ${user.province == 'MB' ? 'selected' : ''}>MB</option>
@@ -156,6 +156,11 @@
 					  <option ${user.province == 'QC' ? 'selected' : ''}>QC</option>
 					  <option ${user.province == 'SK' ? 'selected' : ''}>SK</option>
 					  <option ${user.province == 'YT' ? 'selected' : ''}>YT</option>
+					</select>
+					<select name="state" class="form-control ${user.country == 'Canada' ? ' hiddenest' : ''}" id="inptState">
+					  <option ${user.province == 'AL' ? 'selected' : ''}>AL</option>
+					  <option ${user.province == 'AK' ? 'selected' : ''}>AK</option>
+					  <option ${user.province == 'AZ' ? 'selected' : ''}>AZ</option>
 					</select>
 			  	</div>
 			</div>
