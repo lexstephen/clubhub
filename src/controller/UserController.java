@@ -22,6 +22,7 @@ public class UserController extends HttpServlet {
 		UserDao dao = new UserDao();
 		String address = null;
 		HttpSession session = request.getSession();
+
 	    try {
 	    	switch(option) {
 		    	case "register":
@@ -45,6 +46,16 @@ public class UserController extends HttpServlet {
 		    			address = "Register.jsp";
 		    		}
 	    		break;
+		    	case "edit":
+	    			System.out.println("I am here " + request.getParameter("username"));
+		    		if (ValidationUtilities.isValidUser(request)) {
+		    			String userID = request.getParameter("userID");
+		    			dao.editUser(request, response, userID);
+		    			address = "/admin/EditProfile.jsp";
+		    		} else {
+		    			address = "/admin/EditProfile.jsp";
+		    		}
+	    		break;
 		    	case "login":
 		    			// valid input?
 		    		if (ValidationUtilities.isValidLogin(request)) {
@@ -53,16 +64,16 @@ public class UserController extends HttpServlet {
 			    			// they are admins! send them to AdminController
 			    			session.setAttribute("isLoggedIn", true);
 			    			session.setAttribute("userID", dao.getUserId(request));
-			    			session.setAttribute("userName", dao.getName(request));
+			    			session.setAttribute("userFullName", dao.getName(request, request.getParameter("userID")));
 							request.setAttribute("errorString", null);
-			    			address = "/assignment2/AdminController";
+			    			address = "/admin/index-admin.jsp";
 			    		} else if (dao.isInDatabase(request, response)) {
 			    			// yes they are, let's log them in
 			    			session.setAttribute("isLoggedIn", true);
 			    			session.setAttribute("userID", dao.getUserId(request));
-			    			session.setAttribute("userName", dao.getName(request));
+			    			session.setAttribute("userFullName", dao.getName(request, request.getParameter("userID")));
 							request.setAttribute("errorString", null);
-			    			address = "/Posts.jsp";
+			    			address = "/admin/index.jsp";
 			    		} else {
 			    			// wrong username or password, send back to login form
 							request.setAttribute("errorString", "Wrong username or password.");
