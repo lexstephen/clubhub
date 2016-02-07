@@ -8,46 +8,30 @@
  
  <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="utilities.PostDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<% request.setAttribute("thisPage", "Rivendell Curling Club"); %>
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
-	<div class="row">
-		<div class="col-xs-12">
-			<h1>Exciting Blog Post</h1>
-			<span class="postMeta">Posted in {Schedules} by Admin on Sept 7, 2015</span>
-			<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			<span class="expand">
-				<a href="more">More</a><br><hr>
-			</span>
-		</div>
-	</div>
 	
-	<div class="row">
-		<div class="col-xs-12">
-			<h1>Exciting Blog Post 2</h1>
-			<span class="postMeta">Posted in {Schedules} by Admin on Sept 7, 2015</span>
-			<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			<span class="expand">
-				<a href="more">More</a><br><hr>
-			</span>
-		</div>
-	</div>
+	<%	PostDao post = new PostDao(); %>
 	
-	<div class="row">
-		<div class="col-xs-12">
-			<h1>Exciting Blog Post 3</h1>
-			<span class="postMeta">Posted in {Schedules} by Admin on Sept 7, 2015</span>
-			<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			<span class="expand">
-				<a href="more">More</a><br><hr>
-			</span>
-		</div>
-	</div>
+	<!-- findPost requires blog id to be passed -->
+	<!--  we could write something that is like findLast5Posts?? -ADS -->
+	<% post.findPost(request, "1"); %>
+	<%@ include file="/WEB-INF/displayPosts.jsp" %>
+	
+	<% post.findPost(request, "2"); %>
+	<%@ include file="/WEB-INF/displayPosts.jsp" %>
+	
+	<% post.findPost(request, "3"); %>
+	<%@ include file="/WEB-INF/displayPosts.jsp" %>
 	
 	<span class="pagination">
 		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>
 	</span>
+	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
 <%@ include file="/WEB-INF/footer_public.jsp" %>
