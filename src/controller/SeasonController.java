@@ -43,14 +43,14 @@ public class SeasonController extends HttpServlet {
 		    			dao.addToDatabase(request, response);
 		    			//
 		    			errorChecker = "Season Created";
-		    			address = "admin/BatchPosts.jsp";
+		    			address = "admin/PopulateGames.jsp";
 		    		} else {
 		    			//
-			    		errorChecker = "Post fail";
-		    			address = "/Main.jsp";
+			    		errorChecker = "Season Not Created!!";
+		    			address = "/CreateSeason.jsp";
 		    		}
 	    		break;
-		    	case "edit":
+		    	/*case "edit":
 		    		if (ValidationUtilities.isValidPost(request)) {
 		    			String postID = request.getParameter("postID");
 		    			dao.editPost(request, response, postID);
@@ -93,7 +93,7 @@ public class SeasonController extends HttpServlet {
 						e.printStackTrace();
 					}
 		    		address = "admin/BatchPosts.jsp";
-	    		break;
+	    		break;*/
 	    		default:
 	    			errorChecker = "Something has gone horribly wrong";
 	    	}

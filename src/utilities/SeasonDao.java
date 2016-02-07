@@ -60,11 +60,9 @@ public class SeasonDao {
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {
 			HttpSession session = request.getSession();
-			// this is temp  v v v
-			//session.setAttribute("userID", "2");
-			// this is temp  ^ ^ ^
+			
 	      statement = connect.createStatement();
-	      preparedStatement = connect.prepareStatement("insert into ch_season values (default, ?, ?, ?, ?, ?, ?)");
+	      preparedStatement = connect.prepareStatement("insert into ch_season values (default, ?, ?, ?, ?, ?, ?, ?)");
 	   
 	      
 	      preparedStatement.setString(1, request.getParameter("year"));	//year
@@ -84,7 +82,9 @@ public class SeasonDao {
 		  List<Season> seasons = new ArrayList<Season>();
 		  	try{  		
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT season.year, season.season, season.gender, season.startDate, season.startDate, season.startTime, season.dayOfWeek, season.duration" 
+			    resultSet = statement.executeQuery("SELECT year, season, "
+			    		+ "gender, startDate, startTime, "
+			    		+ "dayOfWeek, duration" 
 				+ "FROM clubhub.ch_season");
 			      
 			    while (resultSet.next()) {
