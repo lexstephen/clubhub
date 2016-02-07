@@ -3,21 +3,21 @@
 	Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
 	Student Number: 100563954, 100911472, 100898311
 	Date: February 6, 2016
-	Description: AddPost.jsp
+	Description: CreateSeason.jsp
  --%>
  
-<% request.setAttribute("thisPage", "Create Game"); %>
+<% request.setAttribute("thisPage", "Create Season"); %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-<form action="/clubhub/PostController" method="post" class="form" role="form">
+<form action="/clubhub/SeasonController" method="post" class="form" role="form">
 	<div class="form-group">
 		<label class="col-sm-1 control-label">
 			Season
-		</label><br>
+		</label>
 		<div class="col-sm-5">
 			<select class="form-control" name="season">
 				Season
@@ -31,9 +31,10 @@
 			Gender
 		</label>
 		<div class="col-sm-3">
-				<input type="checkbox" id="Mixed" name="gender";"> Mixed <br>
-				<input type="checkbox" id="Mixed" name="gender";"> Mens <br>
-				<input type="checkbox" id="Mixed" name="gender";"> Womens
+				<form>
+  				<input type="radio" name="gender" value="mixed"> Mixed <br>
+				<input type="radio" name="gender" value="mens"> Mens <br>
+				<input type="radio" name="gender" value="womens"> Womens
 		</div>
 		<br><br><br><br><br><br>
 		<div class="col-sm-6">
