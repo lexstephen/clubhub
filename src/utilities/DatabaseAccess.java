@@ -1,10 +1,9 @@
 package utilities;
 /****************************************************************************************************
-* Project: Hackers 1995
-* Assignment: COMP 3095 Assignment 2
+* Project: ClubHub
 * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
 * Student Number: 100563954, 100911472, 100898311
-* Date: December 4th, 2016
+* Date: Feb 03, 2016
 * Description: DatabaseAccess - Provides access to database
 ****************************************************************************************************/
 import java.sql.Connection;
