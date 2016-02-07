@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import utilities.PostDao;
+import utilities.SeasonDao;
 import utilities.ValidationUtilities;
 
 @WebServlet("/PostController")
@@ -29,7 +30,7 @@ public class SeasonController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String option = request.getParameter("option");
-		SeasonDao dao = new PostDao();
+		SeasonDao dao = new SeasonDao();
 		String address = "";
 		//
 		String errorChecker = "n/a";
@@ -42,7 +43,7 @@ public class SeasonController extends HttpServlet {
 		    		if (ValidationUtilities.isValidPost(request)) {
 		    			dao.addToDatabase(request, response);
 		    			//
-		    			errorChecker = "Post successful";
+		    			errorChecker = "Season Created";
 		    			address = "admin/BatchPosts.jsp";
 		    		} else {
 		    			//

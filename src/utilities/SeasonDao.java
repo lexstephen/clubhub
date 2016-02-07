@@ -71,8 +71,9 @@ public class SeasonDao {
 	      preparedStatement.setString(2, request.getParameter("season")); // season
 	      preparedStatement.setString(3, request.getParameter("gender")); // gender
 	      preparedStatement.setString(4, request.getParameter("startDate")); // startDate
-	      preparedStatement.setString(5, request.getParameter("dayOfWeek")); // dayOfWeek
-	      preparedStatement.setString(6, request.getParameter("duration")); // duration
+	      preparedStatement.setString(5, request.getParameter("startTime")); // startTime
+	      preparedStatement.setString(6, request.getParameter("dayOfWeek")); // dayOfWeek
+	      preparedStatement.setString(7, request.getParameter("duration")); // duration
 	      preparedStatement.executeUpdate();
 	    } catch (Exception e) {
 	      throw e;
@@ -80,46 +81,38 @@ public class SeasonDao {
 	}
 
 	public void listAll(HttpServletRequest request) throws Exception {
-		  List<Season> season = new ArrayList<Season>();
+		  List<Season> seasons = new ArrayList<Season>();
 		  	try{  		
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
-				+ "FROM clubhub.ch_post post "
-				+ "JOIN clubhub.ch_posttype posttype "
-				+ "ON post.Posttypeid = posttype.id "
-				+ "JOIN clubhub.ch_user user "
-				+ "ON post.Userid = user.id "
-				+ "JOIN clubhub.ch_access access "
-				+ "ON post.Accessid = access.id "
-				+ "JOIN clubhub.ch_category category "
-				+ "ON post.Categoryid = category.id ");
+			    resultSet = statement.executeQuery("SELECT season.year, season.season, season.gender, season.startDate, season.startDate, season.startTime, season.dayOfWeek, season.duration" 
+				+ "FROM clubhub.ch_season");
 			      
 			    while (resultSet.next()) {
-			    	  Post post = new Post();
-			    	  post.setTitle(resultSet.getString("title"));
-			    	  post.setContent(resultSet.getString("content"));
-			    	  post.setId(resultSet.getString("id"));
-			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
-			    	  post.setUserLastName(resultSet.getString("user.lastName"));
-			    	  post.setPostType(resultSet.getString("posttype.type"));
-			    	  post.setAccessLevel(resultSet.getString("access.type"));
-			    	  post.setCategory(resultSet.getString("category.type"));
+			    	  Season season = new Season();
+			    	  season.setYear(resultSet.getString("year"));
+			    	  season.setSeason(resultSet.getString("season"));
+			    	  season.setId(resultSet.getString("id"));
+			    	  season.setGender(resultSet.getString("gender"));
+			    	  season.setStartDate(resultSet.getString("startDate"));
+			    	  season.setStartTime(resultSet.getString("startTime"));
+			    	  season.setDayOfWeek(resultSet.getString("dayOfWeek"));
+			    	  season.setDuration(resultSet.getString("duration"));
 			    	  
-			    	  request.setAttribute("postID", post.getId());
+			    	  request.setAttribute("seasonID", season.getId());
 
-			    	  posts.add(post);
+			    	  seasons.add(season);
 			    }
 		    } catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("posts", posts);
+		  	request.setAttribute("seasons", seasons);
 	} 
 	
-	public void deletePost(HttpServletRequest request, HttpServletResponse response, String postID) throws Exception {
+	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
 
 		  try {
 			  statement = connect.createStatement();
-			  statement.executeUpdate("delete from ch_post where id =" + postID); 
+			  statement.executeUpdate("delete from ch_season where id =" + seasonID); 
 		  } catch (SQLException e) {
 		      throw e;
 		  }
@@ -127,61 +120,54 @@ public class SeasonDao {
 	
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String [] markedForDeletion = request.getParameterValues("postSelected");
+		String [] markedForDeletion = request.getParameterValues("seasonsSelected");
 		for (String x : markedForDeletion) {
-			deletePost(request, response, x);
+			deleteSeason(request, response, x);
 		}		
 	}
 	
-	public void findPost(HttpServletRequest request, String postID) throws Exception {
-		  Post post = new Post();
+	public void findSeason(HttpServletRequest request, String seasonID) throws Exception {
+		  Season season = new Season();
 		  
 		  	try{
 			    statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
-				+ "FROM clubhub.ch_post post "
-				+ "JOIN clubhub.ch_posttype posttype "
-				+ "ON post.Posttypeid = posttype.id "
-				+ "JOIN clubhub.ch_user user "
-				+ "ON post.Userid = user.id "
-				+ "JOIN clubhub.ch_access access "
-				+ "ON post.Accessid = access.id "
-				+ "JOIN clubhub.ch_category category "
-				+ "ON post.Categoryid = category.id "
-				+ "WHERE post.id = " + postID);
+			    resultSet = statement.executeQuery("SELECT season.year, season.season, season.gender, season.startDate, season.startDate, season.startTime, season.dayOfWeek, season.duration" 
+				+ "FROM clubhub.ch_season"
+				+ "WHERE season.id = " + seasonID);
 			    
 			    while (resultSet.next()) {
-			    	  post.setTitle(resultSet.getString("title"));
-			    	  post.setContent(resultSet.getString("content"));
-			    	  post.setId(resultSet.getString("id"));
-			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
-			    	  post.setUserLastName(resultSet.getString("user.lastName"));
-			    	  post.setPostType(resultSet.getString("posttype.type"));
-			    	  post.setAccessLevel(resultSet.getString("access.type"));
-			    	  post.setCategory(resultSet.getString("category.type"));
+			    	  season.setYear(resultSet.getString("year"));
+			    	  season.setSeason(resultSet.getString("season"));
+			    	  season.setId(resultSet.getString("id"));
+			    	  season.setGender(resultSet.getString("gender"));
+			    	  season.setStartDate(resultSet.getString("startDate"));
+			    	  season.setStartTime(resultSet.getString("startTime"));
+			    	  season.setDayOfWeek(resultSet.getString("dayOfWeek"));
+			    	  season.setDuration(resultSet.getString("duration"));
 			    }
 			} catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("post", post);
+		  	request.setAttribute("season", season);
 	} 
 	
-	public void editPost(HttpServletRequest request, HttpServletResponse response, String _postID) throws Exception {
+	public void editSeason(HttpServletRequest request, HttpServletResponse response, String _seasonID) throws Exception {
 	    try {			
-			String postID = request.getParameter("postID");
-		    String title = request.getParameter("blogTitle");	// title
-		    String content = request.getParameter("blogContent"); // content
-		    String pageType = request.getParameter("pageType"); // Posttypeid
-		    String accessLevel = request.getParameter("accessLevel"); // Accessid
-		    String category = request.getParameter("pageCategory"); // Categoryid
-			
-	      
-		    /*UPDATE `clubhub`.`ch_post` SET `title`='blogtitle', `content`='schoop doopy', 
-	    		  `Userid`='1', `Posttypeid`='2', `Accessid`='2', `Categoryid`='2' WHERE `id`='6';*/
+			String seasonID = request.getParameter("seasonID");
+		    String year = request.getParameter("year");	// year
+		    String season = request.getParameter("season"); // season
+		    String gender = request.getParameter("gender"); // gender
+		    String startDate = request.getParameter("startDate"); // StartDate
+		    String startTime = request.getParameter("startTime"); // startTime
+		    String dayOfWeek = request.getParameter("dayOfWeek"); // DOW
+		    String duration = request.getParameter("duration"); // duration
+		    
+		    
 	      
 			statement = connect.createStatement();
-			statement.executeUpdate("UPDATE ch_post SET title='" + title + "', content='" + content + "', Posttypeid='" + pageType + 
-					"', Accessid='" + accessLevel + "', Categoryid='" + category + "' WHERE id='" + postID + "'");
+			statement.executeUpdate("UPDATE ch_season SET year='" + year + "', season='" + season + "', gender='" + gender + 
+					"', startDate='" + startDate + "', startTime='" + startTime + "' dayOfWeek='" + dayOfWeek + "'duration='" 
+					+ duration + "' WHERE id='" + seasonID + "'");
 	      
 	      //preparedStatement.executeUpdate();
 	    } catch (Exception e) {
@@ -189,21 +175,5 @@ public class SeasonDao {
 	    }
 	}
 
-	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String [] markedForEdit = request.getParameterValues("postSelected");
-		String postID, pageType, accessLevel, category;
-		
-		pageType = request.getParameter("pageType"); // Posttypeid
-	    accessLevel = request.getParameter("accessLevel"); // Accessid
-	    category = request.getParameter("pageCategory"); // Categoryid
-		
-		for (String x : markedForEdit) {
-			postID = x;
-		    
-			statement = connect.createStatement();
-			statement.executeUpdate("UPDATE ch_post SET Posttypeid='" + pageType + 
-					"', Accessid='" + accessLevel + "', Categoryid='" + category + "' WHERE id='" + postID + "'");
-		}				
-	}
 }
 
