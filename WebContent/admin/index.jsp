@@ -9,10 +9,10 @@
  <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="utilities.UserDao"%>
-<% request.setAttribute("thisPage", "Member Dashboard"); %>
+<% request.setAttribute("thisPage", "Dashboard"); %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-			<h2>Member Dashboard</h2>
+.. list recent games they have played or are scheduled ..
 
 <%@ include file="/WEB-INF/footer_backend.jsp" %>
