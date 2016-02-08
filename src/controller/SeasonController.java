@@ -40,16 +40,16 @@ public class SeasonController extends HttpServlet {
 	    try {
 	    	switch(option) {
 		    	case "add":
-		    		if (ValidationUtilities.isValidPost(request)) {
+		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			dao.addToDatabase(request, response);
 		    			//
 		    			errorChecker = "Season Created";
 		    			address = "admin/PopulateGames.jsp";
-		    		} else {
+		    		
 		    			//
-			    		errorChecker = "Season Not Created!!";
-		    			address = "/CreateSeason.jsp";
-		    		}
+			    		/*errorChecker = "Season Not Created!!";
+		    			address = "/CreateSeason.jsp";*/
+		    		
 	    		break;
 		    	/*case "edit":
 		    		if (ValidationUtilities.isValidPost(request)) {
