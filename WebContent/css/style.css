@@ -6849,3 +6849,6 @@ button.close {
   color: #333;
   background-color: #00c0fa;
 }
+.preferences img {
+  width: 50px;
+}
