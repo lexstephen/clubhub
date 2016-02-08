@@ -28,6 +28,7 @@ public class SeasonController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String option = request.getParameter("option");
 		SeasonDao dao = new SeasonDao();
 		String address = "";
