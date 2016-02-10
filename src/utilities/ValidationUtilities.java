@@ -45,8 +45,11 @@ public class ValidationUtilities {
 		}
 		return isValid;
 	}
-	
-	public static boolean isValidRegistration(HttpServletRequest request) {
+
+	public static boolean isValidInvoice(HttpServletRequest request) {
+		return true;
+	}
+		public static boolean isValidRegistration(HttpServletRequest request) {
 		boolean isValid = true;
 		String username = request.getParameter("username");
 		String password1 = request.getParameter("password1");	

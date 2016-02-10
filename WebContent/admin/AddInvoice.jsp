@@ -6,13 +6,13 @@
 	Description: AddPost.jsp
  --%>
  
-<% request.setAttribute("thisPage", "Login"); %>
+<% request.setAttribute("thisPage", "Add Invoice"); %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="/WEB-INF/header_public.jsp"%>
+<%@ include file="/WEB-INF/header_backend.jsp"%>
 
-login form
+choose user, line items, etc
 
-<%@ include file="/WEB-INF/footer_public.jsp" %>
+<%@ include file="/WEB-INF/footer_backend.jsp" %>

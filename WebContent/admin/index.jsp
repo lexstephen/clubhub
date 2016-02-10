@@ -13,6 +13,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-.. list recent games they have played or are scheduled ..
+admin gets: upcoming games with conflicts, recent games, new members, last few blog posts
+<br><br>
+member gets: upcoming games they are scheduled in, last four games they played, next few games - all players, last few games - all player
+
 
 <%@ include file="/WEB-INF/footer_backend.jsp" %>
