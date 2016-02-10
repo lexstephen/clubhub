@@ -17,17 +17,20 @@
 	
 	<%	PostDao post = new PostDao(); %>
 	
-	<% post.listAll(request); %>
+	<% post.listAll(request); %> 
 	
-	<!-- This form wont work because there are embedded forms in the included file. I dont know how to work around this.  --> 
+	
+
+<!-- 	 use this to test admin login. no admin login, no edit button -->
+<%-- 	<% session.setAttribute("isAdmin", true); %> --%> 
+
 		
 	<form action="/clubhub/PostController" method="post" class="form" role="form">
 		<c:forEach items="${posts}" var="post">
-			<input type="checkbox" name="postSelected" value="${post.id}">
-			<%@ include file="/WEB-INF/displayEditPosts.jsp" %>			
+			<%@ include file="/WEB-INF/displayAllPosts.jsp" %>			
 		</c:forEach>
-		
-		<label class="col-sm-2 control-label">
+		<br><br>
+		<label class="col-sm-1 control-label">
 			Access Level
 		</label>
 		<div class="col-sm-3">
@@ -37,7 +40,7 @@
 				<option value="2">Members Only</option>
 			</select>
 		</div>
-		<label class="col-sm-2 control-label">
+		<label class="col-sm-1 control-label">
 			Page Type
 		</label>
 		<div class="col-sm-3">
@@ -46,7 +49,7 @@
 				<option value="2">Web Content</option>
 			</select>
 		</div>
-		<label class="col-sm-2 control-label">
+		<label class="col-sm-1 control-label">
 			Category
 		</label>
 		<div class="col-sm-3">
@@ -56,9 +59,13 @@
 				<option value="3">Contests</option>
 			</select>
 		</div>
-		<br><br>
-		<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
-		<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
+		<br><br><br><br>
+		<div class="col-sm-3">
+			<button class="btn btn-warning " type="submit" name="option" value="batchEdit">Edit Marked</button>
+		</div>
+		<div class="col-sm-3">
+			<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
+		</div>
 	</form>
 	
 	<span class="pagination">

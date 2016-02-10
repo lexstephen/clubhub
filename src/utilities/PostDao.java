@@ -9,6 +9,7 @@ package utilities;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
@@ -203,6 +204,27 @@ public class PostDao {
 			statement.executeUpdate("UPDATE ch_post SET Posttypeid='" + pageType + 
 					"', Accessid='" + accessLevel + "', Categoryid='" + category + "' WHERE id='" + postID + "'");
 		}				
+	}
+	
+	public String[] getLastPosts(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String[] postIDs = new String[3];
+		
+		try {
+			  statement = connect.createStatement();
+			  resultSet = statement.executeQuery("SELECT id FROM ch_post ORDER BY id DESC LIMIT 3");
+			  
+			  int i = 0;
+			  
+			  while (resultSet.next()) {
+			          postIDs[i++] = resultSet.getString(1);
+			  }
+		  } catch (SQLException e) {
+		      throw e;
+		  }
+
+		return postIDs;
+
 	}
 }
 

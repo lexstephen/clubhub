@@ -6,7 +6,7 @@
 	Description: Main.jsp
  --%>
  
- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="utilities.PostDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -17,16 +17,16 @@
 	
 	<%	PostDao post = new PostDao(); %>
 	
-	<!-- findPost requires blog id to be passed -->
-	<!--  we could write something that is like findLast5Posts?? -ADS -->
-	<% post.findPost(request, "1"); %>
-	<%@ include file="/WEB-INF/displayPosts.jsp" %>
+
+<!-- 	 use this to test admin login. no admin login, no edit button -->
+<%-- 	<% session.setAttribute("isAdmin", true); %> --%> 
+
 	
-	<% post.findPost(request, "2"); %>
+	<% String[] postIDs = post.getLastPosts(request, response); %>
+	<% for (String i : postIDs) { %>
+	<% post.findPost(request, i); %>
 	<%@ include file="/WEB-INF/displayPosts.jsp" %>
-	
-	<% post.findPost(request, "3"); %>
-	<%@ include file="/WEB-INF/displayPosts.jsp" %>
+	<% } %>
 	
 	<span class="pagination">
 		<a href="?posts=-5">&lt;&lt;</a> | <a href="?posts=-1">&lt;</a> | <a href="?posts=1">&gt;</a> | <a href="?posts=5">&gt;&gt;</a>
@@ -34,4 +34,4 @@
 	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
-<%@ include file="/WEB-INF/footer_public.jsp" %>
+	<%@ include file="/WEB-INF/footer_public.jsp" %>

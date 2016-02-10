@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%-- 
 	Project: ClubHub Content and User Management System 
 	Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
@@ -12,7 +14,11 @@
 			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on Sept 7, 2015. Access level: ${post.accessLevel}</span>
 			<p>"${post.content}".</p>
 				<span class="expand">
-					<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+					<c:choose>
+						<c:when test="${isAdmin == true}">
+							<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+						</c:when>
+					</c:choose>
 					<a href="/clubhub/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
 				</span>
 			<hr>
