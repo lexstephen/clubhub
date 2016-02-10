@@ -40,17 +40,16 @@ public class SeasonController extends HttpServlet {
 	    try {
 	    	switch(option) {
 		    	case "add":
-	    			dao.addToDatabase(request, response);
-	    			/*		    		if (ValidationUtilities.isValidPost(request)) {
-	    			dao.addToDatabase(request, response);
-	    			//
-	    			errorChecker = "Season Created";
-	    			address = "admin/PopulateGames.jsp";
-	    		} else {
-	    			//
-		    		errorChecker = "Season Not Created!!";
-	    			address = "/CreateSeason.jsp";
-	    		} */
+		    		//if (ValidationUtilities.isValidSeason(request)) {
+		    			dao.addToDatabase(request, response);
+		    			//
+		    			errorChecker = "Season Created";
+		    			address = "admin/PopulateGames.jsp";
+		    		
+		    			//
+			    		/*errorChecker = "Season Not Created!!";
+		    			address = "/CreateSeason.jsp";*/
+		    		
 	    		break;
 		    	/*case "edit":
 		    		if (ValidationUtilities.isValidPost(request)) {

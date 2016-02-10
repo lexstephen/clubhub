@@ -33,8 +33,8 @@
 		<div class="col-sm-3">
 		<form>
   				<input type="radio" name="gender" value="mixed"> Mixed <br>
-				<input type="radio" name="gender" value="mens"> Mens <br>
-				<input type="radio" name="gender" value="womens"> Womens
+				<input type="radio" name="gender" value="M"> Mens <br>
+				<input type="radio" name="gender" value="W"> Womens
 		</div>
 		<br><br><br><br><br><br>
 		<div class="col-sm-6">
@@ -47,16 +47,32 @@
 		
 		<div class="col-sm-6">
 		
+			<b>Year</b></b>
+		<br>
+			<input class="col-sm-4" type="text" name="year" value="${year}">
+			<%--Insert a calander here --%>
+		</div>
+		
+		<div class="col-sm-6">
+		
 			<b>Start Time</b></b>
 		<br>
 			<input class="col-sm-4" type="text" name="startTime" value="${startTime}">
 		</div>
+		
+		<div class="col-sm-6">
+		
+			<b>Day Of Week </b></b>
+		<br>
+			<input class="col-sm-4" type="text" name="dayOfWeek" value="${dayOfWeek}">
+		</div>
+		
 		<br><br>
 		<div class="col-sm-6">
 		<br><br>
 			<b>Season Duration(in weeks)</b></b>
 		<br>
-			<input class="col-sm-4" type="text" name="seasonDuration" value="${seasonDuration}">
+			<input class="col-sm-4" type="text" name="duration" value="${duration}">
 		</div>
 		<br><br><br><br>
 		<br>
