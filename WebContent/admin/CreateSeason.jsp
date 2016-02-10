@@ -31,7 +31,7 @@
 			Gender
 		</label>
 		<div class="col-sm-3">
-				<form>
+		<form>
   				<input type="radio" name="gender" value="mixed"> Mixed <br>
 				<input type="radio" name="gender" value="mens"> Mens <br>
 				<input type="radio" name="gender" value="womens"> Womens

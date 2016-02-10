@@ -11,7 +11,7 @@
 			<div class="container">
 				<div class="navbar-header">
 					<!--  todo: modify link to main page - modify image to pull dynamically -->
-					<a href="/clubhub/Post.jsp" class="pull-left"><img src="/clubhub/images/rcc-square.png"></a>
+					<a href="/clubhub/Main.jsp" class="pull-left"><img src="/clubhub/images/rcc-square.png"></a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">

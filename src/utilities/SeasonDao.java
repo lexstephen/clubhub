@@ -65,7 +65,7 @@ public class SeasonDao {
 	      preparedStatement = connect.prepareStatement("insert into ch_season values (default, ?, ?, ?, ?, ?, ?, ?)");
 	   
 	      
-	      preparedStatement.setString(1, request.getParameter("year"));	//year
+	      preparedStatement.setString(1, "2016");	//year
 	      preparedStatement.setString(2, request.getParameter("season")); // season
 	      preparedStatement.setString(3, request.getParameter("gender")); // gender
 	      preparedStatement.setString(4, request.getParameter("startDate")); // startDate
