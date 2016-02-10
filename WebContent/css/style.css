@@ -6724,9 +6724,6 @@ button.close {
     display: none !important;
   }
 }
-#rcc_circle_logo {
-  height: 100px;
-}
 #sidebar {
   text-align: center;
 }
@@ -6781,6 +6778,9 @@ button.close {
   border: 0;
   padding-top: 10px;
 }
+.frontend .navbar img {
+  height: 100px;
+}
 .frontend .navbar-nav > li > a {
   color: #eaf4e6;
 }
@@ -6801,20 +6801,54 @@ button.close {
   color: #00ace0;
   text-align: center;
 }
-.backend .sidebar {
+.backend .sidebar fieldset {
+  padding: 5px;
+  border: 1px #000 solid;
   background-color: #00ace0;
+  margin-bottom: 20px;
 }
-.backend .sidebar a {
+.backend .sidebar fieldset legend {
+  background-color: #fff;
+  border: 1px #000 solid;
+  margin: 0px auto;
+  width: inherit;
+  /* Or auto */
+  padding: 0 20px;
+}
+.backend .sidebar fieldset a {
   color: #fff;
 }
+.backend .sidebar fieldset h1,
+.backend .sidebar fieldset h2,
+.backend .sidebar fieldset h3,
+.backend .sidebar fieldset h4,
+.backend .sidebar fieldset h5,
+.backend .sidebar fieldset h6 {
+  color: #fff;
+  text-align: center;
+}
+.backend .sidebar fieldset ul,
+.backend .sidebar fieldset li {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+}
 .backend .navbar {
+  background-color: #00ace0;
   border: 0;
+  color: #fff;
+}
+.backend .navbar img {
+  height: 50px;
 }
 .backend .navbar-nav > li > a {
-  color: #777;
+  color: #fff;
 }
 .backend .navbar-nav > li > a:hover,
 .backend .navbar-nav > li > a:focus {
   color: #333;
   background-color: #00c0fa;
+}
+.preferences img {
+  width: 50px;
 }

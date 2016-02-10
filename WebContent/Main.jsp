@@ -18,6 +18,7 @@
 	<%	PostDao post = new PostDao(); %>
 	
 	<!-- findPost requires blog id to be passed -->
+	<!--  we could write something that is like findLast5Posts?? -ADS -->
 	<% post.findPost(request, "1"); %>
 	<%@ include file="/WEB-INF/displayPosts.jsp" %>
 	
@@ -28,7 +29,7 @@
 	<%@ include file="/WEB-INF/displayPosts.jsp" %>
 	
 	<span class="pagination">
-		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>
+		<a href="?posts=-5">&lt;&lt;</a> | <a href="?posts=-1">&lt;</a> | <a href="?posts=1">&gt;</a> | <a href="?posts=5">&gt;&gt;</a>
 	</span>
 	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->

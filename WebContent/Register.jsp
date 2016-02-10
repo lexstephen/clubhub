@@ -6,6 +6,8 @@
 	Description: Main.jsp
  --%>
  
+<% request.setAttribute("thisPage", "Join the Rivendell Curling Club"); %>
+
  <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -81,10 +83,10 @@
 			    <label for="inptGender <c:if test="${!empty errorGender}">has-error</c:if>">Gender</label>
 				<div class="radio">
 			    	<label class="checkbox-inline">
-			      		<input type="radio" name="gender" id="inptGenderF" value="F" checked> Female
+			      		<input type="radio" name="gender" id="inptGenderF" value="F" checked  ${gender == 'F' ? 'checked' : ''}> Female
 			      	</label>
 			    	<label class="checkbox-inline">
-			      		<input type="radio" name="gender" id="inptGenderM" value="M"> Male
+			      		<input type="radio" name="gender" id="inptGenderM" value="M"  ${gender == 'M' ? 'checked' : ''}> Male
 			      	</label>
 			  	</div>
 			</div>
@@ -125,28 +127,66 @@
 				<div class="form-group <c:if test="${!empty errorCountry}">has-error</c:if>">
 			    	<label for="inptCountry">Country</label>
 					<select name="country" class="form-control" id="inptCountry">
-					  <option>Canada</option>
-					  <option>United States of America</option>
+					  <option ${country == 'Canada' ? 'selected' : ''}>Canada</option>
+					  <option ${country == 'United States of America' ? 'selected' : ''}>United States of America</option>
 					</select>
 			  	</div>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorProvince}">has-error</c:if>">
 			    	<label for="inptProvince">Province / State</label>
-					<select name="province" class="form-control" id="inptProvince">
-					  <option>AB</option>
-					  <option>BC</option>
-					  <option>MB</option>
-					  <option>NB</option>
-					  <option>NL</option>
-					  <option>NS</option>
-					  <option>NT</option>
-					  <option>NU</option>
-					  <option>ON</option>
-					  <option>PE</option>
-					  <option>QC</option>
-					  <option>SK</option>
-					  <option>YT</option>
+					<select name="province" class="form-control ${user.country == 'United States of America' ? ' hiddenest' : ''}" id="inptProvince">
+					  <option ${province == 'AB' ? 'selected' : ''}>AB</option>
+					  <option ${province == 'BC' ? 'selected' : ''}>BC</option>
+					  <option ${province == 'MB' ? 'selected' : ''}>MB</option>
+					  <option ${province == 'NB' ? 'selected' : ''}>NB</option>
+					  <option ${province == 'NL' ? 'selected' : ''}>NL</option>
+					  <option ${province == 'NS' ? 'selected' : ''}>NS</option>
+					  <option ${province == 'NT' ? 'selected' : ''}>NT</option>
+					  <option ${province == 'NU' ? 'selected' : ''}>NU</option>
+					  <option ${province == 'ON' ? 'selected' : ''}>ON</option>
+					  <option ${province == 'PE' ? 'selected' : ''}>PE</option>
+					  <option ${province == 'QC' ? 'selected' : ''}>QC</option>
+					  <option ${province == 'SK' ? 'selected' : ''}>SK</option>
+					  <option ${province == 'YT' ? 'selected' : ''}>YT</option>
+					</select>
+					<select name="state" class="form-control ${user.country == 'Canada' ? ' hiddenest' : ''} ${user.country == null ? ' hiddenest' : ''}" id="inptState">
+					  <option ${state == 'AL' ? 'selected' : ''}>AL</option>
+					  <option ${state == 'AK' ? 'selected' : ''}>AK</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>AZ</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>AR</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>CA</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>CO</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>CT</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>DE</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>FL</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>GA</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>HI</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>ID</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>IL</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>IN</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>IA</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>KS</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>KY</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>LA</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>ME</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>MD</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>MA</option>					  <option ${state == 'AZ' ? 'selected' : ''}>AZ</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>MI</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>MN</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>MS</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>MO</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>MT</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>NE</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>NV</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>NH</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>NJ</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>NM</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>NY</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>NC</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>ND</option>
+					  					  <option ${state == 'AZ' ? 'selected' : ''}>OH</option>
+					  
 					</select>
 			  	</div>
 			</div>

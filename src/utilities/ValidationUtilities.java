@@ -45,8 +45,11 @@ public class ValidationUtilities {
 		}
 		return isValid;
 	}
-	
-	public static boolean isValidRegistration(HttpServletRequest request) {
+
+	public static boolean isValidInvoice(HttpServletRequest request) {
+		return true;
+	}
+		public static boolean isValidRegistration(HttpServletRequest request) {
 		boolean isValid = true;
 		String username = request.getParameter("username");
 		String password1 = request.getParameter("password1");	
@@ -59,7 +62,6 @@ public class ValidationUtilities {
 		String telephone = request.getParameter("telephone");
 		String streetAddress = request.getParameter("streetAddress");
 		String city = request.getParameter("city");
-		String province = request.getParameter("province");
 		String postalCode = request.getParameter("postalCode");
 		String country = request.getParameter("country");
 		String profilePhoto = request.getParameter("profilePhoto");
@@ -67,6 +69,19 @@ public class ValidationUtilities {
 		String emergencyContactName = request.getParameter("emergencyContactName");
 		String emergencyContactPhoneNumber = request.getParameter("emergencyContactPhoneNumber");
 
+		String province = null;
+		int postalCodeLength = 0;
+		switch(country) {
+		case "Canada":
+			postalCodeLength = 6;
+			province = request.getParameter("province");
+			break;
+		case "United States of America":
+			postalCodeLength = 5;
+			province = request.getParameter("state");
+			break;
+		}
+		
 		request.setAttribute("username", username);
 		request.setAttribute("password1", password1);
 		request.setAttribute("password2", password2);
@@ -151,6 +166,123 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorProvince", true);}
+		if (!isRightLength(postalCode,postalCodeLength)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorPostalCode", true);}
+		if (isMissing(country)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorCountry", true);}
+		if (isMissing(dateOfBirth)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorDateOfBirth", true);}
+		if (isMissing(emergencyContactName)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorEmergencyContactName", true);}
+		if (!isInt(emergencyContactPhoneNumber)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorEmergencyContactPhoneNumber", true);}
+		return isValid;
+	}
+	
+	public static boolean isValidUser(HttpServletRequest request) {
+		boolean isValid = true;
+		String username = request.getParameter("username");
+		String password1 = request.getParameter("password1");	
+		String password2 = request.getParameter("password2");	
+		String emailAddress = request.getParameter("emailAddress");	
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String gender = request.getParameter("gender");
+		String telephone = request.getParameter("telephone");
+		String streetAddress = request.getParameter("streetAddress");
+		String city = request.getParameter("city");
+		String province = request.getParameter("province");
+		String postalCode = request.getParameter("postalCode");
+		String country = request.getParameter("country");
+		String profilePhoto = request.getParameter("profilePhoto");
+		String dateOfBirth = request.getParameter("dateOfBirth");
+		String emergencyContactName = request.getParameter("emergencyContactName");
+		String emergencyContactPhoneNumber = request.getParameter("emergencyContactPhoneNumber");
+
+		request.setAttribute("username", username);
+		request.setAttribute("password1", password1);
+		request.setAttribute("password2", password2);
+		request.setAttribute("emailAddress", emailAddress);
+		request.setAttribute("firstName", firstName);
+		request.setAttribute("lastName", lastName);
+		request.setAttribute("gender", gender);
+		request.setAttribute("telephone", telephone);
+		request.setAttribute("streetAddress", streetAddress);
+		request.setAttribute("city", city);
+		request.setAttribute("province", province);
+		request.setAttribute("postalCode", postalCode);
+		request.setAttribute("country", country);
+		request.setAttribute("profilePhoto", profilePhoto);
+		request.setAttribute("dateOfBirth", dateOfBirth);
+		request.setAttribute("emergencyContactName", emergencyContactName);
+		request.setAttribute("emergencyContactPhoneNumber", emergencyContactPhoneNumber);
+
+
+		if (isMissing(username)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorUsername", true);}
+		
+		if (!isPwd(password1)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorPassword1", true);}
+		if (!isPwd(password2)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorPassword2", true);}
+		if (!password1.equals(password2)) {
+			isValid = false;
+			request.setAttribute("errorString4", "Passwords do not match");
+			request.setAttribute("errorPassword1", true);
+			request.setAttribute("errorPassword2", true);}
+		
+		if (!isEmail(emailAddress)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorEmail1", true);}
+		
+		if (!isString(firstName)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorFirstName", true);}
+		if (!isString(lastName)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorLastName", true);} 
+
+		if (isMissing(gender)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorGender", true);} 
+
+		if (!isInt(telephone)) {
+			isValid = false;
+			request.setAttribute("errorString2", "Please enter only numbers in your telephone number");
+			request.setAttribute("errorTelephone", true);}
+
+		if (isMissing(streetAddress)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorStreetAddress", true);}
+		if (isMissing(city)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorCity", true);}
+		if (isMissing(province)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorProvince", true);}
 		if (!isRightLength(postalCode,6)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
@@ -191,6 +323,50 @@ public class ValidationUtilities {
 		return isValid;
 	}
 
+	
+	public static boolean isValidSeason(HttpServletRequest request) {
+		boolean isValid = true;
+		//year, season, gender, StartDate, StartTime, DayOfWeek, Duration
+		String year = request.getParameter("year");
+		String season = request.getParameter("season");
+		String gender = request.getParameter("gender");
+		String startDate = request.getParameter("startDate");
+		String startTime = request.getParameter("startTime");
+		String dayOfWeek = request.getParameter("dayOfWeek");
+		String duration = request.getParameter("duration");
+		request.setAttribute("year", year);
+		request.setAttribute("season", season);
+		request.setAttribute("gender", gender);
+		request.setAttribute("startDate", startDate);
+		request.setAttribute("startTime", startTime);
+		request.setAttribute("dayOfWeek", dayOfWeek);
+		request.setAttribute("duration", duration);
+		
+		if (isMissing(year)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(season)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(gender)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(startDate)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(startTime)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(dayOfWeek)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(duration)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		return isValid;
+	}
+	
+	
 	public static boolean isValidComment(HttpServletRequest request) {
 		boolean isValid = true;
 		String content = request.getParameter("content");
