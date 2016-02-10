@@ -320,6 +320,50 @@ public class ValidationUtilities {
 		return isValid;
 	}
 
+	
+	public static boolean isValidSeason(HttpServletRequest request) {
+		boolean isValid = true;
+		//year, season, gender, StartDate, StartTime, DayOfWeek, Duration
+		String year = request.getParameter("year");
+		String season = request.getParameter("season");
+		String gender = request.getParameter("gender");
+		String startDate = request.getParameter("startDate");
+		String startTime = request.getParameter("startTime");
+		String dayOfWeek = request.getParameter("dayOfWeek");
+		String duration = request.getParameter("duration");
+		request.setAttribute("year", year);
+		request.setAttribute("season", season);
+		request.setAttribute("gender", gender);
+		request.setAttribute("startDate", startDate);
+		request.setAttribute("startTime", startTime);
+		request.setAttribute("dayOfWeek", dayOfWeek);
+		request.setAttribute("duration", duration);
+		
+		if (isMissing(year)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(season)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(gender)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(startDate)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(startTime)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(dayOfWeek)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		if (isMissing(duration)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");}
+		return isValid;
+	}
+	
+	
 	public static boolean isValidComment(HttpServletRequest request) {
 		boolean isValid = true;
 		String content = request.getParameter("content");

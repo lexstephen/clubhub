@@ -24,7 +24,7 @@
 	<form action="/clubhub/PostController" method="post" class="form" role="form">
 		<c:forEach items="${posts}" var="post">
 			<input type="checkbox" name="postSelected" value="${post.id}">
-			<%@ include file="/WEB-INF/displayPosts.jsp" %>			
+			<%@ include file="/WEB-INF/displayEditPosts.jsp" %>			
 		</c:forEach>
 		
 		<label class="col-sm-2 control-label">
