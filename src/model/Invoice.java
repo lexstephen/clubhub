@@ -7,61 +7,8 @@ package model;
 * Description: Invoice model
 ****************************************************************************************************/
 public class Invoice {
-	private String id, title, content, Userid, userFirstName, userLastName, invoiceType, accessLevel, category;
-	//Object comments = null;
-
-/*	public Object getComments() {
-		return comments;
-	}*/
-
-/*	public void setComments(Object comments) {
-		this.comments = comments;
-	}*/
+	private String id, invDate, status, Userid;
 	
-	public String getUsername() {
-		return userFirstName + " " + userLastName;
-	}
-	
-	public String getInvoiceType() {
-		return invoiceType;
-	}
-
-	public void setInvoiceType(String invoiceType) {
-		this.invoiceType = invoiceType;
-	}
-
-	public String getAccessLevel() {
-		return accessLevel;
-	}
-
-	public void setAccessLevel(String accessLevel) {
-		this.accessLevel = accessLevel;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getUserFirstName() {
-		return userFirstName;
-	}
-
-	public void setUserFirstName(String userFirstName) {
-		this.userFirstName = userFirstName;
-	}
-
-	public String getUserLastName() {
-		return userLastName;
-	}
-
-	public void setUserLastName(String userLastName) {
-		this.userLastName = userLastName;
-	}
-
 	public String getId() {
 		return id;
 	}
@@ -70,20 +17,21 @@ public class Invoice {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	
+	public String getInvDate() {
+		return invDate;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setInvDate(String invDate) {
+		this.invDate = invDate;
 	}
 
-	public String getContent() {
-		return content;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getUserid() {
@@ -92,5 +40,5 @@ public class Invoice {
 
 	public void setUserid(String userid) {
 		Userid = userid;
-	}	
+	}
 }

@@ -15,8 +15,6 @@
 
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
 	
-	<h1>Join the Rivendell Curling Club</h1>
-	
 	<form action="/clubhub/UserController" method="post" class="form" role="form">
 		<div class="row">
 			<div class="col-xs-6">

@@ -58,20 +58,31 @@ public class InvoiceDao {
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {
+	    	
+	    	/*
+	    	 * 	first we need the invoice ID
+	    	 * (id, invDate, status, Userid)
+	    	 * 
+	    	 * 	then for X in charge01 we add an entry to clubhub.ch_invoice_line_items_invoice
+	    	 * (id, Invoice_Line_ItemsId, Invoiceid)
+	    	 * 
+	    	 */
+	    	
+	    	
 			HttpSession session = request.getSession();
 			// this is temp  v v v
 			session.setAttribute("userID", "2");
 			// this is temp  ^ ^ ^
 	      statement = connect.createStatement();
 	      preparedStatement = connect.prepareStatement("insert into ch_invoice values (default, ?, ?, ?, ?, ?, ?)");
-	      // columns are title, content, Userid, Invoicetypeid, Accessid, Categoryid
+	      // columns are id, description, amountDue, tax, invDate, status, Userid
 	      // Parameters start with 1 because we are sending 'default' to the auto incrementing id
-	      preparedStatement.setString(1, request.getParameter("blogTitle"));	// title
-	      preparedStatement.setString(2, request.getParameter("blogContent")); // content
-	      preparedStatement.setString(3, (String)session.getAttribute("userID"));	// Userid
-	      preparedStatement.setString(4, request.getParameter("pageType")); // Invoicetypeid
-	      preparedStatement.setString(5, request.getParameter("accessLevel")); // Accessid
-	      preparedStatement.setString(6, request.getParameter("pageCategory")); // Categoryid
+	      preparedStatement.setString(1, request.getParameter("description"));	// description
+	      preparedStatement.setString(2, request.getParameter("amountDue")); // amountDue
+	      preparedStatement.setString(3, request.getParameter("tax"));	// tax
+	      preparedStatement.setString(4, request.getParameter("invDate")); // invDate
+	      preparedStatement.setString(5, request.getParameter("status")); // status
+	      preparedStatement.setString(6, (String)session.getAttribute("userID")); // Userid
 	      preparedStatement.executeUpdate();
 	    } catch (Exception e) {
 	      throw e;
@@ -82,6 +93,9 @@ public class InvoiceDao {
 		  List<Invoice> invoices = new ArrayList<Invoice>();
 		  	try{
 		  		statement = connect.createStatement();
+			      // ch_invoice columns are id, description, amountDue, tax, invDate, status, Userid
+		  		  // ch_invoice_line_items_invoices columns are Invoice_Line_ItemsId and Invoiceid
+		  		  // ch_invoice_line_items columns are id, description, cost
 			    resultSet = statement.executeQuery("SELECT invoice.title, invoice.content, invoice.id, user.username, user.firstName, user.lastName, invoicetype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_invoice invoice "
 				+ "JOIN clubhub.ch_invoicetype invoicetype "
@@ -94,7 +108,7 @@ public class InvoiceDao {
 				+ "ON invoice.Categoryid = category.id ");
 			      
 			    while (resultSet.next()) {
-			    	  Invoice invoice = new Invoice();
+			    	 /* Invoice invoice = new Invoice();
 			    	  invoice.setTitle(resultSet.getString("title"));
 			    	  invoice.setContent(resultSet.getString("content"));
 			    	  invoice.setId(resultSet.getString("id"));
@@ -102,11 +116,11 @@ public class InvoiceDao {
 			    	  invoice.setUserLastName(resultSet.getString("user.lastName"));
 			    	  invoice.setInvoiceType(resultSet.getString("invoicetype.type"));
 			    	  invoice.setAccessLevel(resultSet.getString("access.type"));
-			    	  invoice.setCategory(resultSet.getString("category.type"));
+			    	  invoice.setCategory(resultSet.getString("category.type")); 
 			    	  
 			    	  request.setAttribute("invoiceID", invoice.getId());
 
-			    	  invoices.add(invoice);
+			    	  invoices.add(invoice); */
 			    }
 		    } catch (SQLException e) {
 			      throw e;
@@ -150,14 +164,14 @@ public class InvoiceDao {
 				+ "WHERE invoice.id = " + invoiceID);
 			    
 			    while (resultSet.next()) {
-			    	  invoice.setTitle(resultSet.getString("title"));
+			    /*	  invoice.setTitle(resultSet.getString("title"));
 			    	  invoice.setContent(resultSet.getString("content"));
 			    	  invoice.setId(resultSet.getString("id"));
 			    	  invoice.setUserFirstName(resultSet.getString("user.firstName"));
 			    	  invoice.setUserLastName(resultSet.getString("user.lastName"));
 			    	  invoice.setInvoiceType(resultSet.getString("invoicetype.type"));
 			    	  invoice.setAccessLevel(resultSet.getString("access.type"));
-			    	  invoice.setCategory(resultSet.getString("category.type"));
+			    	  invoice.setCategory(resultSet.getString("category.type")); */
 			    }
 			} catch (SQLException e) {
 			      throw e;
