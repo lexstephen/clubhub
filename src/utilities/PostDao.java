@@ -115,6 +115,43 @@ public class PostDao {
 		  	request.setAttribute("posts", posts);
 	} 
 	
+	public void listAllBlogs(HttpServletRequest request) throws Exception {
+		  List<Post> posts = new ArrayList<Post>();
+		  	try{
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
+				+ "FROM clubhub.ch_post post "
+				+ "JOIN clubhub.ch_posttype posttype "
+				+ "ON post.Posttypeid = posttype.id "
+				+ "JOIN clubhub.ch_user user "
+				+ "ON post.Userid = user.id "
+				+ "JOIN clubhub.ch_access access "
+				+ "ON post.Accessid = access.id "
+				+ "JOIN clubhub.ch_category category "
+				+ "ON post.Categoryid = category.id "
+				+ "WHERE posttype.id = 1");
+			      
+			    while (resultSet.next()) {
+			    	  Post post = new Post();
+			    	  post.setTitle(resultSet.getString("title"));
+			    	  post.setContent(resultSet.getString("content"));
+			    	  post.setId(resultSet.getString("id"));
+			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
+			    	  post.setUserLastName(resultSet.getString("user.lastName"));
+			    	  post.setPostType(resultSet.getString("posttype.type"));
+			    	  post.setAccessLevel(resultSet.getString("access.type"));
+			    	  post.setCategory(resultSet.getString("category.type"));
+			    	  
+			    	  request.setAttribute("postID", post.getId());
+
+			    	  posts.add(post);
+			    }
+		    } catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("posts", posts);
+	} 
+	
 	public void deletePost(HttpServletRequest request, HttpServletResponse response, String postID) throws Exception {
 
 		  try {

@@ -22,7 +22,7 @@
 	
 
 <!-- 	 use this to test admin login. no admin login, no edit button -->
-<%-- 	<% session.setAttribute("isAdmin", true); %> --%> 
+	<% session.setAttribute("isAdmin", true); %> 
 
 		
 	<form action="/clubhub/PostController" method="post" class="form" role="form">

@@ -9,11 +9,11 @@
  --%>
      
 	<div class="row">
-		<c:choose>
-			<c:when test="${isAdmin == true}">
+		<c:if test="${isAdmin == true}">
+			<c:if test="${thisPage == \"Showing All Posts\"}">
 				<div class="checkbox"><input type="checkbox" name="postSelected" value="${post.id}"></div>
-			</c:when>
-		</c:choose>
+			</c:if>
+		</c:if>
 		<div class="col-xs-12 col-md-2 control-label">${post.title}</div>
 		<div class="col-xs-12 col-md-2">Post Type: ${post.postType}</div>
 		<div class="col-xs-12 col-md-2">Category: ${post.category}</div>
