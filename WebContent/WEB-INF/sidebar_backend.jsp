@@ -15,6 +15,15 @@
 </fieldset>
 
 <fieldset>
+	<legend>Invoices</legend>
+	<ul>
+		<li><a href="/clubhub/admin/BatchUsers.jsp">List All</a></li>
+		<li><a href="/clubhub/admin/AddInvoice.jsp">Add Invoice</a></li>
+		<li><a href="/clubhub/admin/AddLineItems.jsp">Add Item</a></li>
+	</ul>
+</fieldset>
+
+<fieldset>
 	<legend>Seasons</legend>
 	<ul>
 		<li><a href="/clubhub/admin/DisplayGames.jsp">List All</a></li>
