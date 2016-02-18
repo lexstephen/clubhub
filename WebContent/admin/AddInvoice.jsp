@@ -92,6 +92,7 @@
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
+									  document.getElementById('inptCharge01qty').value = "1";
 									  document.getElementById('charge01cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
 					            }
 				            }
@@ -104,6 +105,7 @@
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
+									  document.getElementById('inptCharge02qty').value = "1";
 									  document.getElementById('charge02cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
 					            }
 				            }
@@ -116,6 +118,7 @@
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
+									  document.getElementById('inptCharge03qty').value = "1";
 									  document.getElementById('charge03cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
 					            }
 				            }
@@ -128,6 +131,7 @@
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
+									  document.getElementById('inptCharge04qty').value = "1";
 									  document.getElementById('charge04cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
 					            }
 				            }
