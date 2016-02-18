@@ -86,7 +86,6 @@
 					lineItems.push(lineItemObj);
 				</c:forEach> 
 
-
 				$(document).ready(function(){
 				    $("select[name='charge01']").change(function(){
 				        $(this).find("option:selected").each(function(){

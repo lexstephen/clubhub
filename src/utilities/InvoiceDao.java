@@ -53,8 +53,18 @@ public class InvoiceDao {
 			  preparedStatement.setString(1, request.getParameter("invDate")); // invDate
 			  preparedStatement.setString(2, request.getParameter("status")); // status
 			  preparedStatement.setString(3, request.getParameter("userID")); // Userid
-			  preparedStatement.executeUpdate();
+
+			  // prevent invoice from being created if all quantities are 0
+			  if (	(Integer.parseInt(request.getParameter("charge01qty")) != 0) &&
+					  (Integer.parseInt(request.getParameter("charge01qty")) != 0) &&
+					  (Integer.parseInt(request.getParameter("charge01qty")) != 0) &&
+					  (Integer.parseInt(request.getParameter("charge01qty")) != 0) &&
+					  (Integer.parseInt(request.getParameter("charge01qty")) != 0) 
+					  ) {
+				   preparedStatement.executeUpdate();
+			  }
 			  
+			  // get the ID of the freshly created invoice, to use in invoice_lineitems_invoice table
 			  ResultSet insertedId = statement.executeQuery("SELECT LAST_INSERT_ID();");
 			
 			  String last_id = null;
@@ -65,41 +75,56 @@ public class InvoiceDao {
 			    if (request.getParameter("charge01") != null && ValidationUtilities.isInt(request.getParameter("charge01")))	{
 					  preparedStatement = connect.prepareStatement("insert into ch_invoice_line_items_invoice values (default, ?, ?)");
 					  // columns are id, invoice_line_itemsid, invoiceid
+					  int quantity = Integer.parseInt(request.getParameter("charge01qty"));
 					  preparedStatement.setString(1, request.getParameter("charge01"));	// invoice_line_itemsid
 					  preparedStatement.setString(2, last_id); // invoiceid
-					  preparedStatement.executeUpdate();
+					  for (int q = 0; q < quantity; q++) {
+						  preparedStatement.executeUpdate();
+					  }
 			    }
 			    
 			    if (request.getParameter("charge02") != null && ValidationUtilities.isInt(request.getParameter("charge02")))	{
 					  preparedStatement = connect.prepareStatement("insert into ch_invoice_line_items_invoice values (default, ?, ?)");
 					  // columns are id, invoice_line_itemsid, invoiceid
+					  int quantity = Integer.parseInt(request.getParameter("charge02qty"));
 					  preparedStatement.setString(1, request.getParameter("charge02"));	// invoice_line_itemsid
 					  preparedStatement.setString(2, last_id); // invoiceid
-					  preparedStatement.executeUpdate();
+					  for (int q = 0; q < quantity; q++) {
+						  preparedStatement.executeUpdate();
+					  }
 			    }
 			    
 			    if (request.getParameter("charge03") != null && ValidationUtilities.isInt(request.getParameter("charge03")))	{
 					  preparedStatement = connect.prepareStatement("insert into ch_invoice_line_items_invoice values (default, ?, ?)");
 					  // columns are id, invoice_line_itemsid, invoiceid
+					  int quantity = Integer.parseInt(request.getParameter("charge03qty"));
 					  preparedStatement.setString(1, request.getParameter("charge03"));	// invoice_line_itemsid
 					  preparedStatement.setString(2, last_id); // invoiceid
-					  preparedStatement.executeUpdate();
+					  for (int q = 0; q < quantity; q++) {
+						  preparedStatement.executeUpdate();
+					  }
 			    }
 			    
 			    if (request.getParameter("charge04") != null && ValidationUtilities.isInt(request.getParameter("charge04")))	{
 					  preparedStatement = connect.prepareStatement("insert into ch_invoice_line_items_invoice values (default, ?, ?)");
 					  // columns are id, invoice_line_itemsid, invoiceid
+					  int quantity = Integer.parseInt(request.getParameter("charge04qty"));
 					  preparedStatement.setString(1, request.getParameter("charge04"));	// invoice_line_itemsid
 					  preparedStatement.setString(2, last_id); // invoiceid
-					  preparedStatement.executeUpdate();
+					  for (int q = 0; q < quantity; q++) {
+						  preparedStatement.executeUpdate();
+					  }
 			    }
 			    
 			    if (request.getParameter("charge05") != null && ValidationUtilities.isInt(request.getParameter("charge05")))	{
 					  preparedStatement = connect.prepareStatement("insert into ch_invoice_line_items_invoice values (default, ?, ?)");
 					  // columns are id, invoice_line_itemsid, invoiceid
+					  int quantity = Integer.parseInt(request.getParameter("charge05qty"));
 					  preparedStatement.setString(1, request.getParameter("charge05"));	// invoice_line_itemsid
 					  preparedStatement.setString(2, last_id); // invoiceid
-					  preparedStatement.executeUpdate();
+					  for (int q = 0; q < quantity; q++) {
+						  preparedStatement.executeUpdate();
+					  }
 			    }
 	    } catch (Exception e) {
 	      throw e;
