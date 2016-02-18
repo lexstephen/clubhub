@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 
 import model.Invoice;
 import model.User;
+import model.InvoiceLineItem;
 import utilities.DatabaseAccess;
 
 public class InvoiceDao {
@@ -40,183 +41,132 @@ public class InvoiceDao {
 	}
 	
 	public boolean isInDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    try {
-			String id = request.getParameter("id");
-			statement = connect.createStatement();
-			resultSet = statement.executeQuery("select * from ch_invoice where id = \"" + id + "\""); 
-			// if there result set is before the first item, there are entries
-			// if it is not, there are not
-			if (!resultSet.isBeforeFirst() ) {    
-				return false;
-			} else {
-				return true;
-			}
-	    } catch (Exception e) {
-	    	throw e;
-	    } 
+		return true;
 	}
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    try {
-	    	
-	    	/*
-	    	 * 	first we need the invoice ID
-	    	 * (id, invDate, status, Userid)
-	    	 * 
-	    	 * 	then for X in charge01 we add an entry to clubhub.ch_invoice_line_items_invoice
-	    	 * (id, Invoice_Line_ItemsId, Invoiceid)
-	    	 * 
-	    	 */
-	    	
-	    	
+	    try {	    	
 			HttpSession session = request.getSession();
-			// this is temp  v v v
-			session.setAttribute("userID", "2");
-			// this is temp  ^ ^ ^
-	      statement = connect.createStatement();
-	      preparedStatement = connect.prepareStatement("insert into ch_invoice values (default, ?, ?, ?, ?, ?, ?)");
-	      // columns are id, description, amountDue, tax, invDate, status, Userid
-	      // Parameters start with 1 because we are sending 'default' to the auto incrementing id
-	      preparedStatement.setString(1, request.getParameter("description"));	// description
-	      preparedStatement.setString(2, request.getParameter("amountDue")); // amountDue
-	      preparedStatement.setString(3, request.getParameter("tax"));	// tax
-	      preparedStatement.setString(4, request.getParameter("invDate")); // invDate
-	      preparedStatement.setString(5, request.getParameter("status")); // status
-	      preparedStatement.setString(6, (String)session.getAttribute("userID")); // Userid
-	      preparedStatement.executeUpdate();
+			  statement = connect.createStatement();
+			  preparedStatement = connect.prepareStatement("insert into ch_invoice values (default, ?, ?, ?)");
+			  // columns are id, invDate, status, Userid
+			  preparedStatement.setString(1, request.getParameter("invDate")); // invDate
+			  preparedStatement.setString(2, request.getParameter("status")); // status
+			  preparedStatement.setString(3, request.getParameter("userID")); // Userid
+			  preparedStatement.executeUpdate();
+			  
+			  ResultSet insertedId = statement.executeQuery("SELECT LAST_INSERT_ID();");
+			
+			  String last_id = null;
+			    while (insertedId.next()) {
+			    	last_id = insertedId.getString("LAST_INSERT_ID()");
+			    }
+
+			    if (request.getParameter("charge01") != null && ValidationUtilities.isInt(request.getParameter("charge01")))	{
+					  preparedStatement = connect.prepareStatement("insert into ch_invoice_line_items_invoice values (default, ?, ?)");
+					  // columns are id, invoice_line_itemsid, invoiceid
+					  preparedStatement.setString(1, request.getParameter("charge01"));	// invoice_line_itemsid
+					  preparedStatement.setString(2, last_id); // invoiceid
+					  preparedStatement.executeUpdate();
+			    }
+			    
+			    if (request.getParameter("charge02") != null && ValidationUtilities.isInt(request.getParameter("charge02")))	{
+					  preparedStatement = connect.prepareStatement("insert into ch_invoice_line_items_invoice values (default, ?, ?)");
+					  // columns are id, invoice_line_itemsid, invoiceid
+					  preparedStatement.setString(1, request.getParameter("charge02"));	// invoice_line_itemsid
+					  preparedStatement.setString(2, last_id); // invoiceid
+					  preparedStatement.executeUpdate();
+			    }
+			    
+			    if (request.getParameter("charge03") != null && ValidationUtilities.isInt(request.getParameter("charge03")))	{
+					  preparedStatement = connect.prepareStatement("insert into ch_invoice_line_items_invoice values (default, ?, ?)");
+					  // columns are id, invoice_line_itemsid, invoiceid
+					  preparedStatement.setString(1, request.getParameter("charge03"));	// invoice_line_itemsid
+					  preparedStatement.setString(2, last_id); // invoiceid
+					  preparedStatement.executeUpdate();
+			    }
+			    
+			    if (request.getParameter("charge04") != null && ValidationUtilities.isInt(request.getParameter("charge04")))	{
+					  preparedStatement = connect.prepareStatement("insert into ch_invoice_line_items_invoice values (default, ?, ?)");
+					  // columns are id, invoice_line_itemsid, invoiceid
+					  preparedStatement.setString(1, request.getParameter("charge04"));	// invoice_line_itemsid
+					  preparedStatement.setString(2, last_id); // invoiceid
+					  preparedStatement.executeUpdate();
+			    }
+			    
+			    if (request.getParameter("charge05") != null && ValidationUtilities.isInt(request.getParameter("charge05")))	{
+					  preparedStatement = connect.prepareStatement("insert into ch_invoice_line_items_invoice values (default, ?, ?)");
+					  // columns are id, invoice_line_itemsid, invoiceid
+					  preparedStatement.setString(1, request.getParameter("charge05"));	// invoice_line_itemsid
+					  preparedStatement.setString(2, last_id); // invoiceid
+					  preparedStatement.executeUpdate();
+			    }
 	    } catch (Exception e) {
 	      throw e;
 	    }
 	}
 
-	public void listAll(HttpServletRequest request) throws Exception {
-		  List<Invoice> invoices = new ArrayList<Invoice>();
+
+
+	public void listAllUsers(HttpServletRequest request) throws Exception {
+		  List<User> users = new ArrayList<User>();
 		  	try{
 		  		statement = connect.createStatement();
-			      // ch_invoice columns are id, description, amountDue, tax, invDate, status, Userid
-		  		  // ch_invoice_line_items_invoices columns are Invoice_Line_ItemsId and Invoiceid
-		  		  // ch_invoice_line_items columns are id, description, cost
-			    resultSet = statement.executeQuery("SELECT invoice.title, invoice.content, invoice.id, user.username, user.firstName, user.lastName, invoicetype.type, access.type, category.type " 
-				+ "FROM clubhub.ch_invoice invoice "
-				+ "JOIN clubhub.ch_invoicetype invoicetype "
-				+ "ON invoice.Invoicetypeid = invoicetype.id "
-				+ "JOIN clubhub.ch_user user "
-				+ "ON invoice.Userid = user.id "
-				+ "JOIN clubhub.ch_access access "
-				+ "ON invoice.Accessid = access.id "
-				+ "JOIN clubhub.ch_category category "
-				+ "ON invoice.Categoryid = category.id ");
-			      
+			    resultSet = statement.executeQuery("SELECT id, firstName, lastName from ch_user ORDER BY lastName");
 			    while (resultSet.next()) {
-			    	 /* Invoice invoice = new Invoice();
-			    	  invoice.setTitle(resultSet.getString("title"));
-			    	  invoice.setContent(resultSet.getString("content"));
-			    	  invoice.setId(resultSet.getString("id"));
-			    	  invoice.setUserFirstName(resultSet.getString("user.firstName"));
-			    	  invoice.setUserLastName(resultSet.getString("user.lastName"));
-			    	  invoice.setInvoiceType(resultSet.getString("invoicetype.type"));
-			    	  invoice.setAccessLevel(resultSet.getString("access.type"));
-			    	  invoice.setCategory(resultSet.getString("category.type")); 
-			    	  
-			    	  request.setAttribute("invoiceID", invoice.getId());
-
-			    	  invoices.add(invoice); */
+			    	  User user = new User();
+			    	  user.setUserid(resultSet.getString("id"));
+			    	  user.setFirstName(resultSet.getString("firstName"));
+			    	  user.setLastName(resultSet.getString("lastName"));
+			    	  users.add(user);
 			    }
 		    } catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("invoices", invoices);
+		  	request.setAttribute("users", users);
 	} 
 	
-	public void deleteInvoice(HttpServletRequest request, HttpServletResponse response, String invoiceID) throws Exception {
 
-		  try {
-			  statement = connect.createStatement();
-			  statement.executeUpdate("delete from ch_invoice where id =" + invoiceID); 
-		  } catch (SQLException e) {
-		      throw e;
-		  }
-	}
-	
-	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		String [] markedForDeletion = request.getParameterValues("invoiceSelected");
-		for (String x : markedForDeletion) {
-			deleteInvoice(request, response, x);
-		}		
-	}
-	
-	public void findInvoice(HttpServletRequest request, String invoiceID) throws Exception {
-		  Invoice invoice = new Invoice();
-		  
+	public void listAllLineItems(HttpServletRequest request) throws Exception {
+		  List<InvoiceLineItem> lineitems = new ArrayList<InvoiceLineItem>();
 		  	try{
-			    statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT invoice.title, invoice.content, invoice.id, user.username, user.firstName, user.lastName, invoicetype.type, access.type, category.type " 
-				+ "FROM clubhub.ch_invoice invoice "
-				+ "JOIN clubhub.ch_invoicetype invoicetype "
-				+ "ON invoice.Invoicetypeid = invoicetype.id "
-				+ "JOIN clubhub.ch_user user "
-				+ "ON invoice.Userid = user.id "
-				+ "JOIN clubhub.ch_access access "
-				+ "ON invoice.Accessid = access.id "
-				+ "JOIN clubhub.ch_category category "
-				+ "ON invoice.Categoryid = category.id "
-				+ "WHERE invoice.id = " + invoiceID);
-			    
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT * from ch_invoice_line_items");
 			    while (resultSet.next()) {
-			    /*	  invoice.setTitle(resultSet.getString("title"));
-			    	  invoice.setContent(resultSet.getString("content"));
-			    	  invoice.setId(resultSet.getString("id"));
-			    	  invoice.setUserFirstName(resultSet.getString("user.firstName"));
-			    	  invoice.setUserLastName(resultSet.getString("user.lastName"));
-			    	  invoice.setInvoiceType(resultSet.getString("invoicetype.type"));
-			    	  invoice.setAccessLevel(resultSet.getString("access.type"));
-			    	  invoice.setCategory(resultSet.getString("category.type")); */
+			    	InvoiceLineItem lineitem = new InvoiceLineItem();
+			    	  lineitem.setId(resultSet.getString("id"));
+			    	  lineitem.setDescription(resultSet.getString("description"));
+			    	  lineitem.setCost(resultSet.getString("cost"));
+			    	  lineitem.setTax(resultSet.getString("tax"));
+			    	  lineitems.add(lineitem);
 			    }
-			} catch (SQLException e) {
+		    } catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("invoice", invoice);
+		  	request.setAttribute("lineitems", lineitems);
+	} 
+
+	public void listAll(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+		
+	}
+	public void deleteInvoice(HttpServletRequest request, HttpServletResponse response, String invoiceID) throws Exception {
+		
+	}
+
+	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+		
+	}
+	
+	public void findInvoice(HttpServletRequest request, String invoiceID) throws Exception { 
+		
 	} 
 	
 	public void editInvoice(HttpServletRequest request, HttpServletResponse response, String _invoiceID) throws Exception {
-	    try {			
-			String invoiceID = request.getParameter("invoiceID");
-		    String title = request.getParameter("blogTitle");	// title
-		    String content = request.getParameter("blogContent"); // content
-		    String pageType = request.getParameter("pageType"); // Invoicetypeid
-		    String accessLevel = request.getParameter("accessLevel"); // Accessid
-		    String category = request.getParameter("pageCategory"); // Categoryid
-			
-	      
-		    /*UPDATE `clubhub`.`ch_invoice` SET `title`='blogtitle', `content`='schoop doopy', 
-	    		  `Userid`='1', `Invoicetypeid`='2', `Accessid`='2', `Categoryid`='2' WHERE `id`='6';*/
-	      
-			statement = connect.createStatement();
-			statement.executeUpdate("UPDATE ch_invoice SET title='" + title + "', content='" + content + "', Invoicetypeid='" + pageType + 
-					"', Accessid='" + accessLevel + "', Categoryid='" + category + "' WHERE id='" + invoiceID + "'");
-	      
-	      //preparedStatement.executeUpdate();
-	    } catch (Exception e) {
-	      throw e;
-	    }
+		
 	}
 
 	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String [] markedForEdit = request.getParameterValues("invoiceSelected");
-		String invoiceID, pageType, accessLevel, category;
-		
-		pageType = request.getParameter("pageType"); // Invoicetypeid
-	    accessLevel = request.getParameter("accessLevel"); // Accessid
-	    category = request.getParameter("pageCategory"); // Categoryid
-		
-		for (String x : markedForEdit) {
-			invoiceID = x;
-		    
-			statement = connect.createStatement();
-			statement.executeUpdate("UPDATE ch_invoice SET Invoicetypeid='" + pageType + 
-					"', Accessid='" + accessLevel + "', Categoryid='" + category + "' WHERE id='" + invoiceID + "'");
-		}				
+
 	}
 }
 

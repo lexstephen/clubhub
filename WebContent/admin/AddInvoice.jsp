@@ -10,6 +10,10 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
+   
+<%@ page import="utilities.InvoiceDao"%>
+<%	InvoiceDao invoice = new InvoiceDao(); %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
@@ -20,9 +24,11 @@
 			</div>
 			<div class="col-xs-7">
 				<div class="form-group <c:if test="${!empty errorUserid}">has-error</c:if>">
-					<select name="Userid" class="form-control" id="inptUserID">
-					  <option value="1" ${Userid == '1' ? 'selected' : ''}>Bob Loblaw</option>
-					  <option value="2" ${Userid == '2' ? 'selected' : ''}>Rob Lorlaw</option>
+					<% invoice.listAllUsers(request); %>
+					<select name="userID" class="form-control" id="inptUserID">
+						<c:forEach items="${users}" var="user">
+					 		<option value="${user.userid}" ${userID == user.userid} ? 'selected' : ''}>${user.firstName} ${user.lastName}</option>
+						</c:forEach>
 					</select>
 			  	</div>
 			</div>
@@ -58,18 +64,93 @@
 		<div class="row">
 			<div class="col-xs-5 col-xs-offset-3">
 				<div class="form-group">
+					<% invoice.listAllLineItems(request); %>
 					<select name="charge01" class="form-control" id="inptCharge01">
-					  <option ${charge01 == '--' ? 'selected' : ''}>--</option>
-					  <option ${charge01 == 'Membership Fee - Adult' ? 'selected' : ''}>Membership Fee - Adult</option>
-					  <option ${charge01 == 'Membership Fee - Student' ? 'selected' : ''}>Membership Fee - Student</option>
+				 		<option value="---" ${charge01 == '---'} ? 'selected' : ''}> - </option>
+						<c:forEach items="${lineitems}" var="lineitem">
+					 		<option value="${lineitem.id}" ${charge01 == lineitem.id} ? 'selected' : ''}>${lineitem.description}</option>
+						</c:forEach>
 					</select>
 			  	</div>
 			</div>
 			<div class="col-xs-2">
-				<input type="text" name="charge01qty" class="form-control" id="inptCharge01qty" value="${charge01qty}">
+				<input type="text" name="charge01qty" class="form-control" id="inptCharge01qty" value="${(charge01qty > 0)? charge01qty:'0'}">
 			</div>
 			<div class="col-xs-2">
-				$0.00
+				<script type="text/javascript">
+				var lineItems = new Array();
+				<c:forEach items="${lineitems}" var="lineitem" varStatus="status"> 
+					lineItemObj = new Object();
+					lineItemObj.id = ${lineitem.id}; 
+					lineItemObj.cost = ${lineitem.cost}; 
+					lineItems.push(lineItemObj);
+				</c:forEach> 
+
+
+				$(document).ready(function(){
+				    $("select[name='charge01']").change(function(){
+				        $(this).find("option:selected").each(function(){
+							for	(index = 0; index < lineItems.length; index++) {
+					            if($(this).attr("value")==lineItems[index].id){
+									  document.getElementById('charge01cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
+					            }
+				            }
+				        });
+				    }).change();
+				});
+
+				$(document).ready(function(){
+				    $("select[name='charge02']").change(function(){
+				        $(this).find("option:selected").each(function(){
+							for	(index = 0; index < lineItems.length; index++) {
+					            if($(this).attr("value")==lineItems[index].id){
+									  document.getElementById('charge02cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
+					            }
+				            }
+				        });
+				    }).change();
+				});
+				
+				$(document).ready(function(){
+				    $("select[name='charge03']").change(function(){
+				        $(this).find("option:selected").each(function(){
+							for	(index = 0; index < lineItems.length; index++) {
+					            if($(this).attr("value")==lineItems[index].id){
+									  document.getElementById('charge03cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
+					            }
+				            }
+				        });
+				    }).change();
+				});
+
+				$(document).ready(function(){
+				    $("select[name='charge04']").change(function(){
+				        $(this).find("option:selected").each(function(){
+							for	(index = 0; index < lineItems.length; index++) {
+					            if($(this).attr("value")==lineItems[index].id){
+									  document.getElementById('charge04cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
+					            }
+				            }
+				        });
+				    }).change();
+				});
+				
+
+				$(document).ready(function(){
+				    $("select[name='charge05']").change(function(){
+				        $(this).find("option:selected").each(function(){
+							for	(index = 0; index < lineItems.length; index++) {
+					            if($(this).attr("value")==lineItems[index].id){
+									  document.getElementById('inptCharge05qty').value = "1";
+									  document.getElementById('charge05cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
+					            }
+				            }
+				        });
+				    }).change();
+				});
+				
+				</script>
+				<div id="charge01cost"></div>
 			</div>
 		</div>
 		
@@ -77,68 +158,72 @@
 			<div class="col-xs-5 col-xs-offset-3">
 				<div class="form-group">
 					<select name="charge02" class="form-control" id="inptCharge02">
-					  <option ${charge02 == '--' ? 'selected' : ''}>--</option>
-					  <option ${charge02 == 'Membership Fee - Adult' ? 'selected' : ''}>Membership Fee - Adult</option>
-					  <option ${charge02 == 'Membership Fee - Student' ? 'selected' : ''}>Membership Fee - Student</option>
+				 		<option value="---" ${charge02 == '---'} ? 'selected' : ''}> - </option>
+						<c:forEach items="${lineitems}" var="lineitem">
+					 		<option value="${lineitem.id}" ${charge02 == lineitem.id} ? 'selected' : ''}>${lineitem.description}</option>
+						</c:forEach>
 					</select>
 			  	</div>
 			</div>
 			<div class="col-xs-2">
-				<input type="text" name="charge02qty" class="form-control" id="inptCharge02qty" value="${charge02qty}">
+				<input type="text" name="charge02qty" class="form-control" id="inptCharge02qty" value="${(charge02qty > 0)? charge02qty:'0'}">
 			</div>
 			<div class="col-xs-2">
-				$0.00
+				<div id="charge02cost"></div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-5 col-xs-offset-3">
 				<div class="form-group">
 					<select name="charge03" class="form-control" id="inptCharge03">
-					  <option ${charge03 == '--' ? 'selected' : ''}>--</option>
-					  <option ${charge03 == 'Membership Fee - Adult' ? 'selected' : ''}>Membership Fee - Adult</option>
-					  <option ${charge03 == 'Membership Fee - Student' ? 'selected' : ''}>Membership Fee - Student</option>
+				 		<option value="---" ${charge03 == '---'} ? 'selected' : ''}> - </option>
+						<c:forEach items="${lineitems}" var="lineitem">
+					 		<option value="${lineitem.id}" ${charge03 == lineitem.id} ? 'selected' : ''}>${lineitem.description}</option>
+						</c:forEach>
 					</select>
 			  	</div>
 			</div>
 			<div class="col-xs-2">
-				<input type="text" name="charge03qty" class="form-control" id="inptCharge03qty" value="${charge03qty}">
+				<input type="text" name="charge03qty" class="form-control" id="inptCharge03qty" value="${(charge03qty > 0)? charge03qty:'0'}">
 			</div>
 			<div class="col-xs-2">
-				$0.00
+				<div id="charge03cost"></div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-5 col-xs-offset-3">
 				<div class="form-group">
 					<select name="charge04" class="form-control" id="inptCharge04">
-					  <option ${charge04 == '--' ? 'selected' : ''}>--</option>
-					  <option ${charge04 == 'Membership Fee - Adult' ? 'selected' : ''}>Membership Fee - Adult</option>
-					  <option ${charge04 == 'Membership Fee - Student' ? 'selected' : ''}>Membership Fee - Student</option>
+				 		<option value="---" ${charge04 == '---'} ? 'selected' : ''}> - </option>
+						<c:forEach items="${lineitems}" var="lineitem">
+					 		<option value="${lineitem.id}" ${charge04 == lineitem.id} ? 'selected' : ''}>${lineitem.description}</option>
+						</c:forEach>
 					</select>
 			  	</div>
 			</div>
 			<div class="col-xs-2">
-				<input type="text" name="charge04qty" class="form-control" id="inptCharge04qty" value="${charge04qty}">
+				<input type="text" name="charge04qty" class="form-control" id="inptCharge04qty" value="${(charge04qty > 0)? charge04qty:'0'}">
 			</div>
 			<div class="col-xs-2">
-				$0.00
+				<div id="charge04cost"></div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-5 col-xs-offset-3">
 				<div class="form-group">
 					<select name="charge05" class="form-control" id="inptCharge05">
-					  <option ${charge05 == '--' ? 'selected' : ''}>--</option>
-					  <option ${charge05 == 'Membership Fee - Adult' ? 'selected' : ''}>Membership Fee - Adult</option>
-					  <option ${charge05 == 'Membership Fee - Student' ? 'selected' : ''}>Membership Fee - Student</option>
+				 		<option value="---" ${charge05 == '---'} ? 'selected' : ''}> - </option>
+						<c:forEach items="${lineitems}" var="lineitem">
+					 		<option value="${lineitem.id}" ${charge05 == lineitem.id} ? 'selected' : ''}>${lineitem.description}</option>
+						</c:forEach>
 					</select>
 			  	</div>
 			</div>
 			<div class="col-xs-2">
-				<input type="text" name="charge05qty" class="form-control" id="inptCharge05qty" value="${charge05qty}">
+				<input type="text" name="charge05qty" class="form-control" id="inptCharge05qty" value="${(charge05qty > 0)? charge05qty:'0'}">
 			</div>
 			<div class="col-xs-2">
-				$0.00
+				<div id="charge05cost"></div>
 			</div>
 		</div>
 

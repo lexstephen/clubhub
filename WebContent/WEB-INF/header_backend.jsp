@@ -5,6 +5,8 @@
 	<head>
 		<title><%= request.getAttribute("thisPage") %></title>
 		<link href="/clubhub/css/style.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="/clubhub/js/jquery.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="/clubhub/js/countryoptions.js" charset="utf-8"></script>
 	</head>
 	<body class="backend">
 		<nav class="navbar navbar-static-top">

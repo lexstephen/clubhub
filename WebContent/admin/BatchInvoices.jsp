@@ -17,7 +17,7 @@
 	
 	<%	InvoiceDao invoice = new InvoiceDao(); %>
 	
-	<% invoice.listAll(request); %>
+	<% invoice.listAll(request, response); %>
 	
 	<!-- This form wont work because there are embedded forms in the included file. I dont know how to work around this.  --> 
 		
