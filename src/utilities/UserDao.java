@@ -107,13 +107,14 @@ public class UserDao {
 		    return "";
 		}
 		
-		public String getName(HttpServletRequest request, String _userID) throws Exception {
+		public String getName(HttpServletRequest request) throws Exception {
 		    try {
-				  String userID = _userID;
+				  String userID = request.getParameter("userID");
 			      statement = connect.createStatement();
 			      resultSet = statement.executeQuery("select firstName, lastName from ch_user where id = \"" + userID + "\"");
 			      while (resultSet.next()) {
 			    	  String username = resultSet.getString("firstName") + " " + resultSet.getString("lastName");
+			    	  System.out.println("Username is " + username);
 					     return username; 
 			      }
 			    } catch (Exception e) {

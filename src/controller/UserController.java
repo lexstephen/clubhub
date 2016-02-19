@@ -22,7 +22,6 @@ public class UserController extends HttpServlet {
 		UserDao dao = new UserDao();
 		String address = null;
 		HttpSession session = request.getSession();
-
 	    try {
 	    	switch(option) {
 		    	case "register":
@@ -59,19 +58,17 @@ public class UserController extends HttpServlet {
 		    	case "login":
 		    			// valid input?
 		    		if (ValidationUtilities.isValidLogin(request)) {
+		    			session.setAttribute("userID", dao.getUserId(request));
+		    			session.setAttribute("userFullName", dao.getName(request));
 	    				// yes it is! and are they in the database?	    					    				
 			    		if (session.getAttribute("isAdmin").equals(true)) {
 			    			// they are admins! send them to AdminController
 			    			session.setAttribute("isLoggedIn", true);
-			    			session.setAttribute("userID", dao.getUserId(request));
-			    			session.setAttribute("userFullName", dao.getName(request, request.getParameter("userID")));
 							request.setAttribute("errorString", null);
 			    			address = "/admin/index-admin.jsp";
 			    		} else if (dao.isInDatabase(request, response)) {
 			    			// yes they are, let's log them in
 			    			session.setAttribute("isLoggedIn", true);
-			    			session.setAttribute("userID", dao.getUserId(request));
-			    			session.setAttribute("userFullName", dao.getName(request, request.getParameter("userID")));
 							request.setAttribute("errorString", null);
 			    			address = "/admin/index.jsp";
 			    		} else {
