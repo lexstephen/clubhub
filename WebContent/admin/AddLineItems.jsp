@@ -17,6 +17,8 @@
 <%	InvoiceLineItemDao lineitem = new InvoiceLineItemDao(); %>
 <% lineitem.listAllLineItems(request); %>
 
+${errorString }
+
 	<form action="/clubhub/InvoiceLineItemController" method="post" class="form" role="form">
 		<div class="row">
 			<div class="col-xs-4 control-label"></div>

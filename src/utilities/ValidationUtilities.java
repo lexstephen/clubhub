@@ -49,7 +49,86 @@ public class ValidationUtilities {
 	public static boolean isValidInvoice(HttpServletRequest request) {
 		return true;
 	}
-		public static boolean isValidRegistration(HttpServletRequest request) {
+
+	public static boolean isValidLineItem(HttpServletRequest request) {
+		boolean isValid = true;
+		String description, cost;	
+		
+		if (Double.parseDouble(request.getParameter("lineItem01Cost")) != 0) {
+			description = request.getParameter("lineItem01Description");
+			cost = request.getParameter("lineItem01Cost");	
+			request.setAttribute("lineItem01Description", description);
+			request.setAttribute("lineItem01Cost", cost);
+			if (isMissing(description)) {
+				isValid = false;
+				request.setAttribute("errorString", "Please check your input");
+				request.setAttribute("errorLineItem01", true);}
+			if (!isInt(cost)) {
+				isValid = false;
+				request.setAttribute("errorString", "Please check your input");
+				request.setAttribute("errorLineItem01", true);}
+		}
+		if (Double.parseDouble(request.getParameter("lineItem02Cost")) != 0) {
+			description = request.getParameter("lineItem02Description");
+			cost = request.getParameter("lineItem02Cost");	
+			request.setAttribute("lineItem02Description", description);
+			request.setAttribute("lineItem02Cost", cost);
+			if (isMissing(description)) {
+				isValid = false;
+				request.setAttribute("errorString", "Please check your input");
+				request.setAttribute("errorLineItem02", true);}
+			if (!isInt(cost)) {
+				isValid = false;
+				request.setAttribute("errorString", "Please check your input");
+				request.setAttribute("errorLineItem02", true);}
+		}
+		if (Double.parseDouble(request.getParameter("lineItem03Cost")) != 0) {
+			description = request.getParameter("lineItem03Description");
+			cost = request.getParameter("lineItem03Cost");	
+			request.setAttribute("lineItem03Description", description);
+			request.setAttribute("lineItem03Cost", cost);
+			if (isMissing(description)) {
+				isValid = false;
+				request.setAttribute("errorString", "Please check your input");
+				request.setAttribute("errorLineItem03", true);}
+			if (!isInt(cost)) {
+				isValid = false;
+				request.setAttribute("errorString", "Please check your input");
+				request.setAttribute("errorLineItem03", true);}
+		}
+		if (Double.parseDouble(request.getParameter("lineItem04Cost")) != 0) {
+			description = request.getParameter("lineItem04Description");
+			cost = request.getParameter("lineItem04Cost");	
+			request.setAttribute("lineItem04Description", description);
+			request.setAttribute("lineItem04Cost", cost);
+			if (isMissing(description)) {
+				isValid = false;
+				request.setAttribute("errorString", "Please check your input");
+				request.setAttribute("errorLineItem04", true);}
+			if (!isInt(cost)) {
+				isValid = false;
+				request.setAttribute("errorString", "Please check your input");
+				request.setAttribute("errorLineItem04", true);}
+		}
+		if (Double.parseDouble(request.getParameter("lineItem05Cost")) != 0) {
+			description = request.getParameter("lineItem05Description");
+			cost = request.getParameter("lineItem05Cost");
+			request.setAttribute("lineItem05Description", description);
+			request.setAttribute("lineItem05Cost", cost);
+			if (isMissing(description)) {
+				isValid = false;
+				request.setAttribute("errorString", "Please check your input");
+				request.setAttribute("errorLineItem05", true);}
+			if (!isInt(cost)) {
+				isValid = false;
+				request.setAttribute("errorString", "Please check your input");
+				request.setAttribute("errorLineItem05", true);}
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean isValidRegistration(HttpServletRequest request) {
 		boolean isValid = true;
 		String username = request.getParameter("username");
 		String password1 = request.getParameter("password1");	

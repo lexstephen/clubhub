@@ -33,21 +33,21 @@ public class InvoiceLineItemController extends HttpServlet {
 		String address = "";
 		//
 		String errorChecker = "n/a";
-		
 		System.out.println(option);
+
 		
 	    try {
 	    	switch(option) {
 		    	case "add":
-		    		if (ValidationUtilities.isValidInvoice(request)) {
+		    		if (ValidationUtilities.isValidLineItem(request)) {
 		    			dao.addToDatabase(request, response);
 		    			//
-		    			errorChecker = "Invoice successful";
+		    			errorChecker = "Line Item successful";
 		    			address = "admin/BatchInvoices.jsp";
 		    		} else {
 		    			//
-			    		errorChecker = "Invoice fail";
-		    			address = "/Main.jsp";
+			    		errorChecker = "Line Item fail";
+		    			address = "admin/AddLineItems.jsp";
 		    		}
 	    		break;
 		    	case "edit":
