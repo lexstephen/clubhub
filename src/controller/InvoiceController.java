@@ -35,7 +35,11 @@ public class InvoiceController extends HttpServlet {
 		String errorChecker = "n/a";
 		
 		System.out.println(option);
-		
+
+		HttpSession session = request.getSession();
+		request.setAttribute("invDate", request.getParameter("invDate"));
+		request.setAttribute("userID", request.getParameter("userID"));
+		request.setAttribute("charge01", request.getParameter("charge01"));
 	    try {
 	    	switch(option) {
 		    	case "add":
@@ -47,7 +51,7 @@ public class InvoiceController extends HttpServlet {
 		    		} else {
 		    			//
 			    		errorChecker = "Invoice fail";
-		    			address = "/Main.jsp";
+		    			address = "admin/AddInvoice.jsp";
 		    		}
 	    		break;
 		    	case "edit":

@@ -1,5 +1,4 @@
-
-		$('.hiddenest').hide();
+$('.hiddenest').hide();
 $('#inptCountry').bind('change', function(event) {
 	var i= $('#inptCountry').val();
 

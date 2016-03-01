@@ -16,18 +16,23 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
+${errorString }
+<ul>
+<c:if test="${!empty errorInvDate}"><li>${ errorInvDate }</li></c:if>
+<c:if test="${!empty errorLineItems}"><li>${ errorLineItems }</li></c:if>
 
+</ul>
 	<form action="/clubhub/InvoiceController" method="post" class="form" role="form">
 		<div class="row">
 			<div class="col-xs-3 control-label">
 		    	<label for="inptUserID">Member</label>
 			</div>
 			<div class="col-xs-7">
-				<div class="form-group <c:if test="${!empty errorUserid}">has-error</c:if>">
+				<div class="form-group">
 					<% invoice.listAllUsers(request); %>
 					<select name="userID" class="form-control" id="inptUserID">
 						<c:forEach items="${users}" var="user">
-					 		<option value="${user.userid}" ${userID == user.userid} ? 'selected' : ''}>${user.firstName} ${user.lastName}</option>
+					 		<option value="${user.userid}" ${userID == user.userid ? 'selected' : ''}>${user.firstName} ${user.lastName}</option>
 						</c:forEach>
 					</select>
 			  	</div>
@@ -66,9 +71,9 @@
 				<div class="form-group">
 					<% invoice.listAllLineItems(request); %>
 					<select name="charge01" class="form-control" id="inptCharge01">
-				 		<option value="---" ${charge01 == '---'} ? 'selected' : ''}> - </option>
+				 		<option value="---" ${charge01 == '---' ? 'selected' : ''}> - </option>
 						<c:forEach items="${lineitems}" var="lineitem">
-					 		<option value="${lineitem.id}" ${charge01 == lineitem.id} ? 'selected' : ''}>${lineitem.description}</option>
+					 		<option value="${lineitem.id}" ${charge01 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
 						</c:forEach>
 					</select>
 			  	</div>
@@ -92,12 +97,25 @@
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
 									  document.getElementById('inptCharge01qty').value = "1";
-									  document.getElementById('charge01cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
+									  document.getElementById('charge01cost').innerHTML = parseFloat(lineItems[index].cost);
 					            }
 				            }
 				        });
 				    }).change();
 				});
+
+				$(document).ready(function(){
+					$('#inptCharge01qty').bind('input', function() {
+					    $("select[name='charge01']").find("option:selected").each(function(){
+								for	(index = 0; index < lineItems.length; index++) {
+						            if($(this).attr("value")==lineItems[index].id){
+										  document.getElementById('charge01subtotal').innerHTML = parseFloat(lineItems[index].cost * document.getElementById('inptCharge01qty').value);
+						            }
+					            }
+					    }).change();
+					} );
+				});
+				
 
 				$(document).ready(function(){
 				    $("select[name='charge02']").change(function(){
@@ -154,6 +172,7 @@
 				
 				</script>
 				<div id="charge01cost"></div>
+				<div id="charge01subtotal"></div>
 			</div>
 		</div>
 		
@@ -161,9 +180,9 @@
 			<div class="col-xs-5 col-xs-offset-3">
 				<div class="form-group">
 					<select name="charge02" class="form-control" id="inptCharge02">
-				 		<option value="---" ${charge02 == '---'} ? 'selected' : ''}> - </option>
+				 		<option value="---" ${charge02 == '---' ? 'selected' : ''}> - </option>
 						<c:forEach items="${lineitems}" var="lineitem">
-					 		<option value="${lineitem.id}" ${charge02 == lineitem.id} ? 'selected' : ''}>${lineitem.description}</option>
+					 		<option value="${lineitem.id}" ${charge02 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
 						</c:forEach>
 					</select>
 			  	</div>
@@ -179,9 +198,9 @@
 			<div class="col-xs-5 col-xs-offset-3">
 				<div class="form-group">
 					<select name="charge03" class="form-control" id="inptCharge03">
-				 		<option value="---" ${charge03 == '---'} ? 'selected' : ''}> - </option>
+				 		<option value="---" ${charge03 == '---' ? 'selected' : ''}> - </option>
 						<c:forEach items="${lineitems}" var="lineitem">
-					 		<option value="${lineitem.id}" ${charge03 == lineitem.id} ? 'selected' : ''}>${lineitem.description}</option>
+					 		<option value="${lineitem.id}" ${charge03 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
 						</c:forEach>
 					</select>
 			  	</div>
@@ -197,9 +216,9 @@
 			<div class="col-xs-5 col-xs-offset-3">
 				<div class="form-group">
 					<select name="charge04" class="form-control" id="inptCharge04">
-				 		<option value="---" ${charge04 == '---'} ? 'selected' : ''}> - </option>
+				 		<option value="---" ${charge04 == '---' ? 'selected' : ''}> - </option>
 						<c:forEach items="${lineitems}" var="lineitem">
-					 		<option value="${lineitem.id}" ${charge04 == lineitem.id} ? 'selected' : ''}>${lineitem.description}</option>
+					 		<option value="${lineitem.id}" ${charge04 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
 						</c:forEach>
 					</select>
 			  	</div>
@@ -215,9 +234,9 @@
 			<div class="col-xs-5 col-xs-offset-3">
 				<div class="form-group">
 					<select name="charge05" class="form-control" id="inptCharge05">
-				 		<option value="---" ${charge05 == '---'} ? 'selected' : ''}> - </option>
+				 		<option value="---" ${charge05 == '---' ? 'selected' : ''}> - </option>
 						<c:forEach items="${lineitems}" var="lineitem">
-					 		<option value="${lineitem.id}" ${charge05 == lineitem.id} ? 'selected' : ''}>${lineitem.description}</option>
+					 		<option value="${lineitem.id}" ${charge05 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
 						</c:forEach>
 					</select>
 			  	</div>

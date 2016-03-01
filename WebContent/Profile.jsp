@@ -16,7 +16,7 @@
 	user.findUser(request, request.getParameter("userID"));
 	request.setAttribute("userID", request.getParameter("userID"));
 	request.setAttribute("dateCreated", user.getUserAge(request, request.getParameter("userID")));
-	String thisTitle = "View Profile: " + user.getName(request, request.getParameter("userID"));
+	String thisTitle = "View Profile: " + user.getName(request);
 	request.setAttribute("thisPage", thisTitle); 
 %>
 

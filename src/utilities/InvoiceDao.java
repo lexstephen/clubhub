@@ -55,13 +55,20 @@ public class InvoiceDao {
 			  preparedStatement.setString(3, request.getParameter("userID")); // Userid
 
 			  // prevent invoice from being created if all quantities are 0
-			  if (	(Integer.parseInt(request.getParameter("charge01qty")) != 0) &&
-					  (Integer.parseInt(request.getParameter("charge01qty")) != 0) &&
-					  (Integer.parseInt(request.getParameter("charge01qty")) != 0) &&
-					  (Integer.parseInt(request.getParameter("charge01qty")) != 0) &&
-					  (Integer.parseInt(request.getParameter("charge01qty")) != 0) 
-					  ) {
+			  if (	!(request.getParameter("charge01qty").equals("0")) || 
+					  !(request.getParameter("charge02qty").equals("0")) || 
+					  !(request.getParameter("charge03qty").equals("0")) || 
+					  !(request.getParameter("charge04qty").equals("0")) || 
+					  !(request.getParameter("charge05qty").equals("0")) ){
+				  // something in there wasn't equal to zero, let's add that invoice!
 				   preparedStatement.executeUpdate();
+			  } else {
+				  System.out.println(" I think all quantities were zero ");
+					System.out.println("Charge01 is " + request.getParameter("charge01") + " and quantity is " + request.getParameter("charge01qty"));
+					System.out.println("Charge02 is " + request.getParameter("charge02") + " and quantity is " + request.getParameter("charge02qty"));
+					System.out.println("Charge03 is " + request.getParameter("charge03") + " and quantity is " + request.getParameter("charge03qty"));
+					System.out.println("Charge04 is " + request.getParameter("charge04") + " and quantity is " + request.getParameter("charge04qty"));
+					System.out.println("Charge05 is " + request.getParameter("charge05") + " and quantity is " + request.getParameter("charge05qty"));
 			  }
 			  
 			  // get the ID of the freshly created invoice, to use in invoice_lineitems_invoice table
@@ -70,6 +77,7 @@ public class InvoiceDao {
 			  String last_id = null;
 			    while (insertedId.next()) {
 			    	last_id = insertedId.getString("LAST_INSERT_ID()");
+			    	System.out.println("Inserted ID is " + last_id);
 			    }
 
 			    if (request.getParameter("charge01") != null && ValidationUtilities.isInt(request.getParameter("charge01")))	{
