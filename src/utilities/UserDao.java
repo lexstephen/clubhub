@@ -20,6 +20,7 @@ import java.util.Date;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.Post;
 import model.User;
@@ -76,51 +77,80 @@ public class UserDao {
 			    } 
 		}
 		
-		public String getUserId(HttpServletRequest request) throws Exception {
-		    try {
-		    	  String username = request.getParameter("username");
-				  String password = request.getParameter("password");
-			      statement = connect.createStatement();
-			      resultSet = statement.executeQuery("select id from ch_user where username = \"" + username + "\" and password = \"" + password + "\"");
-			      while (resultSet.next()) {
-			    	  String userID = resultSet.getString("id");
-					     return userID; 
-			      }
-			    } catch (Exception e) {
-			      throw e;
-			    }
-		    return "";
+		public void getUserId(HttpServletRequest request, String option) throws Exception {
+			switch(option) {
+			case "login":
+			    try {
+			    	  HttpSession session = request.getSession();
+				      statement = connect.createStatement();
+				      resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + request.getParameter("password") + "\"");
+				      while (resultSet.next()) {
+						     session.setAttribute("loggedInUserID", resultSet.getString("id")); 
+				      }
+				    } catch (Exception e) {
+				      throw e;
+				    }
+				break;
+			case "viewprofile":
+			    try {
+			    	  HttpSession session = request.getSession();
+				      statement = connect.createStatement();
+				      resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + request.getParameter("password") + "\"");
+				      while (resultSet.next()) {
+						     session.setAttribute("userID", resultSet.getString("id")); 
+				      }
+				    } catch (Exception e) {
+				      throw e;
+				    }
+				break;
+			}
 		}
 		
-		public String getUserAge(HttpServletRequest request, String _userID) throws Exception {
+		public void getUserAge(HttpServletRequest request) throws Exception {
 		    try {
-		    	  String userID = _userID;
 			      statement = connect.createStatement();
-			      resultSet = statement.executeQuery("select dateCreated from ch_user where id = '" + userID + "'");
+			      resultSet = statement.executeQuery("select dateCreated from ch_user where id = '" + request.getParameter("userID") + "'");
 			      while (resultSet.next()) {
-			    	  	String dateCreated = resultSet.getString("dateCreated");
-					    return dateCreated; 
+			    	  request.setAttribute("dateCreated",  resultSet.getString("dateCreated"));
 			      }
 			    } catch (Exception e) {
 			      throw e;
 			    }
-		    return "";
 		}
 		
-		public String getName(HttpServletRequest request) throws Exception {
-		    try {
-				  String userID = request.getParameter("userID");
-			      statement = connect.createStatement();
-			      resultSet = statement.executeQuery("select firstName, lastName from ch_user where id = \"" + userID + "\"");
-			      while (resultSet.next()) {
-			    	  String username = resultSet.getString("firstName") + " " + resultSet.getString("lastName");
-			    	  System.out.println("Username is " + username);
-					     return username; 
-			      }
-			    } catch (Exception e) {
-			      throw e;
-			    }
-		    return "";
+		public void getName(HttpServletRequest request, String option) throws Exception {
+			switch (option) {
+			case "login": 
+				try {
+					  String loggedInUserFullName = null;
+					  HttpSession session = request.getSession();
+				      statement = connect.createStatement();
+				      resultSet = statement.executeQuery("select firstName, lastName from ch_user where id = \"" + session.getAttribute("loggedInUserID") + "\"");
+				      while (resultSet.next()) {
+				    	  loggedInUserFullName = resultSet.getString("firstName") + " " + resultSet.getString("lastName");
+				    	  System.out.println("User full name is " + loggedInUserFullName);
+						  session.setAttribute("loggedInUserFullName", loggedInUserFullName);
+				      }
+				    } catch (Exception e) {
+				      throw e;
+				    }
+				break;
+			case "viewprofile":
+				try {
+					  String userFullName = null;
+					  HttpSession session = request.getSession();
+				      statement = connect.createStatement();
+				      resultSet = statement.executeQuery("select firstName, lastName from ch_user where id = \"" + request.getParameter("userID") + "\"");
+				      while (resultSet.next()) {
+				    	  userFullName = resultSet.getString("firstName") + " " + resultSet.getString("lastName");
+				    	  System.out.println("Profile user full name is " + userFullName);
+				    	  session.setAttribute("userFullName", userFullName);
+				      }
+				    } catch (Exception e) {
+				      throw e;
+				    }
+				break;
+			}
 		}
 		
 		public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {

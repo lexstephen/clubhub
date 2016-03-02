@@ -58,14 +58,15 @@ public class UserController extends HttpServlet {
 		    	case "login":
 		    			// valid input?
 		    		if (ValidationUtilities.isValidLogin(request)) {
-		    			session.setAttribute("userID", dao.getUserId(request));
-		    			session.setAttribute("userFullName", dao.getName(request));
+		    			dao.getUserId(request,"login");
+		    			dao.getName(request,"login");
+		    			System.out.println("I think the user name is " + session.getAttribute("loggedInUserFullName"));
 	    				// yes it is! and are they in the database?	    					    				
 			    		if (session.getAttribute("isAdmin").equals(true)) {
 			    			// they are admins! send them to AdminController
 			    			session.setAttribute("isLoggedIn", true);
 							request.setAttribute("errorString", null);
-			    			address = "/admin/index-admin.jsp";
+			    			address = "/admin/index.jsp";
 			    		} else if (dao.isInDatabase(request, response)) {
 			    			// yes they are, let's log them in
 			    			session.setAttribute("isLoggedIn", true);
@@ -99,5 +100,4 @@ public class UserController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

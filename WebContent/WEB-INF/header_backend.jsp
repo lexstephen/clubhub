@@ -17,9 +17,9 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="">Logged in as this puppy</a></li>
+						<li><a href="/clubhub/Profile.jsp?userID=${loggedInUserID }">Logged in as ${loggedInUserFullName }</a></li>
 						<li><img src="/clubhub/images/avatar.gif"></li>
-						<li><a href="">Log Out</a></li>
+						<li><a href="/clubhub/Logout">Log Out</a></li>
 						<li><a href="/clubhub/admin/">Dashboard Main</a></li>
 					</ul>
 				</div>

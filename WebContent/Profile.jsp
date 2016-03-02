@@ -15,8 +15,9 @@
 	UserDao user = new UserDao();
 	user.findUser(request, request.getParameter("userID"));
 	request.setAttribute("userID", request.getParameter("userID"));
-	request.setAttribute("dateCreated", user.getUserAge(request, request.getParameter("userID")));
-	String thisTitle = "View Profile: " + user.getName(request);
+	user.getUserAge(request);
+	user.getName(request,"viewprofile");
+	String thisTitle = "View Profile: " + session.getAttribute("userFullName");
 	request.setAttribute("thisPage", thisTitle); 
 %>
 
