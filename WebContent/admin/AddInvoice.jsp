@@ -12,7 +12,10 @@
    pageEncoding="ISO-8859-1"%>
    
 <%@ page import="utilities.InvoiceDao"%>
-<%	InvoiceDao invoice = new InvoiceDao(); %>
+<%@ page import="utilities.PreferenceDao"%>
+<% InvoiceDao invoice = new InvoiceDao(); %>
+<% PreferenceDao preference = new PreferenceDao(); %>
+<% preference.taxRate(request, response); %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
@@ -89,10 +92,10 @@ ${errorString }
 				<input type="text" name="charge01qty" class="form-control qty" id="inptCharge01qty" value="${(charge01qty > 0)? charge01qty:'0'}">
 			</div>
 			<div class="col-xs-2">
-				<input type="text" id="charge01cost" class="unit">
+				<input type="text" name="charge01cost" id="charge01cost" class="form-control unit" readonly value="${charge01cost }">
 			</div>
 			<div class="col-xs-2">
-				<input type="text" id="charge01subtotal" class="amount">
+				<input type="text" name="charge01subtotal" id="charge01subtotal" class="form-control amount" readonly value="${charge01subtotal }">
 			</div>
 		</div>
 		
@@ -111,10 +114,10 @@ ${errorString }
 				<input type="text" name="charge02qty" class="form-control qty" id="inptCharge02qty" value="${(charge02qty > 0)? charge02qty:'0'}">
 			</div>
 			<div class="col-xs-2">
-				<input type="text" id="charge02cost" class="unit">
+				<input type="text" name="charge02cost" id="charge02cost" class="form-control unit" readonly value="${charge02cost }">
 			</div>
 			<div class="col-xs-2">
-				<input type="text" id="charge02subtotal" class="amount">
+				<input type="text" name="charge02subtotal" id="charge02subtotal" class="form-control amount" readonly value="${charge02subtotal }">
 			</div>
 		</div>
 		
@@ -130,13 +133,13 @@ ${errorString }
 			  	</div>
 			</div>
 			<div class="col-xs-2">
-				<input type="text" name="charge03qty" class="form-control" id="inptCharge03qty" value="${(charge03qty > 0)? charge03qty:'0'}">
+				<input type="text" name="charge03qty" class="form-control qty" id="inptCharge03qty" value="${(charge03qty > 0)? charge03qty:'0'}">
 			</div>
 			<div class="col-xs-2">
-				<div id="charge03cost"></div>
+				<input type="text" name="charge03cost" id="charge03cost" class="form-control unit" readonly value="${charge03cost }">
 			</div>
 			<div class="col-xs-2">
-				<div id="charge03subtotal"></div>
+				<input type="text" name="charge03subtotal" id="charge03subtotal" class="form-control amount" readonly value="${charge03subtotal }">
 			</div>
 		</div>
 		<div class="row">
@@ -151,13 +154,13 @@ ${errorString }
 			  	</div>
 			</div>
 			<div class="col-xs-2">
-				<input type="text" name="charge04qty" class="form-control" id="inptCharge04qty" value="${(charge04qty > 0)? charge04qty:'0'}">
+				<input type="text" name="charge04qty" class="form-control qty" id="inptCharge04qty" value="${(charge04qty > 0)? charge04qty:'0'}">
 			</div>
 			<div class="col-xs-2">
-				<div id="charge04cost"></div>
+				<input type="text" name="charge04cost" id="charge04cost" class="form-control unit" readonly value="${charge04cost }">
 			</div>
 			<div class="col-xs-2">
-				<div id="charge04subtotal"></div>
+				<input type="text" name="charge04subtotal" id="charge04subtotal" class="form-control amount" readonly value="${charge04subtotal }">
 			</div>
 		</div>
 		<div class="row">
@@ -172,13 +175,13 @@ ${errorString }
 			  	</div>
 			</div>
 			<div class="col-xs-2">
-				<input type="text" name="charge05qty" class="form-control" id="inptCharge05qty" value="${(charge05qty > 0)? charge05qty:'0'}">
+				<input type="text" name="charge05qty" class="form-control qty" id="inptCharge05qty" value="${(charge05qty > 0)? charge05qty:'0'}">
 			</div>
 			<div class="col-xs-2">
-				<div id="charge05cost"></div>
+				<input type="text" name="charge05cost" id="charge05cost" class="form-control unit" readonly value="${charge05cost }">
 			</div>
 			<div class="col-xs-2">
-				<div id="charge05subtotal"></div>
+				<input type="text" name="charge05subtotal" id="charge05subtotal" class="form-control amount" readonly value="${charge05subtotal }">
 			</div>
 		</div>
 
@@ -187,7 +190,9 @@ ${errorString }
 			    <label>Subtotal</label>			  
 			</div>
 			<div class="col-xs-2">
-				<div id="finalSubtotal"><input type="text" class="result"></div>
+				<div class="form-group">
+					<input type="text" name="result" id="result" class="form-control result" readonly value="${result }">
+				</div>
 			</div>
 		</div>
 
@@ -196,7 +201,9 @@ ${errorString }
 			    <label>Taxes</label>			  
 			</div>
 			<div class="col-xs-2">
-				$0.00
+				<div class="form-group">
+					<input type="text" name="taxes" id="taxes" class="form-control taxes" readonly value="${taxes }">
+				</div>
 			</div>
 		</div>
 
@@ -205,7 +212,9 @@ ${errorString }
 			    <label>Total Due</label>			  
 			</div>
 			<div class="col-xs-2">
-				$0.00
+				<div class="form-group">
+					<input type="text" name="finalresult" id="finalresult" class="form-control finalresult" readonly value="${finalresult }">
+				</div>
 			</div>
 		</div>
 		
@@ -242,7 +251,8 @@ ${errorString }
 				    //var unitVal = self.parent().next().val();
 				    var unitVal = self.closest(".row").find(".unit").val();
 				    self.closest(".row").find(".amount").val(unitVal * self.val());
-				   fnAlltotal();
+					fnAlltax();
+				   	fnAlltotal();
 				});
 
 				$(".unit").on('input', function () {
@@ -250,7 +260,8 @@ ${errorString }
 				    //$(this).parent().find('#cl_zipcode').val()
 				    var qtyVal = self.closest(".row").find(".qty").val();
 				    self.closest(".row").find(".amount").val(qtyVal * self.val());
-				  fnAlltotal();
+					fnAlltax();
+				   	fnAlltotal();
 				});
 	
 				function fnAlltotal(){
@@ -259,7 +270,29 @@ ${errorString }
 				         total += parseFloat($(this).val()||0);
 				    });
 				    $(".result").val(total);
+				   	fnFinalTotal();
 				}
+	
+				function fnAlltax(){
+				  	var total=0;
+					var tax_rate = ${tax_rate };
+					
+				    $(".amount").each(function(){
+				         total += parseFloat(($(this).val() * tax_rate)||0);
+				    });
+				    $(".taxes").val(total);
+				   	fnFinalTotal();
+				}
+	
+				function fnFinalTotal(addThis){
+				  	var subtotal=$(".result").val();		
+				  	var tax=$(".taxes").val();					
+				    
+				  	var total = parseFloat(subtotal) + parseFloat(tax);
+				  	
+				    $(".finalresult").val(total);
+				}
+	
 				
 				var lineItems = new Array();
 				<c:forEach items="${lineitems}" var="lineitem" varStatus="status"> 
@@ -268,6 +301,9 @@ ${errorString }
 					lineItemObj.cost = ${lineitem.cost}; 
 					lineItems.push(lineItemObj);
 				</c:forEach> 
+				
+
+				
 				
 				$(document).ready(function(){
 				    $("select[name='charge01']").change(function(){
@@ -281,46 +317,16 @@ ${errorString }
 				    }).change();
 				});
 
-				/*
-				$(document).ready(function(){
-					$('#inptCharge01qty').bind('input', function() {
-					    $("select[name='charge01']").find("option:selected").each(function(){
-								for	(index = 0; index < lineItems.length; index++) {
-						            if($(this).attr("value")==lineItems[index].id){
-										  document.getElementById('charge01subtotal').innerHTML = parseFloat(lineItems[index].cost * document.getElementById('inptCharge01qty').value);
-										  document.getElementById('finalSubtotal').innerHTML = document.getElementById('finalSubtotal').value + document.getElementById('charge01subtotal').value;
-						            }
-					            }
-					    }).change();
-					} );
-				});
-				*/
-				
-				
-
 				$(document).ready(function(){
 				    $("select[name='charge02']").change(function(){
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('charge02cost').innerHTML = parseFloat(lineItems[index].cost);
+									  document.getElementById('charge02cost').value = parseFloat(lineItems[index].cost);
 					            }
 				            }
 				        });
 				    }).change();
-				});
-				
-/*
-				$(document).ready(function(){
-					$('#inptCharge02qty').bind('input', function() {
-					    $("select[name='charge02']").find("option:selected").each(function(){
-								for	(index = 0; index < lineItems.length; index++) {
-						            if($(this).attr("value")==lineItems[index].id){
-										  document.getElementById('charge02subtotal').innerHTML = parseFloat(lineItems[index].cost * document.getElementById('inptCharge02qty').value);
-						            }
-					            }
-					    }).change();
-					} );
 				});
 				
 				$(document).ready(function(){
@@ -328,72 +334,34 @@ ${errorString }
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('charge03cost').innerHTML = parseFloat(lineItems[index].cost);
+									  document.getElementById('charge03cost').value = parseFloat(lineItems[index].cost);
 					            }
 				            }
 				        });
 				    }).change();
 				});
 
-				$(document).ready(function(){
-					$('#inptCharge03qty').bind('input', function() {
-					    $("select[name='charge03']").find("option:selected").each(function(){
-								for	(index = 0; index < lineItems.length; index++) {
-						            if($(this).attr("value")==lineItems[index].id){
-										  document.getElementById('charge03subtotal').innerHTML = parseFloat(lineItems[index].cost * document.getElementById('inptCharge03qty').value);
-						            }
-					            }
-					    }).change();
-					} );
-				});
 				$(document).ready(function(){
 				    $("select[name='charge04']").change(function(){
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('charge04cost').innerHTML = parseFloat(lineItems[index].cost);
+									  document.getElementById('charge04cost').value = parseFloat(lineItems[index].cost);
 					            }
 				            }
 				        });
 				    }).change();
 				});
-
-				$(document).ready(function(){
-					$('#inptCharge04qty').bind('input', function() {
-					    $("select[name='charge04']").find("option:selected").each(function(){
-								for	(index = 0; index < lineItems.length; index++) {
-						            if($(this).attr("value")==lineItems[index].id){
-										  document.getElementById('charge04subtotal').innerHTML = parseFloat(lineItems[index].cost * document.getElementById('inptCharge04qty').value);
-						            }
-					            }
-					    }).change();
-					} );
-				});
-
 				$(document).ready(function(){
 				    $("select[name='charge05']").change(function(){
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('charge05cost').innerHTML = parseFloat(lineItems[index].cost);
+									  document.getElementById('charge05cost').value = parseFloat(lineItems[index].cost);
 					            }
 				            }
 				        });
 				    }).change();
 				});
-
-				$(document).ready(function(){
-					$('#inptCharge05qty').bind('input', function() {
-					    $("select[name='charge05']").find("option:selected").each(function(){
-								for	(index = 0; index < lineItems.length; index++) {
-						            if($(this).attr("value")==lineItems[index].id){
-										  document.getElementById('charge05subtotal').innerHTML = parseFloat(lineItems[index].cost * document.getElementById('inptCharge05qty').value);
-						            }
-					            }
-					    }).change();
-					} );
-				}); 
-			*/
-				
 				</script>
 <%@ include file="/WEB-INF/footer_backend.jsp" %>
