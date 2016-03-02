@@ -88,7 +88,7 @@ ${errorString }
 					</select>
 			  	</div>
 			</div>
-			<div class="col-xs-2">
+			<div class="col-xs-2 <c:if test="${!empty errorCharge01Qty}">has-error</c:if>">
 				<input type="text" name="charge01qty" class="form-control qty" id="inptCharge01qty" value="${(charge01qty > 0)? charge01qty:'0'}">
 			</div>
 			<div class="col-xs-2">
@@ -110,7 +110,7 @@ ${errorString }
 					</select>
 			  	</div>
 			</div>
-			<div class="col-xs-2">
+			<div class="col-xs-2 <c:if test="${!empty errorCharge02Qty}">has-error</c:if>">
 				<input type="text" name="charge02qty" class="form-control qty" id="inptCharge02qty" value="${(charge02qty > 0)? charge02qty:'0'}">
 			</div>
 			<div class="col-xs-2">
@@ -132,7 +132,7 @@ ${errorString }
 					</select>
 			  	</div>
 			</div>
-			<div class="col-xs-2">
+			<div class="col-xs-2 <c:if test="${!empty errorCharge03Qty}">has-error</c:if>">
 				<input type="text" name="charge03qty" class="form-control qty" id="inptCharge03qty" value="${(charge03qty > 0)? charge03qty:'0'}">
 			</div>
 			<div class="col-xs-2">
@@ -153,7 +153,7 @@ ${errorString }
 					</select>
 			  	</div>
 			</div>
-			<div class="col-xs-2">
+			<div class="col-xs-2 <c:if test="${!empty errorCharge04Qty}">has-error</c:if>">
 				<input type="text" name="charge04qty" class="form-control qty" id="inptCharge04qty" value="${(charge04qty > 0)? charge04qty:'0'}">
 			</div>
 			<div class="col-xs-2">
@@ -174,7 +174,7 @@ ${errorString }
 					</select>
 			  	</div>
 			</div>
-			<div class="col-xs-2">
+			<div class="col-xs-2 <c:if test="${!empty errorCharge05Qty}">has-error</c:if>">
 				<input type="text" name="charge05qty" class="form-control qty" id="inptCharge05qty" value="${(charge05qty > 0)? charge05qty:'0'}">
 			</div>
 			<div class="col-xs-2">
@@ -301,7 +301,11 @@ ${errorString }
 					lineItemObj.cost = ${lineitem.cost}; 
 					lineItems.push(lineItemObj);
 				</c:forEach> 
-				
+
+				lineItemObj = new Object();
+				lineItemObj.id = '---'; 
+				lineItemObj.cost = 0; 
+				lineItems.push(lineItemObj);
 
 				
 				

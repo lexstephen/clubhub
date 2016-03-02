@@ -81,34 +81,49 @@ public class ValidationUtilities {
 				(!charge05.equals("---")) ) {
 			// at least one of the dropdowns has a selection so lets check their respective quantities 
 				if (!charge01.equals("---")) {
-					if (!charge01qty.equals("0"))
+					if (!charge01qty.equals("0")) 
 						isValidQty = true;
-					else
+					else {
+						request.setAttribute("errorLineItems", "Please check quantities selected.");
+						request.setAttribute("errorCharge01Qty", true);
 						isValidQty = false;
+					}
 				}	
 				if (!charge02.equals("---")) {
 					if (!charge02qty.equals("0"))
 						isValidQty = true;
-					else
+					else {
+						request.setAttribute("errorLineItems", "Please check quantities selected.");
+						request.setAttribute("errorCharge02Qty", true);
 						isValidQty = false;
+					}
 				}	
 				if (!charge03.equals("---")) {
 					if (!charge03qty.equals("0"))
 						isValidQty = true;
-					else
+					else {
+						request.setAttribute("errorLineItems", "Please check quantities selected.");
+						request.setAttribute("errorCharge03Qty", true);
 						isValidQty = false;
+					}
 				}	
 				if (!charge04.equals("---")) {
 					if (!charge04qty.equals("0"))
 						isValidQty = true;
-					else
+					else {
+						request.setAttribute("errorLineItems", "Please check quantities selected.");
+						request.setAttribute("errorCharge04Qty", true);
 						isValidQty = false;
+					}
 				}	
 				if (!charge05.equals("---")) {
 					if (!charge05qty.equals("0"))
 						isValidQty = true;
-					else
+					else {
+						request.setAttribute("errorLineItems", "Please check quantities selected.");
+						request.setAttribute("errorCharge05Qty", true);
 						isValidQty = false;
+					}
 				}	
 			} else {
 				// none of the dropdowns had a selection, your invoice is invalid
