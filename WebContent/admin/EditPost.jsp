@@ -33,9 +33,12 @@ post.findPost(request, postID);
 		</label>
 		<div class="col-sm-3">
 			<select class="form-control" name="accessLevel">
-				<option value="3">Draft</option>
+				<option value="1" ${accessLevel == 'Public' ? 'selected' : ''}>Public</option>
+				<option value="2" ${accessLevel == 'Members' ? 'selected' : ''}>Members Only</option>
+				<option value="3" ${accessLevel == 'Private' ? 'selected' : ''}>Draft</option>
+<!-- 				<option value="3">Draft</option>
 				<option value="1">Public</option>
-				<option value="2">Members Only</option>
+				<option value="2">Members Only</option> -->
 			</select>
 		</div>
 		<br><br>
@@ -47,19 +50,25 @@ post.findPost(request, postID);
 			Page Type
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="pageType">
-				<option value="1">Blog Post</option>
-				<option value="2">Web Content</option>
+			<select class="form-control" name="pageType" id="editPageType">
+				<!-- <option value="1">Blog Post</option>
+				<option value="2">Web Content</option> -->
+				<option value="1" ${postType == 'Blog' ? 'selected' : ''}>Blog Post</option>
+				<option value="2" ${postType == 'Static' ? 'selected' : '' }>Web Content</option>
 			</select>
 		</div>
 		<label class="col-sm-2 control-label">
 			Category
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="pageCategory">
+			<select class="form-control" name="pageCategory" id="editPageCategory" ${postType == 'Static' ? 'disabled' : ''}>
+				<option value="1" ${pageCategory == 'Announcements' ? 'selected' : ''}>Announcements</option>
+				<option value="2" ${pageCategory == 'Events' ? 'selected' : ''}>Events</option>
+				<option value="3" ${pageCategory == 'Contests' ? 'selected' : ''}>Contests</option>
+				<!-- 
 				<option value="1">Announcements</option>
 				<option value="2">Events</option>
-				<option value="3">Contests</option>
+				<option value="3">Contests</option> -->
 			</select>
 		</div>
 		<input type="hidden" name="postID" value="${post.id}">

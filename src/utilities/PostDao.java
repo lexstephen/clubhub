@@ -119,7 +119,7 @@ public class PostDao {
 		  List<Post> posts = new ArrayList<Post>();
 		  	try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
+			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_post post "
 				+ "JOIN clubhub.ch_posttype posttype "
 				+ "ON post.Posttypeid = posttype.id "
@@ -136,11 +136,15 @@ public class PostDao {
 			    	  post.setTitle(resultSet.getString("title"));
 			    	  post.setContent(resultSet.getString("content"));
 			    	  post.setId(resultSet.getString("id"));
+			    	  post.setUserid(resultSet.getString("Userid"));
 			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
 			    	  post.setUserLastName(resultSet.getString("user.lastName"));
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("category.type"));
+			    	  post.setPostMatchUser(post.getUserid() == "2");
+			    	  
+			    	  System.out.println("postMatchUser = " + post.isPostMatchUser());
 			    	  
 			    	  request.setAttribute("postID", post.getId());
 
@@ -165,8 +169,8 @@ public class PostDao {
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String [] markedForDeletion = request.getParameterValues("postSelected");
-		for (String x : markedForDeletion) {
-			deletePost(request, response, x);
+		for (String postID : markedForDeletion) {
+			deletePost(request, response, postID);
 		}		
 	}
 	
@@ -201,6 +205,9 @@ public class PostDao {
 			      throw e;
 			}
 		  	request.setAttribute("post", post);
+		  	request.setAttribute("accessLevel", post.getAccessLevel());
+		  	request.setAttribute("postType", post.getPostType());
+		  	request.setAttribute("pageCategory", post.getCategory());
 	} 
 	
 	public void editPost(HttpServletRequest request, HttpServletResponse response, String _postID) throws Exception {
@@ -210,46 +217,73 @@ public class PostDao {
 		    String content = request.getParameter("blogContent"); // content
 		    String pageType = request.getParameter("pageType"); // Posttypeid
 		    String accessLevel = request.getParameter("accessLevel"); // Accessid
-		    String category = request.getParameter("pageCategory"); // Categoryid
-			
+		    String category = (request.getParameter("pageCategory") != null) ? request.getParameter("pageCategory"): "1"; // Categoryid
 	      
-		    /*UPDATE `clubhub`.`ch_post` SET `title`='blogtitle', `content`='schoop doopy', 
-	    		  `Userid`='1', `Posttypeid`='2', `Accessid`='2', `Categoryid`='2' WHERE `id`='6';*/
-	      
-			statement = connect.createStatement();
-			statement.executeUpdate("UPDATE ch_post SET title='" + title + "', content='" + content + "', Posttypeid='" + pageType + 
-					"', Accessid='" + accessLevel + "', Categoryid='" + category + "' WHERE id='" + postID + "'");
-	      
-	      //preparedStatement.executeUpdate();
+		    statement = connect.createStatement();
+		    preparedStatement = connect.prepareStatement("UPDATE ch_post SET title = ?, content = ?, Posttypeid = ?, "
+		    		+ "Accessid= ?, Categoryid= ? WHERE id='" + postID + "'");
+		    
+		    preparedStatement.setString(1, title);
+		    preparedStatement.setString(2, content);
+		    preparedStatement.setString(3, pageType);
+		    preparedStatement.setString(4, accessLevel);
+		    preparedStatement.setString(5, category);
+		    
+		    preparedStatement.executeUpdate();
+
 	    } catch (Exception e) {
 	      throw e;
 	    }
 	}
 
 	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		// this method edits the postType, accessLevel, and/or category in ch_post
+		
 		String [] markedForEdit = request.getParameterValues("postSelected");
-		String postID, pageType, accessLevel, category;
+		String postID, pageType, accessLevel, category, executeString = "";
 		
 		pageType = request.getParameter("pageType"); // Posttypeid
 	    accessLevel = request.getParameter("accessLevel"); // Accessid
 	    category = request.getParameter("pageCategory"); // Categoryid
-		
-		for (String x : markedForEdit) {
-			postID = x;
-		    
-			statement = connect.createStatement();
-			statement.executeUpdate("UPDATE ch_post SET Posttypeid='" + pageType + 
-					"', Accessid='" + accessLevel + "', Categoryid='" + category + "' WHERE id='" + postID + "'");
+	    
+	    if (!pageType.equals("0")) {
+	    	executeString = "Posttypeid='" + pageType;
+	    }
+	    if (!accessLevel.equals("0") && !pageType.equals("0")) {
+	    	executeString += "', Accessid='" + accessLevel;
+	    } else if(!accessLevel.equals("0")) 
+	    {
+	    	executeString = "Accessid='" + accessLevel;
+	    }
+	    if (!category.equals("0") && (!accessLevel.equals("0") || !pageType.equals("0"))) {
+	    	executeString += "', Categoryid='" + category;
+	    } else if(!category.equals("0")) 
+	    {
+	    	executeString = "Categoryid='" + category;
+	    }
+	    
+	    if (!executeString.equals(""))
+	    {
+	    	System.out.println("executeString is not null. Here's pageType, accessLevel, pageCategory values: " + pageType + accessLevel + category);
+	    	System.out.println("And here's executeString: " + executeString);
+			for (String x : markedForEdit) 
+			{
+				postID = x;
+			    statement = connect.createStatement();
+				statement.executeUpdate("UPDATE ch_post SET " + executeString + "' WHERE id='" + postID + "'");
+			}
 		}				
 	}
 	
-	public String[] getLastPosts(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+	public String[] getLastBlogs(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+		//this method returns the latest 3 blog posts (Posttypeid = 1) in ch_post
+		
 		String[] postIDs = new String[3];
 		
 		try {
 			  statement = connect.createStatement();
-			  resultSet = statement.executeQuery("SELECT id FROM ch_post ORDER BY id DESC LIMIT 3");
+			  resultSet = statement.executeQuery("SELECT id FROM ch_post WHERE Posttypeid = '1' ORDER BY id DESC LIMIT 3");
 			  
 			  int i = 0;
 			  

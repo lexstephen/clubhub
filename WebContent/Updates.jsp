@@ -21,12 +21,21 @@
 	
 	<h1>Blog Archives</h1>
 
-<!-- 	 use this to test admin login. no admin login, no edit button -->
+	<!---- use these attributes to test access level functionality -->
 	<% session.setAttribute("isAdmin", false); %>
-
+	<% session.setAttribute("isLoggedIn", true); %>
+	<!---- end of access level testing stuff         ---------------->
 		
 	<c:forEach items="${posts}" var="post">
-		<%@ include file="/WEB-INF/displayAllPosts.jsp" %>			
+		<c:if test="${post.accessLevel == 'Public'}">
+			<%@ include file="/WEB-INF/displayAllPosts.jsp" %>		
+		</c:if>	
+		<c:if test="${(post.accessLevel == 'Members') && ((isLoggedIn == true) || (isAdmin == true))}">
+			<%@ include file="/WEB-INF/displayAllPosts.jsp" %>		
+		</c:if>
+		<c:if test="${(post.accessLevel == 'Private') && (post.postMatchUser == true)}">
+			<%@ include file="/WEB-INF/displayAllPosts.jsp" %>		
+		</c:if>				
 	</c:forEach>
 	
 	<span class="pagination">

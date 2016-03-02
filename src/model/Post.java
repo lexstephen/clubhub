@@ -1,4 +1,7 @@
 package model;
+
+import org.apache.catalina.Session;
+
 /****************************************************************************************************
 * Project: ClubHub
 * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
@@ -7,7 +10,8 @@ package model;
 * Description: Post model
 ****************************************************************************************************/
 public class Post {
-	private String id, title, content, Userid, userFirstName, userLastName, postType, accessLevel, category;
+	private String id, title, content, content_short, Userid, userFirstName, userLastName, postType, accessLevel, category;
+	private boolean postMatchUser;
 	//Object comments = null;
 
 /*	public Object getComments() {
@@ -18,6 +22,26 @@ public class Post {
 		this.comments = comments;
 	}*/
 	
+	public void setPostMatchUser(boolean postMatchUser) {
+		this.postMatchUser = postMatchUser;
+	}
+
+	public boolean isPostMatchUser() {
+		return postMatchUser;
+	}
+
+	public boolean postMatchUser(String loggedInId) {
+		return (Userid == loggedInId);
+	}
+
+	public String getContent_short() {
+		int n = 20;
+		content_short = content.substring(0, Math.min(content.length(), n));     // change 20 to something bigger
+		if (content_short.length() > n-3)
+			content_short += "...";
+		return content_short;
+	}
+
 	public String getUsername() {
 		return userFirstName + " " + userLastName;
 	}

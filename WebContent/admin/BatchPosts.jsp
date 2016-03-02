@@ -19,11 +19,8 @@
 	
 	<% post.listAll(request); %> 
 	
-	
-
-<!-- 	 use this to test admin login. no admin login, no edit button -->
+	<!-- 	 use this to test admin login. no admin login, no edit button. well actually no checkboxes -->
 	<% session.setAttribute("isAdmin", true); %> 
-
 		
 	<form action="/clubhub/PostController" method="post" class="form" role="form">
 		<c:forEach items="${posts}" var="post">
@@ -35,16 +32,18 @@
 		</label>
 		<div class="col-sm-3">
 			<select class="form-control" name="accessLevel">
+				<option value="0">-- no change --</option>
 				<option value="3">Draft</option>
 				<option value="1">Public</option>
 				<option value="2">Members Only</option>
 			</select>
 		</div>
 		<label class="col-sm-1 control-label">
-			Page Type
+			Post Type
 		</label>
 		<div class="col-sm-3">
 			<select class="form-control" name="pageType">
+				<option value="0">-- no change --</option>
 				<option value="1">Blog Post</option>
 				<option value="2">Web Content</option>
 			</select>
@@ -54,6 +53,7 @@
 		</label>
 		<div class="col-sm-3">
 			<select class="form-control" name="pageCategory">
+				<option value="0">-- no change --</option>
 				<option value="1">Announcements</option>
 				<option value="2">Events</option>
 				<option value="3">Contests</option>
