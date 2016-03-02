@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import model.Invoice;
 import model.User;
 import model.InvoiceLineItem;
+import model.Post;
 import utilities.DatabaseAccess;
 
 public class InvoiceDao {
@@ -180,7 +181,26 @@ public class InvoiceDao {
 	} 
 
 	public void listAll(HttpServletRequest request, HttpServletResponse response) throws Exception { 
-		
+		  List<Invoice> invoices = new ArrayList<Invoice>();
+		  	try{
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT invoice.id, invoice.invDate, invoice.status, invoice.Userid" 
+				+ " FROM clubhub.ch_invoice invoice ");
+			      
+			    while (resultSet.next()) {
+			    	  Invoice invoice = new Invoice();
+			    	  invoice.setId(resultSet.getString("id"));
+			    	  invoice.setInvDate(resultSet.getString("invDate"));
+			    	  invoice.setStatus(resultSet.getString("status"));
+			    	  invoice.setUserid(resultSet.getString("userid"));
+			    	  request.setAttribute("invoiceID", invoice.getId());
+			    	  invoices.add(invoice);
+			    }
+		    } catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("invoices", invoices);
+
 	}
 	public void deleteInvoice(HttpServletRequest request, HttpServletResponse response, String invoiceID) throws Exception {
 		

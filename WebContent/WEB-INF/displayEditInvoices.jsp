@@ -7,11 +7,10 @@
  --%>
      
 	<div class="row">
-		<div class="col-xs-12 col-md-2 control-label">${invoice.title}</div>
-		<div class="col-xs-12 col-md-2">Invoice Type: ${invoice.invoiceType}</div>
-		<div class="col-xs-12 col-md-2">Category: ${invoice.category}</div>
-		<div class="col-xs-12 col-md-2">Username: ${invoice.username}</div>
-		<div class="col-xs-12 col-md-2">Access level: ${invoice.accessLevel}</div>
+		<div class="col-xs-12 col-md-2 control-label">${invoice.id}</div>
+		<div class="col-xs-12 col-md-2">Invoice Date: ${invoice.invDate}</div>
+		<div class="col-xs-12 col-md-2">User: ${invoice.userid}</div>
+		<div class="col-xs-12 col-md-2">Invoice Status: ${invoice.status}</div>
 
 		<div class="col-xs-12 col-md-2">
 				<span class="expand">

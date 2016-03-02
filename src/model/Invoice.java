@@ -7,7 +7,7 @@ package model;
 * Description: Invoice model
 ****************************************************************************************************/
 public class Invoice {
-	private String id, invDate, status, Userid;
+	private String id, invDate, status, userid;
 	
 	public String getId() {
 		return id;
@@ -35,10 +35,10 @@ public class Invoice {
 	}
 
 	public String getUserid() {
-		return Userid;
+		return userid;
 	}
 
 	public void setUserid(String userid) {
-		Userid = userid;
+		this.userid = userid;
 	}
 }
