@@ -169,21 +169,22 @@
 					  <option ${state == 'AZ' ? 'selected' : ''}>LA</option>
 					  <option ${state == 'AZ' ? 'selected' : ''}>ME</option>
 					  <option ${state == 'AZ' ? 'selected' : ''}>MD</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>MA</option>					  <option ${state == 'AZ' ? 'selected' : ''}>AZ</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>MI</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>MN</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>MS</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>MO</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>MT</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NE</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NV</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NH</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NJ</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NM</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NY</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NC</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>ND</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>OH</option>
+					  <option ${state == 'AZ' ? 'selected' : ''}>MA</option>					  
+					  <option ${state == 'AZ' ? 'selected' : ''}>AZ</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>MI</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>MN</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>MS</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>MO</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>MT</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>NE</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>NV</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>NH</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>NJ</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>NM</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>NY</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>NC</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>ND</option>
+  					  <option ${state == 'AZ' ? 'selected' : ''}>OH</option>
 					  
 					</select>
 			  	</div>

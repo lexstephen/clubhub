@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%-- 
 	Project: ClubHub Content and User Management System 
 	Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
@@ -7,6 +9,9 @@
  --%>
      
 	<div class="row">
+		<c:if test="${(isAdmin == true) && (thisPage == 'Showing All Posts')}">
+			<div class="checkbox"><input type="checkbox" name="postSelected" value="${post.id}"></div>
+		</c:if>
 		<div class="col-xs-12 col-md-2 control-label">${post.title}</div>
 		<div class="col-xs-12 col-md-2">Post Type: ${post.postType}</div>
 		<div class="col-xs-12 col-md-2">Category: ${post.category}</div>
@@ -15,7 +20,11 @@
 
 		<div class="col-xs-12 col-md-2">
 				<span class="expand">
-					<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+					<c:choose>
+						<c:when test="${(isAdmin == true) || (postMatchesUser == true)}">
+							<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+						</c:when>
+					</c:choose>
 					<a href="/clubhub/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
 				</span>
 		</div>

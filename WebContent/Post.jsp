@@ -21,7 +21,7 @@ request.setAttribute("thisPage", request.getParameter("blogTitle")); %>
 		<div class="col-xs-12">
 			<h1>${post.title}</h1>
 			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on Sept 7, 2015. Access level: ${post.accessLevel}</span>
-			<p>"${post.content}".</p>
+			<p>"${post.content}"</p>
 				<span class="expand">
 					<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
 				</span>

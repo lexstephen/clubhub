@@ -11,3 +11,14 @@ $('#inptCountry').bind('change', function(event) {
 		$('#inptProvince').show(); // show the other one
 	}
 });
+
+$('#editPageType').bind('change', function(event) {
+	var i = $('#editPageType').val();
+	
+	if(i=="2") {
+		$('#editPageCategory').prop('disabled', true);
+	}
+	else {
+		$('#editPageCategory').prop('disabled', false);
+	}
+});
