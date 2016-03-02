@@ -71,6 +71,7 @@ ${errorString }
 			</div>
 		</div>
 		
+
 		
 		<div class="row">
 			<div class="col-xs-5 col-xs-offset-1">
@@ -85,10 +86,181 @@ ${errorString }
 			  	</div>
 			</div>
 			<div class="col-xs-2">
-				<input type="text" name="charge01qty" class="form-control" id="inptCharge01qty" value="${(charge01qty > 0)? charge01qty:'0'}">
+				<input type="text" name="charge01qty" class="form-control qty" id="inptCharge01qty" value="${(charge01qty > 0)? charge01qty:'0'}">
 			</div>
 			<div class="col-xs-2">
+				<input type="text" id="charge01cost" class="unit">
+			</div>
+			<div class="col-xs-2">
+				<input type="text" id="charge01subtotal" class="amount">
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-5 col-xs-offset-1">
+				<div class="form-group">
+					<select name="charge02" class="form-control" id="inptCharge02">
+				 		<option value="---" ${charge02 == '---' ? 'selected' : ''}> - </option>
+						<c:forEach items="${lineitems}" var="lineitem">
+					 		<option value="${lineitem.id}" ${charge02 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
+						</c:forEach>
+					</select>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<input type="text" name="charge02qty" class="form-control qty" id="inptCharge02qty" value="${(charge02qty > 0)? charge02qty:'0'}">
+			</div>
+			<div class="col-xs-2">
+				<input type="text" id="charge02cost" class="unit">
+			</div>
+			<div class="col-xs-2">
+				<input type="text" id="charge02subtotal" class="amount">
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-5 col-xs-offset-1">
+				<div class="form-group">
+					<select name="charge03" class="form-control" id="inptCharge03">
+				 		<option value="---" ${charge03 == '---' ? 'selected' : ''}> - </option>
+						<c:forEach items="${lineitems}" var="lineitem">
+					 		<option value="${lineitem.id}" ${charge03 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
+						</c:forEach>
+					</select>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<input type="text" name="charge03qty" class="form-control" id="inptCharge03qty" value="${(charge03qty > 0)? charge03qty:'0'}">
+			</div>
+			<div class="col-xs-2">
+				<div id="charge03cost"></div>
+			</div>
+			<div class="col-xs-2">
+				<div id="charge03subtotal"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-5 col-xs-offset-1">
+				<div class="form-group">
+					<select name="charge04" class="form-control" id="inptCharge04">
+				 		<option value="---" ${charge04 == '---' ? 'selected' : ''}> - </option>
+						<c:forEach items="${lineitems}" var="lineitem">
+					 		<option value="${lineitem.id}" ${charge04 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
+						</c:forEach>
+					</select>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<input type="text" name="charge04qty" class="form-control" id="inptCharge04qty" value="${(charge04qty > 0)? charge04qty:'0'}">
+			</div>
+			<div class="col-xs-2">
+				<div id="charge04cost"></div>
+			</div>
+			<div class="col-xs-2">
+				<div id="charge04subtotal"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-5 col-xs-offset-1">
+				<div class="form-group">
+					<select name="charge05" class="form-control" id="inptCharge05">
+				 		<option value="---" ${charge05 == '---' ? 'selected' : ''}> - </option>
+						<c:forEach items="${lineitems}" var="lineitem">
+					 		<option value="${lineitem.id}" ${charge05 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
+						</c:forEach>
+					</select>
+			  	</div>
+			</div>
+			<div class="col-xs-2">
+				<input type="text" name="charge05qty" class="form-control" id="inptCharge05qty" value="${(charge05qty > 0)? charge05qty:'0'}">
+			</div>
+			<div class="col-xs-2">
+				<div id="charge05cost"></div>
+			</div>
+			<div class="col-xs-2">
+				<div id="charge05subtotal"></div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-2 col-xs-offset-8">
+			    <label>Subtotal</label>			  
+			</div>
+			<div class="col-xs-2">
+				<div id="finalSubtotal"><input type="text" class="result"></div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-2 col-xs-offset-8">
+			    <label>Taxes</label>			  
+			</div>
+			<div class="col-xs-2">
+				$0.00
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-2 col-xs-offset-8">
+			    <label>Total Due</label>			  
+			</div>
+			<div class="col-xs-2">
+				$0.00
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-3 control-label">
+			    	<label for="inptStatus">Status</label>			  
+			</div>
+			<div class="col-xs-9">
+				<div class="radio">
+			    	<label class="checkbox-inline">
+			      		<input type="radio" name="status" id="inptStatusU" value="unpaid" checked  ${status == 'unpaid' ? 'checked' : ''}> Unpaid
+			      	</label>
+			    	<label class="checkbox-inline">
+			      		<input type="radio" name="status" id="inptStatusP" value="paid"  ${status == 'P' ? 'paid' : ''}> Paid
+			      	</label>
+			  	</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-group">
+					<input type="hidden" name="option" value="add">
+			    	<input type="submit" class="btn btn-default" value="Create Invoice">
+			  	</div>
+			</div>
+		</div>
+	</form>
+	
 				<script type="text/javascript">
+				$(".qty").on('input', function () {
+				    var self = $(this);
+				    // var unitVal = self.next().val();
+				    //var unitVal = self.parent().next().val();
+				    var unitVal = self.closest(".row").find(".unit").val();
+				    self.closest(".row").find(".amount").val(unitVal * self.val());
+				   fnAlltotal();
+				});
+
+				$(".unit").on('input', function () {
+				    var self = $(this);
+				    //$(this).parent().find('#cl_zipcode').val()
+				    var qtyVal = self.closest(".row").find(".qty").val();
+				    self.closest(".row").find(".amount").val(qtyVal * self.val());
+				  fnAlltotal();
+				});
+	
+				function fnAlltotal(){
+				  var total=0;
+				    $(".amount").each(function(){
+				         total += parseFloat($(this).val()||0);
+				    });
+				    $(".result").val(total);
+				}
+				
 				var lineItems = new Array();
 				<c:forEach items="${lineitems}" var="lineitem" varStatus="status"> 
 					lineItemObj = new Object();
@@ -96,19 +268,20 @@ ${errorString }
 					lineItemObj.cost = ${lineitem.cost}; 
 					lineItems.push(lineItemObj);
 				</c:forEach> 
-
+				
 				$(document).ready(function(){
 				    $("select[name='charge01']").change(function(){
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('charge01cost').innerHTML = parseFloat(lineItems[index].cost);
+									  document.getElementById('charge01cost').value = parseFloat(lineItems[index].cost);
 					            }
 				            }
 				        });
 				    }).change();
 				});
 
+				/*
 				$(document).ready(function(){
 					$('#inptCharge01qty').bind('input', function() {
 					    $("select[name='charge01']").find("option:selected").each(function(){
@@ -121,6 +294,8 @@ ${errorString }
 					    }).change();
 					} );
 				});
+				*/
+				
 				
 
 				$(document).ready(function(){
@@ -135,7 +310,7 @@ ${errorString }
 				    }).change();
 				});
 				
-
+/*
 				$(document).ready(function(){
 					$('#inptCharge02qty').bind('input', function() {
 					    $("select[name='charge02']").find("option:selected").each(function(){
@@ -217,150 +392,8 @@ ${errorString }
 					            }
 					    }).change();
 					} );
-				});
+				}); 
+			*/
+				
 				</script>
-				<div id="charge01cost"></div>
-			</div>
-			<div class="col-xs-2">
-				<div id="charge01subtotal"></div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-xs-5 col-xs-offset-1">
-				<div class="form-group">
-					<select name="charge02" class="form-control" id="inptCharge02">
-				 		<option value="---" ${charge02 == '---' ? 'selected' : ''}> - </option>
-						<c:forEach items="${lineitems}" var="lineitem">
-					 		<option value="${lineitem.id}" ${charge02 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
-						</c:forEach>
-					</select>
-			  	</div>
-			</div>
-			<div class="col-xs-2">
-				<input type="text" name="charge02qty" class="form-control" id="inptCharge02qty" value="${(charge02qty > 0)? charge02qty:'0'}">
-			</div>
-			<div class="col-xs-2">
-				<div id="charge02cost"></div>
-			</div>
-			<div class="col-xs-2">
-				<div id="charge02subtotal"></div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-5 col-xs-offset-1">
-				<div class="form-group">
-					<select name="charge03" class="form-control" id="inptCharge03">
-				 		<option value="---" ${charge03 == '---' ? 'selected' : ''}> - </option>
-						<c:forEach items="${lineitems}" var="lineitem">
-					 		<option value="${lineitem.id}" ${charge03 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
-						</c:forEach>
-					</select>
-			  	</div>
-			</div>
-			<div class="col-xs-2">
-				<input type="text" name="charge03qty" class="form-control" id="inptCharge03qty" value="${(charge03qty > 0)? charge03qty:'0'}">
-			</div>
-			<div class="col-xs-2">
-				<div id="charge03cost"></div>
-			</div>
-			<div class="col-xs-2">
-				<div id="charge03subtotal"></div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-5 col-xs-offset-1">
-				<div class="form-group">
-					<select name="charge04" class="form-control" id="inptCharge04">
-				 		<option value="---" ${charge04 == '---' ? 'selected' : ''}> - </option>
-						<c:forEach items="${lineitems}" var="lineitem">
-					 		<option value="${lineitem.id}" ${charge04 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
-						</c:forEach>
-					</select>
-			  	</div>
-			</div>
-			<div class="col-xs-2">
-				<input type="text" name="charge04qty" class="form-control" id="inptCharge04qty" value="${(charge04qty > 0)? charge04qty:'0'}">
-			</div>
-			<div class="col-xs-2">
-				<div id="charge04cost"></div>
-			</div>
-			<div class="col-xs-2">
-				<div id="charge04subtotal"></div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-5 col-xs-offset-1">
-				<div class="form-group">
-					<select name="charge05" class="form-control" id="inptCharge05">
-				 		<option value="---" ${charge05 == '---' ? 'selected' : ''}> - </option>
-						<c:forEach items="${lineitems}" var="lineitem">
-					 		<option value="${lineitem.id}" ${charge05 == lineitem.id ? 'selected' : ''}>${lineitem.description}</option>
-						</c:forEach>
-					</select>
-			  	</div>
-			</div>
-			<div class="col-xs-2">
-				<input type="text" name="charge05qty" class="form-control" id="inptCharge05qty" value="${(charge05qty > 0)? charge05qty:'0'}">
-			</div>
-			<div class="col-xs-2">
-				<div id="charge05cost"></div>
-			</div>
-			<div class="col-xs-2">
-				<div id="charge05subtotal"></div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-2 col-xs-offset-8">
-			    <label>Subtotal</label>			  
-			</div>
-			<div class="col-xs-2">
-				<div id="finalSubtotal">$0.00</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-2 col-xs-offset-8">
-			    <label>Taxes</label>			  
-			</div>
-			<div class="col-xs-2">
-				$0.00
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-2 col-xs-offset-8">
-			    <label>Total Due</label>			  
-			</div>
-			<div class="col-xs-2">
-				$0.00
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-xs-3 control-label">
-			    	<label for="inptStatus">Status</label>			  
-			</div>
-			<div class="col-xs-9">
-				<div class="radio">
-			    	<label class="checkbox-inline">
-			      		<input type="radio" name="status" id="inptStatusU" value="unpaid" checked  ${status == 'unpaid' ? 'checked' : ''}> Unpaid
-			      	</label>
-			    	<label class="checkbox-inline">
-			      		<input type="radio" name="status" id="inptStatusP" value="paid"  ${status == 'P' ? 'paid' : ''}> Paid
-			      	</label>
-			  	</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-12">
-				<div class="form-group">
-					<input type="hidden" name="option" value="add">
-			    	<input type="submit" class="btn btn-default" value="Create Invoice">
-			  	</div>
-			</div>
-		</div>
-	</form>
 <%@ include file="/WEB-INF/footer_backend.jsp" %>
