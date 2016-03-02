@@ -21,30 +21,18 @@ public class ValidationUtilities {
 	// check that email and password match required formatting
 	public static boolean isValidLogin(HttpServletRequest request) {
 		boolean isValid = true;
-		HttpSession session = request.getSession();
-		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		
-		request.setAttribute("username", username);
-		System.out.println("Username is " + username);
-		
+		request.setAttribute("username", username);		
 		request.setAttribute("password", password);
-		System.out.println("Password is " + password);
-		
-		if (username.equals("admin") && password.equals("admin")) {
-			session.setAttribute("isAdmin", true);
-		} else {
-			session.setAttribute("isAdmin", false);
-			if (isMissing(username)) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLoginEmail", true);}
-			if (!isPwd(password)) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLoginPassword", true);} 
-		}
+		if (isMissing(username)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorLoginEmail", true);}
+		if (!isPwd(password)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorLoginPassword", true);} 
 		return isValid;
 	}
 

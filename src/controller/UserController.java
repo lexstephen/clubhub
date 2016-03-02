@@ -60,9 +60,10 @@ public class UserController extends HttpServlet {
 		    		if (ValidationUtilities.isValidLogin(request)) {
 		    			dao.getUserId(request,"login");
 		    			dao.getName(request,"login");
+		    			dao.isAdmin(request);
 		    			System.out.println("I think the user name is " + session.getAttribute("loggedInUserFullName"));
 	    				// yes it is! and are they in the database?	    					    				
-			    		if (session.getAttribute("isAdmin").equals(true)) {
+			    		if (session.getAttribute("isAdmin") != null) {
 			    			// they are admins! send them to AdminController
 			    			session.setAttribute("isLoggedIn", true);
 							request.setAttribute("errorString", null);

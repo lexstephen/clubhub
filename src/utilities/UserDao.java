@@ -118,6 +118,24 @@ public class UserDao {
 			    }
 		}
 		
+		public void isAdmin(HttpServletRequest request) throws Exception {
+		    try {
+		    	System.out.println("I got into isAdmin");
+		    	  HttpSession session = request.getSession();
+			      statement = connect.createStatement();
+			      resultSet = statement.executeQuery("select userStatus from ch_user where id = '" + session.getAttribute("loggedInUserID") + "'");
+			      while (resultSet.next()) {
+			    	  session.setAttribute("userStatus",  resultSet.getString("userStatus"));
+			    	  if (resultSet.getString("userStatus").equals("admin")) {
+			    		  System.out.println("I think they are admins");
+			  			session.setAttribute("isAdmin", true);
+			    	  } 
+			      }
+			    } catch (Exception e) {
+			      throw e;
+			    }
+		}
+		
 		public void getName(HttpServletRequest request, String option) throws Exception {
 			switch (option) {
 			case "login": 

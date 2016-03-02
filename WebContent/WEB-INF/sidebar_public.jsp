@@ -1,7 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div id="sidebar" class="row">
 	<div class="col-sm-12">
 		<img src="images/tempcurlingpicture.png" id="sidebarImage">
 	</div>
+<c:if test="${!isLoggedIn == true}">
 	<div class="col-sm-12">
 	<form action="/clubhub/UserController" method="post" class="form" role="form">
 		  <div class="form-group">
@@ -22,6 +25,7 @@
 		  <input type="submit" class="btn btn-default" value="Login">
 		</form>
 	</div>
+</c:if>
 	<div class="col-sm-12">
 		<h3>Club Schedule:</h3>
 	</div>
