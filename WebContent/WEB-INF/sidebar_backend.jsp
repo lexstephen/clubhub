@@ -17,7 +17,7 @@
 <fieldset>
 	<legend>Invoices</legend>
 	<ul>
-		<li><a href="/clubhub/admin/BatchUsers.jsp">List All</a></li>
+		<li><a href="/clubhub/admin/BatchInvoices.jsp">List All</a></li>
 		<li><a href="/clubhub/admin/AddInvoice.jsp">Add Invoice</a></li>
 		<li><a href="/clubhub/admin/AddLineItems.jsp">Add Item</a></li>
 	</ul>

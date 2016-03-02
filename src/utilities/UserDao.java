@@ -127,7 +127,7 @@ public class UserDao {
 			      while (resultSet.next()) {
 			    	  session.setAttribute("userStatus",  resultSet.getString("userStatus"));
 			    	  if (resultSet.getString("userStatus").equals("admin")) {
-			    		  System.out.println("I think they are admins");
+			    		  System.out.println("I recognize that they are admins");
 			  			session.setAttribute("isAdmin", true);
 			    	  } 
 			      }

@@ -28,6 +28,7 @@
 							<li><a href="/clubhub/Fees.jsp">Fees</a></li>
 							<li><a href="/clubhub/Rent.jsp">Rent Us</a></li>
 							<c:if test="${isLoggedIn == true}">
+								<li><a href="/clubhub/admin/">Dashboard</a></li>
 								<li><a href="/clubhub/Logout">Log Out</a></li>
 							</c:if>
 						</ul>
