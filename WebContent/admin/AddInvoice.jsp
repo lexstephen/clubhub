@@ -51,10 +51,13 @@ ${errorString }
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-3 control-label">
+			<div class="col-xs-12 control-label">
 		    	<label>Charges</label>
 			</div>
-			<div class="col-xs-5">
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-5 col-xs-offset-1">
 			    <label>Item</label>
 			</div>
 			<div class="col-xs-2">
@@ -63,11 +66,14 @@ ${errorString }
 			<div class="col-xs-2">
 			    <label>Price</label>
 			</div>
+			<div class="col-xs-2">
+			    <label>Subtotal</label>
+			</div>
 		</div>
 		
 		
 		<div class="row">
-			<div class="col-xs-5 col-xs-offset-3">
+			<div class="col-xs-5 col-xs-offset-1">
 				<div class="form-group">
 					<% invoice.listAllLineItems(request); %>
 					<select name="charge01" class="form-control" id="inptCharge01">
@@ -96,7 +102,6 @@ ${errorString }
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('inptCharge01qty').value = "1";
 									  document.getElementById('charge01cost').innerHTML = parseFloat(lineItems[index].cost);
 					            }
 				            }
@@ -110,6 +115,7 @@ ${errorString }
 								for	(index = 0; index < lineItems.length; index++) {
 						            if($(this).attr("value")==lineItems[index].id){
 										  document.getElementById('charge01subtotal').innerHTML = parseFloat(lineItems[index].cost * document.getElementById('inptCharge01qty').value);
+										  document.getElementById('finalSubtotal').innerHTML = document.getElementById('finalSubtotal').value + document.getElementById('charge01subtotal').value;
 						            }
 					            }
 					    }).change();
@@ -122,12 +128,24 @@ ${errorString }
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('inptCharge02qty').value = "1";
-									  document.getElementById('charge02cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
+									  document.getElementById('charge02cost').innerHTML = parseFloat(lineItems[index].cost);
 					            }
 				            }
 				        });
 				    }).change();
+				});
+				
+
+				$(document).ready(function(){
+					$('#inptCharge02qty').bind('input', function() {
+					    $("select[name='charge02']").find("option:selected").each(function(){
+								for	(index = 0; index < lineItems.length; index++) {
+						            if($(this).attr("value")==lineItems[index].id){
+										  document.getElementById('charge02subtotal').innerHTML = parseFloat(lineItems[index].cost * document.getElementById('inptCharge02qty').value);
+						            }
+					            }
+					    }).change();
+					} );
 				});
 				
 				$(document).ready(function(){
@@ -135,8 +153,7 @@ ${errorString }
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('inptCharge03qty').value = "1";
-									  document.getElementById('charge03cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
+									  document.getElementById('charge03cost').innerHTML = parseFloat(lineItems[index].cost);
 					            }
 				            }
 				        });
@@ -144,40 +161,73 @@ ${errorString }
 				});
 
 				$(document).ready(function(){
+					$('#inptCharge03qty').bind('input', function() {
+					    $("select[name='charge03']").find("option:selected").each(function(){
+								for	(index = 0; index < lineItems.length; index++) {
+						            if($(this).attr("value")==lineItems[index].id){
+										  document.getElementById('charge03subtotal').innerHTML = parseFloat(lineItems[index].cost * document.getElementById('inptCharge03qty').value);
+						            }
+					            }
+					    }).change();
+					} );
+				});
+				$(document).ready(function(){
 				    $("select[name='charge04']").change(function(){
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('inptCharge04qty').value = "1";
-									  document.getElementById('charge04cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
+									  document.getElementById('charge04cost').innerHTML = parseFloat(lineItems[index].cost);
 					            }
 				            }
 				        });
 				    }).change();
 				});
-				
+
+				$(document).ready(function(){
+					$('#inptCharge04qty').bind('input', function() {
+					    $("select[name='charge04']").find("option:selected").each(function(){
+								for	(index = 0; index < lineItems.length; index++) {
+						            if($(this).attr("value")==lineItems[index].id){
+										  document.getElementById('charge04subtotal').innerHTML = parseFloat(lineItems[index].cost * document.getElementById('inptCharge04qty').value);
+						            }
+					            }
+					    }).change();
+					} );
+				});
 
 				$(document).ready(function(){
 				    $("select[name='charge05']").change(function(){
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
 					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('inptCharge05qty').value = "1";
-									  document.getElementById('charge05cost').innerHTML = "$" + parseFloat(lineItems[index].cost);
+									  document.getElementById('charge05cost').innerHTML = parseFloat(lineItems[index].cost);
 					            }
 				            }
 				        });
 				    }).change();
 				});
-				
+
+				$(document).ready(function(){
+					$('#inptCharge05qty').bind('input', function() {
+					    $("select[name='charge05']").find("option:selected").each(function(){
+								for	(index = 0; index < lineItems.length; index++) {
+						            if($(this).attr("value")==lineItems[index].id){
+										  document.getElementById('charge05subtotal').innerHTML = parseFloat(lineItems[index].cost * document.getElementById('inptCharge05qty').value);
+						            }
+					            }
+					    }).change();
+					} );
+				});
 				</script>
 				<div id="charge01cost"></div>
+			</div>
+			<div class="col-xs-2">
 				<div id="charge01subtotal"></div>
 			</div>
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-5 col-xs-offset-3">
+			<div class="col-xs-5 col-xs-offset-1">
 				<div class="form-group">
 					<select name="charge02" class="form-control" id="inptCharge02">
 				 		<option value="---" ${charge02 == '---' ? 'selected' : ''}> - </option>
@@ -193,9 +243,12 @@ ${errorString }
 			<div class="col-xs-2">
 				<div id="charge02cost"></div>
 			</div>
+			<div class="col-xs-2">
+				<div id="charge02subtotal"></div>
+			</div>
 		</div>
 		<div class="row">
-			<div class="col-xs-5 col-xs-offset-3">
+			<div class="col-xs-5 col-xs-offset-1">
 				<div class="form-group">
 					<select name="charge03" class="form-control" id="inptCharge03">
 				 		<option value="---" ${charge03 == '---' ? 'selected' : ''}> - </option>
@@ -211,9 +264,12 @@ ${errorString }
 			<div class="col-xs-2">
 				<div id="charge03cost"></div>
 			</div>
+			<div class="col-xs-2">
+				<div id="charge03subtotal"></div>
+			</div>
 		</div>
 		<div class="row">
-			<div class="col-xs-5 col-xs-offset-3">
+			<div class="col-xs-5 col-xs-offset-1">
 				<div class="form-group">
 					<select name="charge04" class="form-control" id="inptCharge04">
 				 		<option value="---" ${charge04 == '---' ? 'selected' : ''}> - </option>
@@ -229,9 +285,12 @@ ${errorString }
 			<div class="col-xs-2">
 				<div id="charge04cost"></div>
 			</div>
+			<div class="col-xs-2">
+				<div id="charge04subtotal"></div>
+			</div>
 		</div>
 		<div class="row">
-			<div class="col-xs-5 col-xs-offset-3">
+			<div class="col-xs-5 col-xs-offset-1">
 				<div class="form-group">
 					<select name="charge05" class="form-control" id="inptCharge05">
 				 		<option value="---" ${charge05 == '---' ? 'selected' : ''}> - </option>
@@ -247,31 +306,34 @@ ${errorString }
 			<div class="col-xs-2">
 				<div id="charge05cost"></div>
 			</div>
+			<div class="col-xs-2">
+				<div id="charge05subtotal"></div>
+			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-xs-3 control-label">
+			<div class="col-xs-2 col-xs-offset-8">
 			    <label>Subtotal</label>			  
 			</div>
-			<div class="col-xs-9">
-				$0.00
+			<div class="col-xs-2">
+				<div id="finalSubtotal">$0.00</div>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-xs-3 control-label">
+			<div class="col-xs-2 col-xs-offset-8">
 			    <label>Taxes</label>			  
 			</div>
-			<div class="col-xs-9">
+			<div class="col-xs-2">
 				$0.00
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-xs-3 control-label">
+			<div class="col-xs-2 col-xs-offset-8">
 			    <label>Total Due</label>			  
 			</div>
-			<div class="col-xs-9">
+			<div class="col-xs-2">
 				$0.00
 			</div>
 		</div>
