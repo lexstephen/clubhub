@@ -15,7 +15,7 @@
 
 		<div class="col-xs-12 col-md-2">
 				<span class="expand">
-					<a href="/clubhub/admin/EditInvoice.jsp?invoiceID=${invoice.id}" class="btn btn-primary btn-xs">Edit</a>
+					<a href="/clubhub/admin/Invoice.jsp?invoiceID=${invoice.id}" class="btn btn-primary btn-xs">Edit</a>
 					<a href="/clubhub/Invoice.jsp?invoiceID=${invoice.id}" class="btn btn-primary btn-xs">More</a>
 				</span>
 		</div>

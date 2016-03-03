@@ -180,7 +180,7 @@ public class InvoiceDao {
 		  	request.setAttribute("lineitems", lineitems);
 	} 
 
-	public void listAll(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+	public void listAll(HttpServletRequest request) throws Exception { 
 		  List<Invoice> invoices = new ArrayList<Invoice>();
 		  	try{
 		  		statement = connect.createStatement();
@@ -266,8 +266,14 @@ public class InvoiceDao {
 	}
 		
 	public void findInvoice(HttpServletRequest request, String invoiceID) throws Exception { 
-		  Invoice invoice = new Invoice();
-		  
+		  Invoice invoice = new Invoice();	
+		  listAllLineItems(request);
+		  System.out.println(request.getParameter("lineitems"));
+		  List<InvoiceLineItem> lineitems = new ArrayList<InvoiceLineItem>();
+		  for (int i = 0; i < lineitems.size(); i++) {
+			    InvoiceLineItem lItem = lineitems.get(i);
+			    System.out.println(lItem.getDescription());
+		  }
 		  	try{
 			    statement = connect.createStatement();
 			    String qry = "SELECT invoice.id, invoice.invDate, "
