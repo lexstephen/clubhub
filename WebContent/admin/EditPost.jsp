@@ -51,8 +51,6 @@ post.findPost(request, postID);
 		</label>
 		<div class="col-sm-3">
 			<select class="form-control" name="pageType" id="editPageType">
-				<!-- <option value="1">Blog Post</option>
-				<option value="2">Web Content</option> -->
 				<option value="1" ${postType == 'Blog' ? 'selected' : ''}>Blog Post</option>
 				<option value="2" ${postType == 'Static' ? 'selected' : '' }>Web Content</option>
 			</select>
@@ -65,10 +63,6 @@ post.findPost(request, postID);
 				<option value="1" ${pageCategory == 'Announcements' ? 'selected' : ''}>Announcements</option>
 				<option value="2" ${pageCategory == 'Events' ? 'selected' : ''}>Events</option>
 				<option value="3" ${pageCategory == 'Contests' ? 'selected' : ''}>Contests</option>
-				<!-- 
-				<option value="1">Announcements</option>
-				<option value="2">Events</option>
-				<option value="3">Contests</option> -->
 			</select>
 		</div>
 		<input type="hidden" name="postID" value="${post.id}">

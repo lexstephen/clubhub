@@ -1,7 +1,5 @@
 package model;
 
-import org.apache.catalina.Session;
-
 /****************************************************************************************************
 * Project: ClubHub
 * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen

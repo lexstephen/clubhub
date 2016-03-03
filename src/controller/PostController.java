@@ -64,28 +64,27 @@ public class PostController extends HttpServlet {
 		    			errorChecker = "Posts edited";
 		    		} catch (Exception e){
 		    			e.printStackTrace();
+		    			errorChecker = "Posts fail";
 		    		}
 		    		address = "admin/BatchPosts.jsp";
 	    		break;
 		    	case "delete":
 		    		try {
-		    			postID = request.getParameter("postID");
-		    			System.out.println("Delete postID = " + postID);
-						dao.deletePost(request, response, postID);
-						//
+						dao.deletePost(request, response);
 						errorChecker = "Post deleted";
 					} catch (Exception e) {
 						e.printStackTrace();
+						errorChecker = "Delete fail";
 					}
 		    		address = "admin/BatchPosts.jsp";
 	    		break;
 		    	case "batchDelete":
 		    		try {
 						dao.batchDelete(request, response);
-						//
 						errorChecker = "Posts deleted";
 					} catch (Exception e) {
 						e.printStackTrace();
+						errorChecker = "Deletes fail";
 					}
 		    		address = "admin/BatchPosts.jsp";
 	    		break;

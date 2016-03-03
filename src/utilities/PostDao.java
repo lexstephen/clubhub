@@ -83,7 +83,7 @@ public class PostDao {
 		  List<Post> posts = new ArrayList<Post>();
 		  	try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
+			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_post post "
 				+ "JOIN clubhub.ch_posttype posttype "
 				+ "ON post.Posttypeid = posttype.id "
@@ -99,15 +99,17 @@ public class PostDao {
 			    	  post.setTitle(resultSet.getString("title"));
 			    	  post.setContent(resultSet.getString("content"));
 			    	  post.setId(resultSet.getString("id"));
+			    	  post.setUserid(resultSet.getString("Userid"));
 			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
 			    	  post.setUserLastName(resultSet.getString("user.lastName"));
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
-			    	  post.setCategory(resultSet.getString("category.type"));
+			    	  post.setCategory(resultSet.getString("category.type"));			    	  
+			    	  post.setPostMatchUser(post.getUserid().equals("2"));       // change to loggedInUser
 			    	  
-			    	  request.setAttribute("postID", post.getId());
-
-			    	  posts.add(post);
+			    	  if(!(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == false)) {
+			    		  posts.add(post);
+			    	  } 
 			    }
 		    } catch (SQLException e) {
 			      throw e;
@@ -117,6 +119,10 @@ public class PostDao {
 	
 	public void listAllBlogs(HttpServletRequest request) throws Exception {
 		  List<Post> posts = new ArrayList<Post>();
+		  
+		  HttpSession session = request.getSession();
+		  boolean isLoggedIn = (((Boolean) session.getAttribute("isLoggedIn")).booleanValue());
+		  
 		  	try{
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
@@ -129,7 +135,7 @@ public class PostDao {
 				+ "ON post.Accessid = access.id "
 				+ "JOIN clubhub.ch_category category "
 				+ "ON post.Categoryid = category.id "
-				+ "WHERE posttype.id = 1");
+				+ "WHERE posttype.id = 1 AND NOT access.id = 3");			// Where post is blog, and not private
 			      
 			    while (resultSet.next()) {
 			    	  Post post = new Post();
@@ -142,13 +148,17 @@ public class PostDao {
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("category.type"));
-			    	  post.setPostMatchUser(post.getUserid() == "2");
+			    	  post.setPostMatchUser(post.getUserid().equals("2"));       // change to loggedInUser
 			    	  
-			    	  System.out.println("postMatchUser = " + post.isPostMatchUser());
+			    	  if (post.getAccessLevel().equals("Public")) {
+			    		  posts.add(post);		
+			    	  } else if(post.getAccessLevel().equals("Members") && ((isLoggedIn == true))){
+			    		  posts.add(post);	
+			    	  } else if(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == true) {
+			    			posts.add(post);		
+			    	  }
 			    	  
-			    	  request.setAttribute("postID", post.getId());
-
-			    	  posts.add(post);
+			    	  request.setAttribute("postID", post.getId());			    	  
 			    }
 		    } catch (SQLException e) {
 			      throw e;
@@ -156,11 +166,15 @@ public class PostDao {
 		  	request.setAttribute("posts", posts);
 	} 
 	
-	public void deletePost(HttpServletRequest request, HttpServletResponse response, String postID) throws Exception {
+	public void deletePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+
+		String postID = (String)request.getParameter("postID").toString();
+				
 		  try {
 			  statement = connect.createStatement();
 			  statement.executeUpdate("delete from ch_post where id =" + postID); 
+			  System.out.println("delte postID = " + postID);
 		  } catch (SQLException e) {
 		      throw e;
 		  }
@@ -170,7 +184,9 @@ public class PostDao {
 		
 		String [] markedForDeletion = request.getParameterValues("postSelected");
 		for (String postID : markedForDeletion) {
-			deletePost(request, response, postID);
+			request.setAttribute("postID", postID);
+			System.out.println("batchDelete postID: " + request.getAttribute("postID"));
+			deletePost(request, response);
 		}		
 	}
 	
@@ -283,7 +299,7 @@ public class PostDao {
 		
 		try {
 			  statement = connect.createStatement();
-			  resultSet = statement.executeQuery("SELECT id FROM ch_post WHERE Posttypeid = '1' ORDER BY id DESC LIMIT 3");
+			  resultSet = statement.executeQuery("SELECT id FROM ch_post WHERE Posttypeid = '1' AND NOT Accessid = '3' ORDER BY id DESC LIMIT 3");
 			  
 			  int i = 0;
 			  

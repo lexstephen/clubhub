@@ -14,14 +14,11 @@
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
-	
 	<%	PostDao post = new PostDao(); %>
-	
 
-<!-- 	 use this to test admin login. no admin login, no edit button -->
+	<!-- 	 use this to test admin login. no admin login, no edit button -->
 	<% session.setAttribute("isAdmin", true); %>
 
-	
 	<% String[] postIDs = post.getLastBlogs(request, response); %>
 	<% for (String i : postIDs) { %>
 	<% post.findPost(request, i); %>
