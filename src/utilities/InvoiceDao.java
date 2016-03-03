@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 import model.Invoice;
 import model.User;
 import model.InvoiceLineItem;
-import model.Post;
+import model.Invoice;
 import utilities.DatabaseAccess;
 
 public class InvoiceDao {
@@ -184,16 +184,55 @@ public class InvoiceDao {
 		  List<Invoice> invoices = new ArrayList<Invoice>();
 		  	try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT invoice.id, invoice.invDate, invoice.status, invoice.Userid" 
-				+ " FROM clubhub.ch_invoice invoice ");
+			    resultSet = statement.executeQuery("SELECT id, invDate, status, Userid"
+		    				+ " FROM clubhub.ch_invoice ");
 			      
 			    while (resultSet.next()) {
 			    	  Invoice invoice = new Invoice();
 			    	  invoice.setId(resultSet.getString("id"));
 			    	  invoice.setInvDate(resultSet.getString("invDate"));
 			    	  invoice.setStatus(resultSet.getString("status"));
-			    	  invoice.setUserid(resultSet.getString("userid"));
+			    	  invoice.setUserID(resultSet.getString("Userid"));
+			    	  /* 
+			    	  invoice.setCharge01(resultSet.getString("charge01"));
+			    	  invoice.setCharge01qty(resultSet.getString("charge01qty"));
+			    	  invoice.setCharge02(resultSet.getString("charge02"));
+			    	  invoice.setCharge02qty(resultSet.getString("charge02qty"));
+			    	  invoice.setCharge03(resultSet.getString("charge03"));
+			    	  invoice.setCharge03qty(resultSet.getString("charge03qty"));
+			    	  invoice.setCharge04(resultSet.getString("charge04"));
+			    	  invoice.setCharge04qty(resultSet.getString("charge04qty"));
+			    	  invoice.setCharge05(resultSet.getString("charge05"));
+			    	  invoice.setCharge05qty(resultSet.getString("charge05qty"));
+			    	  invoice.setResult(resultSet.getString("result"));
+			    	  invoice.setTaxes(resultSet.getString("taxes"));
+			    	  invoice.setFinalresult(resultSet.getString("finalresult"));
+			    	  */
 			    	  request.setAttribute("invoiceID", invoice.getId());
+			    	  
+			    	  /*
+			    	   * 
+		request.setAttribute("userID", request.getParameter("userID"));
+		request.setAttribute("invDate", request.getParameter("invDate"));
+		request.setAttribute("charge01", request.getParameter("charge01"));
+		request.setAttribute("charge01qty", request.getParameter("charge01qty"));
+		request.setAttribute("charge01subtotal", request.getParameter("charge01subtotal"));
+		request.setAttribute("charge02", request.getParameter("charge02"));
+		request.setAttribute("charge02qty", request.getParameter("charge02qty"));
+		request.setAttribute("charge02subtotal", request.getParameter("charge02subtotal"));
+		request.setAttribute("charge03", request.getParameter("charge03"));
+		request.setAttribute("charge03qty", request.getParameter("charge03qty"));
+		request.setAttribute("charge03subtotal", request.getParameter("charge03subtotal"));
+		request.setAttribute("charge04", request.getParameter("charge04"));
+		request.setAttribute("charge04qty", request.getParameter("charge04qty"));
+		request.setAttribute("charge04subtotal", request.getParameter("charge04subtotal"));
+		request.setAttribute("charge05", request.getParameter("charge05"));
+		request.setAttribute("charge05qty", request.getParameter("charge05qty"));
+		request.setAttribute("charge05subtotal", request.getParameter("charge05subtotal"));
+		request.setAttribute("result", request.getParameter("result"));
+		request.setAttribute("taxes", request.getParameter("taxes"));
+		request.setAttribute("finalresult", request.getParameter("finalresult"));
+			    	   */
 			    	  invoices.add(invoice);
 			    }
 		    } catch (SQLException e) {
@@ -210,8 +249,55 @@ public class InvoiceDao {
 		
 	}
 	
-	public void findInvoice(HttpServletRequest request, String invoiceID) throws Exception { 
+	public void countLineItemsForInvoice(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+	  	try{
+	  		int numItems = 0;
+		    statement = connect.createStatement();
+		    String qry = "SELECT count(*) AS numItems FROM clubhub.ch_invoice_line_items_invoice ili WHERE ili.Invoiceid = " + request.getParameter("invoiceID");
+		    System.out.println(qry);
+		    resultSet = statement.executeQuery(qry);
+		    while (resultSet.next()) {
+		    	numItems = Integer.parseInt(resultSet.getString("numItems"));
+		  		request.setAttribute("numItems", numItems);
+		    }
+		} catch (SQLException e) {
+		      throw e;
+		}
+	}
 		
+	public void findInvoice(HttpServletRequest request, String invoiceID) throws Exception { 
+		  Invoice invoice = new Invoice();
+		  
+		  	try{
+			    statement = connect.createStatement();
+			    String qry = "SELECT invoice.id, invoice.invDate, "
+			    		+ "invoice.status, invoice.Userid, "
+			    		+ "user.username, user.firstName, user.lastName, "
+			    		+ "li.description, li.cost, "
+			    		+ "pref.tax_rate, " 
+			    		+ "(SELECT count(*) FROM clubhub.ch_invoice_line_items_invoice ili WHERE ili.Invoiceid = invoice.id) AS numItems "
+				+ " FROM clubhub.ch_invoice invoice "
+				+ " JOIN clubhub.ch_user user "
+				+ " ON invoice.Userid = user.id "
+				+ " JOIN clubhub.ch_invoice_line_items_invoice inv_li_i"
+				+ " ON inv_li_i.Invoiceid = invoice.id"
+				+ " JOIN clubhub.ch_invoice_line_items li"
+				+ " ON inv_li_i.Invoice_Line_ItemsId = li.id"
+				+ " JOIN clubhub.ch_preferences pref"
+				+ " ON pref.id = 1"
+				+ " WHERE invoice.id = " + invoiceID;
+			    System.out.println(qry);
+			    resultSet = statement.executeQuery(qry);
+			    while (resultSet.next()) {
+			    	  invoice.setId(resultSet.getString("id"));
+			    	  invoice.setInvDate(resultSet.getString("invDate"));
+			    	  invoice.setStatus(resultSet.getString("status"));
+			    	  System.out.println("Invoice is " + resultSet.getString("id") + " and count is " + resultSet.getString("numItems"));
+			    }
+			} catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("invoice", invoice);
 	} 
 	
 	public void editInvoice(HttpServletRequest request, HttpServletResponse response, String _invoiceID) throws Exception {

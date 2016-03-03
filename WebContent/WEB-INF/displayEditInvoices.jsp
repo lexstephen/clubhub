@@ -7,10 +7,11 @@
  --%>
      
 	<div class="row">
+		<div class="col-xs-12 col-md-1"><input type="checkbox" name="invoiceSelected" value="${invoice.id}"></div>
 		<div class="col-xs-12 col-md-2 control-label">${invoice.id}</div>
-		<div class="col-xs-12 col-md-2">Invoice Date: ${invoice.invDate}</div>
-		<div class="col-xs-12 col-md-2">User: ${invoice.userid}</div>
-		<div class="col-xs-12 col-md-2">Invoice Status: ${invoice.status}</div>
+		<div class="col-xs-12 col-md-2">${invoice.invDate}</div>
+		<div class="col-xs-12 col-md-2">${invoice.userID}</div>
+		<div class="col-xs-12 col-md-2">${invoice.status}</div>
 
 		<div class="col-xs-12 col-md-2">
 				<span class="expand">

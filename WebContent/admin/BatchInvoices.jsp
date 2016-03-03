@@ -22,41 +22,28 @@
 	<!-- This form wont work because there are embedded forms in the included file. I dont know how to work around this.  --> 
 		
 	<form action="/clubhub/InvoiceController" method="invoice" class="form" role="form">
+	
+	<div class="row">
+		<div class="col-xs-12 col-md-2 col-md-offset-1 control-label">Invoice Id</div>
+		<div class="col-xs-12 col-md-2 control-label">Invoice Date</div>
+		<div class="col-xs-12 col-md-2 control-label">User</div>
+		<div class="col-xs-12 col-md-2 control-label">Invoice Status</div>
+		<div class="col-xs-12 col-md-2 control-label">Update</div>
+	</div>
 		<c:forEach items="${invoices}" var="invoice">
-			<input type="checkbox" name="invoiceSelected" value="${invoice.id}">
+			
 			<%@ include file="/WEB-INF/displayEditInvoices.jsp" %>			
 		</c:forEach>
 		
 		<label class="col-sm-2 control-label">
-			Access Level
+			Invoice Status
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="accessLevel">
-				<option value="3">Draft</option>
-				<option value="1">Public</option>
-				<option value="2">Members Only</option>
+			<select class="form-control" name="status">
+				<option value="paid">paid</option>
+				<option value="unpaid">unpaid</option>
 			</select>
 		</div>
-		<label class="col-sm-2 control-label">
-			Page Type
-		</label>
-		<div class="col-sm-3">
-			<select class="form-control" name="pageType">
-				<option value="1">Blog Invoice</option>
-				<option value="2">Web Content</option>
-			</select>
-		</div>
-		<label class="col-sm-2 control-label">
-			Category
-		</label>
-		<div class="col-sm-3">
-			<select class="form-control" name="pageCategory">
-				<option value="1">Announcements</option>
-				<option value="2">Events</option>
-				<option value="3">Contests</option>
-			</select>
-		</div>
-		<br><br>
 		<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
 		<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
 	</form>
