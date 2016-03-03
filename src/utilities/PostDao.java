@@ -226,7 +226,7 @@ public class PostDao {
 		  	request.setAttribute("pageCategory", post.getCategory());
 	} 
 	
-	public void editPost(HttpServletRequest request, HttpServletResponse response, String _postID) throws Exception {
+	public void editPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {			
 			String postID = request.getParameter("postID");
 		    String title = request.getParameter("blogTitle");	// title
@@ -292,24 +292,72 @@ public class PostDao {
 		}				
 	}
 	
-	public String[] getLastBlogs(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+	public List<String> getLastBlogs(HttpServletRequest request, HttpServletResponse response) throws Exception { 
 		//this method returns the latest 3 blog posts (Posttypeid = 1) in ch_post
 		
-		String[] postIDs = new String[3];
+		int postsMod, pageCnt, numOfPages = 0, ppp = 3;   // Posts Per Page
+		double numOfRows;
+		List<String> postIDs = new ArrayList<String>();		
+		String query = "";
+		
+		// ALWAYS RETURNING NULL WTF FUCK YOU GO TO HELL AND STAY THERE FOR THE LOVE OF GOD WHY ARE YOU DOING THIS TO ME //
+		// ill fix it tomorrow
+		pageCnt = (request.getAttribute("pageCnt") == null) ? 69 : Integer.parseInt(request.getAttribute("pageCnt").toString());  // Page count, 0 if null
+		String pageNav = (request.getAttribute("pageNav") == null ? "first" : request.getAttribute("pageNav").toString()) ;
+		
+		System.out.println("pageCnt = " + pageCnt);
+		System.out.println("pageNav = " + pageNav);
+		
+		try {			
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT COUNT(*) FROM ch_post");
+			
+			while (resultSet.next()) {
+				numOfRows = Integer.parseInt(resultSet.getString(1));
+				numOfPages = (int)Math.ceil(numOfRows/3);
+				postsMod = (int) (numOfRows % 3);
+				System.out.println("postsMod = " + postsMod);
+				System.out.println("numOfPages = " + numOfPages);
+				System.out.println("numOfRows = "+ numOfRows);
+			}
+		} catch (SQLException e) {
+			throw e;
+		}
+		
+		switch (pageNav) {
+		case "first": 
+			pageCnt = 0;
+			query = "SELECT id FROM ch_post WHERE Posttypeid = '1' AND NOT Accessid = '3' ORDER BY id DESC LIMIT " + pageCnt + ", " + ppp;
+			break;
+		case "previous":
+			pageCnt--;
+			query = "SELECT id FROM ch_post WHERE Posttypeid = '1' AND NOT Accessid = '3' ORDER BY id DESC LIMIT " + (pageCnt*ppp) + ", " + ppp;
+			break;
+		case "next":
+			pageCnt++;
+			break;
+		case "last":
+			pageCnt = numOfPages;
+			query = "SELECT id FROM ch_post LIMIT " + ppp;
+			System.out.println("last pageCnt = " + pageCnt);
+		break;
+		}
+		
 		
 		try {
-			  statement = connect.createStatement();
-			  resultSet = statement.executeQuery("SELECT id FROM ch_post WHERE Posttypeid = '1' AND NOT Accessid = '3' ORDER BY id DESC LIMIT 3");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery(query);
 			  
-			  int i = 0;
-			  
-			  while (resultSet.next()) {
-			          postIDs[i++] = resultSet.getString(1);
-			  }
-		  } catch (SQLException e) {
-		      throw e;
-		  }
+			while (resultSet.next()) {
+				postIDs.add(resultSet.getString(1));
+			}
+		} catch (SQLException e) {
+			throw e;
+		}
 
+		request.setAttribute("pageCnt", pageCnt);
+		request.removeAttribute("pageNav");
+		
 		return postIDs;
 
 	}

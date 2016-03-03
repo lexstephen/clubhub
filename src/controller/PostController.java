@@ -33,7 +33,7 @@ public class PostController extends HttpServlet {
 		String address = "", postID;
 		String errorChecker = "errorChecker is null";
 		
-		System.out.println(option);
+		System.out.println("option: " + option);
 		
 	    try {
 	    	switch(option) {
@@ -49,14 +49,13 @@ public class PostController extends HttpServlet {
 		    		}
 	    		break;
 		    	case "edit":
-		    		postID = request.getParameter("postID");
 		    		if (ValidationUtilities.isValidPost(request)) {
-		    			dao.editPost(request, response, postID);
+		    			dao.editPost(request, response);
 		    			errorChecker = "Post edited";
 		    		} else {
 			    		errorChecker = "Post failed to edit";
 		    		}
-		    		address = "admin/EditPost.jsp?postID=" + postID;
+		    		address = "admin/EditPost.jsp?postID=" + request.getParameter("postID");
 	    		break;
 		    	case "batchEdit":
 		    		try {
@@ -88,6 +87,19 @@ public class PostController extends HttpServlet {
 					}
 		    		address = "admin/BatchPosts.jsp";
 	    		break;
+		    	case "first":
+		    	case "previous":
+		    	case "next":
+		    	case "last":		    			
+		    		try {
+		    			request.setAttribute("pageNav", option);
+		    			errorChecker = "Navigating";
+		    		} catch (Exception e) {
+		    			e.printStackTrace();
+		    			errorChecker = "ah nah";
+		    		}
+		    		address = "Main.jsp";
+		    		break;
 	    		default:
 	    			errorChecker = "Something has gone horribly wrong";
 	    	}
