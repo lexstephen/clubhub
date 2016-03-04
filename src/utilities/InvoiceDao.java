@@ -11,20 +11,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import model.Invoice;
 import model.User;
 import model.InvoiceLineItem;
-import model.Invoice;
 import utilities.DatabaseAccess;
 
 public class InvoiceDao {
@@ -47,7 +40,6 @@ public class InvoiceDao {
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {	    	
-			HttpSession session = request.getSession();
 			  statement = connect.createStatement();
 			  preparedStatement = connect.prepareStatement("insert into ch_invoice values (default, ?, ?, ?)");
 			  // columns are id, invDate, status, Userid
@@ -140,8 +132,7 @@ public class InvoiceDao {
 	    }
 	}
 
-
-
+	
 	public void listAllUsers(HttpServletRequest request) throws Exception {
 		  List<User> users = new ArrayList<User>();
 		  	try{
@@ -179,6 +170,30 @@ public class InvoiceDao {
 			}
 		  	request.setAttribute("lineitems", lineitems);
 	} 
+	public void listAllLineItemsForInvoice(HttpServletRequest request) throws Exception {
+		  List<InvoiceLineItem> lineitemsforinvoice = new ArrayList<InvoiceLineItem>();
+		  	try{
+		  		statement = connect.createStatement();
+		  		String qry = "SELECT * from ch_invoice_line_items ili"
+					+ " JOIN clubhub.ch_invoice_line_items_invoice ilii"
+					+ " ON ilii.invoice_line_itemsid = ili.id"
+					+ " JOIN clubhub.ch_invoice invoice"
+					+ " ON ilii.Invoiceid = invoice.id"
+					+ " WHERE invoice.id = " + request.getParameter("invoiceID");
+			    resultSet = statement.executeQuery(qry);
+			    while (resultSet.next()) {
+			    	InvoiceLineItem lineitem = new InvoiceLineItem();
+			    	  lineitem.setId(resultSet.getString("id"));
+			    	  lineitem.setDescription(resultSet.getString("description"));
+			    	  lineitem.setCost(resultSet.getString("cost"));
+			    	  lineitem.setTax(resultSet.getString("tax"));
+			    	  lineitemsforinvoice.add(lineitem);
+			    }
+		    } catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("lineitemsforinvoice", lineitemsforinvoice);
+	} 
 
 	public void listAll(HttpServletRequest request) throws Exception { 
 		  List<Invoice> invoices = new ArrayList<Invoice>();
@@ -193,46 +208,7 @@ public class InvoiceDao {
 			    	  invoice.setInvDate(resultSet.getString("invDate"));
 			    	  invoice.setStatus(resultSet.getString("status"));
 			    	  invoice.setUserID(resultSet.getString("Userid"));
-			    	  /* 
-			    	  invoice.setCharge01(resultSet.getString("charge01"));
-			    	  invoice.setCharge01qty(resultSet.getString("charge01qty"));
-			    	  invoice.setCharge02(resultSet.getString("charge02"));
-			    	  invoice.setCharge02qty(resultSet.getString("charge02qty"));
-			    	  invoice.setCharge03(resultSet.getString("charge03"));
-			    	  invoice.setCharge03qty(resultSet.getString("charge03qty"));
-			    	  invoice.setCharge04(resultSet.getString("charge04"));
-			    	  invoice.setCharge04qty(resultSet.getString("charge04qty"));
-			    	  invoice.setCharge05(resultSet.getString("charge05"));
-			    	  invoice.setCharge05qty(resultSet.getString("charge05qty"));
-			    	  invoice.setResult(resultSet.getString("result"));
-			    	  invoice.setTaxes(resultSet.getString("taxes"));
-			    	  invoice.setFinalresult(resultSet.getString("finalresult"));
-			    	  */
 			    	  request.setAttribute("invoiceID", invoice.getId());
-			    	  
-			    	  /*
-			    	   * 
-		request.setAttribute("userID", request.getParameter("userID"));
-		request.setAttribute("invDate", request.getParameter("invDate"));
-		request.setAttribute("charge01", request.getParameter("charge01"));
-		request.setAttribute("charge01qty", request.getParameter("charge01qty"));
-		request.setAttribute("charge01subtotal", request.getParameter("charge01subtotal"));
-		request.setAttribute("charge02", request.getParameter("charge02"));
-		request.setAttribute("charge02qty", request.getParameter("charge02qty"));
-		request.setAttribute("charge02subtotal", request.getParameter("charge02subtotal"));
-		request.setAttribute("charge03", request.getParameter("charge03"));
-		request.setAttribute("charge03qty", request.getParameter("charge03qty"));
-		request.setAttribute("charge03subtotal", request.getParameter("charge03subtotal"));
-		request.setAttribute("charge04", request.getParameter("charge04"));
-		request.setAttribute("charge04qty", request.getParameter("charge04qty"));
-		request.setAttribute("charge04subtotal", request.getParameter("charge04subtotal"));
-		request.setAttribute("charge05", request.getParameter("charge05"));
-		request.setAttribute("charge05qty", request.getParameter("charge05qty"));
-		request.setAttribute("charge05subtotal", request.getParameter("charge05subtotal"));
-		request.setAttribute("result", request.getParameter("result"));
-		request.setAttribute("taxes", request.getParameter("taxes"));
-		request.setAttribute("finalresult", request.getParameter("finalresult"));
-			    	   */
 			    	  invoices.add(invoice);
 			    }
 		    } catch (SQLException e) {
@@ -266,14 +242,65 @@ public class InvoiceDao {
 	}
 		
 	public void findInvoice(HttpServletRequest request, String invoiceID) throws Exception { 
+		  // create an invoice object to store values into
 		  Invoice invoice = new Invoice();	
+		  PreferenceDao pDao = new PreferenceDao();
+		  pDao.taxRate(request);
+		  double tax_rate = (double) request.getAttribute("tax_rate"); 
+		  // set a list of all available line items into a request attribute
 		  listAllLineItems(request);
-		  System.out.println(request.getParameter("lineitems"));
-		  List<InvoiceLineItem> lineitems = new ArrayList<InvoiceLineItem>();
+		  @SuppressWarnings("unchecked")
+		  // pull that info into a list
+		  List<InvoiceLineItem> lineitems = (ArrayList<InvoiceLineItem>)request.getAttribute("lineitems");
+		  
+		  // set a list of all of the invoice's individual line items into a request attribute		  
+		  listAllLineItemsForInvoice(request);
+		  @SuppressWarnings("unchecked")
+		  // pull that info into a list
+		  List<InvoiceLineItem> lineitemsforinvoice = (ArrayList<InvoiceLineItem>)request.getAttribute("lineitemsforinvoice");
+		
+		  // create a list that holds arrays that store description, total # ordered
+		  List<String[]> lineItemArray = new ArrayList<String[]>();
+
+		  boolean isMatched = false;
+		  String currentDesc = null;
+		  int itemCost = 0;
+		  double itemTax = 0;
+		  int currentCost = 0;
+		  
+		  // go through all items for sale
 		  for (int i = 0; i < lineitems.size(); i++) {
-			    InvoiceLineItem lItem = lineitems.get(i);
-			    System.out.println(lItem.getDescription());
+			// counter starts at 0 for each potential item
+			int cnt = 0;
+			// store the current line item 
+			InvoiceLineItem lItem = lineitems.get(i);
+			// loop through all items in the invoice
+			for (int j = 0; j < lineitemsforinvoice.size(); j++) {
+				// store the current invoice line item
+				InvoiceLineItem lItemForInvoice = lineitemsforinvoice.get(j);
+				// check if the current item for sale is in the list of items for the invoice
+				if (lItem.getDescription().equals(lItemForInvoice.getDescription())) {
+					isMatched = true;
+					cnt++;	// used to keep track of how many items were ordered
+					currentDesc = lItemForInvoice.getId(); // store the current description
+					itemCost = Integer.parseInt(lItemForInvoice.getCost()); // store the current description
+					itemTax = Double.parseDouble(lItemForInvoice.getTax()); // store the current description
+					currentCost = cnt * itemCost;
+				}
+			}
+			// now that we have examined the whole list of the invoice's line items,
+			// store the total # of items and description
+			if (isMatched) {
+				String[] keyVal = new String[3];
+				keyVal[0] = currentDesc;
+				keyVal[1] = Integer.toString(cnt);
+				keyVal[2] = Integer.toString(currentCost);
+				lineItemArray.add(keyVal);
+				isMatched = false;
+			}
 		  }
+
+
 		  	try{
 			    statement = connect.createStatement();
 			    String qry = "SELECT invoice.id, invoice.invDate, "
@@ -298,8 +325,53 @@ public class InvoiceDao {
 			    	  invoice.setId(resultSet.getString("id"));
 			    	  invoice.setInvDate(resultSet.getString("invDate"));
 			    	  invoice.setStatus(resultSet.getString("status"));
-			    	  System.out.println("Invoice is " + resultSet.getString("id") + " and count is " + resultSet.getString("numItems"));
+			    	  invoice.setUserID(resultSet.getString("Userid"));
+			    	  System.out.println("Invoice is " + resultSet.getString("id") + " and count is " + resultSet.getString("numItems") + " from user number " + resultSet.getString("Userid"));
 			    }
+			    
+
+			  	String[] thisItem;
+			  	int allItemsSubtotal = 0;
+			  	int allItemsTax = 0;
+			  for (int k = 0; k < lineItemArray.size(); k++) {
+				  thisItem = lineItemArray.get(k);
+				  switch(k) {
+				  case 0:
+					  invoice.setCharge01(thisItem[0]);
+					  invoice.setCharge01qty(thisItem[1]);
+					  invoice.setCharge01subtotal(thisItem[2]);
+					  allItemsSubtotal += Integer.parseInt(thisItem[2]);
+					  break;
+				  case 1:
+					  invoice.setCharge02(thisItem[0]);
+					  invoice.setCharge02qty(thisItem[1]);
+					  invoice.setCharge02subtotal(thisItem[2]);
+					  allItemsSubtotal += Integer.parseInt(thisItem[2]);
+					  break;
+				  case 2:
+					  invoice.setCharge03(thisItem[0]);
+					  invoice.setCharge03qty(thisItem[1]);
+					  invoice.setCharge03subtotal(thisItem[2]);
+					  allItemsSubtotal += Integer.parseInt(thisItem[2]);
+					  break;
+				  case 3:
+					  invoice.setCharge04(thisItem[0]);
+					  invoice.setCharge04qty(thisItem[1]);
+					  invoice.setCharge04subtotal(thisItem[2]);
+					  allItemsSubtotal += Integer.parseInt(thisItem[2]);
+					  break;
+				  case 4:
+					  invoice.setCharge05(thisItem[0]);
+					  invoice.setCharge05qty(thisItem[1]);
+					  invoice.setCharge05subtotal(thisItem[2]);
+					  allItemsSubtotal += Integer.parseInt(thisItem[2]);
+					  break;
+				  }
+
+				  invoice.setResult(Integer.toString(allItemsSubtotal));
+				  invoice.setTaxes(Double.toString(tax_rate * allItemsSubtotal));
+				  invoice.setFinalresult(Double.toString(allItemsSubtotal + (tax_rate * allItemsSubtotal)));
+			  }
 			} catch (SQLException e) {
 			      throw e;
 			}

@@ -34,10 +34,51 @@ public class Invoice {
 	private String id, invDate, status, userID;
 	private String charge01, charge02, charge03, charge04, charge05;
 	private String charge01qty, charge02qty, charge03qty, charge04qty, charge05qty;
+	private String charge01subtotal, charge02subtotal, charge03subtotal, charge04subtotal, charge05subtotal;
 	private String result, taxes, finalresult;
 	
 	public String getResult() {
 		return result;
+	}
+
+	public String getCharge01subtotal() {
+		return charge01subtotal;
+	}
+
+	public void setCharge01subtotal(String charge01subtotal) {
+		this.charge01subtotal = charge01subtotal;
+	}
+
+	public String getCharge02subtotal() {
+		return charge02subtotal;
+	}
+
+	public void setCharge02subtotal(String charge02subtotal) {
+		this.charge02subtotal = charge02subtotal;
+	}
+
+	public String getCharge03subtotal() {
+		return charge03subtotal;
+	}
+
+	public void setCharge03subtotal(String charge03subtotal) {
+		this.charge03subtotal = charge03subtotal;
+	}
+
+	public String getCharge04subtotal() {
+		return charge04subtotal;
+	}
+
+	public void setCharge04subtotal(String charge04subtotal) {
+		this.charge04subtotal = charge04subtotal;
+	}
+
+	public String getCharge05subtotal() {
+		return charge05subtotal;
+	}
+
+	public void setCharge05subtotal(String charge05subtotal) {
+		this.charge05subtotal = charge05subtotal;
 	}
 
 	public void setResult(String result) {
@@ -169,7 +210,7 @@ public class Invoice {
 		return userID;
 	}
 
-	public void setUserID(String userid) {
+	public void setUserID(String userID) {
 		this.userID = userID;
 	}
 }

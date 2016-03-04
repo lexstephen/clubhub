@@ -48,7 +48,7 @@ public class PreferenceDao {
 	    		statement = connect.createStatement();
 			  
 			  	// first let's find the current tax rate from the preferences table and store it in a variable
-	    		taxRate(request, response);
+	    		taxRate(request);
 	    		double tax_rate = Double.parseDouble(request.getParameter("tax_rate"));
 			    // users have the option to enter from 1-5 of these at a time
 			    // check that parameters for lineItem01 were supplied and cost is a number
@@ -163,7 +163,7 @@ public class PreferenceDao {
 
 	}
 	
-	public void taxRate(HttpServletRequest request, HttpServletResponse response) { 
+	public void taxRate(HttpServletRequest request) { 
 	  	ResultSet taxRate;
 		try {
 	  		statement = connect.createStatement();

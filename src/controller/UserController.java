@@ -63,8 +63,9 @@ public class UserController extends HttpServlet {
 		    			dao.isAdmin(request);
 		    			System.out.println("I think the user name is " + session.getAttribute("loggedInUserFullName"));
 	    				// yes it is! and are they in the database?	    					    				
-			    		if (session.getAttribute("isAdmin") != null) {
+			    		if (session.getAttribute("isAdmin").equals(true)) {
 			    			// they are admins! send them to AdminController
+			    			System.out.println("Dude looks like an admin");
 			    			session.setAttribute("isLoggedIn", true);
 							request.setAttribute("errorString", null);
 			    			address = "/admin/index.jsp";

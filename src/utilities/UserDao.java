@@ -57,7 +57,7 @@ public class UserDao {
 					      resultSet = statement.executeQuery("select * from ch_user where username = \"" + username + "\""); 
 			    	  break;
 				      case "login":
-					      resultSet = statement.executeQuery("select * from ch_user where where username = \"" + username + "\" and password = \"" + password + "\""); 
+					      resultSet = statement.executeQuery("select * from ch_user where username = \"" + username + "\" and password = \"" + password + "\""); 
 			    	  break;
 			    	  default:
 			    		  resultSet = null;
@@ -129,7 +129,12 @@ public class UserDao {
 			    	  if (resultSet.getString("userStatus").equals("admin")) {
 			    		  System.out.println("I recognize that they are admins");
 			  			session.setAttribute("isAdmin", true);
-			    	  } 
+			    	  } else {
+			    		  System.out.println("I refuse to recognize their administration");
+			    		  
+				  			session.setAttribute("isAdmin", false);
+			    		  
+			    	  }
 			      }
 			    } catch (Exception e) {
 			      throw e;
@@ -218,32 +223,7 @@ public class UserDao {
 		    }
 		}
 
-		public void listAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
-			  List<Post> posts = new ArrayList<Post>();
-			  
-			  	try{
-				    // Statements allow to issue SQL queries to the database
-				    statement = connect.createStatement();
-				    resultSet = statement.executeQuery("select * from ch_post");
-				      
-				    while (resultSet.next()) {
-				    	  Post post = new Post();
-				    	  post.setTitle(resultSet.getString("title"));
-				    	  post.setId(resultSet.getString("id"));
-				    	 // post.setPost_date(resultSet.getString("post_date"));
-				    	  post.setContent(resultSet.getString("content"));
-				    	  post.setUserid(resultSet.getString("Userid"));
-				    	  posts.add(post);
-				    }
-			    
-				  } catch (SQLException e) {
-				      throw e;
-				  }
-			  	request.setAttribute("posts", posts);
-		} 
-		
-
-		public void listAllUsers(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		public void listAllUsers(HttpServletRequest request) throws Exception {
 			  List<User> users = new ArrayList<User>();
 			  
 			  	try{
