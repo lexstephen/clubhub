@@ -5,10 +5,7 @@
 	<head>
 		<title><%= request.getAttribute("thisPage") %></title>
 		<link href="/clubhub/css/style.css" rel="stylesheet" type="text/css" />
-<<<<<<< HEAD
-=======
 		<link href="/clubhub/css/custom.css" rel="stylesheet" type="text/css" />
->>>>>>> origin/jordan
 	</head>
 	<body class="backend">
 		<nav class="navbar navbar-static-top">
