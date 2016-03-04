@@ -1,14 +1,29 @@
-$('.hiddenest').hide();
+$('.hiddenest').hide(); // default hides all American labels and inputs
+
 $('#inptCountry').bind('change', function(event) {
 	var i= $('#inptCountry').val();
 
 	if(i=="United States of America") {
+		// show American labels and inputs
 		$('#inptState').show();
-		$('#inptProvince').hide(); // hide the first one
+		$('#lblZipCode').show();
+		$('#lblState').show();
+		
+		// hide Canadian labels and inputs
+		$('#inptProvince').hide(); 
+		$('#lblPostalCode').hide();
+		$('#lblProvince').hide();
 	}
 	else if(i=="Canada") {
-		$('#inptState').hide(); // hide the first one
-		$('#inptProvince').show(); // show the other one
+		// show Canadian labels and inputs
+		$('#inptProvince').show(); 
+		$('#lblPostalCode').show();
+		$('#lblProvince').show();
+		
+		// hide American labels and inputs
+		$('#inptState').hide(); 
+		$('#lblZipCode').hide();
+		$('#lblState').hide();
 	}
 });
 

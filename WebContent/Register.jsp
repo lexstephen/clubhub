@@ -14,7 +14,7 @@
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
-	
+	${errorString }
 	<form action="/clubhub/UserController" method="post" class="form" role="form">
 		<div class="row">
 			<div class="col-xs-6">
@@ -113,19 +113,6 @@
 			  	</div>
 			</div>
 			<div class="col-xs-6">
-				<div class="form-group <c:if test="${!empty errorPostalCode}">has-error</c:if>">
-			    	<label for="inptPostalCode">
-						<c:if test="${country == 'United States of America'}">Zip Code</c:if>
-						<c:if test="${country == 'Canada'}">Postal Code</c:if>
-						<c:if test="${empty country}">Postal Code</c:if>
-					</label>
-			    	<input type="text" name="postalCode" class="form-control" id="inptPostalCode" value="${postalCode}">
-			  	</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorCountry}">has-error</c:if>">
 			    	<label for="inptCountry">Country</label>
 					<select name="country" class="form-control" id="inptCountry">
@@ -134,12 +121,16 @@
 					</select>
 			  	</div>
 			</div>
+		</div>
+		
+		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorProvince}">has-error</c:if>">
-			    	<label for="inptProvince">
-						<c:if test="${country == 'United States of America'}">State</c:if>
-						<c:if test="${country == 'Canada'}">Province</c:if>
-						<c:if test="${empty country}">Province</c:if>
+					<label for="inptProvince" id="lblProvince" ${country == 'United States of America' ? ' class="hiddenest"' : ''}>
+						Province
+					</label>
+					<label for="inptState" id="lblState" ${country == 'Canada' ? ' class="hiddenest"' : ''} ${country == null ? ' class="hiddenest"' : ''}>
+						State
 					</label>
 					<select name="province" class="form-control ${user.country == 'United States of America' ? ' hiddenest' : ''}" id="inptProvince">
 					  <option ${province == 'AB' ? 'selected' : ''}>AB</option>
@@ -156,7 +147,7 @@
 					  <option ${province == 'SK' ? 'selected' : ''}>SK</option>
 					  <option ${province == 'YT' ? 'selected' : ''}>YT</option>
 					</select>
-					<select name="state" class="form-control ${user.country == 'Canada' ? ' hiddenest' : ''} ${user.country == null ? ' hiddenest' : ''}" id="inptprovince">
+					<select name="state" class="form-control ${user.country == 'Canada' ? ' hiddenest' : ''} ${user.country == null ? ' hiddenest' : ''}" id="inptState">
 					  <option ${province == 'AK' ? 'selected' : ''}>AK</option>
 					  <option ${province == 'AL' ? 'selected' : ''}>AL</option>
 					  <option ${province == 'AR' ? 'selected' : ''}>AR</option>
@@ -209,6 +200,17 @@
   					  <option ${province == 'WV' ? 'selected' : ''}>WV</option>
   					  <option ${province == 'WY' ? 'selected' : ''}>WY</option>
 					</select>
+			  	</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="form-group <c:if test="${!empty errorPostalCode}">has-error</c:if>">
+			    	<label for="inptPostalCode" id="lblPostalCode" ${country == 'United States of America' ? ' class="hiddenest"' : ''}>
+						Postal Code
+					</label>
+					<label for="inptProvince" id="lblZipCode" ${country == 'Canada' ? ' class="hiddenest"' : ''} ${country == null ? ' class="hiddenest"' : ''}>
+						Zip Code
+					</label>
+			    	<input type="text" name="postalCode" class="form-control" id="inptPostalCode" value="${postalCode}">
 			  	</div>
 			</div>
 		</div>

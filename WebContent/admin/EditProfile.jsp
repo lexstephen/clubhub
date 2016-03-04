@@ -20,13 +20,10 @@
 	
 	<%	
 		UserDao user = new UserDao();
-		String userID;
+		String userID = null;
 		if (request.getParameter("userID") != null) {
 			userID = request.getParameter("userID");
-		} else {
-			userID = "1";
-		}
-		
+		}		
 		user.findUser(request, userID);
 	%>
 	
@@ -123,10 +120,11 @@
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorPostalCode}">has-error</c:if>">
-			    	<label for="inptPostalCode">
-						<c:if test="${user.country == 'United States of America'}">Zip Code</c:if>
-						<c:if test="${user.country == 'Canada'}">Postal Code</c:if>
-						<c:if test="${empty user.country}">Postal Code</c:if>
+			    	<label for="inptPostalCode" id="lblPostalCode" ${user.country == 'United States of America' ? ' class="hiddenest"' : ''}>
+						Postal Code
+					</label>
+					<label for="inptProvince" id="lblZipCode" ${user.country == 'Canada' ? ' class="hiddenest"' : ''} ${user.country == null ? ' class="hiddenest"' : ''}>
+						Zip Code
 					</label>
 			    	<input type="text" name="postalCode" class="form-control" id="inptPostalCode" value="${user.postalCode}">
 			  	</div>
@@ -145,10 +143,11 @@
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorProvince}">has-error</c:if>">
-			    	<label for="inptProvince">
-						<c:if test="${user.country == 'United States of America'}">State</c:if>
-						<c:if test="${user.country == 'Canada'}">Province</c:if>
-						<c:if test="${empty user.country}">Province</c:if>
+					<label for="inptProvince" id="lblProvince" ${user.country == 'United States of America' ? ' class="hiddenest"' : ''}>
+						Province
+					</label>
+					<label for="inptState" id="lblState" ${user.country == 'Canada' ? ' class="hiddenest"' : ''} ${user.country == null ? ' class="hiddenest"' : ''}>
+						State
 					</label>
 					<select name="province" class="form-control ${user.country == 'United States of America' ? ' hiddenest' : ''}" id="inptProvince">
 					  <option ${user.province == 'AB' ? 'selected' : ''}>AB</option>
