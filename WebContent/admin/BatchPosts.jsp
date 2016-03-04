@@ -20,12 +20,21 @@
 	<% post.listAll(request); %> 
 	
 	<!-- 	 use this to test admin login. no admin login, no edit button. well actually no checkboxes -->
-	<% session.setAttribute("isAdmin", true); %> 
+	<% session.setAttribute("isAdmin", true); %>
 		
 	<form action="/clubhub/PostController" method="post" class="form" role="form">
-		<c:forEach items="${posts}" var="post">
-			<%@ include file="/WEB-INF/displayAllPosts.jsp" %>			
-		</c:forEach>
+		<table class="table table-hover sortable">
+			<thead>
+				<tr><th class="sorttable_nosort"></th><th class="col-xs-12 col-md-3 control-label">Title</th>
+				<th class="col-xs-12 col-md-2">Category</th>
+				<th class="col-xs-12 col-md-2">Author</th><th class="col-xs-12 col-md-3">Access Level</th><th class="sorttable_nosort"></th></tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${posts}" var="post">
+					<%@ include file="/WEB-INF/displayAllPosts.jsp" %>			
+				</c:forEach>
+			</tbody>
+		</table>
 		<br><br>
 		<label class="col-sm-1 control-label">
 			Access Level
@@ -42,7 +51,7 @@
 			Post Type
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="pageType">
+			<select class="form-control" name="pageType" id="editPageType">
 				<option value="0">-- no change --</option>
 				<option value="1">Blog Post</option>
 				<option value="2">Web Content</option>
@@ -52,7 +61,7 @@
 			Category
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="pageCategory">
+			<select class="form-control" name="pageCategory" id="editPageCategory">
 				<option value="0">-- no change --</option>
 				<option value="1">Announcements</option>
 				<option value="2">Events</option>

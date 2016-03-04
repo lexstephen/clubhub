@@ -15,7 +15,10 @@
 			<p>"${post.content_short}"</p>
 				<span class="expand">
 					<c:choose>
-						<c:when test="${isAdmin == true}">
+						<c:when test="${(isAdmin == true) && (post.accessLevel != 'Private')}">
+							<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+						</c:when>
+						<c:when test="${(postMatchesUser == true) && (post.accessLevel == 'Private')}">
 							<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
 						</c:when>
 					</c:choose>

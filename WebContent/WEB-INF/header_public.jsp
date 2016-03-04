@@ -5,6 +5,7 @@
 	<head>
 		<title><%= request.getAttribute("thisPage") %></title>
 		<link href="/clubhub/css/style.css" rel="stylesheet" type="text/css" />
+		<link href="/clubhub/css/custom.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body class="frontend">	
 		<nav class="navbar navbar-static-top sidebar">
