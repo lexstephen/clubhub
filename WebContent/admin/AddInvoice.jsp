@@ -15,7 +15,7 @@
 <%@ page import="utilities.PreferenceDao"%>
 <% InvoiceDao invoice = new InvoiceDao(); %>
 <% PreferenceDao preference = new PreferenceDao(); %>
-<% preference.taxRate(request); %>
+
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>

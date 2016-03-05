@@ -24,9 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
-import model.Post;
+
 import model.Season;
-import model.User;
+
 import utilities.DatabaseAccess;
 
 public class SeasonDao {
@@ -152,7 +152,7 @@ public class SeasonDao {
 		  
 		  	try{
 			    statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * FROM ch_season WHERE id = 24");
+			    resultSet = statement.executeQuery("SELECT * FROM ch_season WHERE id= " + seasonID);
 			    
 			    while (resultSet.next()) {
 			    	  season.setYear(resultSet.getString("year"));

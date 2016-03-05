@@ -40,7 +40,7 @@
 			Page Type
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="pageType" id="editPageType">
+			<select class="form-control" name="pageType">
 				<option value="1">Blog Post</option>
 				<option value="2">Web Content</option>
 			</select>
@@ -49,7 +49,7 @@
 			Category
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="pageCategory" id="editPageCategory">
+			<select class="form-control" name="pageCategory">
 				<option value="1">Announcements</option>
 				<option value="2">Events</option>
 				<option value="3">Contests</option>

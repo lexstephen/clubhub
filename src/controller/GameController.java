@@ -55,18 +55,7 @@ public class GameController extends HttpServlet {
 		    			address = "/CreateSeason.jsp";*/
 		    		
 	    		break;
-		    	case "delete":
-		    		System.out.println("I'm in case delete");
-		    		String seasonID = request.getParameter("seasonID");
-	    			System.out.println("Delete seasonID = " + seasonID);
-					dao.deleteSeason(request, response, seasonID);
-					//
-					errorChecker = "Season deleted";
-
-						System.out.println("You have canceled the creation of you season and will be taken back to create a new one, Sucker!!");
-					
-		    		address = "admin/CreateSeason.jsp";
-	    		break;
+		    	
 		    	default:
 	    		errorChecker = "Something has gone horribly wrong";
 	    	}

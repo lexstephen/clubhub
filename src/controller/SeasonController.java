@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import utilities.GameDao;
 import utilities.SeasonDao;
 import utilities.ValidationUtilities;
 
@@ -31,6 +32,7 @@ public class SeasonController extends HttpServlet {
 		
 		String option = request.getParameter("option");
 		SeasonDao dao = new SeasonDao();
+		GameDao gameDao = new GameDao();
 		String address = "";
 		//
 		String errorChecker = "n/a";
@@ -66,6 +68,16 @@ public class SeasonController extends HttpServlet {
 						System.out.println("You have canceled the creation of you season and will be taken back to create a new one, Sucker!!");
 					
 		    		address = "admin/CreateSeason.jsp";
+	    		break;
+		    	case "confirm":
+		    		System.out.println("I'm in case confirm");
+		    		
+	  
+					gameDao.addToDatabase(request, response);
+					
+					errorChecker = "Games Created";
+
+					
 	    		break;
 		    	default:
 	    		errorChecker = "Something has gone horribly wrong";
