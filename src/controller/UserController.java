@@ -86,6 +86,30 @@ public class UserController extends HttpServlet {
 					address = "/Login.jsp";
 				}
 				break;
+			case "batchEdit":
+	    		try {
+	    			dao.batchEdit(request, response);
+	    		} catch (Exception e){
+	    			e.printStackTrace();
+	    		}
+	    		address = "admin/BatchUsers.jsp";
+				break;
+	    	case "delete":
+	    		try {
+					dao.deleteUser(request, response);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	    		address = "admin/BatchUsers.jsp";
+    		break;
+	    	case "batchDelete":
+	    		try {
+					dao.batchDelete(request, response);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	    		address = "admin/BatchUsers.jsp";
+    		break;
 			default:
 				// something went wrong, display main page
 				address = "/index.jsp";

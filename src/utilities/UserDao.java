@@ -111,7 +111,14 @@ public class UserDao {
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select dateCreated from ch_user where id = '" + request.getParameter("userID") + "'");
 			while (resultSet.next()) {
-				request.setAttribute("dateCreated",  resultSet.getString("dateCreated"));
+				String MyDate = resultSet.getString("dateCreated");
+				SimpleDateFormat parseDate = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat formatDate = new SimpleDateFormat("MMM yyyy");
+				Date date = (Date) parseDate.parse(MyDate);
+				String DisplayDate = formatDate.format(date);
+				
+				
+				request.setAttribute("dateCreated", DisplayDate);
 			}
 		} catch (Exception e) {
 			throw e;
@@ -251,7 +258,10 @@ public class UserDao {
 			user.setUserStatus(resultSet.getString("userStatus"));
 			user.setFirstName(resultSet.getString("firstName"));
 			user.setLastName(resultSet.getString("lastName"));
-			user.setGender(resultSet.getString("gender"));
+			String gender = resultSet.getString("gender");
+			user.setGender(gender);
+			String teamGender = (gender.equals("F"))?"Women":"Men";	
+			user.setTeamGender(teamGender);				
 			user.setStreetAddress(resultSet.getString("streetAddress"));
 			user.setTelephone(resultSet.getString("phoneNumber"));
 			user.setCity(resultSet.getString("city"));
@@ -315,4 +325,55 @@ public class UserDao {
 			throw e;
 		}
 	}
+
+	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		// this method edits the userType, accessLevel, and/or category in ch_user
+		
+		String [] markedForEdit = request.getParameterValues("userSelected");
+		String userID, userStatus, executeString = "";
+		
+		userStatus = request.getParameter("userStatus"); // userStatus
+		
+	    if (!userStatus.equals("0")) {
+	    	executeString = "userStatus='" + userStatus;
+	    }
+	    
+	    if (!executeString.equals(""))
+	    {
+	    	System.out.println("executeString is not null. Here's userStatus values: " + userStatus);
+	    	System.out.println("And here's executeString: " + executeString);
+			for (String x : markedForEdit) 
+			{
+				userID = x;
+			    statement = connect.createStatement();
+				statement.executeUpdate("UPDATE ch_user SET " + executeString + "' WHERE id='" + userID + "'");
+			}
+		}				
+	}
+
+	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String [] markedForDeletion = request.getParameterValues("userSelected");
+		for (String userID : markedForDeletion) {
+			request.setAttribute("userID", userID);
+			System.out.println("batchDelete userID: " + request.getAttribute("userID"));
+			deleteUser(request, response);
+		}		
+	}
+
+	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+		String userID = (String)request.getAttribute("userID").toString();
+				
+		  try {
+			  statement = connect.createStatement();
+			  statement.executeUpdate("delete from ch_user where id =" + userID); 
+			  System.out.println("delte userID = " + userID);
+		  } catch (SQLException e) {
+		      throw e;
+		  }
+	}
+
 }
