@@ -61,10 +61,10 @@ public class PostDao {
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {
 			HttpSession session = request.getSession();
-/*			// this is temp  v v v
-			session.setAttribute("userID", "2");
+		// this is temp  v v v
+			session.setAttribute("loggedInUserID", "2");
 			// this is temp  ^ ^ ^
-*/	      statement = connect.createStatement();
+	      statement = connect.createStatement();
 	      preparedStatement = connect.prepareStatement("insert into ch_post values (default, ?, ?, ?, ?, ?, ?)");
 	      // columns are title, content, Userid, Posttypeid, Accessid, Categoryid
 	      // Parameters start with 1 because we are sending 'default' to the auto incrementing id
@@ -122,7 +122,7 @@ public class PostDao {
 		  List<Post> posts = new ArrayList<Post>();
 		  
 		  HttpSession session = request.getSession();
-		  boolean isLoggedIn = (((Boolean) session.getAttribute("isLoggedIn")).booleanValue());
+		  boolean isLoggedIn = session.getAttribute("isLoggedIn") == null ? false : ((Boolean) session.getAttribute("isLoggedIn")).booleanValue();
 		  
 		  	try{
 		  		statement = connect.createStatement();
@@ -311,7 +311,6 @@ public class PostDao {
 		
 		System.out.println("pageCnt = " + pageCnt);
 		System.out.println("pageNav = " + pageNav);
-		System.out.println("posts list size = " + posts.size());
 
 		numOfRows = allBlogs.size();
 		numOfPages = (int)Math.ceil(numOfRows/ppp);

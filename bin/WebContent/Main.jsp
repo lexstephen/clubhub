@@ -23,11 +23,11 @@
 	<% session.setAttribute("isAdmin", true); %>
 
 	
-	<% List<String> postIDs = post.getLastBlogs(request, response); %>
-	<% for (String i : postIDs) { %>
-	<% post.findPost(request, i); %>
-	<%@ include file="/WEB-INF/displayPosts.jsp" %>
-	<% } %>
+	<% post.getLastBlogs(request, response); %>
+	<c:forEach items="${posts}" var="post">
+		<%@ include file="/WEB-INF/displayPosts.jsp" %>
+	</c:forEach>		
+
 	
 	<form action="/clubhub/PostController" method="post">
 		<span class="pagination">

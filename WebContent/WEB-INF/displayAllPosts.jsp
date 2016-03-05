@@ -10,14 +10,14 @@
  
 
  <tr>
- 	<td class="checkbox">
+ 	<td class="col-xs-12 col-md-1">
 		<input type="checkbox" name="postSelected" value="${post.id}">
 	</td>
 	<td class="col-xs-12 col-md-3 control-label">${post.title}</td>
 	<td class="col-xs-12 col-md-2">${post.category}</td>
 	<td class="col-xs-12 col-md-2">${post.username}</td>
 	<td class="col-xs-12 col-md-3">${post.accessLevel}</td>
-	<td class="col-xs-12 col-md-2">
+	<td class="col-xs-12 col-md-1">
 		<span class="expand">
 			<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
 			<a href="/clubhub/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
