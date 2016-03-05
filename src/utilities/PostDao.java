@@ -297,20 +297,20 @@ public class PostDao {
 		//this method returns the latest 3 blog posts (Posttypeid = 1) in ch_post
 		
 		HttpSession session = request.getSession();
-		int numOfPages = 0, ppp = 3;   // Posts Per Page
-		double numOfRows = 0;
-		List<Post> posts = new ArrayList<Post>();		
+		listAllBlogs(request);
 		
 		int pageCnt = (session.getAttribute("pageCnt") == null) ? 0 : Integer.parseInt(session.getAttribute("pageCnt").toString());  // Page count, 0 if null
+		int numOfPages = 0, ppp = 3;   // Posts Per Page. this can be changed, maybe in preferences even?
+		double numOfRows = 0;
 		String pageNav = (request.getAttribute("pageNav") == null ? "first" : request.getAttribute("pageNav").toString()) ;
 		
-		System.out.println("pageCnt = " + pageCnt);
-		System.out.println("pageNav = " + pageNav);
-		
-		listAllBlogs(request);
+		List<Post> posts = new ArrayList<Post>();	
 		@SuppressWarnings("unchecked")
 		List<Post> allBlogs = (List<Post>) request.getAttribute("posts");
 		Collections.reverse(allBlogs);
+		
+		System.out.println("pageCnt = " + pageCnt);
+		System.out.println("pageNav = " + pageNav);
 		System.out.println("posts list size = " + posts.size());
 
 		numOfRows = allBlogs.size();

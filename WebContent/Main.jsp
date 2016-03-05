@@ -26,12 +26,6 @@
 		<%@ include file="/WEB-INF/displayPosts.jsp" %>					
 	</c:forEach>
 	
-	
-	<%-- <% for (String i : postIDs) { %>
-	<% post.findPost(request, i); %>
-	<%@ include file="/WEB-INF/displayPosts.jsp" %>
-	<% } %> --%>
-	
 	<form action="/clubhub/PostController" method="post">
 		<span class="pagination">
 			<button class="btn btn-danger" name="option" value="first">&lt;&lt;</button>
