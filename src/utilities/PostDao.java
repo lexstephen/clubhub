@@ -119,10 +119,11 @@ public class PostDao {
 	
 	public void listAllBlogs(HttpServletRequest request) throws Exception {
 		  List<Post> posts = new ArrayList<Post>();
-		  
+		  boolean isLoggedIn = false;
 		  HttpSession session = request.getSession();
-		  boolean isLoggedIn = (((Boolean) session.getAttribute("isLoggedIn")).booleanValue());
-		  
+		  if (session.getAttribute("isLoggedIn") != null) {
+			  isLoggedIn = (((Boolean) session.getAttribute("isLoggedIn")).booleanValue());
+		  }
 		  	try{
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
