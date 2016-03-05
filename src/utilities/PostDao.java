@@ -324,7 +324,7 @@ public class PostDao {
 			pageCnt = 1;
 			break;
 		case "previous":
-			if (pageCnt > 0) {
+			if (pageCnt > 1) {
 				pageCnt--;
 				posts = allBlogs.subList(pageCnt*ppp-ppp, pageCnt*ppp);
 			} else {
