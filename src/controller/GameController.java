@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 import utilities.GameDao;
 import utilities.ValidationUtilities;
 
-@WebServlet("/SeasonController")
+@WebServlet("/GameController")
 public class GameController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     public GameController() {

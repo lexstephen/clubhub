@@ -1,4 +1,3 @@
-
 <%-- 
 	Project: ClubHub Content and User Management System 
 	Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
@@ -7,8 +6,6 @@
 	Description: CreateGames.jsp
  --%>
  
-
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -38,7 +35,7 @@ season.findSeason(request, seasonID); ;%>
 			<b>Duration:</b> ${season.duration}<br>
 			<br>
 			<button class="btn btn-info" type="submit" value="delete" name="option">Cancel</button>
-			<button class="btn btn-info" type="submit" value="add" name="option" onclick="form.action='/clubhub/GameController;'"> Confirm</button>
+			
 		</div>
 	</form>
 		

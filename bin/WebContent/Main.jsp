@@ -22,11 +22,7 @@
 	<% session.setAttribute("isAdmin", true); %>
 
 	
-	<% String[] postIDs = post.getLastBlogs(request, response); %>
-	<% for (String i : postIDs) { %>
-	<% post.findPost(request, i); %>
-	<%@ include file="/WEB-INF/displayPosts.jsp" %>
-	<% } %>
+
 	
 	<span class="pagination">
 		<a href="?posts=-5">&lt;&lt;</a> | <a href="?posts=-1">&lt;</a> | <a href="?posts=1">&gt;</a> | <a href="?posts=5">&gt;&gt;</a>

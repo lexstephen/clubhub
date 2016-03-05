@@ -18,7 +18,7 @@ InvoiceDao invoice = new InvoiceDao();
 invoice.findInvoice(request, request.getParameter("invoiceID"));
 %>
 <% PreferenceDao preference = new PreferenceDao(); %>
-<% preference.taxRate(request, response); %>
+
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
