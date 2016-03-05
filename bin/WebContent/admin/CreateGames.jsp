@@ -1,3 +1,4 @@
+
 <%-- 
 	Project: ClubHub Content and User Management System 
 	Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
