@@ -19,7 +19,6 @@
 
 	<!-- 	 use this to test admin login. no admin login, no edit button -->
 	<% session.setAttribute("isAdmin", true); %>
-	<% session.setAttribute("isLoggedIn", true); %>
 
 	<% List<String> postIDs = post.getLastBlogs(request, response); %>
 	<% for (String i : postIDs) { %>
