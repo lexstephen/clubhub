@@ -137,10 +137,11 @@ public class InvoiceDao {
 		  List<User> users = new ArrayList<User>();
 		  	try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT id, firstName, lastName from ch_user ORDER BY lastName");
+			    resultSet = statement.executeQuery("SELECT id, username, firstName, lastName from ch_user ORDER BY lastName");
 			    while (resultSet.next()) {
 			    	  User user = new User();
 			    	  user.setUserid(resultSet.getString("id"));
+			    	  user.setUsername(resultSet.getString("username"));
 			    	  user.setFirstName(resultSet.getString("firstName"));
 			    	  user.setLastName(resultSet.getString("lastName"));
 			    	  users.add(user);
@@ -199,8 +200,8 @@ public class InvoiceDao {
 		  List<Invoice> invoices = new ArrayList<Invoice>();
 		  	try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT id, invDate, status, Userid"
-		    				+ " FROM clubhub.ch_invoice ");
+			    resultSet = statement.executeQuery("SELECT i.id, i.invDate, i.status, i.Userid, u.username, u.firstName, u.lastName"
+		    				+ " FROM clubhub.ch_invoice i JOIN clubhub.ch_user u on i.Userid = u.id");
 			      
 			    while (resultSet.next()) {
 			    	  Invoice invoice = new Invoice();
@@ -208,6 +209,9 @@ public class InvoiceDao {
 			    	  invoice.setInvDate(resultSet.getString("invDate"));
 			    	  invoice.setStatus(resultSet.getString("status"));
 			    	  invoice.setUserID(resultSet.getString("Userid"));
+			    	  invoice.setUsername(resultSet.getString("username"));
+			    	  invoice.setFirstName(resultSet.getString("firstName"));
+			    	  invoice.setLastName(resultSet.getString("lastName"));
 			    	  request.setAttribute("invoiceID", invoice.getId());
 			    	  invoices.add(invoice);
 			    }

@@ -7,38 +7,38 @@ package model;
 * Description: Invoice model
 ****************************************************************************************************/
 public class Invoice {
-	/*
-	 * 
-		request.setAttribute("userID", request.getParameter("userID"));
-		request.setAttribute("invDate", request.getParameter("invDate"));
-		request.setAttribute("charge01", request.getParameter("charge01"));
-		request.setAttribute("charge01qty", request.getParameter("charge01qty"));
-		request.setAttribute("charge01subtotal", request.getParameter("charge01subtotal"));
-		request.setAttribute("charge02", request.getParameter("charge02"));
-		request.setAttribute("charge02qty", request.getParameter("charge02qty"));
-		request.setAttribute("charge02subtotal", request.getParameter("charge02subtotal"));
-		request.setAttribute("charge03", request.getParameter("charge03"));
-		request.setAttribute("charge03qty", request.getParameter("charge03qty"));
-		request.setAttribute("charge03subtotal", request.getParameter("charge03subtotal"));
-		request.setAttribute("charge04", request.getParameter("charge04"));
-		request.setAttribute("charge04qty", request.getParameter("charge04qty"));
-		request.setAttribute("charge04subtotal", request.getParameter("charge04subtotal"));
-		request.setAttribute("charge05", request.getParameter("charge05"));
-		request.setAttribute("charge05qty", request.getParameter("charge05qty"));
-		request.setAttribute("charge05subtotal", request.getParameter("charge05subtotal"));
-		request.setAttribute("result", request.getParameter("result"));
-		request.setAttribute("taxes", request.getParameter("taxes"));
-		request.setAttribute("finalresult", request.getParameter("finalresult"));
-	 * 
-	 */
-	private String id, invDate, status, userID;
-	private String charge01, charge02, charge03, charge04, charge05;
+	private String id, invDate, status, userID, username, firstName, lastName;	private String charge01, charge02, charge03, charge04, charge05;
 	private String charge01qty, charge02qty, charge03qty, charge04qty, charge05qty;
 	private String charge01subtotal, charge02subtotal, charge03subtotal, charge04subtotal, charge05subtotal;
 	private String result, taxes, finalresult;
 	
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	public String getResult() {
 		return result;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getCharge01subtotal() {
