@@ -61,46 +61,63 @@ public class GameDao {
 	    } 
 	}
 	
-	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void addToDatabase(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
 		try {
 			HttpSession session = request.getSession();
-			String seasonID = request.getParameter("seasonID");
+			
+			
+			System.out.println("I'm in addToDatabase in GameDao");
+			
+			System.out.println("The season Id is: " + seasonID);
 			
 			// First we need to check how many games are in the current season we have passed in. 
 			// We also need to get the start date because we have to add 7 days to it everytime we go through the loop
-			statement = connect.createStatement();
-			ResultSet numOfGames = statement.executeQuery("select duration from ch_season where id = " + seasonID); 
-			ResultSet startDate  = statement.executeQuery("select startDate from ch_season where id = " + seasonID);
 			
-			String str = numOfGames.getString("duration");
-			int games = Integer.parseInt(str);
+			statement = connect.createStatement();
+			ResultSet results = statement.executeQuery("select * from ch_season where id = " + seasonID); 
+			//ResultSet startDate  = sttmnt.executeQuery("select startDate from ch_season where id = " + seasonID);
+			
+			while(results.next()){
+				String str = results.getString("duration");
+				int games = Integer.parseInt(str);
+					
+				System.out.println("Number of games: " + games);
 				
-			String date = startDate.getString("startDate");
+				String date = results.getString("startDate");
 			
 			
 			// Next we need to create a loop in order to create as many games as we need for the current season 
 			System.out.println("The current number of games in this season is " + games);
 			
 			int cnt=0;
+			int week = 0;
 			String scheduledDate;
+			
+			Date theDate;
+			
+			
 			
 			do {
 				cnt++;
+				
+				week++;
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				Calendar c = Calendar.getInstance();
 				c.setTime(sdf.parse(date));
 				c.add(Calendar.DATE, 7);  // number of days to add
-				scheduledDate = sdf.format(c.getTime()); 
+				date = sdf.format(c.getTime()); 
 				
-				PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_game values (default, default, ?, ?)");
-				//preparedStatement.setString(1, request.getParameter("week"));	//week of game
-				preparedStatement.setString(1, request.getParameter("scheduledDate")); // date of game
-				preparedStatement.setString(2, request.getParameter("seasonID"));
+				
+				PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_game values (default, ?, ?, ?)");
+				preparedStatement.setInt(1, week);	//week of game
+				preparedStatement.setString(2, date); // date of game
+				preparedStatement.setString(3, seasonID);
 				preparedStatement.executeUpdate();
 				
+				
 			}while (cnt < games);
-
+			}
 		      
 		      
 		      

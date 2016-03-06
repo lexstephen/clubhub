@@ -34,7 +34,7 @@ public class SeasonController extends HttpServlet {
 		SeasonDao dao = new SeasonDao();
 		GameDao gameDao = new GameDao();
 		String address = "";
-		//
+		HttpSession session = request.getSession();
 		String errorChecker = "n/a";
 		
 		System.out.println(option);
@@ -47,7 +47,7 @@ public class SeasonController extends HttpServlet {
 		    			int ID = Integer.parseInt(id);
 		    			System.out.println(id+"In controller");
 		    			errorChecker = "Season Created";
-		    			HttpSession session = request.getSession();
+		    			//HttpSession session = request.getSession();
 		    			session.setAttribute("seasonID", ID);
 		    			address = "admin/CreateGames.jsp";
 		    			
@@ -62,7 +62,7 @@ public class SeasonController extends HttpServlet {
 		    		String seasonID = request.getParameter("seasonID");
 	    			System.out.println("Delete seasonID = " + seasonID);
 					dao.deleteSeason(request, response, seasonID);
-					//
+					
 					errorChecker = "Season deleted";
 
 						System.out.println("You have canceled the creation of you season and will be taken back to create a new one, Sucker!!");
@@ -70,14 +70,15 @@ public class SeasonController extends HttpServlet {
 		    		address = "admin/CreateSeason.jsp";
 	    		break;
 		    	case "confirm":
+
 		    		System.out.println("I'm in case confirm");
-		    		
-	  
-					gameDao.addToDatabase(request, response);
+		    		Object id1 = session.getAttribute("seasonID");
+		    		String sID = id1.toString();
+		    		//String id1 =request.getParameter("seasonID");
+		    		System.out.println("The ID is:" + sID);
+					gameDao.addToDatabase(request, response, sID);
 					
 					errorChecker = "Games Created";
-
-					
 	    		break;
 		    	default:
 	    		errorChecker = "Something has gone horribly wrong";

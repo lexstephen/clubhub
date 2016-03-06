@@ -18,7 +18,7 @@
 Object id = session.getAttribute("seasonID");
 String seasonID = id.toString();
 System.out.println("The current season ID is: " + seasonID);
-season.findSeason(request, seasonID); ;%>
+season.findSeason(request, seasonID);%>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 

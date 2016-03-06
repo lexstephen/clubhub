@@ -168,6 +168,7 @@ public class SeasonDao {
 			      throw e;
 			}
 		  	request.setAttribute("season", season);
+		  	
 	} 
 	
 	public void editSeason(HttpServletRequest request, HttpServletResponse response, String _seasonID) throws Exception {
