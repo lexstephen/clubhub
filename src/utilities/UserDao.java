@@ -262,6 +262,7 @@ public class UserDao {
 				user.setProvince(resultSet.getString("province"));
 				user.setPostalCode(resultSet.getString("postalCode"));
 				user.setCountry(resultSet.getString("country"));
+				
 				user.setPhoto(resultSet.getString("photo"));
 				user.setDateOfBirth(resultSet.getString("dateOfBirth"));
 				user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
@@ -312,6 +313,24 @@ public class UserDao {
 
 	public void editUser(HttpServletRequest request, HttpServletResponse response, String _userID) throws Exception {
 		try {			
+
+			/* ********** take care of image uploading *****************/
+
+	        InputStream inputStream = null; // input stream of the upload file
+	         
+	        // obtains the upload file part in this multipart request
+	        Part filePart = request.getPart("profilePhoto");
+	        if (filePart != null) {
+	            // prints out some information for debugging
+	            System.out.println(filePart.getName());
+	            System.out.println(filePart.getSize());
+	            System.out.println(filePart.getContentType());
+	             
+	            // obtains input stream of the upload file
+	            inputStream = filePart.getInputStream();
+	        }
+	         
+	        
 			String userID = _userID;
 			String username = request.getParameter("username");
 			String password = request.getParameter("password1");
@@ -333,12 +352,15 @@ public class UserDao {
 			}
 			String postalCode = request.getParameter("postalCode");
 			String country = request.getParameter("country");
+			//preparedStatement.setString(15, request.getParameter("profilePhoto"));				// profilePhoto
+
 			String dateOfBirth = request.getParameter("dateOfBirth");
 			String emergencyContactName = request.getParameter("emergencyContactName");
 			String emergencyContactPhoneNumber = request.getParameter("emergencyContactPhoneNumber");
 
+	        
 			statement = connect.createStatement();
-			statement.executeUpdate("UPDATE clubhub.ch_user SET username='" + username 
+			String qry = "UPDATE clubhub.ch_user SET username='" + username 
 					+ "', password='" + password 
 					+ "', emailAddress='" + emailAddress
 					+ "', userStatus='" + userStatus
@@ -349,11 +371,16 @@ public class UserDao {
 					+ "', city='" + city 
 					+ "', province='" + province
 					+ "', postalCode='" + postalCode
-					+ "', country='" + country
-					+ "', dateOfBirth='" + dateOfBirth
+					+ "', country='" + country;
+					   if (inputStream != null) {
+			                // fetches input stream of the upload file for the blob column
+						   qry += "', photo='" + inputStream;
+			            }
+				qry +="', dateOfBirth='" + dateOfBirth
 					+ "', emergencyContactName='" + emergencyContactName
 					+ "', emergencyContactPhoneNumber='" + emergencyContactPhoneNumber
-					+ "' WHERE id='" + userID + "';");
+					+ "' WHERE id='" + userID + "';";
+			 statement.executeUpdate(qry);
 		} catch (Exception e) {
 			throw e;
 		}

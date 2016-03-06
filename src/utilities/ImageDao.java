@@ -49,23 +49,6 @@ public class ImageDao extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/* 
-		 * UserDao dao = new UserDao();
-		 
-		String option = request.getParameter("option");
-		switch(option) {
-		case "upload":
-			break;
-		case "display":
-			break;
-		}
-		try {
-			dao.addToDatabase(request, response);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} */
-		
 		 String imageId = request.getParameter("id");
 	        System.out.println(imageId);
 	        InputStream sImage;
