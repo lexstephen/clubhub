@@ -44,9 +44,9 @@
 	<div class="row">
 		<div class="col-xs-3 col-xs-offset-1">
 		<!-- 	<img src="/clubhub/images/avatar.gif" class="profile_photo"> -->
-			<form action="displayServlet" method="get">
+			
 	                          <img src="ImageDao?id=${userID }" class="profile_photo">
-	        </form>
+
 	      
 		</div>
 		<div class="col-xs-6 col-xs-offset-1 jumbotron vertical-center">
