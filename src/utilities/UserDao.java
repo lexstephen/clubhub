@@ -84,11 +84,17 @@ public class UserDao {
 		switch(option) {
 		case "login":
 			try {
+				System.out.println("in login option");
 				HttpSession session = request.getSession();
 				statement = connect.createStatement();
 				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + request.getParameter("password") + "\"");
+				System.out.println("username = " + request.getParameter("username"));
+				System.out.println("password = " + request.getParameter("password"));
+				//System.out.println("resultSet = " + resultSet);
 				while (resultSet.next()) {
 					session.setAttribute("loggedInUserID", resultSet.getString("id")); 
+					System.out.println("result id = " + resultSet.getString("id"));
+					System.out.println("setting UserID = " + session.getAttribute("loggedInUserID"));
 				}
 			} catch (Exception e) {
 				throw e;
@@ -130,12 +136,15 @@ public class UserDao {
 
 	public void isAdmin(HttpServletRequest request) throws Exception {
 		try {
+			System.out.println("In isAdmin");
 			HttpSession session = request.getSession();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select userStatus from ch_user where id = '" + session.getAttribute("loggedInUserID") + "'");
+			System.out.println("loggedInUserID = " + session.getAttribute("loggedInUserID"));
 			while (resultSet.next()) {
 				session.setAttribute("userStatus", resultSet.getString("userStatus"));
 				session.setAttribute("isAdmin", resultSet.getString("userStatus").equals("admin")?true:false);
+				System.out.println("isAdmin = " + session.getAttribute("isAdmin"));
 			}
 		} catch (Exception e) {
 			throw e;
