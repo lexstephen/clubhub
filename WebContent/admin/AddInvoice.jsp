@@ -243,129 +243,30 @@ ${errorString }
 			</div>
 		</div>
 	</form>
-	
-				<script type="text/javascript">
-				$(".qty").on('input', function () {
-				    var self = $(this);
-				    // var unitVal = self.next().val();
-				    //var unitVal = self.parent().next().val();
-				    var unitVal = self.closest(".row").find(".unit").val();
-				    self.closest(".row").find(".amount").val(unitVal * self.val());
-					fnAlltax();
-				   	fnAlltotal();
-				});
+	<script type="text/javascript">
+	var lineItems = new Array();
+<c:forEach items="${lineitems}" var="lineitem" varStatus="status"> 
+	lineItemObj = new Object();
+	lineItemObj.id = ${lineitem.id}; 
+	lineItemObj.cost = ${lineitem.cost}; 
+	lineItems.push(lineItemObj);
+</c:forEach> 
 
-				$(".unit").on('input', function () {
-				    var self = $(this);
-				    //$(this).parent().find('#cl_zipcode').val()
-				    var qtyVal = self.closest(".row").find(".qty").val();
-				    self.closest(".row").find(".amount").val(qtyVal * self.val());
-					fnAlltax();
-				   	fnAlltotal();
-				});
-	
-				function fnAlltotal(){
-				  var total=0;
-				    $(".amount").each(function(){
-				         total += parseFloat($(this).val()||0);
-				    });
-				    $(".result").val(total);
-				   	fnFinalTotal();
-				}
-	
-				function fnAlltax(){
-				  	var total=0;
-					var tax_rate = ${tax_rate };
-					
-				    $(".amount").each(function(){
-				         total += parseFloat(($(this).val() * tax_rate)||0);
-				    });
-				    $(".taxes").val(total);
-				   	fnFinalTotal();
-				}
-	
-				function fnFinalTotal(addThis){
-				  	var subtotal=$(".result").val();		
-				  	var tax=$(".taxes").val();					
-				    
-				  	var total = parseFloat(subtotal) + parseFloat(tax);
-				  	
-				    $(".finalresult").val(total);
-				}
-	
-				
-				var lineItems = new Array();
-				<c:forEach items="${lineitems}" var="lineitem" varStatus="status"> 
-					lineItemObj = new Object();
-					lineItemObj.id = ${lineitem.id}; 
-					lineItemObj.cost = ${lineitem.cost}; 
-					lineItems.push(lineItemObj);
-				</c:forEach> 
+lineItemObj = new Object();
+lineItemObj.id = '---'; 
+lineItemObj.cost = 0; 
+lineItems.push(lineItemObj);
 
-				lineItemObj = new Object();
-				lineItemObj.id = '---'; 
-				lineItemObj.cost = 0; 
-				lineItems.push(lineItemObj);
 
-				
-				
-				$(document).ready(function(){
-				    $("select[name='charge01']").change(function(){
-				        $(this).find("option:selected").each(function(){
-							for	(index = 0; index < lineItems.length; index++) {
-					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('charge01cost').value = parseFloat(lineItems[index].cost);
-					            }
-				            }
-				        });
-				    }).change();
-				});
-
-				$(document).ready(function(){
-				    $("select[name='charge02']").change(function(){
-				        $(this).find("option:selected").each(function(){
-							for	(index = 0; index < lineItems.length; index++) {
-					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('charge02cost').value = parseFloat(lineItems[index].cost);
-					            }
-				            }
-				        });
-				    }).change();
-				});
-				
-				$(document).ready(function(){
-				    $("select[name='charge03']").change(function(){
-				        $(this).find("option:selected").each(function(){
-							for	(index = 0; index < lineItems.length; index++) {
-					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('charge03cost').value = parseFloat(lineItems[index].cost);
-					            }
-				            }
-				        });
-				    }).change();
-				});
-
-				$(document).ready(function(){
-				    $("select[name='charge04']").change(function(){
-				        $(this).find("option:selected").each(function(){
-							for	(index = 0; index < lineItems.length; index++) {
-					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('charge04cost').value = parseFloat(lineItems[index].cost);
-					            }
-				            }
-				        });
-				    }).change();
-				});
-				$(document).ready(function(){
-				    $("select[name='charge05']").change(function(){
-				        $(this).find("option:selected").each(function(){
-							for	(index = 0; index < lineItems.length; index++) {
-					            if($(this).attr("value")==lineItems[index].id){
-									  document.getElementById('charge05cost').value = parseFloat(lineItems[index].cost);
-					            }
-				            }
-				        });
-				    }).change();
-				});
-				</script>
+function fnAlltax(){
+  	var total=0;
+	var tax_rate = ${tax_rate };
+	
+    $(".amount").each(function(){
+     total += parseFloat(($(this).val() * tax_rate)||0);
+});
+$(".taxes").val(total);
+   	fnFinalTotal();
+}
+</script>
 <%@ include file="/WEB-INF/footer_backend.jsp" %>

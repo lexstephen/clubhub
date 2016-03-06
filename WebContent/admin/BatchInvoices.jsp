@@ -36,13 +36,16 @@
 				</thead>
 				<tbody>
 					<c:forEach items="${invoices}" var="invoice">
-						<%@ include file="/WEB-INF/displayEditInvoices.jsp" %>			
+						<c:if test="${(isAdmin == true) || (invoice.userID == loggedInUserID)}">
+							<%@ include file="/WEB-INF/displayEditInvoices.jsp" %>
+						</c:if>			
 					</c:forEach>			
 				</tbody>
 			</table>
 		</div>
 	</div>
 	
+	<c:if test="${(isAdmin == true)}">
 	<div class="row">
 		<div class="col-sm-2 control-label">
 			Invoice Status
@@ -58,6 +61,7 @@
 			<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
 		</div>
 	</div>
+	</c:if>
 	
 	<span class="pagination">
 		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>

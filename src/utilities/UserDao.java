@@ -473,7 +473,6 @@ public class UserDao {
 
 	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-
 		String userID = (String)request.getAttribute("userID").toString();
 				
 		  try {
