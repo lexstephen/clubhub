@@ -22,30 +22,42 @@
 	<!-- This form wont work because there are embedded forms in the included file. I dont know how to work around this.  --> 
 		
 	<form action="/clubhub/UserController" method="post" class="form" role="form">
-		<c:forEach items="${users}" var="user">
-			<input type="checkbox" name="userSelected" value="${user.userid}">
-			<%@ include file="/WEB-INF/displayUsers.jsp" %>			
-		</c:forEach>
+
+		<table class="table table-hover sortable">
+			<thead>
+				<tr>
+					<th class="col-xs-12 col-md-1 sorttable_nosort"></th>
+					<th class="col-xs-12 col-md-3 control-label">Username</th>
+					<th class="col-xs-12 col-md-2">User Status</th>
+					<th class="col-xs-12 col-md-2">First Name</th>
+					<th class="col-xs-12 col-md-2">Last Name</th>
+					<th class="col-xs-12 col-md-2 sorttable_nosort"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${users}" var="user">
+					<%@ include file="/WEB-INF/displayUsers.jsp" %>			
+				</c:forEach>			
+			</tbody>
+		</table>
 		
-		<label class="col-sm-2 control-label">
-			User Status
-		</label>
-		<div class="col-sm-3">
-			<select class="form-control" name="userStatus">
-				<option value="unverified">Unverified</option>
-				<option value="user">User</option>
-				<option value="admin">Administrator</option>
-			</select>
+		<div class="row">
+			<div class="col-sm-2 control-label">
+				User Status:
+			</div>
+			<div class="col-sm-3">
+				<select class="form-control" name="userStatus">
+					<option value="unverified">Unverified</option>
+					<option value="user">User</option>
+					<option value="admin">Administrator</option>
+				</select>
+			</div>
+			<div class="col-sm-4">
+				<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
+				<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
+			</div>
 		</div>
-		<br><br>
-		<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
-		<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
 	</form>
-	
-	<span class="pagination">
-		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>
-	</span>
-	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
 <%@ include file="/WEB-INF/footer_backend.jsp" %>

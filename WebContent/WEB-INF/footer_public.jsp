@@ -17,4 +17,4 @@
 	<script type="text/javascript" src="/clubhub/js/countryoptions.js" charset="utf-8"></script>
 	<script type="text/javascript" src="/clubhub/js/sorttable.js" charset="utf-8"></script>
 </body>
-</html>
+</html>  

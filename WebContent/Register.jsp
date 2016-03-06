@@ -15,7 +15,8 @@
 
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
 	${errorString }
-	<form action="/clubhub/UserController" method="post" class="form" role="form">
+
+	<form action="/clubhub/UserController" method="post" class="form" role="form" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorFirstName}">has-error</c:if>">
@@ -226,6 +227,7 @@
 			<div class="col-xs-6 pull-right">
 		    	<label>Preview</label>
 				<img src="/clubhub/images/avatar.gif">
+				
 			</div>
 		</div>
 		

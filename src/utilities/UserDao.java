@@ -1,4 +1,5 @@
 package utilities;
+import java.io.InputStream;
 /****************************************************************************************************
  * Project: Hackers 1995
  * Assignment: COMP 3095 Assignment 2
@@ -18,14 +19,16 @@ import java.util.List;
 import java.util.Date;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
-import model.Post;
 import model.User;
 import utilities.DatabaseAccess;
 
+@MultipartConfig(maxFileSize = 10177215) // upload file's size up to 16MB
 public class UserDao {
 
 	private Connection connect = null;
@@ -180,6 +183,23 @@ public class UserDao {
 				province = request.getParameter("state");
 				break;
 			}
+			
+			/* ********** take care of image uploading *****************/
+
+	        InputStream inputStream = null; // input stream of the upload file
+	         
+	        // obtains the upload file part in this multipart request
+	        Part filePart = request.getPart("profilePhoto");
+	        if (filePart != null) {
+	            // prints out some information for debugging
+	            System.out.println(filePart.getName());
+	            System.out.println(filePart.getSize());
+	            System.out.println(filePart.getContentType());
+	             
+	            // obtains input stream of the upload file
+	            inputStream = filePart.getInputStream();
+	        }
+	         
 
 			statement = connect.createStatement();
 			preparedStatement = connect.prepareStatement("insert into ch_user values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -197,13 +217,26 @@ public class UserDao {
 			preparedStatement.setString(12, province);											// province
 			preparedStatement.setString(13, request.getParameter("postalCode"));					// postalCode
 			preparedStatement.setString(14, request.getParameter("country"));						// country
-			preparedStatement.setString(15, request.getParameter("profilePhoto"));				// profilePhoto
+			//preparedStatement.setString(15, request.getParameter("profilePhoto"));				// profilePhoto
+			   if (inputStream != null) {
+	                // fetches input stream of the upload file for the blob column
+				   preparedStatement.setBlob(15, inputStream);
+	            }
 			preparedStatement.setString(16, request.getParameter("dateOfBirth"));					// dateOfBirth
 			preparedStatement.setString(17, request.getParameter("emergencyContactName"));		// emergencyContactName
 			preparedStatement.setString(18, request.getParameter("emergencyContactPhoneNumber"));	// emergencyContactPhoneNumber
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			throw e;
+		}  finally {
+            if (connect != null) {
+                // closes the database connection
+                try {
+                	connect.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
 		}
 	}
 
@@ -229,6 +262,7 @@ public class UserDao {
 				user.setProvince(resultSet.getString("province"));
 				user.setPostalCode(resultSet.getString("postalCode"));
 				user.setCountry(resultSet.getString("country"));
+				
 				user.setPhoto(resultSet.getString("photo"));
 				user.setDateOfBirth(resultSet.getString("dateOfBirth"));
 				user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
@@ -279,6 +313,24 @@ public class UserDao {
 
 	public void editUser(HttpServletRequest request, HttpServletResponse response, String _userID) throws Exception {
 		try {			
+
+			/* ********** take care of image uploading *****************/
+
+	        InputStream inputStream = null; // input stream of the upload file
+	         
+	        // obtains the upload file part in this multipart request
+	        Part filePart = request.getPart("profilePhoto");
+	        if (filePart != null) {
+	            // prints out some information for debugging
+	            System.out.println(filePart.getName());
+	            System.out.println(filePart.getSize());
+	            System.out.println(filePart.getContentType());
+	             
+	            // obtains input stream of the upload file
+	            inputStream = filePart.getInputStream();
+	        }
+	         
+	        
 			String userID = _userID;
 			String username = request.getParameter("username");
 			String password = request.getParameter("password1");
@@ -300,12 +352,15 @@ public class UserDao {
 			}
 			String postalCode = request.getParameter("postalCode");
 			String country = request.getParameter("country");
+			//preparedStatement.setString(15, request.getParameter("profilePhoto"));				// profilePhoto
+
 			String dateOfBirth = request.getParameter("dateOfBirth");
 			String emergencyContactName = request.getParameter("emergencyContactName");
 			String emergencyContactPhoneNumber = request.getParameter("emergencyContactPhoneNumber");
 
+	        
 			statement = connect.createStatement();
-			statement.executeUpdate("UPDATE clubhub.ch_user SET username='" + username 
+			String qry = "UPDATE clubhub.ch_user SET username='" + username 
 					+ "', password='" + password 
 					+ "', emailAddress='" + emailAddress
 					+ "', userStatus='" + userStatus
@@ -316,11 +371,16 @@ public class UserDao {
 					+ "', city='" + city 
 					+ "', province='" + province
 					+ "', postalCode='" + postalCode
-					+ "', country='" + country
-					+ "', dateOfBirth='" + dateOfBirth
+					+ "', country='" + country;
+					   if (inputStream != null) {
+			                // fetches input stream of the upload file for the blob column
+						   qry += "', photo='" + inputStream;
+			            }
+				qry +="', dateOfBirth='" + dateOfBirth
 					+ "', emergencyContactName='" + emergencyContactName
 					+ "', emergencyContactPhoneNumber='" + emergencyContactPhoneNumber
-					+ "' WHERE id='" + userID + "';");
+					+ "' WHERE id='" + userID + "';";
+			 statement.executeUpdate(qry);
 		} catch (Exception e) {
 			throw e;
 		}

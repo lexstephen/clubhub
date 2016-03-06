@@ -8,6 +8,10 @@
 		<link href="/clubhub/css/custom.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body class="backend">
+		<c:if test="${isLoggedIn == false || isLoggedIn == null}">
+			<c:redirect url="/Main.jsp"/>
+		</c:if>
+	                       
 		<nav class="navbar navbar-static-top">
 			<div class="container">
 				<div class="navbar-header">
