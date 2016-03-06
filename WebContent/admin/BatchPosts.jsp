@@ -24,7 +24,7 @@
 			<thead>
 				<tr><th class="sorttable_nosort"></th><th class="col-xs-12 col-md-3 control-label">Title</th>
 				<th class="col-xs-12 col-md-2">Category</th>
-				<th class="col-xs-12 col-md-2">Author</th><th class="col-xs-12 col-md-3">Access Level</th><th class="sorttable_nosort"></th></tr>
+				<th class="col-xs-12 col-md-2">Author</th><th class="col-xs-12 col-md-2">Post Type</th><th class="col-xs-12 col-md-3">Access Level</th><th class="sorttable_nosort"></th></tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${posts}" var="post">
