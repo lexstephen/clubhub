@@ -135,7 +135,6 @@ public class ValidationUtilities {
 		} catch (Exception e) {
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorInvDate", "Date format must be yyyy-mm-dd");
-			System.out.println("I died because of " + invDate);
 			return false;
 		}
 	}

@@ -14,7 +14,6 @@
 <%	
 	UserDao user = new UserDao();
 	user.findUser(request, request.getParameter("userID"));
-	
 	request.setAttribute("userID", request.getParameter("userID"));
 	user.getUserAge(request);
 	user.getName(request,"viewprofile");
@@ -44,18 +43,26 @@
 	<div class="row">
 		<div class="col-xs-3 col-xs-offset-1">
 		<!-- 	<img src="/clubhub/images/avatar.gif" class="profile_photo"> -->
-			
-	                          <img src="ImageDao?id=${userID }" class="profile_photo">
-
-	      
+		
+	    	<img src="ImageDao?id=${userID }" class="profile_photo">
+		  
 		</div>
 		<div class="col-xs-6 col-xs-offset-1 jumbotron vertical-center">
 			<p><b>${user.firstName } ${user.lastName }</b> [${user.gender }]</p>
 			<p>${user.city }, ${user.province }</p>
 			<p>Member Since ${dateCreated }</p>
-			<span class="expand">
-				<a href="/clubhub/admin/EditProfile.jsp?userID=${user.userid}" class="btn btn-primary btn-xs">Edit</a>
-			</span>
+		
+		 	<c:if test="${(isAdmin == true) || user.userid == loggedInUserID}">	
+		 		<b>Registration Info</b>
+			 	<p><small>${user.streetAddress }<br>${user.city }, ${user.country }<br>${user.postalCode }</small></p>
+			 	<p><small>${user.telephone }</small></p>
+			 	<p><small>Birthday: ${user.dateOfBirth }</small></p>
+			 	<p><small>Emergency Contact:<br>${user.emergencyContactName } ${user.emergencyContactPhoneNumber }</small></p>
+		 	
+			 	<span class="expand">
+					<a href="/clubhub/admin/EditProfile.jsp?userID=${user.userid}" class="btn btn-info btn-primary">Edit</a>
+				</span>
+			</c:if>
 		</div>
 	</div>
 	

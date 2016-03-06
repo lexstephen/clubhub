@@ -306,15 +306,25 @@ public class UserDao {
 			String teamGender = (gender.equals("F"))?"Women":"Men";	
 			user.setTeamGender(teamGender);				
 			user.setStreetAddress(resultSet.getString("streetAddress"));
-			user.setTelephone(resultSet.getString("phoneNumber"));
+			String number = resultSet.getString("phoneNumber");
+			user.setTelephone(String.format("(%s) %s-%s", number.substring(0, 3), number.substring(3, 6), number.substring(6, 10)));
 			user.setCity(resultSet.getString("city"));
 			user.setProvince(resultSet.getString("province"));
 			user.setPostalCode(resultSet.getString("postalCode"));
 			user.setCountry(resultSet.getString("country"));
 			user.setPhoto(resultSet.getString("photo"));
-			user.setDateOfBirth(resultSet.getString("dateOfBirth"));
+
+			String MyDate = resultSet.getString("dateOfBirth");
+			SimpleDateFormat parseDate = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formatDate = new SimpleDateFormat("MMM dd yyyy");
+			Date date = (Date) parseDate.parse(MyDate);
+			String DisplayDate = formatDate.format(date);
+			user.setDateOfBirth(DisplayDate);
+			
 			user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
 			user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
+			String contactNumber = resultSet.getString("emergencyContactPhoneNumber");
+			user.setEmergencyContactPhoneNumber(String.format("(%s) %s-%s", contactNumber.substring(0, 3), contactNumber.substring(3, 6), contactNumber.substring(6, 10)));
 		}
 
 		request.setAttribute("user", user);

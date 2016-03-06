@@ -6802,7 +6802,7 @@ button.close {
   text-align: center;
 }
 .backend .profile_photo {
-  height: 240px;
+  width: 240px;
   border-radius: 6px;
 }
 .backend .sidebar fieldset {
