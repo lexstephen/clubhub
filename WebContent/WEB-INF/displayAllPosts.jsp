@@ -11,7 +11,9 @@
 
  <tr>
  	<td class="col-xs-12 col-md-1">
-		<input type="checkbox" name="postSelected" value="${post.id}">
+	 	<c:if test="${(isAdmin == true)}">
+			<input type="checkbox" name="postSelected" value="${post.id}">
+		</c:if>
 	</td>
 	<td class="col-xs-12 col-md-3 control-label">${post.title}</td>
 	<td class="col-xs-12 col-md-2">${post.category}</td>
@@ -19,7 +21,9 @@
 	<td class="col-xs-12 col-md-3">${post.accessLevel}</td>
 	<td class="col-xs-12 col-md-1">
 		<span class="expand">
+		<c:if test="${(isAdmin == true) || (post.userid == loggedInUserID)}">
 			<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+		</c:if>
 			<a href="/clubhub/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
 		</span>
 	</td>

@@ -61,10 +61,10 @@ public class PostDao {
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {
 			HttpSession session = request.getSession();
-		// this is temp  v v v
+/*		// this is temp  v v v
 			session.setAttribute("loggedInUserID", "2");
 			// this is temp  ^ ^ ^
-	      statement = connect.createStatement();
+*/	      statement = connect.createStatement();
 	      preparedStatement = connect.prepareStatement("insert into ch_post values (default, ?, ?, ?, ?, ?, ?)");
 	      // columns are title, content, Userid, Posttypeid, Accessid, Categoryid
 	      // Parameters start with 1 because we are sending 'default' to the auto incrementing id
@@ -81,7 +81,8 @@ public class PostDao {
 	}
 
 	public void listAll(HttpServletRequest request) throws Exception {
-		  List<Post> posts = new ArrayList<Post>();
+		HttpSession session = request.getSession();  
+		List<Post> posts = new ArrayList<Post>();
 		  	try{
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
@@ -106,7 +107,7 @@ public class PostDao {
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("category.type"));			    	  
-			    	  post.setPostMatchUser(post.getUserid().equals("2"));       // change to loggedInUser
+			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));    
 			    	  
 			    	  if(!(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == false)) {
 			    		  posts.add(post);
@@ -312,17 +313,17 @@ public class PostDao {
 		List<Post> allBlogs = (List<Post>) request.getAttribute("posts");
 		Collections.reverse(allBlogs);
 		
-		System.out.println("pageCnt = " + pageCnt);
-		System.out.println("pageNav = " + pageNav);
+		/*System.out.println("pageCnt = " + pageCnt);
+		System.out.println("pageNav = " + pageNav);*/
 
 		numOfRows = allBlogs.size();
 		numOfPages = (int)Math.ceil(numOfRows/ppp);
-		System.out.println("numOfPages = " + numOfPages);
-		System.out.println("numOfRows = " + numOfRows);
+		/*System.out.println("numOfPages = " + numOfPages);
+		System.out.println("numOfRows = " + numOfRows);*/
 		
 		switch (pageNav) {
 		case "first": 
-			posts = allBlogs.subList(0, ppp);
+			posts = allBlogs.subList(0, ppp > (int)numOfRows ? (int)numOfRows : ppp);
 			pageCnt = 1;
 			break;
 		case "previous":
@@ -330,14 +331,14 @@ public class PostDao {
 				pageCnt--;
 				posts = allBlogs.subList(pageCnt*ppp-ppp, pageCnt*ppp);
 			} else {
-				posts = allBlogs.subList(0, ppp);
+				posts = allBlogs.subList(0, ppp > (int)numOfRows ? (int)numOfRows : ppp);
 				pageCnt = 1;
 			}
 			break;
 		case "next":
 			if (pageCnt >= numOfPages-1) {
 				pageCnt = numOfPages;
-				posts = allBlogs.subList((int)numOfRows - ppp, (int)numOfRows);
+				posts = allBlogs.subList(((int)numOfRows - ppp) < 0 ? 0:(int)numOfRows - ppp, (int)numOfRows);
 			} else {
 				posts = allBlogs.subList(pageCnt*ppp, (pageCnt*ppp+ppp) > (int)numOfRows ? (int)numOfRows : pageCnt*ppp+ppp);
 				pageCnt++;
@@ -345,7 +346,7 @@ public class PostDao {
 			break;
 		case "last":
 			pageCnt = numOfPages;
-			posts = allBlogs.subList((int)numOfRows - ppp, (int)numOfRows);
+			posts = allBlogs.subList(((int)numOfRows - ppp) < 0 ? 0:(int)numOfRows - ppp, (int)numOfRows);
 			System.out.println("last pageCnt = " + pageCnt);
 			break;
 		}
@@ -354,7 +355,7 @@ public class PostDao {
 		request.setAttribute("posts", posts);
 		request.removeAttribute("pageNav");
 		
-		System.out.println("pageCnt request: " + Integer.parseInt(session.getAttribute("pageCnt").toString()));
+		/*System.out.println("pageCnt request: " + Integer.parseInt(session.getAttribute("pageCnt").toString()));*/
 		
 		
 
