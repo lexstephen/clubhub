@@ -20,6 +20,7 @@ public class ValidationUtilities {
 	
 	// check that email and password match required formatting
 	public static boolean isValidLogin(HttpServletRequest request) {
+		System.out.println("in isValidLogin");
 		boolean isValid = true;
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");

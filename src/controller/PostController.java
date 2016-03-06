@@ -30,7 +30,7 @@ public class PostController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String option = request.getParameter("option");
 		PostDao dao = new PostDao();
-		String address = "", postID;
+		String address = "";
 		String errorChecker = "errorChecker is null";
 		
 		System.out.println("option: " + option);

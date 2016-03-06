@@ -18,20 +18,20 @@
 	<%	PostDao post = new PostDao(); %>
 
 	<!-- 	 use this to test admin login. no admin login, no edit button -->
-	<% session.setAttribute("isAdmin", true); %>
+	<%-- 	<% session.setAttribute("isAdmin", true); %>
+	<% session.setAttribute("isLoggedIn", true); %> --%>
 
-	<% List<String> postIDs = post.getLastBlogs(request, response); %>
-	<% for (String i : postIDs) { %>
-	<% post.findPost(request, i); %>
-	<%@ include file="/WEB-INF/displayPosts.jsp" %>
-	<% } %>
+	<% post.getLastBlogs(request, response); %>
+	<c:forEach items="${posts}" var="post">
+		<%@ include file="/WEB-INF/displayPosts.jsp" %>					
+	</c:forEach>
 	
 	<form action="/clubhub/PostController" method="post">
 		<span class="pagination">
-			<button class="btn btn-danger" name="option" value="first">&lt;&lt;</button>
-			<button class="btn btn-danger" name="option" value="previous">&lt;</button>
-			<button class="btn btn-danger" name="option" value="next">&gt;</button>
-			<button class="btn btn-danger" name="option" value="last">&gt;&gt;</button>
+			<button class="btn btn-primary btn-xs" name="option" value="first">&lt;&lt;</button>
+			<button class="btn btn-primary btn-xs" name="option" value="previous">&lt;</button>
+			<button class="btn btn-primary btn-xs" name="option" value="next">&gt;</button>
+			<button class="btn btn-primary btn-xs" name="option" value="last">&gt;&gt;</button>
 		</span>
 	</form>
 	

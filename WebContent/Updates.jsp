@@ -16,8 +16,8 @@
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
 	
 	<!---- use these attributes to test access level functionality -->
-	<% session.setAttribute("isAdmin", true); %>
-	<% session.setAttribute("isLoggedIn", true); %>
+<%-- 	<% session.setAttribute("isAdmin", true); %>
+	<% session.setAttribute("isLoggedIn", true); %> --%>
 	<!---- end of access level testing stuff         ---------------->
 	
 	<%	PostDao post = new PostDao(); %>
@@ -39,9 +39,9 @@
 		</tbody>
 	</table>
 	
-	<span class="pagination">
+<!-- 	<span class="pagination">
 		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>
-	</span>
+	</span> -->
 	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 

@@ -23,7 +23,9 @@ request.setAttribute("thisPage", request.getParameter("blogTitle")); %>
 			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on Sept 7, 2015. Access level: ${post.accessLevel}</span>
 			<p>"${post.content}"</p>
 				<span class="expand">
+				<c:if test="${(isAdmin == true)}">
 					<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+				</c:if>
 				</span>
 			<hr>
 		</div>

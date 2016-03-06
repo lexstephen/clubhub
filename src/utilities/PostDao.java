@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -60,16 +61,16 @@ public class PostDao {
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {
 			HttpSession session = request.getSession();
-			// this is temp  v v v
-			session.setAttribute("userID", "2");
+/*		// this is temp  v v v
+			session.setAttribute("loggedInUserID", "2");
 			// this is temp  ^ ^ ^
-	      statement = connect.createStatement();
+*/	      statement = connect.createStatement();
 	      preparedStatement = connect.prepareStatement("insert into ch_post values (default, ?, ?, ?, ?, ?, ?)");
 	      // columns are title, content, Userid, Posttypeid, Accessid, Categoryid
 	      // Parameters start with 1 because we are sending 'default' to the auto incrementing id
 	      preparedStatement.setString(1, request.getParameter("blogTitle"));	// title
 	      preparedStatement.setString(2, request.getParameter("blogContent")); // content
-	      preparedStatement.setString(3, (String)session.getAttribute("userID"));	// Userid
+	      preparedStatement.setString(3, (String)session.getAttribute("loggedInUserID"));	// Userid
 	      preparedStatement.setString(4, request.getParameter("pageType")); // Posttypeid
 	      preparedStatement.setString(5, request.getParameter("accessLevel")); // Accessid
 	      preparedStatement.setString(6, request.getParameter("pageCategory")); // Categoryid
@@ -80,7 +81,8 @@ public class PostDao {
 	}
 
 	public void listAll(HttpServletRequest request) throws Exception {
-		  List<Post> posts = new ArrayList<Post>();
+		HttpSession session = request.getSession();  
+		List<Post> posts = new ArrayList<Post>();
 		  	try{
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
@@ -105,7 +107,7 @@ public class PostDao {
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("category.type"));			    	  
-			    	  post.setPostMatchUser(post.getUserid().equals("2"));       // change to loggedInUser
+			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));    
 			    	  
 			    	  if(!(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == false)) {
 			    		  posts.add(post);
@@ -121,9 +123,11 @@ public class PostDao {
 		  List<Post> posts = new ArrayList<Post>();
 		  boolean isLoggedIn = false;
 		  HttpSession session = request.getSession();
+
 		  if (session.getAttribute("isLoggedIn") != null) {
 			  isLoggedIn = (((Boolean) session.getAttribute("isLoggedIn")).booleanValue());
 		  }
+
 		  	try{
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
@@ -159,7 +163,7 @@ public class PostDao {
 			    			posts.add(post);		
 			    	  }
 			    	  
-			    	  request.setAttribute("postID", post.getId());			    	  
+			    	 // request.setAttribute("postID", post.getId());			    	  
 			    }
 		    } catch (SQLException e) {
 			      throw e;
@@ -293,81 +297,67 @@ public class PostDao {
 		}				
 	}
 	
-	public List<String> getLastBlogs(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+	public void getLastBlogs(HttpServletRequest request, HttpServletResponse response) throws Exception { 
 		//this method returns the latest 3 blog posts (Posttypeid = 1) in ch_post
 		
 		HttpSession session = request.getSession();
-		int postsMod, numOfPages = 0, ppp = 3;   // Posts Per Page
-		double numOfRows = 0;
-		List<String> postIDs = new ArrayList<String>();		
-		String query = "";
-		
-		// ALWAYS RETURNING NULL WTF FUCK YOU GO TO HELL AND STAY THERE FOR THE LOVE OF GOD WHY ARE YOU DOING THIS TO ME //
-		// ill fix it tomorrow
-		int pageCnt = (session.getAttribute("pageCnt") == null) ? 69 : Integer.parseInt(session.getAttribute("pageCnt").toString());  // Page count, 0 if null
-		String pageNav = (request.getAttribute("pageNav") == null ? "first" : request.getAttribute("pageNav").toString()) ;
-		
-		System.out.println("pageCnt = " + pageCnt);
-		System.out.println("pageNav = " + pageNav);
-		
 		listAllBlogs(request);
 		
-		// starting this new method ^
+		int pageCnt = (session.getAttribute("pageCnt") == null) ? 0 : Integer.parseInt(session.getAttribute("pageCnt").toString());  // Page count, 0 if null
+		int numOfPages = 0, ppp = 3;   // Posts Per Page. this can be changed, maybe in preferences even?
+		double numOfRows = 0;
+		String pageNav = (request.getAttribute("pageNav") == null ? "first" : request.getAttribute("pageNav").toString()) ;
 		
-		try {			
-			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT COUNT(*) FROM ch_post");
-			
-			while (resultSet.next()) {
-				numOfRows = Integer.parseInt(resultSet.getString(1));
-				numOfPages = (int)Math.ceil(numOfRows/3);
-				postsMod = (int) (numOfRows % 3);
-				System.out.println("postsMod = " + postsMod);
-				System.out.println("numOfPages = " + numOfPages);
-				System.out.println("numOfRows = " + numOfRows);
-			}
-		} catch (SQLException e) {
-			throw e;
-		}
+		List<Post> posts = new ArrayList<Post>();	
+		@SuppressWarnings("unchecked")
+		List<Post> allBlogs = (List<Post>) request.getAttribute("posts");
+		Collections.reverse(allBlogs);
+		
+		/*System.out.println("pageCnt = " + pageCnt);
+		System.out.println("pageNav = " + pageNav);*/
+
+		numOfRows = allBlogs.size();
+		numOfPages = (int)Math.ceil(numOfRows/ppp);
+		/*System.out.println("numOfPages = " + numOfPages);
+		System.out.println("numOfRows = " + numOfRows);*/
 		
 		switch (pageNav) {
 		case "first": 
+			posts = allBlogs.subList(0, ppp > (int)numOfRows ? (int)numOfRows : ppp);
 			pageCnt = 1;
-			query = "SELECT id FROM ch_post WHERE Posttypeid = '1' AND NOT Accessid = '3' ORDER BY id DESC LIMIT " + ppp;
 			break;
 		case "previous":
-			pageCnt--;
-			query = "SELECT id FROM ch_post WHERE Posttypeid = '1' AND NOT Accessid = '3' ORDER BY id DESC LIMIT " + (numOfPages - pageCnt*ppp) + ", " + ppp;
+			if (pageCnt > 1) {
+				pageCnt--;
+				posts = allBlogs.subList(pageCnt*ppp-ppp, pageCnt*ppp);
+			} else {
+				posts = allBlogs.subList(0, ppp > (int)numOfRows ? (int)numOfRows : ppp);
+				pageCnt = 1;
+			}
 			break;
 		case "next":
-			pageCnt++;
-			query = "SELECT id FROM ch_post WHERE Posttypeid = '1' AND NOT Accessid = '3' ORDER BY id DESC LIMIT " + (pageCnt*ppp) + ", " + ppp;
+			if (pageCnt >= numOfPages-1) {
+				pageCnt = numOfPages;
+				posts = allBlogs.subList(((int)numOfRows - ppp) < 0 ? 0:(int)numOfRows - ppp, (int)numOfRows);
+			} else {
+				posts = allBlogs.subList(pageCnt*ppp, (pageCnt*ppp+ppp) > (int)numOfRows ? (int)numOfRows : pageCnt*ppp+ppp);
+				pageCnt++;
+			}
 			break;
 		case "last":
 			pageCnt = numOfPages;
-			query = "SELECT id FROM ch_post WHERE Posttypeid = '1' AND NOT Accessid = '3' ORDER BY id DESC LIMIT 0, " + ppp;
+			posts = allBlogs.subList(((int)numOfRows - ppp) < 0 ? 0:(int)numOfRows - ppp, (int)numOfRows);
 			System.out.println("last pageCnt = " + pageCnt);
 			break;
 		}
-		
-		
-		try {
-			statement = connect.createStatement();
-			resultSet = statement.executeQuery(query);
-			  
-			while (resultSet.next()) {
-				postIDs.add(resultSet.getString(1));
-			}
-		} catch (SQLException e) {
-			throw e;
-		}
 
 		session.setAttribute("pageCnt", pageCnt);
+		request.setAttribute("posts", posts);
 		request.removeAttribute("pageNav");
 		
-		System.out.println("pageCnt request: " + Integer.parseInt(session.getAttribute("pageCnt").toString()));
+		/*System.out.println("pageCnt request: " + Integer.parseInt(session.getAttribute("pageCnt").toString()));*/
 		
-		return postIDs;
+		
 
 	}
 }
