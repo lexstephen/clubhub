@@ -13,15 +13,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-<c:if test="${isAdmin == true}">
-	<h2>You are now logged in as ${loggedInUserFullName }</h2>
-	<p>You are an admin, congrats</p>
-	admin gets: upcoming games with conflicts, recent games, new members, last few blog posts
-</c:if>
-<c:if test="${isAdmin == false}">
-	<h2>You are now logged in as ${loggedInUserFullName }</h2>
-	<p>You are but a lowly peasant</p>
-	member gets: upcoming games they are scheduled in, last four games they played, next few games - all players, last few games - all player
-</c:if>
+	<h2 class="memberMeta">You are now logged in as ${loggedInUserFullName }</h2>
+	<c:if test="${isAdmin == true}">
+		<%@ include file="/WEB-INF/dashboardAdmin.jsp"%>
+	</c:if>
+	<c:if test="${isAdmin == false}">
+		<%@ include file="/WEB-INF/dashboardUser.jsp"%>
+	</c:if>
 
 <%@ include file="/WEB-INF/footer_backend.jsp" %>
