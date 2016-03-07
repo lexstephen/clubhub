@@ -37,7 +37,10 @@ public class ValidationUtilities {
 		return isValid;
 	}
 
-	public static boolean isValidInvoice(HttpServletRequest request) {
+	public static boolean isValidPreference(HttpServletRequest request) {
+	 return true;
+	}
+		public static boolean isValidInvoice(HttpServletRequest request) {
 
 
 		boolean isValid = true, isValidQty = true;

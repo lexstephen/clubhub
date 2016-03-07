@@ -44,7 +44,7 @@
 		<div class="col-xs-3 col-xs-offset-1">
 		<!-- 	<img src="/clubhub/images/avatar.gif" class="profile_photo"> -->
 		
-	    	<img src="ImageDao?id=${userID }" class="profile_photo">
+	    	<img src="ImageDao?t=profile&id=${userID }" class="profile_photo">
 		  
 		</div>
 		<div class="col-xs-6 col-xs-offset-1 jumbotron vertical-center">

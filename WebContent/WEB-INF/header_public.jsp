@@ -12,7 +12,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="navbar-header">
-						<a href="/clubhub/Main.jsp" class="pull-left"><img src="images/rcc.png" id="rcc_circle_logo"></a>
+						<a href="/clubhub/Main.jsp" class="pull-left"><img src="/clubhub/ImageDao?t=image_small_logo" id="rcc_circle_logo"></a>
 					</div>
 					<div class="collapse navbar-collapse navbar-right">
 						<form>
