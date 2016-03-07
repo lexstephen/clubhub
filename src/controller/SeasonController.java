@@ -79,6 +79,7 @@ public class SeasonController extends HttpServlet {
 					gameDao.addToDatabase(request, response, sID);
 					
 					errorChecker = "Games Created";
+		    		address = "admin/CreateSeason.jsp";
 	    		break;
 		    	default:
 	    		errorChecker = "Something has gone horribly wrong";
