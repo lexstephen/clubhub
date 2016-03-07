@@ -217,17 +217,12 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-6">
+			<div class="col-xs-12">
 				<div class="form-group <c:if test="${!empty errorProfilePhoto}">has-error</c:if>">
 			    	<label for="inptProfilePhoto">Profile Photo</label>
 			    	<input type="file" name="profilePhoto" class="form-control" id="inptProfilePhoto">
-	    			<p class="help-block">Upload a square jpg or png.</p>
+	    			<p class="help-block">Upload a square jpg.</p>
 			  	</div>
-			</div>
-			<div class="col-xs-6 pull-right">
-		    	<label>Preview</label>
-				<img src="/clubhub/images/avatar.gif">
-				
 			</div>
 		</div>
 		

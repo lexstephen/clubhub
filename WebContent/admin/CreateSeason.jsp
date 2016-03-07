@@ -13,6 +13,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
+
 <form action="/clubhub/SeasonController" method="post" class="form" role="form">
 	<div class="form-group">
 		<label class="col-sm-1 control-label">
@@ -21,18 +22,17 @@
 		<div class="col-sm-5">
 			<select class="form-control" name="season">
 				Season
-				<option value="4">Spring</option>
-				<option value="3">Summer</option>				
-				<option value="2">Fall</option>
-				<option value="1">Winter</option>
+				<option value="S">Spring</option>
+				<option value="SM">Summer</option>				
+				<option value="F">Fall</option>
+				<option value="W">Winter</option>
 			</select>
 		</div>	
 		<label class="col-sm-2 control-label">
 			Gender
 		</label>
 		<div class="col-sm-3">
-		<form>
-  				<input type="radio" name="gender" value="mixed"> Mixed <br>
+
 				<input type="radio" name="gender" value="M"> Mens <br>
 				<input type="radio" name="gender" value="W"> Womens
 		</div>

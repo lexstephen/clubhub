@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="utilities.*"%>
+<%	
+	PreferenceDao preference = new PreferenceDao();
+	preference.showPrefs(request);
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -12,7 +17,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="navbar-header">
-						<a href="/clubhub/Main.jsp" class="pull-left"><img src="images/rcc.png" id="rcc_circle_logo"></a>
+						<a href="/clubhub/Main.jsp" class="pull-left"><img src="/clubhub/ImageDao?t=image_logo" id="rcc_circle_logo"></a>
 					</div>
 					<div class="collapse navbar-collapse navbar-right">
 						<form>

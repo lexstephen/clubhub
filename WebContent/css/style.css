@@ -6801,8 +6801,13 @@ button.close {
   color: #00ace0;
   text-align: center;
 }
+.backend .memberMeta {
+  font-size: 12px;
+  font-style: italic;
+  text-align: left;
+}
 .backend .profile_photo {
-  height: 240px;
+  width: 240px;
   border-radius: 6px;
 }
 .backend .sidebar fieldset {

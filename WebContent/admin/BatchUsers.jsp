@@ -41,22 +41,27 @@
 			</tbody>
 		</table>
 		
-		<div class="row">
-			<div class="col-sm-2 control-label">
-				User Status:
-			</div>
-			<div class="col-sm-3">
-				<select class="form-control" name="userStatus">
-					<option value="unverified">Unverified</option>
-					<option value="user">User</option>
-					<option value="admin">Administrator</option>
-				</select>
-			</div>
-			<div class="col-sm-4">
-				<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
-				<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
-			</div>
-		</div>
+			<c:choose>
+				<c:when test="${(isAdmin == true)}">
+					<div class="row">
+						<div class="col-sm-2 control-label">
+							User Status:
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control" name="userStatus">
+								<option value="unverified">Unverified</option>
+								<option value="user">User</option>
+								<option value="admin">Administrator</option>
+							</select>
+						</div>
+						<div class="col-sm-4">
+							<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
+							<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
+						</div>
+					</div>
+				</c:when>
+			</c:choose>
+		
 	</form>
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 

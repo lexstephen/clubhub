@@ -285,6 +285,42 @@ public class UserDao {
 		request.setAttribute("users", users);
 	} 
 
+	public void getLastUsers(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+		//this method returns the latest 3 users
+		List<User> users = new ArrayList<User>();
+		try{
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("select * from ch_user ORDER BY id DESC LIMIT 3");
+
+			while (resultSet.next()) {
+				User user = new User();
+				user.setUserid(resultSet.getString("id"));
+				user.setUsername(resultSet.getString("username"));
+				user.setPassword(resultSet.getString("password"));
+				user.setEmailAddress(resultSet.getString("emailAddress"));
+				user.setUserStatus(resultSet.getString("userStatus"));
+				user.setFirstName(resultSet.getString("firstName"));
+				user.setLastName(resultSet.getString("lastName"));
+				user.setGender(resultSet.getString("gender"));
+				user.setStreetAddress(resultSet.getString("streetAddress"));
+				user.setTelephone(resultSet.getString("phoneNumber"));
+				user.setCity(resultSet.getString("city"));
+				user.setProvince(resultSet.getString("province"));
+				user.setPostalCode(resultSet.getString("postalCode"));
+				user.setCountry(resultSet.getString("country"));
+				
+				user.setPhoto(resultSet.getString("photo"));
+				user.setDateOfBirth(resultSet.getString("dateOfBirth"));
+				user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
+				user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
+				users.add(user);
+			}
+
+		} catch (SQLException e) {
+			throw e;
+		}
+		request.setAttribute("users", users);
+	}
 
 	public void findUser(HttpServletRequest request, String _userID) throws Exception {
 		User user = new User();
@@ -306,15 +342,25 @@ public class UserDao {
 			String teamGender = (gender.equals("F"))?"Women":"Men";	
 			user.setTeamGender(teamGender);				
 			user.setStreetAddress(resultSet.getString("streetAddress"));
-			user.setTelephone(resultSet.getString("phoneNumber"));
+			String number = resultSet.getString("phoneNumber");
+			user.setTelephone(String.format("(%s) %s-%s", number.substring(0, 3), number.substring(3, 6), number.substring(6, 10)));
 			user.setCity(resultSet.getString("city"));
 			user.setProvince(resultSet.getString("province"));
 			user.setPostalCode(resultSet.getString("postalCode"));
 			user.setCountry(resultSet.getString("country"));
 			user.setPhoto(resultSet.getString("photo"));
-			user.setDateOfBirth(resultSet.getString("dateOfBirth"));
+
+			String MyDate = resultSet.getString("dateOfBirth");
+			SimpleDateFormat parseDate = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formatDate = new SimpleDateFormat("MMM dd yyyy");
+			Date date = (Date) parseDate.parse(MyDate);
+			String DisplayDate = formatDate.format(date);
+			user.setDateOfBirth(DisplayDate);
+			
 			user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
 			user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
+			String contactNumber = resultSet.getString("emergencyContactPhoneNumber");
+			user.setEmergencyContactPhoneNumber(String.format("(%s) %s-%s", contactNumber.substring(0, 3), contactNumber.substring(3, 6), contactNumber.substring(6, 10)));
 		}
 
 		request.setAttribute("user", user);
@@ -472,7 +518,6 @@ public class UserDao {
 	}
 
 	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 
 		String userID = (String)request.getAttribute("userID").toString();
 				
