@@ -4,7 +4,7 @@ package model;
 * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
 * Student Number: 100563954, 100911472, 100898311
 * Date: Feb 03, 2016
-* Description: Post model
+* Description: Season model
 ****************************************************************************************************/
 public class Season {
 	private String id, year, season, gender, startDate, startTime, dayOfWeek, duration;

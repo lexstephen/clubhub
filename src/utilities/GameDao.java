@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
+import model.Game;
 import model.Post;
 import model.Season;
 import model.User;
@@ -189,30 +190,26 @@ public class GameDao {
 			deleteSeason(request, response, x);
 		}		
 	}
-	
-	public void findSeason(HttpServletRequest request, String seasonID) throws Exception {
-		  Season season = new Season();
-		  
+	*/
+	public void findGames(HttpServletRequest request, String seasonID) throws Exception {
+		  Game game = new Game();
 		  	try{
 			    statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * FROM ch_season WHERE id = 24");
+			    resultSet = statement.executeQuery("SELECT * FROM ch_game WHERE seasonID= " + seasonID );
 			    
 			    while (resultSet.next()) {
-			    	  season.setYear(resultSet.getString("year"));
-			    	  season.setSeason(resultSet.getString("season"));
-			    	  season.setId(resultSet.getString("id"));
-			    	  season.setGender(resultSet.getString("gender"));
-			    	  season.setStartDate(resultSet.getString("startDate"));
-			    	  season.setStartTime(resultSet.getString("startTime"));
-			    	  season.setDayOfWeek(resultSet.getString("dayOfWeek"));
-			    	  season.setDuration(resultSet.getString("duration"));
-			    }
-			} catch (SQLException e) {
+			    	  game.setWeek(resultSet.getString("week"));
+			    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
+			    	  game.setSeasonId(resultSet.getString("seasonId"));
+			    	  game.setId(resultSet.getString("id"));
+			    	  
+			    	  
+			}} catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("season", season);
+		  	request.setAttribute("game", game);
 	} 
-	
+	/*
 	public void editSeason(HttpServletRequest request, HttpServletResponse response, String _seasonID) throws Exception {
 	    try {			
 			String seasonID = request.getParameter("seasonID");
