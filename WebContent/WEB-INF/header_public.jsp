@@ -5,6 +5,11 @@
 	PreferenceDao preference = new PreferenceDao();
 	preference.showPrefs(request);
 %>
+
+<%	PostDao postHead = new PostDao(); 
+	
+	postHead.listStatic(request); %>
+	 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -30,9 +35,9 @@
 						<ul class="nav navbar-nav">
 							<li><a href="/clubhub/Register.jsp">Register</a></li>
 							<li><a href="/clubhub/Updates.jsp">Updates</a></li>
-							<li><a href="/clubhub/Contact.jsp">Contact Us</a></li>
-							<li><a href="/clubhub/Fees.jsp">Fees</a></li>
-							<li><a href="/clubhub/Rent.jsp">Rent Us</a></li>
+							<c:forEach items="${posts}" var="post">
+								<li><a href="/clubhub/Static.jsp?postID=${post.id}">${post.title}</a></li>					
+							</c:forEach>
 							<c:if test="${isLoggedIn == true}">
 								<li><a href="/clubhub/admin/">Dashboard</a></li>
 								<li><a href="/clubhub/Logout">Log Out</a></li>
