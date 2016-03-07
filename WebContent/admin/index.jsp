@@ -13,7 +13,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-	<h2 class="memberMeta">You are now logged in as ${loggedInUserFullName }</h2>
+	<p class="memberMeta">
+		You are now logged in as ${loggedInUserFullName } 
+		<c:if test="${isAdmin == true}">
+			[Administrator Access]
+		</c:if>
+	</p>
+	
 	<c:if test="${isAdmin == true}">
 		<%@ include file="/WEB-INF/dashboardAdmin.jsp"%>
 	</c:if>

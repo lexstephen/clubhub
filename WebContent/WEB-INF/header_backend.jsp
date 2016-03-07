@@ -22,7 +22,7 @@
 					<ul class="nav navbar-nav">
 					<c:if test="${isLoggedIn == true}">
 						<li><a href="/clubhub/Profile.jsp?userID=${loggedInUserID }">Logged in as ${loggedInUserFullName }</a></li>
-						<li><img src="/clubhub/images/avatar.gif"></li>
+						<li><img src="/clubhub/ImageDao?id=${loggedInUserID }" class="header_photo"></li>
 						<li><a href="/clubhub/Logout">Log Out</a></li>
 					</c:if>
 						<li><a href="/clubhub/admin/">Dashboard Main</a></li>
