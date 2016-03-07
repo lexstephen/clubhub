@@ -143,8 +143,8 @@ public class GameDao {
 		    }
 
 	}
-
-	/*public void listAll(HttpServletRequest request) throws Exception {
+/*
+	public void listAll(HttpServletRequest request) throws Exception {
 		  List<Season> seasons = new ArrayList<Season>();
 		  	try{  		
 		  		statement = connect.createStatement();
@@ -172,7 +172,7 @@ public class GameDao {
 			}
 		  	request.setAttribute("seasons", seasons);
 	} 
-	*/
+	/*
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
 		  try {
 			  statement = connect.createStatement();
@@ -182,7 +182,7 @@ public class GameDao {
 		      throw e;
 		  }
 	}
-	/*
+	
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String [] markedForDeletion = request.getParameterValues("seasonsSelected");
@@ -191,11 +191,50 @@ public class GameDao {
 		}		
 	}
 	*/
-	public void findGames(HttpServletRequest request, String seasonID) throws Exception {
+	
+	public int getDuration(HttpServletRequest request, String seasonID) throws Exception {
+		statement = connect.createStatement();
+	    resultSet = statement.executeQuery("SELECT * FROM ch_season WHERE id= " + seasonID );
+	    
+	    String str = resultSet.getString("duration");
+	    int duration = Integer.parseInt(str);
+	    
+	    System.out.println("I'm in getDuration, the current duration is: "+ duration);
+	    
+	    return duration;
+	}
+	
+	
+	public void findGameSet(HttpServletRequest request, int seasonID) throws Exception{
+		 List<Game> games = new ArrayList<Game>();
+		  	try{  		
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT week, scheduledDate, seasonID "
+				+ "FROM ch_game WHERE seasonID= " + seasonID);
+			      
+			    while (resultSet.next()) {
+			    	
+			    	  Game game = new Game();
+			    	  game.setWeek(resultSet.getString("week"));
+			    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
+			    	  game.setSeasonId(resultSet.getString("seasonID"));
+			    	  
+			    	  request.setAttribute("gameID", game.getId());
+			    	  games.add(game);
+			    }
+		    } catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("games", games);
+	}
+	
+	
+	public void findGames(HttpServletRequest request, String gameID) throws Exception {
 		  Game game = new Game();
 		  	try{
 			    statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * FROM ch_game WHERE seasonID= " + seasonID );
+			    resultSet = statement.executeQuery("SELECT * FROM ch_game WHERE id= " + gameID );
+			    
 			    
 			    while (resultSet.next()) {
 			    	  game.setWeek(resultSet.getString("week"));
