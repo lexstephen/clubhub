@@ -61,23 +61,20 @@ public class PostDao {
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {
 			HttpSession session = request.getSession();
-/*		// this is temp  v v v
-			session.setAttribute("loggedInUserID", "2");
-			// this is temp  ^ ^ ^
-*/	      statement = connect.createStatement();
-	      preparedStatement = connect.prepareStatement("insert into ch_post values (default, ?, ?, ?, ?, ?, ?)");
-	      // columns are title, content, Userid, Posttypeid, Accessid, Categoryid
-	      // Parameters start with 1 because we are sending 'default' to the auto incrementing id
-	      preparedStatement.setString(1, request.getParameter("blogTitle"));	// title
-	      preparedStatement.setString(2, request.getParameter("blogContent")); // content
-	      preparedStatement.setString(3, (String)session.getAttribute("loggedInUserID"));	// Userid
-	      preparedStatement.setString(4, request.getParameter("pageType")); // Posttypeid
-	      preparedStatement.setString(5, request.getParameter("accessLevel")); // Accessid
-	      preparedStatement.setString(6, request.getParameter("pageCategory")); // Categoryid
-	      preparedStatement.executeUpdate();
-	    } catch (Exception e) {
-	      throw e;
-	    }
+			statement = connect.createStatement();
+			preparedStatement = connect.prepareStatement("insert into ch_post values (default, ?, ?, ?, ?, ?, ?)");
+			// columns are title, content, Userid, Posttypeid, Accessid, Categoryid
+			// Parameters start with 1 because we are sending 'default' to the auto incrementing id
+		    preparedStatement.setString(1, request.getParameter("blogTitle"));	// title
+		    preparedStatement.setString(2, request.getParameter("blogContent")); // content
+		    preparedStatement.setString(3, (String)session.getAttribute("loggedInUserID"));	// Userid
+		    preparedStatement.setString(4, request.getParameter("pageType")); // Posttypeid
+		    preparedStatement.setString(5, request.getParameter("accessLevel")); // Accessid
+		    preparedStatement.setString(6, (request.getParameter("pageCategory") != null) ? request.getParameter("pageCategory"): "1"); // Categoryid); // Categoryid
+		    preparedStatement.executeUpdate();
+		    } catch (Exception e) {
+		      throw e;
+		    }
 	}
 
 	public void listAll(HttpServletRequest request) throws Exception {
@@ -153,7 +150,59 @@ public class PostDao {
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("category.type"));
-			    	  post.setPostMatchUser(post.getUserid().equals("2"));       // change to loggedInUser
+			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));
+			    	  
+			    	  if (post.getAccessLevel().equals("Public")) {
+			    		  posts.add(post);		
+			    	  } else if(post.getAccessLevel().equals("Members") && ((isLoggedIn == true))){
+			    		  posts.add(post);	
+			    	  } else if(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == true) {
+			    			posts.add(post);		
+			    	  }
+			    	  
+			    	 // request.setAttribute("postID", post.getId());			    	  
+			    }
+		    } catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("posts", posts);
+	} 
+	
+	public void listStatic(HttpServletRequest request) throws Exception {
+		  List<Post> posts = new ArrayList<Post>();
+		  boolean isLoggedIn = false;
+		  HttpSession session = request.getSession();
+
+		  if (session.getAttribute("isLoggedIn") != null) {
+			  isLoggedIn = (((Boolean) session.getAttribute("isLoggedIn")).booleanValue());
+		  }
+
+		  	try{
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
+				+ "FROM clubhub.ch_post post "
+				+ "JOIN clubhub.ch_posttype posttype "
+				+ "ON post.Posttypeid = posttype.id "
+				+ "JOIN clubhub.ch_user user "
+				+ "ON post.Userid = user.id "
+				+ "JOIN clubhub.ch_access access "
+				+ "ON post.Accessid = access.id "
+				+ "JOIN clubhub.ch_category category "
+				+ "ON post.Categoryid = category.id "
+				+ "WHERE posttype.id = 2 AND NOT access.id = 3");			// Where post is Static Content, and not private
+			      
+			    while (resultSet.next()) {
+			    	  Post post = new Post();
+			    	  post.setTitle(resultSet.getString("title"));
+			    	  post.setContent(resultSet.getString("content"));
+			    	  post.setId(resultSet.getString("id"));
+			    	  post.setUserid(resultSet.getString("Userid"));
+			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
+			    	  post.setUserLastName(resultSet.getString("user.lastName"));
+			    	  post.setPostType(resultSet.getString("posttype.type"));
+			    	  post.setAccessLevel(resultSet.getString("access.type"));
+			    	  post.setCategory(resultSet.getString("category.type"));
+			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));
 			    	  
 			    	  if (post.getAccessLevel().equals("Public")) {
 			    		  posts.add(post);		
@@ -226,9 +275,10 @@ public class PostDao {
 			      throw e;
 			}
 		  	request.setAttribute("post", post);
-		  	request.setAttribute("accessLevel", post.getAccessLevel());
+		  	request.setAttribute("postTitle", post.getTitle());
+		  	/*request.setAttribute("accessLevel", post.getAccessLevel());
 		  	request.setAttribute("postType", post.getPostType());
-		  	request.setAttribute("pageCategory", post.getCategory());
+		  	request.setAttribute("pageCategory", post.getCategory());*/
 	} 
 	
 	public void editPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -347,7 +397,7 @@ public class PostDao {
 		case "last":
 			pageCnt = numOfPages;
 			posts = allBlogs.subList(((int)numOfRows - ppp) < 0 ? 0:(int)numOfRows - ppp, (int)numOfRows);
-			System.out.println("last pageCnt = " + pageCnt);
+			/*System.out.println("last pageCnt = " + pageCnt);*/
 			break;
 		}
 
