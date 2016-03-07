@@ -206,20 +206,20 @@ public class PreferenceDao {
 	    }
 	}
 
-	public void listAllLineItems(HttpServletRequest request) throws Exception {
-		  List<Preference> lineitems = new ArrayList<Preference>();
-		  	try{
+	public void showPrefs(HttpServletRequest request) throws Exception {
+    	Preference pref = new Preference();
+    	HttpSession session = request.getSession();
+		try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * from ch_Preferencs");
+			    resultSet = statement.executeQuery("SELECT * from ch_Preferences WHERE status = 1");
 			    while (resultSet.next()) {
-			    	Preference pref = new Preference();
-			    	pref.setId(resultSet.getString("id"));
-			    	lineitems.add(pref);
+			    	pref.setClub_name_long(resultSet.getString("club_name_long"));
+			    	pref.setClub_name_short(resultSet.getString("club_name_short"));
+				  	session.setAttribute("preference", pref);
 			    }
 		    } catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("lineitems", lineitems);
 	} 
 
 	public void deletePreference(HttpServletRequest request, HttpServletResponse response, String PreferenceID) throws Exception {

@@ -11,6 +11,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="utilities.PostDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <% request.setAttribute("thisPage", "Rivendell Curling Club"); %>
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
