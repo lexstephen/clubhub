@@ -11,4 +11,6 @@
 <h1>${post.title}</h1>
 <br><br>
 ${post.content}
+<br>
+<h1></h1>
 <%@ include file="/WEB-INF/footer_public.jsp" %>

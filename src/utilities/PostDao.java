@@ -223,7 +223,7 @@ public class PostDao {
 	public void deletePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
-		String postID = (String)request.getAttribute("postID").toString();
+		String postID = request.getParameter("postID");
 				
 		  try {
 			  statement = connect.createStatement();
@@ -276,7 +276,8 @@ public class PostDao {
 			}
 		  	request.setAttribute("post", post);
 		  	request.setAttribute("postTitle", post.getTitle());
-		  	/*request.setAttribute("accessLevel", post.getAccessLevel());
+		  	/*request.setAttribute("postID", post.getId());
+		  	request.setAttribute("accessLevel", post.getAccessLevel());
 		  	request.setAttribute("postType", post.getPostType());
 		  	request.setAttribute("pageCategory", post.getCategory());*/
 	} 
