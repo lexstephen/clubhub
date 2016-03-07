@@ -84,6 +84,15 @@ public class GameDao {
 				System.out.println("Number of games: " + games);
 				
 				String date = results.getString("startDate");
+				
+				String str1 = results.getString("dayOfWeek");
+				int dayOfWeek = Integer.parseInt(str1);
+				
+				String str2 = results.getString("startTime");
+				int time = Integer.parseInt(str2);
+				
+				String gender = results.getString("gender");
+				
 			
 			
 			// Next we need to create a loop in order to create as many games as we need for the current season 
@@ -114,6 +123,13 @@ public class GameDao {
 				preparedStatement.setString(2, date); // date of game
 				preparedStatement.setString(3, seasonID);
 				preparedStatement.executeUpdate();
+				
+				PreparedStatement preparedStatement2 = connect.prepareStatement("insert into ch_slot values (default, ?, ?, ?, ?)");
+				preparedStatement2.setInt(1, dayOfWeek );	//week of game
+				preparedStatement2.setInt(2, time); // date of game
+				preparedStatement2.setInt(3, week);
+				preparedStatement2.setString(4, gender);
+				preparedStatement2.executeUpdate();
 				
 				
 			}while (cnt < games);
