@@ -71,8 +71,8 @@
 				<div class="col-sm-8">
 						<div class="form-group <c:if test="${!empty errorCountry}">has-error</c:if>">
 							<select name="Colour_Schemeid" class="form-control" id="inptCountry">
-							  <option ${preference.Colour_Schemeid == '1' ? 'selected' : ''}>1</option>
-							  <option ${preference.Colour_Schemeid == '2' ? 'selected' : ''}>2</option>
+							  <option ${preference.colour_schemeid == '1' ? 'selected' : ''}>1</option>
+							  <option ${preference.colour_schemeid == '2' ? 'selected' : ''}>2</option>
 							</select>
 					  	</div>
 				</div>
