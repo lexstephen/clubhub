@@ -10,20 +10,14 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
-   
-<%@ page import="utilities.InvoiceDao"%>
-<%@ page import="utilities.UserDao"%>
-<%@ page import="utilities.PreferenceDao"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="/WEB-INF/header_backend.jsp"%>
 <% 
 InvoiceDao invoice = new InvoiceDao();
 UserDao user = new UserDao();
 invoice.findInvoice(request, request.getParameter("invoiceID"));
 %>
-<% PreferenceDao preference = new PreferenceDao(); %>
 <% preference.taxRate(request); %>
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="/WEB-INF/header_backend.jsp"%>
 ${errorString }
 <ul>
 <c:if test="${!empty errorInvDate}"><li>${ errorInvDate }</li></c:if>

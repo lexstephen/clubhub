@@ -11,14 +11,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
    
-<%@ page import="utilities.InvoiceDao"%>
-<%@ page import="utilities.PreferenceDao"%>
 <% InvoiceDao invoice = new InvoiceDao(); %>
-<% PreferenceDao preference = new PreferenceDao(); %>
-<% preference.taxRate(request); %>
-
+<%-- <% PreferenceDao preference = new PreferenceDao(); %> --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
+<% preference.taxRate(request); %>
 ${errorString }
 <ul>
 <c:if test="${!empty errorInvDate}"><li>${ errorInvDate }</li></c:if>

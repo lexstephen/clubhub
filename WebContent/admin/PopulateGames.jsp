@@ -5,9 +5,6 @@
 	Date: March 03, 2016
 	Description: PopulateGames.jsp
  --%>
- 
-<%@ page import="utilities.GameDao"%>
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -21,10 +18,6 @@ int seasonID = Integer.parseInt(str);
 System.out.println("The current season ID is: " + seasonID);
 game.findGameSet(request, seasonID);
 %>
-
-
-<%@ include file="/WEB-INF/header_backend.jsp"%>
-
 	<form action="/clubhub/GameController" method="post" class="form" role="form">
 	<h1>Below is a list of the games you have just created: </h1>
 	
