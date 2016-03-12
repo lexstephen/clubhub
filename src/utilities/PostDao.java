@@ -231,7 +231,7 @@ public class PostDao {
 	public void deletePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
-		String postID = request.getParameter("postID");
+		String postID = (request.getAttribute("postID")) == null ? request.getParameter("postID") : (String) request.getAttribute("postID");
 				
 		  try {
 			  statement = connect.createStatement();
