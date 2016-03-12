@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,8 +62,12 @@ public class PostDao {
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {
 			HttpSession session = request.getSession();
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = new Date();
+			
 			statement = connect.createStatement();
-			preparedStatement = connect.prepareStatement("insert into ch_post values (default, ?, ?, ?, ?, ?, ?)");
+			preparedStatement = connect.prepareStatement("insert into ch_post values (default, ?, ?, ?, ?, ?, ?, ?)");
 			// columns are title, content, Userid, Posttypeid, Accessid, Categoryid
 			// Parameters start with 1 because we are sending 'default' to the auto incrementing id
 		    preparedStatement.setString(1, request.getParameter("blogTitle"));	// title
@@ -71,6 +76,7 @@ public class PostDao {
 		    preparedStatement.setString(4, request.getParameter("pageType")); // Posttypeid
 		    preparedStatement.setString(5, request.getParameter("accessLevel")); // Accessid
 		    preparedStatement.setString(6, (request.getParameter("pageCategory") != null) ? request.getParameter("pageCategory"): "1"); // Categoryid); // Categoryid
+		    preparedStatement.setString(7,  dateFormat.format(date));
 		    preparedStatement.executeUpdate();
 		    } catch (Exception e) {
 		      throw e;
