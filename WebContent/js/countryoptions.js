@@ -32,8 +32,11 @@ $('#editPageType').bind('change', function(event) {
 	
 	if(i=="2") {
 		$('#editPageCategory').prop('disabled', true);
+		$('#editAccess').prop('disabled', true);
+		$('#editAccess>option:eq(0)').prop('selected', true);
 	}
 	else {
 		$('#editPageCategory').prop('disabled', false);
+		$('#editAccess').prop('disabled', false);
 	}
 });

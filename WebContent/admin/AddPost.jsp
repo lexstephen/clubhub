@@ -19,7 +19,7 @@
 			Title
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="text" name="blogTitle" value="${blogTitle}">
+			<input class="form-control" type="text" maxlength="50" name="blogTitle" value="${blogTitle}">
 		</div>	
 		<label class="col-sm-2 control-label">
 			Access Level

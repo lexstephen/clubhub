@@ -26,13 +26,13 @@ post.findPost(request, postID);
 			Title
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="text" name="blogTitle" value="${post.title}">
+			<input class="form-control" maxlength="50" type="text" name="blogTitle" value="${post.title}">
 		</div>	
 		<label class="col-sm-2 control-label">
 			Access Level
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="accessLevel">
+			<select class="form-control" name="accessLevel" id="editAccess" ${post.postType == 'Static' ? 'disabled' : ''}>
 				<option value="1" ${post.accessLevel == 'Public' ? 'selected' : ''}>Public</option>
 				<option value="2" ${post.accessLevel == 'Members' ? 'selected' : ''}>Members Only</option>
 				<option value="3" ${post.accessLevel == 'Private' ? 'selected' : ''}>Draft</option>

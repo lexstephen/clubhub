@@ -75,7 +75,7 @@ public class PostDao {
 		    preparedStatement.setString(3, (String)session.getAttribute("loggedInUserID"));	// Userid
 		    preparedStatement.setString(4, request.getParameter("pageType")); // Posttypeid
 		    preparedStatement.setString(5, request.getParameter("accessLevel")); // Accessid
-		    preparedStatement.setString(6, (request.getParameter("pageCategory") != null) ? request.getParameter("pageCategory"): "1"); // Categoryid); // Categoryid
+		    preparedStatement.setString(6, (request.getParameter("pageCategory") != null) ? request.getParameter("pageCategory"): "1"); // Categoryid)
 		    preparedStatement.setString(7,  dateFormat.format(date));
 		    preparedStatement.executeUpdate();
 		    } catch (Exception e) {
@@ -167,8 +167,7 @@ public class PostDao {
 			    	  } else if(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == true) {
 			    			posts.add(post);		
 			    	  }
-			    	  
-			    	 // request.setAttribute("postID", post.getId());			    	  
+			    	  			    	  
 			    }
 		    } catch (SQLException e) {
 			      throw e;
@@ -219,8 +218,7 @@ public class PostDao {
 			    	  } else if(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == true) {
 			    			posts.add(post);		
 			    	  }
-			    	  
-			    	 // request.setAttribute("postID", post.getId());			    	  
+			    	  		    	  
 			    }
 		    } catch (SQLException e) {
 			      throw e;
@@ -230,7 +228,7 @@ public class PostDao {
 	
 	public void deletePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-
+		// if coming from batchDelte, attribute will be set. otherwise, parameter will be set
 		String postID = (request.getAttribute("postID")) == null ? request.getParameter("postID") : (String) request.getAttribute("postID");
 				
 		  try {
@@ -287,10 +285,6 @@ public class PostDao {
 			}
 		  	request.setAttribute("post", post);
 		  	request.setAttribute("postTitle", post.getTitle());
-		  	/*request.setAttribute("postID", post.getId());
-		  	request.setAttribute("accessLevel", post.getAccessLevel());
-		  	request.setAttribute("postType", post.getPostType());
-		  	request.setAttribute("pageCategory", post.getCategory());*/
 	} 
 	
 	public void editPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -365,7 +359,9 @@ public class PostDao {
 	}
 	
 	public void getLastBlogs(HttpServletRequest request, HttpServletResponse response) throws Exception { 
-		//this method returns the latest 3 blog posts (Posttypeid = 1) in ch_post
+		// this method returns the latest 3 blog posts (Posttypeid = 1) in ch_post
+		// we do all the pagination coding here. first off, we pull in all viable blog posts and then reverse it to sort by newest.
+		// we count the number of entries and how many 'pages' will be needed to display all entries. 
 		
 		HttpSession session = request.getSession();
 		listAllBlogs(request);
@@ -378,19 +374,14 @@ public class PostDao {
 		List<Post> posts = new ArrayList<Post>();	
 		@SuppressWarnings("unchecked")
 		List<Post> allBlogs = (List<Post>) request.getAttribute("posts");
-		Collections.reverse(allBlogs);
-		
-		/*System.out.println("pageCnt = " + pageCnt);
-		System.out.println("pageNav = " + pageNav);*/
+		Collections.reverse(allBlogs);  // after this line, we have all our blogs in reverse order as list items
 
 		numOfRows = allBlogs.size();
-		numOfPages = (int)Math.ceil(numOfRows/ppp);
-		/*System.out.println("numOfPages = " + numOfPages);
-		System.out.println("numOfRows = " + numOfRows);*/
+		numOfPages = (int)Math.ceil(numOfRows/ppp); // number of pages needed is rounded up to the nearest whole number
 		
 		switch (pageNav) {
 		case "first": 
-			posts = allBlogs.subList(0, ppp > (int)numOfRows ? (int)numOfRows : ppp);
+			posts = allBlogs.subList(0, ppp > (int)numOfRows ? (int)numOfRows : ppp); // select the first ppp(3) items, unless the ppp is smaller than the number of rows
 			pageCnt = 1;
 			break;
 		case "previous":
@@ -414,17 +405,12 @@ public class PostDao {
 		case "last":
 			pageCnt = numOfPages;
 			posts = allBlogs.subList(((int)numOfRows - ppp) < 0 ? 0:(int)numOfRows - ppp, (int)numOfRows);
-			/*System.out.println("last pageCnt = " + pageCnt);*/
 			break;
 		}
 
 		session.setAttribute("pageCnt", pageCnt);
 		request.setAttribute("posts", posts);
-		request.removeAttribute("pageNav");
-		
-		/*System.out.println("pageCnt request: " + Integer.parseInt(session.getAttribute("pageCnt").toString()));*/
-		
-		
+		request.removeAttribute("pageNav");		
 
 	}
 }
