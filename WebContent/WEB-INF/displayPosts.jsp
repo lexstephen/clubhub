@@ -11,7 +11,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<h1>${post.title}</h1>
-			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on Sept 7, 2015. Access level: ${post.accessLevel}</span>
+			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on ${post.postDate}. Access level: ${post.accessLevel}</span>
 			<p>"${post.content_short}"</p>
 				<span class="expand">
 					<c:choose>

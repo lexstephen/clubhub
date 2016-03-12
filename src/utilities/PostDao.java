@@ -88,7 +88,7 @@ public class PostDao {
 		List<Post> posts = new ArrayList<Post>();
 		  	try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
+			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, post.Postdate, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_post post "
 				+ "JOIN clubhub.ch_posttype posttype "
 				+ "ON post.Posttypeid = posttype.id "
@@ -110,6 +110,7 @@ public class PostDao {
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("category.type"));			    	  
+			    	  post.setPostDate(resultSet.getString("Postdate"));
 			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));    
 			    	  
 			    	  if(!(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == false)) {
@@ -133,7 +134,7 @@ public class PostDao {
 
 		  	try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
+			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, post.Postdate, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_post post "
 				+ "JOIN clubhub.ch_posttype posttype "
 				+ "ON post.Posttypeid = posttype.id "
@@ -156,6 +157,7 @@ public class PostDao {
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("category.type"));
+			    	  post.setPostDate(resultSet.getString("Postdate"));
 			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));
 			    	  
 			    	  if (post.getAccessLevel().equals("Public")) {
@@ -255,7 +257,7 @@ public class PostDao {
 		  
 		  	try{
 			    statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
+			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, post.Postdate, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_post post "
 				+ "JOIN clubhub.ch_posttype posttype "
 				+ "ON post.Posttypeid = posttype.id "
@@ -276,6 +278,9 @@ public class PostDao {
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("category.type"));
+			    	  post.setPostDate(resultSet.getString("Postdate"));
+			    	  
+			    	  System.out.println("PostDate = " + post.getPostDate());
 			    }
 			} catch (SQLException e) {
 			      throw e;
@@ -289,7 +294,11 @@ public class PostDao {
 	} 
 	
 	public void editPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    try {			
+	    
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		
+		try {			
 			String postID = request.getParameter("postID");
 		    String title = request.getParameter("blogTitle");	// title
 		    String content = request.getParameter("blogContent"); // content
@@ -299,13 +308,14 @@ public class PostDao {
 	      
 		    statement = connect.createStatement();
 		    preparedStatement = connect.prepareStatement("UPDATE ch_post SET title = ?, content = ?, Posttypeid = ?, "
-		    		+ "Accessid= ?, Categoryid= ? WHERE id='" + postID + "'");
+		    		+ "Accessid= ?, Categoryid= ?, Postdate= ? WHERE id='" + postID + "'");
 		    
 		    preparedStatement.setString(1, title);
 		    preparedStatement.setString(2, content);
 		    preparedStatement.setString(3, pageType);
 		    preparedStatement.setString(4, accessLevel);
 		    preparedStatement.setString(5, category);
+		    preparedStatement.setString(6,  dateFormat.format(date));
 		    
 		    preparedStatement.executeUpdate();
 
