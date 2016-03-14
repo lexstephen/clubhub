@@ -12,7 +12,13 @@
 <%@ page import="utilities.PostDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<% request.setAttribute("thisPage", "Rivendell Curling Club"); %>      <!-- // this line needs to be dynamic! -->
+<%	
+	PreferenceDao prefTitle = new PreferenceDao();
+	prefTitle.showPrefs(request);
+	String thisPage = (String)request.getAttribute("clubName");
+	request.setAttribute("thisPage", thisPage);
+%>
+
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->

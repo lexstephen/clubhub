@@ -9,6 +9,8 @@ package model;
 ****************************************************************************************************/
 public class Post {
 	private String id, title, content, content_short, Userid, userFirstName, userLastName, postType, accessLevel, category, postDate;
+	private boolean postMatchUser;
+	
 	public String getPostDate() {
 		return postDate;
 	}
@@ -16,17 +18,6 @@ public class Post {
 	public void setPostDate(String postDate) {
 		this.postDate = postDate;
 	}
-
-	private boolean postMatchUser;
-	//Object comments = null;
-
-/*	public Object getComments() {
-		return comments;
-	}*/
-
-/*	public void setComments(Object comments) {
-		this.comments = comments;
-	}*/
 	
 	public void setPostMatchUser(boolean postMatchUser) {
 		this.postMatchUser = postMatchUser;
@@ -41,7 +32,7 @@ public class Post {
 	}
 
 	public String getContent_short() {
-		int n = 20;
+		int n = 250;
 		content_short = content.substring(0, Math.min(content.length(), n));     // change 20 to something bigger
 		if (content_short.length() > n-3)
 			content_short += "...";

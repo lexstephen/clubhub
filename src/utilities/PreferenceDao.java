@@ -216,6 +216,8 @@ public class PreferenceDao {
 			    	pref.setClub_name_long(resultSet.getString("club_name_long"));
 			    	pref.setClub_name_short(resultSet.getString("club_name_short"));
 				  	session.setAttribute("preference", pref);
+				  	request.setAttribute("clubName", pref.getClub_name_long());
+				  	System.out.println("clubName = " + request.getAttribute("clubName"));
 			    }
 		    } catch (SQLException e) {
 			      throw e;
