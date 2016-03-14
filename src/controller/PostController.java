@@ -100,6 +100,16 @@ public class PostController extends HttpServlet {
 		    		}
 		    		address = "Main.jsp";
 		    		break;
+		    	case "search":
+		    		try {
+						dao.searchPosts(request, response);
+						errorChecker = "Posts search'd";
+					} catch (Exception e) {
+						e.printStackTrace();
+						errorChecker = "Search fail";
+					}
+		    		address = "/Search.jsp";
+	    		break;
 	    		default:
 	    			errorChecker = "Something has gone horribly wrong";
 	    	}

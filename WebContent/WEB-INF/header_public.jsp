@@ -25,9 +25,14 @@
 						<a href="/clubhub/Main.jsp" class="pull-left"><img src="/clubhub/ImageDao?t=image_logo" id="rcc_circle_logo"></a>
 					</div>
 					<div class="collapse navbar-collapse navbar-right">
-						<form>
-						  	<div class="form-group">
-								<input type="text" class="form-control" name="search" placeholder="search">
+						<form action="/clubhub/PostController" method="post" class="clearfix">
+						  	<div class="form-group inline pull-left">
+								
+								
+								<input type="text" name="searchTerm" placeholder="search updates" onfocus="this.placeholder = ''" onblur="this.placeholder = 'search updates'">
+								<input type="submit" class="btn btn-default btn-xs" name="option" value="search">
+								
+								
 							</div>
 						</form>
 					</div>

@@ -63,9 +63,6 @@ public class PostDao {
 	    try {
 			HttpSession session = request.getSession();
 			
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date = new Date();
-			
 			statement = connect.createStatement();
 			preparedStatement = connect.prepareStatement("insert into ch_post values (default, ?, ?, ?, ?, ?, ?, ?)");
 			// columns are title, content, Userid, Posttypeid, Accessid, Categoryid
@@ -76,7 +73,7 @@ public class PostDao {
 		    preparedStatement.setString(4, request.getParameter("pageType")); // Posttypeid
 		    preparedStatement.setString(5, request.getParameter("accessLevel")); // Accessid
 		    preparedStatement.setString(6, (request.getParameter("pageCategory") != null) ? request.getParameter("pageCategory"): "1"); // Categoryid)
-		    preparedStatement.setString(7,  dateFormat.format(date));
+		    preparedStatement.setString(7,  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		    preparedStatement.executeUpdate();
 		    } catch (Exception e) {
 		      throw e;
@@ -144,7 +141,7 @@ public class PostDao {
 				+ "ON post.Accessid = access.id "
 				+ "JOIN clubhub.ch_category category "
 				+ "ON post.Categoryid = category.id "
-				+ "WHERE posttype.id = 1 AND NOT access.id = 3");			// Where post is blog, and not private
+				+ "WHERE posttype.id = 1");			// Where post is blog
 			      
 			    while (resultSet.next()) {
 			    	  Post post = new Post();
@@ -172,7 +169,7 @@ public class PostDao {
 		    } catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("posts", posts);
+		  	request.setAttribute("blogs", posts);
 	} 
 	
 	public void listStatic(HttpServletRequest request) throws Exception {
@@ -288,16 +285,13 @@ public class PostDao {
 	} 
 	
 	public void editPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = new Date();
 		
 		try {			
 			String postID = request.getParameter("postID");
 		    String title = request.getParameter("blogTitle");	// title
 		    String content = request.getParameter("blogContent"); // content
 		    String pageType = request.getParameter("pageType"); // Posttypeid
-		    String accessLevel = request.getParameter("accessLevel"); // Accessid
+		    String accessLevel = (request.getParameter("accessLevel")!= null) ? request.getParameter("accessLevel"): "1"; // Accessid
 		    String category = (request.getParameter("pageCategory") != null) ? request.getParameter("pageCategory"): "1"; // Categoryid
 	      
 		    statement = connect.createStatement();
@@ -309,7 +303,7 @@ public class PostDao {
 		    preparedStatement.setString(3, pageType);
 		    preparedStatement.setString(4, accessLevel);
 		    preparedStatement.setString(5, category);
-		    preparedStatement.setString(6,  dateFormat.format(date));
+		    preparedStatement.setString(6,  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		    
 		    preparedStatement.executeUpdate();
 
@@ -373,7 +367,7 @@ public class PostDao {
 		
 		List<Post> posts = new ArrayList<Post>();	
 		@SuppressWarnings("unchecked")
-		List<Post> allBlogs = (List<Post>) request.getAttribute("posts");
+		List<Post> allBlogs = (List<Post>) request.getAttribute("blogs");
 		Collections.reverse(allBlogs);  // after this line, we have all our blogs in reverse order as list items
 
 		numOfRows = allBlogs.size();
@@ -409,9 +403,67 @@ public class PostDao {
 		}
 
 		session.setAttribute("pageCnt", pageCnt);
-		request.setAttribute("posts", posts);
+		request.setAttribute("blogs", posts);
 		request.removeAttribute("pageNav");		
 
+	}
+
+	public void searchPosts(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		
+		List<Post> posts = new ArrayList<Post>();
+		boolean isLoggedIn = false;
+		String searchTerm = request.getParameter("searchTerm");
+		System.out.println("searchTerm = " + searchTerm);
+		
+		HttpSession session = request.getSession();
+	
+		if (session.getAttribute("isLoggedIn") != null) {
+			isLoggedIn = (((Boolean) session.getAttribute("isLoggedIn")).booleanValue());
+		}
+	
+	  		try{
+	  			statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, post.Postdate, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
+				+ "FROM clubhub.ch_post post "
+				+ "JOIN clubhub.ch_posttype posttype "
+				+ "ON post.Posttypeid = posttype.id "
+				+ "JOIN clubhub.ch_user user "
+				+ "ON post.Userid = user.id "
+				+ "JOIN clubhub.ch_access access "
+				+ "ON post.Accessid = access.id "
+				+ "JOIN clubhub.ch_category category "
+				+ "ON post.Categoryid = category.id "
+				+ "WHERE posttype.id = 1 AND content LIKE '%" + searchTerm + "%'");			// Where post is blog
+			      
+			    while (resultSet.next()) {
+			    	  Post post = new Post();
+			    	  post.setTitle(resultSet.getString("title"));
+			    	  post.setContent(resultSet.getString("content"));
+			    	  post.setId(resultSet.getString("id"));
+			    	  post.setUserid(resultSet.getString("Userid"));
+			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
+			    	  post.setUserLastName(resultSet.getString("user.lastName"));
+			    	  post.setPostType(resultSet.getString("posttype.type"));
+			    	  post.setAccessLevel(resultSet.getString("access.type"));
+			    	  post.setCategory(resultSet.getString("category.type"));
+			    	  post.setPostDate(resultSet.getString("Postdate"));
+			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));
+			    	  
+			    	  if (post.getAccessLevel().equals("Public")) {
+			    		  posts.add(post);		
+			    	  } else if(post.getAccessLevel().equals("Members") && ((isLoggedIn == true))){
+			    		  posts.add(post);	
+			    	  } else if(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == true) {
+			    			posts.add(post);		
+			    	  }
+			    	  			    	  
+			    }
+		    } catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("blogs", posts);
+
+		
 	}
 }
 
