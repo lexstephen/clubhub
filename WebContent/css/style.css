@@ -6758,7 +6758,11 @@ button.close {
   text-align: center;
   color: #92c47d;
 }
-.frontend h1 {
+.frontend .base {
+  border-top: 1px solid #92c47d;
+}
+.frontend h1,
+.frontend h2 {
   border-bottom: 1px #92c47d solid;
   padding: 5px;
   margin: 5px;
@@ -6805,6 +6809,9 @@ button.close {
   font-size: 12px;
   font-style: italic;
   text-align: left;
+}
+.backend .base-back {
+  border-top: 1px solid #00ace0;
 }
 .backend .profile_photo {
   width: 240px;

@@ -10,7 +10,7 @@
      
 	<div class="row">
 		<div class="col-xs-12">
-			<h1>${blog.title}</h1>
+			<h2>${blog.title}</h2>
 			<span class="postMeta">Posted in ${blog.category} by ${blog.username} on ${blog.postDate}. Access level: ${blog.accessLevel}</span>
 			<p>"${blog.content_short}"</p>
 				<span class="expand">

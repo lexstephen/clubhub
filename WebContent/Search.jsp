@@ -10,13 +10,18 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="utilities.PostDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <% request.setAttribute("thisPage", "Search Results"); %>
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
 	
 	<h1>Search Results</h1>
-		
+	<br>
+	${fn:length(blogs)} result<c:if test="${fn:length(blogs) != 1}">s</c:if>
+	<br>	
+	<br>
 	<table class="table table-hover sortable">
 		<thead>
 			<tr><th class="col-xs-12 col-md-3 control-label">Title</th>

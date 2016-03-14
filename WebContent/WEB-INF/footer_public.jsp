@@ -1,6 +1,7 @@
 
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<hr class="base">
 
 <address>
 				  <strong>${preference.club_name_long }</strong><br>
