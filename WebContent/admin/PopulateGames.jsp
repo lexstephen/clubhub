@@ -13,13 +13,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 <% GameDao game = new GameDao();
-//Object id = session.getAttribute("seasonID");
-//String str = id.toString();
+Object id = session.getAttribute("seasonID");
+String str = id.toString();
 //int seasonID = Integer.parseInt(str);
 //String str = request.getParameter("seasonID");
-//int seasonID = Integer.parseInt(str);
-System.out.println("The current season ID is: 83");
-game.findGameSet(request, 83);
+int seasonID = Integer.parseInt(str);
+System.out.println("The current season ID is: " + seasonID);
+game.findGameSet(request, seasonID);
 %>
 
 <% request.setAttribute("thisPage", "Populate Games"); %>
