@@ -7,8 +7,16 @@ package model;
 * Description: Slot model
 ****************************************************************************************************/
 public class Slot {
-	private String id, scheduledDate, week, seasonId;
+	private String id, dayOfWeek, week, gender;
+	private int time, status;
 	
+	public String getDayOfWeek(){
+		return dayOfWeek;
+	}
+	
+	public void setDayOfWeek(String dayOfWeek){
+		this.dayOfWeek = dayOfWeek;
+	}
 	
 	public String getWeek() {
 		return week;
@@ -18,20 +26,28 @@ public class Slot {
 		this.week = week;
 	}
 
-	public String getScheduledDate() {
-		return scheduledDate;
+	public String getGender() {
+		return gender;
 	}
 	
-	public void setScheduledDate(String scheduledDate) {
-		this.scheduledDate = scheduledDate;
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	
-	public String getSeasonId() {
-		return seasonId;
+	public int getTime() {
+		return time;
 	}
 	
-	public void setSeasonId(String seasonId) {
-		this.seasonId = seasonId;
+	public void setTime(int time) {
+		this.time = time;
+	}
+	
+	public int getStatus() {
+		return status;
+	}
+	
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	public String getId() {
