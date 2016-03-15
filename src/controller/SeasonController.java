@@ -77,8 +77,9 @@ public class SeasonController extends HttpServlet {
 		    		//String id1 =request.getParameter("seasonID");
 		    		System.out.println("The ID is:" + sID);
 					gameDao.addToDatabase(request, response, sID);
-					session.setAttribute("seasonID", sID);
+					
 					errorChecker = "Games Created";
+		    		address = "admin/CreateSeason.jsp";
 	    		break;
 		    	default:
 	    		errorChecker = "Something has gone horribly wrong";

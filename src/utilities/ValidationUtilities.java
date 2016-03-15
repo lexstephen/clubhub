@@ -20,6 +20,7 @@ public class ValidationUtilities {
 	
 	// check that email and password match required formatting
 	public static boolean isValidLogin(HttpServletRequest request) {
+		System.out.println("in isValidLogin");
 		boolean isValid = true;
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -36,7 +37,10 @@ public class ValidationUtilities {
 		return isValid;
 	}
 
-	public static boolean isValidInvoice(HttpServletRequest request) {
+	public static boolean isValidPreference(HttpServletRequest request) {
+	 return true;
+	}
+		public static boolean isValidInvoice(HttpServletRequest request) {
 
 
 		boolean isValid = true, isValidQty = true;
@@ -134,7 +138,6 @@ public class ValidationUtilities {
 		} catch (Exception e) {
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorInvDate", "Date format must be yyyy-mm-dd");
-			System.out.println("I died because of " + invDate);
 			return false;
 		}
 	}

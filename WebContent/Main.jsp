@@ -11,27 +11,24 @@
 <%@ page import="java.util.List" %>
 <%@ page import="utilities.PostDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<% request.setAttribute("thisPage", "Rivendell Curling Club"); %>
+
+<% request.setAttribute("thisPage", "Rivendell Curling Club"); %>      <!-- // this line needs to be dynamic! -->
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
 	<%	PostDao post = new PostDao(); %>
 
-	<!-- 	 use this to test admin login. no admin login, no edit button -->
-	<% session.setAttribute("isAdmin", true); %>
-
-	<% List<String> postIDs = post.getLastBlogs(request, response); %>
-	<% for (String i : postIDs) { %>
-	<% post.findPost(request, i); %>
-	<%@ include file="/WEB-INF/displayPosts.jsp" %>
-	<% } %>
+	<% post.getLastBlogs(request, response); %>
+	<c:forEach items="${blogs}" var="blog">
+		<%@ include file="/WEB-INF/displayPosts.jsp" %>					
+	</c:forEach>
 	
 	<form action="/clubhub/PostController" method="post">
 		<span class="pagination">
-			<button class="btn btn-danger" name="option" value="first">&lt;&lt;</button>
-			<button class="btn btn-danger" name="option" value="previous">&lt;</button>
-			<button class="btn btn-danger" name="option" value="next">&gt;</button>
-			<button class="btn btn-danger" name="option" value="last">&gt;&gt;</button>
+			<button class="btn btn-primary btn-xs" name="option" value="first">&lt;&lt;</button>
+			<button class="btn btn-primary btn-xs" name="option" value="previous">&lt;</button>
+			<button class="btn btn-primary btn-xs" name="option" value="next">&gt;</button>
+			<button class="btn btn-primary btn-xs" name="option" value="last">&gt;&gt;</button>
 		</span>
 	</form>
 	

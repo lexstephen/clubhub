@@ -30,7 +30,7 @@ public class PostController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String option = request.getParameter("option");
 		PostDao dao = new PostDao();
-		String address = "", postID;
+		String address = "";
 		String errorChecker = "errorChecker is null";
 		
 		System.out.println("option: " + option);
@@ -100,6 +100,16 @@ public class PostController extends HttpServlet {
 		    		}
 		    		address = "Main.jsp";
 		    		break;
+		    	case "search":
+		    		try {
+						dao.searchPosts(request, response);
+						errorChecker = "Posts search'd";
+					} catch (Exception e) {
+						e.printStackTrace();
+						errorChecker = "Search fail";
+					}
+		    		address = "/Search.jsp";
+	    		break;
 	    		default:
 	    			errorChecker = "Something has gone horribly wrong";
 	    	}

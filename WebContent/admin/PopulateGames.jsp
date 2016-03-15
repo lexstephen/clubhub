@@ -16,17 +16,17 @@
 //Object id = session.getAttribute("seasonID");
 //String str = id.toString();
 //int seasonID = Integer.parseInt(str);
-String str = request.getParameter("seasonID");
-int seasonID = Integer.parseInt(str);
-System.out.println("The current season ID is: " + seasonID);
-game.findGameSet(request, seasonID);
+//String str = request.getParameter("seasonID");
+//int seasonID = Integer.parseInt(str);
+System.out.println("The current season ID is: 83");
+game.findGameSet(request, 83);
 %>
 
+<% request.setAttribute("thisPage", "Populate Games"); %>
 
-<%@ include file="/WEB-INF/header_backend.jsp"%>
 
 	<form action="/clubhub/GameController" method="post" class="form" role="form">
-	<h1>Below is a list of the games you have just created: </h1>
+	<h3>Below is a list of the games you have just created: </h3>
 	
 		<c:forEach items="${games}" var="game">
 			<%@ include file="/WEB-INF/displayGames.jsp" %>			

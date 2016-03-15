@@ -8,7 +8,15 @@ package model;
 * Description: Post model
 ****************************************************************************************************/
 public class Post {
-	private String id, title, content, content_short, Userid, userFirstName, userLastName, postType, accessLevel, category;
+	private String id, title, content, content_short, Userid, userFirstName, userLastName, postType, accessLevel, category, postDate;
+	public String getPostDate() {
+		return postDate;
+	}
+
+	public void setPostDate(String postDate) {
+		this.postDate = postDate;
+	}
+
 	private boolean postMatchUser;
 	//Object comments = null;
 

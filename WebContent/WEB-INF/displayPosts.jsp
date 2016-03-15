@@ -10,19 +10,19 @@
      
 	<div class="row">
 		<div class="col-xs-12">
-			<h1>${post.title}</h1>
-			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on Sept 7, 2015. Access level: ${post.accessLevel}</span>
-			<p>"${post.content_short}"</p>
+			<h1>${blog.title}</h1>
+			<span class="postMeta">Posted in ${blog.category} by ${blog.username} on ${blog.postDate}. Access level: ${blog.accessLevel}</span>
+			<p>"${blog.content_short}"</p>
 				<span class="expand">
 					<c:choose>
-						<c:when test="${(isAdmin == true) && (post.accessLevel != 'Private')}">
-							<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+						<c:when test="${(isAdmin == true) && (blog.accessLevel != 'Private')}">
+							<a href="/clubhub/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
 						</c:when>
-						<c:when test="${(postMatchesUser == true) && (post.accessLevel == 'Private')}">
-							<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+						<c:when test="${(postMatchesUser == true) && (blog.accessLevel == 'Private')}">
+							<a href="/clubhub/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
 						</c:when>
 					</c:choose>
-					<a href="/clubhub/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
+					<a href="/clubhub/Post.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">More</a>
 				</span>
 			<hr>
 		</div>

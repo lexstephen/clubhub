@@ -12,5 +12,3 @@
  <tr>
 	<td class="col-xs-12 col-md-3 control-label"><b>Week: ${game.week}</b>, ${game.scheduledDate}</td>
 </tr><br>
-
-     

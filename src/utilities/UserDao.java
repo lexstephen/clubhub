@@ -1,4 +1,5 @@
 package utilities;
+import java.io.InputStream;
 /****************************************************************************************************
  * Project: Hackers 1995
  * Assignment: COMP 3095 Assignment 2
@@ -18,14 +19,16 @@ import java.util.List;
 import java.util.Date;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
-import model.Post;
 import model.User;
 import utilities.DatabaseAccess;
 
+@MultipartConfig(maxFileSize = 10177215) // upload file's size up to 16MB
 public class UserDao {
 
 	private Connection connect = null;
@@ -81,11 +84,17 @@ public class UserDao {
 		switch(option) {
 		case "login":
 			try {
+				System.out.println("in login option");
 				HttpSession session = request.getSession();
 				statement = connect.createStatement();
 				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + request.getParameter("password") + "\"");
+				System.out.println("username = " + request.getParameter("username"));
+				System.out.println("password = " + request.getParameter("password"));
+				//System.out.println("resultSet = " + resultSet);
 				while (resultSet.next()) {
 					session.setAttribute("loggedInUserID", resultSet.getString("id")); 
+					System.out.println("result id = " + resultSet.getString("id"));
+					System.out.println("setting UserID = " + session.getAttribute("loggedInUserID"));
 				}
 			} catch (Exception e) {
 				throw e;
@@ -127,12 +136,15 @@ public class UserDao {
 
 	public void isAdmin(HttpServletRequest request) throws Exception {
 		try {
+			System.out.println("In isAdmin");
 			HttpSession session = request.getSession();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select userStatus from ch_user where id = '" + session.getAttribute("loggedInUserID") + "'");
+			System.out.println("loggedInUserID = " + session.getAttribute("loggedInUserID"));
 			while (resultSet.next()) {
 				session.setAttribute("userStatus", resultSet.getString("userStatus"));
 				session.setAttribute("isAdmin", resultSet.getString("userStatus").equals("admin")?true:false);
+				System.out.println("isAdmin = " + session.getAttribute("isAdmin"));
 			}
 		} catch (Exception e) {
 			throw e;
@@ -180,30 +192,60 @@ public class UserDao {
 				province = request.getParameter("state");
 				break;
 			}
+			
+			/* ********** take care of image uploading *****************/
+
+	        InputStream inputStream = null; // input stream of the upload file
+	         
+	        // obtains the upload file part in this multipart request
+	        Part filePart = request.getPart("profilePhoto");
+	        if (filePart != null) {
+	            // prints out some information for debugging
+	            System.out.println(filePart.getName());
+	            System.out.println(filePart.getSize());
+	            System.out.println(filePart.getContentType());
+	             
+	            // obtains input stream of the upload file
+	            inputStream = filePart.getInputStream();
+	        }
+	         
 
 			statement = connect.createStatement();
 			preparedStatement = connect.prepareStatement("insert into ch_user values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setString(1, request.getParameter("username")); 					// username
 			preparedStatement.setString(2, request.getParameter("password1")); 					// password
-			preparedStatement.setString(3, request.getParameter("emailAddress"));					// emailAddress
+			preparedStatement.setString(3, request.getParameter("emailAddress"));				// emailAddress
 			preparedStatement.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())); // dateCreated
-			preparedStatement.setString(5, "unverified");											// userStatus
+			preparedStatement.setString(5, "unverified");										// userStatus
 			preparedStatement.setString(6, request.getParameter("firstName"));					// firstName
 			preparedStatement.setString(7, request.getParameter("lastName")); 					// lastName
-			preparedStatement.setString(8, request.getParameter("gender")); 						// gender
+			preparedStatement.setString(8, request.getParameter("gender")); 					// gender
 			preparedStatement.setString(9, request.getParameter("telephone"));					// phoneNumber
 			preparedStatement.setString(10, request.getParameter("streetAddress"));				// streetAddress
 			preparedStatement.setString(11, request.getParameter("city"));						// city
 			preparedStatement.setString(12, province);											// province
-			preparedStatement.setString(13, request.getParameter("postalCode"));					// postalCode
-			preparedStatement.setString(14, request.getParameter("country"));						// country
-			preparedStatement.setString(15, request.getParameter("profilePhoto"));				// profilePhoto
+			preparedStatement.setString(13, request.getParameter("postalCode"));				// postalCode
+			preparedStatement.setString(14, request.getParameter("country"));					// country
+			//preparedStatement.setString(15, request.getParameter("profilePhoto"));			// profilePhoto
+			   if (inputStream != null) {
+	                // fetches input stream of the upload file for the blob column
+				   preparedStatement.setBlob(15, inputStream);
+	            }
 			preparedStatement.setString(16, request.getParameter("dateOfBirth"));					// dateOfBirth
 			preparedStatement.setString(17, request.getParameter("emergencyContactName"));		// emergencyContactName
 			preparedStatement.setString(18, request.getParameter("emergencyContactPhoneNumber"));	// emergencyContactPhoneNumber
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			throw e;
+		}  finally {
+            if (connect != null) {
+                // closes the database connection
+                try {
+                	connect.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
 		}
 	}
 
@@ -229,6 +271,7 @@ public class UserDao {
 				user.setProvince(resultSet.getString("province"));
 				user.setPostalCode(resultSet.getString("postalCode"));
 				user.setCountry(resultSet.getString("country"));
+				
 				user.setPhoto(resultSet.getString("photo"));
 				user.setDateOfBirth(resultSet.getString("dateOfBirth"));
 				user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
@@ -242,6 +285,42 @@ public class UserDao {
 		request.setAttribute("users", users);
 	} 
 
+	public void getLastUsers(HttpServletRequest request, HttpServletResponse response) throws Exception { 
+		//this method returns the latest 3 users
+		List<User> users = new ArrayList<User>();
+		try{
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("select * from ch_user ORDER BY id DESC LIMIT 3");
+
+			while (resultSet.next()) {
+				User user = new User();
+				user.setUserid(resultSet.getString("id"));
+				user.setUsername(resultSet.getString("username"));
+				user.setPassword(resultSet.getString("password"));
+				user.setEmailAddress(resultSet.getString("emailAddress"));
+				user.setUserStatus(resultSet.getString("userStatus"));
+				user.setFirstName(resultSet.getString("firstName"));
+				user.setLastName(resultSet.getString("lastName"));
+				user.setGender(resultSet.getString("gender"));
+				user.setStreetAddress(resultSet.getString("streetAddress"));
+				user.setTelephone(resultSet.getString("phoneNumber"));
+				user.setCity(resultSet.getString("city"));
+				user.setProvince(resultSet.getString("province"));
+				user.setPostalCode(resultSet.getString("postalCode"));
+				user.setCountry(resultSet.getString("country"));
+				
+				user.setPhoto(resultSet.getString("photo"));
+				user.setDateOfBirth(resultSet.getString("dateOfBirth"));
+				user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
+				user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
+				users.add(user);
+			}
+
+		} catch (SQLException e) {
+			throw e;
+		}
+		request.setAttribute("users", users);
+	}
 
 	public void findUser(HttpServletRequest request, String _userID) throws Exception {
 		User user = new User();
@@ -263,15 +342,25 @@ public class UserDao {
 			String teamGender = (gender.equals("F"))?"Women":"Men";	
 			user.setTeamGender(teamGender);				
 			user.setStreetAddress(resultSet.getString("streetAddress"));
-			user.setTelephone(resultSet.getString("phoneNumber"));
+			String number = resultSet.getString("phoneNumber");
+			user.setTelephone(String.format("(%s) %s-%s", number.substring(0, 3), number.substring(3, 6), number.substring(6, 10)));
 			user.setCity(resultSet.getString("city"));
 			user.setProvince(resultSet.getString("province"));
 			user.setPostalCode(resultSet.getString("postalCode"));
 			user.setCountry(resultSet.getString("country"));
 			user.setPhoto(resultSet.getString("photo"));
-			user.setDateOfBirth(resultSet.getString("dateOfBirth"));
+
+			String MyDate = resultSet.getString("dateOfBirth");
+			SimpleDateFormat parseDate = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formatDate = new SimpleDateFormat("MMM dd yyyy");
+			Date date = (Date) parseDate.parse(MyDate);
+			String DisplayDate = formatDate.format(date);
+			user.setDateOfBirth(DisplayDate);
+			
 			user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
 			user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
+			String contactNumber = resultSet.getString("emergencyContactPhoneNumber");
+			user.setEmergencyContactPhoneNumber(String.format("(%s) %s-%s", contactNumber.substring(0, 3), contactNumber.substring(3, 6), contactNumber.substring(6, 10)));
 		}
 
 		request.setAttribute("user", user);
@@ -279,16 +368,26 @@ public class UserDao {
 
 	public void editUser(HttpServletRequest request, HttpServletResponse response, String _userID) throws Exception {
 		try {			
-			String userID = _userID;
-			String username = request.getParameter("username");
-			String password = request.getParameter("password1");
-			String emailAddress = request.getParameter("emailAddress");
+
+			/* ********** take care of image uploading *****************/
+
+	        InputStream inputStream = null; // input stream of the upload file
+	         
+	        // obtains the upload file part in this multipart request
+	        Part filePart = request.getPart("profilePhoto");
+	        if (filePart != null) {
+	            // prints out some information for debugging
+	            System.out.println(filePart.getName());
+	            System.out.println(filePart.getSize());
+	            System.out.println(filePart.getContentType());
+	             
+	            // obtains input stream of the upload file
+	            inputStream = filePart.getInputStream();
+	        }
+	         
+	       
 			String userStatus = request.getParameter("userStatus");
-			String firstName = request.getParameter("firstName");
-			String lastName = request.getParameter("lastName");
-			String gender = request.getParameter("gender");
-			String streetAddress = request.getParameter("streetAddress");
-			String city = request.getParameter("city");
+
 			String province = null;
 			switch(request.getParameter("country")) {
 			case "Canada":
@@ -298,29 +397,85 @@ public class UserDao {
 				province = request.getParameter("state");
 				break;
 			}
-			String postalCode = request.getParameter("postalCode");
-			String country = request.getParameter("country");
-			String dateOfBirth = request.getParameter("dateOfBirth");
-			String emergencyContactName = request.getParameter("emergencyContactName");
-			String emergencyContactPhoneNumber = request.getParameter("emergencyContactPhoneNumber");
-
+			
 			statement = connect.createStatement();
-			statement.executeUpdate("UPDATE clubhub.ch_user SET username='" + username 
-					+ "', password='" + password 
-					+ "', emailAddress='" + emailAddress
-					+ "', userStatus='" + userStatus
-					+ "', firstName='" + firstName
-					+ "', lastName='" + lastName
-					+ "', gender='" + gender
-					+ "', streetAddress='" + streetAddress
-					+ "', city='" + city 
-					+ "', province='" + province
-					+ "', postalCode='" + postalCode
-					+ "', country='" + country
-					+ "', dateOfBirth='" + dateOfBirth
-					+ "', emergencyContactName='" + emergencyContactName
-					+ "', emergencyContactPhoneNumber='" + emergencyContactPhoneNumber
-					+ "' WHERE id='" + userID + "';");
+                    
+			String qry = "UPDATE clubhub.ch_user SET username = ?, password = ?, emailAddress = ?" // 1 2 3
+					+ ", firstName = ?, lastName = ?, gender = ?, phoneNumber = ?"  // 4 5 6 7
+					+ ", streetAddress = ?, city = ?, province = ?, postalCode = ?"  // 8 9 10 11
+					+ ", country = ?, dateOfBirth = ?, emergencyContactName = ?, emergencyContactPhoneNumber = ?";  // 12, 13, 14, 15
+                        
+                    if (userStatus != null) {
+                        // fetches input stream of the upload file for the blob column
+                    	System.out.println("I caught userStatus");
+                       qry += ", userStatus = ?"; // 16
+                    }
+                    
+                    if (inputStream != null) {
+                        // fetches input stream of the upload file for the blob column
+                    	System.out.println("I caught photo");
+
+                       qry += ", photo = ?"; //inputStream // 17 or 16
+                    }
+                    
+                    qry += " WHERE id = ?"; // 18 or 17 or 16
+                    
+			preparedStatement = connect.prepareStatement(qry);
+            preparedStatement.setString(1, request.getParameter("username")); 					// username
+			preparedStatement.setString(2, request.getParameter("password1")); 					// password
+			preparedStatement.setString(3, request.getParameter("emailAddress"));				// emailAddress
+			preparedStatement.setString(4, request.getParameter("firstName"));					// firstName
+			preparedStatement.setString(5, request.getParameter("lastName")); 					// lastName
+			preparedStatement.setString(6, request.getParameter("gender")); 					// gender
+			preparedStatement.setString(7, request.getParameter("telephone"));					// phoneNumber
+			preparedStatement.setString(8, request.getParameter("streetAddress"));				// streetAddress
+			preparedStatement.setString(9, request.getParameter("city"));						// city
+			preparedStatement.setString(10, province);											// province
+			preparedStatement.setString(11, request.getParameter("postalCode"));				// postalCode
+			preparedStatement.setString(12, request.getParameter("country"));					// country
+			preparedStatement.setString(13, request.getParameter("dateOfBirth"));				// dateOfBirth
+			preparedStatement.setString(14, request.getParameter("emergencyContactName"));		// emergencyContactName
+			preparedStatement.setString(15, request.getParameter("emergencyContactPhoneNumber"));	// emergencyContactPhoneNumber
+            if (userStatus != null) {
+                // we have a userStatus, set that
+            	System.out.println("16 - We have a " + userStatus);
+                preparedStatement.setString(16, request.getParameter("userStatus"));
+                
+                if (inputStream != null) {
+                    // we have an image, set that
+                	System.out.println("17 - We have an image");
+                    preparedStatement.setBlob(17, inputStream);
+                    // set the WHERE condition
+                	System.out.println("Setting 18 as where condition");
+                    preparedStatement.setString(18, request.getParameter("userID"));
+                } else {
+                    // we do not have an image 
+                    // set the WHERE condition
+                	System.out.println("Setting 17 as where condition");
+                    preparedStatement.setString(17, request.getParameter("userID"));
+                }
+            } else {
+                // we do not have a userStatus
+                if (inputStream != null) {
+                    // we have an image, set that
+                	System.out.println("16 - We have an image");
+                    preparedStatement.setBlob(16, inputStream);
+                } else {
+                    // we do not have an image 
+                    // set the WHERE condition
+                	System.out.println("Setting 17 as where condition");
+                    preparedStatement.setString(17, request.getParameter("userID"));
+                }
+                    // we do not have an image or a status
+                    // set the WHERE condition
+            	System.out.println("Setting 16 as where condition");
+                    preparedStatement.setString(16, request.getParameter("userID"));
+            }
+            
+			preparedStatement.executeUpdate();
+                    
+				System.out.println(qry);
+//			 statement.executeUpdate(qry);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -363,7 +518,6 @@ public class UserDao {
 	}
 
 	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 
 		String userID = (String)request.getAttribute("userID").toString();
 				

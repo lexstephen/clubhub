@@ -16,8 +16,8 @@
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
 	
 	<!---- use these attributes to test access level functionality -->
-	<% session.setAttribute("isAdmin", true); %>
-	<% session.setAttribute("isLoggedIn", true); %>
+<%-- 	<% session.setAttribute("isAdmin", true); %>
+	<% session.setAttribute("isLoggedIn", true); %> --%>
 	<!---- end of access level testing stuff         ---------------->
 	
 	<%	PostDao post = new PostDao(); %>
@@ -33,15 +33,15 @@
 			<th class="col-xs-12 col-md-2">Author</th><th class="col-xs-12 col-md-3">Access Level</th><th class="sorttable_nosort"></th></tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${posts}" var="post">
+			<c:forEach items="${blogs}" var="blog">
 				<%@ include file="/WEB-INF/displayAllBlogs.jsp" %>					
 			</c:forEach>
 		</tbody>
 	</table>
 	
-	<span class="pagination">
+<!-- 	<span class="pagination">
 		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>
-	</span>
+	</span> -->
 	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 

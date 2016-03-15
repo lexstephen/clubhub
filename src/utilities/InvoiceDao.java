@@ -35,7 +35,20 @@ public class InvoiceDao {
 	}
 	
 	public boolean isInDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return true;
+	    try {
+			String id = request.getParameter("invoiceID");
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("select * from ch_invoice where id = \"" + id + "\""); 
+			// if there result set is before the first item, there are entries
+			// if it is not, there are not
+			if (!resultSet.isBeforeFirst() ) {    
+				return false;
+			} else {
+				return true;
+			}
+	    } catch (Exception e) {
+	    	throw e;
+	    } 
 	}
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -55,13 +68,6 @@ public class InvoiceDao {
 					  !(request.getParameter("charge05qty").equals("0")) ){
 				  // something in there wasn't equal to zero, let's add that invoice!
 				   preparedStatement.executeUpdate();
-			  } else {
-				  System.out.println(" I think all quantities were zero ");
-					System.out.println("Charge01 is " + request.getParameter("charge01") + " and quantity is " + request.getParameter("charge01qty"));
-					System.out.println("Charge02 is " + request.getParameter("charge02") + " and quantity is " + request.getParameter("charge02qty"));
-					System.out.println("Charge03 is " + request.getParameter("charge03") + " and quantity is " + request.getParameter("charge03qty"));
-					System.out.println("Charge04 is " + request.getParameter("charge04") + " and quantity is " + request.getParameter("charge04qty"));
-					System.out.println("Charge05 is " + request.getParameter("charge05") + " and quantity is " + request.getParameter("charge05qty"));
 			  }
 			  
 			  // get the ID of the freshly created invoice, to use in invoice_lineitems_invoice table
@@ -137,10 +143,11 @@ public class InvoiceDao {
 		  List<User> users = new ArrayList<User>();
 		  	try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT id, firstName, lastName from ch_user ORDER BY lastName");
+			    resultSet = statement.executeQuery("SELECT id, username, firstName, lastName from ch_user ORDER BY lastName");
 			    while (resultSet.next()) {
 			    	  User user = new User();
 			    	  user.setUserid(resultSet.getString("id"));
+			    	  user.setUsername(resultSet.getString("username"));
 			    	  user.setFirstName(resultSet.getString("firstName"));
 			    	  user.setLastName(resultSet.getString("lastName"));
 			    	  users.add(user);
@@ -199,8 +206,8 @@ public class InvoiceDao {
 		  List<Invoice> invoices = new ArrayList<Invoice>();
 		  	try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT id, invDate, status, Userid"
-		    				+ " FROM clubhub.ch_invoice ");
+			    resultSet = statement.executeQuery("SELECT i.id, i.invDate, i.status, i.Userid, u.username, u.firstName, u.lastName"
+		    				+ " FROM clubhub.ch_invoice i JOIN clubhub.ch_user u on i.Userid = u.id");
 			      
 			    while (resultSet.next()) {
 			    	  Invoice invoice = new Invoice();
@@ -208,6 +215,9 @@ public class InvoiceDao {
 			    	  invoice.setInvDate(resultSet.getString("invDate"));
 			    	  invoice.setStatus(resultSet.getString("status"));
 			    	  invoice.setUserID(resultSet.getString("Userid"));
+			    	  invoice.setUsername(resultSet.getString("username"));
+			    	  invoice.setFirstName(resultSet.getString("firstName"));
+			    	  invoice.setLastName(resultSet.getString("lastName"));
 			    	  request.setAttribute("invoiceID", invoice.getId());
 			    	  invoices.add(invoice);
 			    }
@@ -332,7 +342,6 @@ public class InvoiceDao {
 
 			  	String[] thisItem;
 			  	int allItemsSubtotal = 0;
-			  	int allItemsTax = 0;
 			  for (int k = 0; k < lineItemArray.size(); k++) {
 				  thisItem = lineItemArray.get(k);
 				  switch(k) {

@@ -4,11 +4,11 @@
 		  <div class="form-group">
 		  	<h3>Member Login</h3>
 		    <label for="inptUsername" class="hidden">Username</label>
-		    <input type="text" class="form-control" name="username" id="inptUsername" value="${username}">
+		    <input type="text" class="form-control" name="username" id="inptUsername" value="${username}" placeholder="username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'username'">
 		  </div>
 		  <div class="form-group">
 		    <label for="inptPassword" class="hidden">Password</label>
-		    <input type="password" class="form-control" name="password" id="inptPassword" value="${password}">
+		    <input type="password" class="form-control" name="password" id="inptPassword" value="${password}" placeholder="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'">
 		  </div>
 		  <div class="checkbox">
 		    <label>

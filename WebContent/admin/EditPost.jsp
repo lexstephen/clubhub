@@ -26,16 +26,16 @@ post.findPost(request, postID);
 			Title
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="text" name="blogTitle" value="${post.title}">
+			<input class="form-control" maxlength="50" type="text" name="blogTitle" value="${post.title}">
 		</div>	
 		<label class="col-sm-2 control-label">
 			Access Level
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="accessLevel">
-				<option value="1" ${accessLevel == 'Public' ? 'selected' : ''}>Public</option>
-				<option value="2" ${accessLevel == 'Members' ? 'selected' : ''}>Members Only</option>
-				<option value="3" ${accessLevel == 'Private' ? 'selected' : ''}>Draft</option>
+			<select class="form-control" name="accessLevel" id="editAccess" ${post.postType == 'Static' ? 'disabled' : ''}>
+				<option value="1" ${post.accessLevel == 'Public' ? 'selected' : ''}>Public</option>
+				<option value="2" ${post.accessLevel == 'Members' ? 'selected' : ''}>Members Only</option>
+				<option value="3" ${post.accessLevel == 'Private' ? 'selected' : ''}>Draft</option>
 <!-- 				<option value="3">Draft</option>
 				<option value="1">Public</option>
 				<option value="2">Members Only</option> -->
@@ -51,24 +51,18 @@ post.findPost(request, postID);
 		</label>
 		<div class="col-sm-3">
 			<select class="form-control" name="pageType" id="editPageType">
-				<!-- <option value="1">Blog Post</option>
-				<option value="2">Web Content</option> -->
-				<option value="1" ${postType == 'Blog' ? 'selected' : ''}>Blog Post</option>
-				<option value="2" ${postType == 'Static' ? 'selected' : '' }>Web Content</option>
+				<option value="1" ${post.postType == 'Blog' ? 'selected' : ''}>Blog Post</option>
+				<option value="2" ${post.postType == 'Static' ? 'selected' : '' }>Web Content</option>
 			</select>
 		</div>
 		<label class="col-sm-2 control-label">
 			Category
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="pageCategory" id="editPageCategory" ${postType == 'Static' ? 'disabled' : ''}>
-				<option value="1" ${pageCategory == 'Announcements' ? 'selected' : ''}>Announcements</option>
-				<option value="2" ${pageCategory == 'Events' ? 'selected' : ''}>Events</option>
-				<option value="3" ${pageCategory == 'Contests' ? 'selected' : ''}>Contests</option>
-				<!-- 
-				<option value="1">Announcements</option>
-				<option value="2">Events</option>
-				<option value="3">Contests</option> -->
+			<select class="form-control" name="pageCategory" id="editPageCategory" ${post.postType == 'Static' ? 'disabled' : ''}>
+				<option value="1" ${post.category == 'Announcements' ? 'selected' : ''}>Announcements</option>
+				<option value="2" ${post.category == 'Events' ? 'selected' : ''}>Events</option>
+				<option value="3" ${post.category == 'Contests' ? 'selected' : ''}>Contests</option>
 			</select>
 		</div>
 		<input type="hidden" name="postID" value="${post.id}">
