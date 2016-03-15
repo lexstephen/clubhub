@@ -15,9 +15,9 @@
 <% GameDao game = new GameDao();
 Object id = session.getAttribute("seasonID");
 String str = id.toString();
-//int seasonID = Integer.parseInt(str);
-//String str = request.getParameter("seasonID");
 int seasonID = Integer.parseInt(str);
+//String str = request.getParameter("seasonID");
+//int seasonID = Integer.parseInt(str);
 System.out.println("The current season ID is: " + seasonID);
 game.findGameSet(request, seasonID);
 %>

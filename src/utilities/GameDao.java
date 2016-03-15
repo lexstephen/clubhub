@@ -37,6 +37,7 @@ public class GameDao {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
+	
 	public GameDao() {
 		try {
 			connect = DatabaseAccess.connectDataBase();
@@ -252,11 +253,16 @@ public class GameDao {
 	
 	public void findOpenGames(HttpServletRequest request, String userID) throws Exception {
 		  //Game game = new Game();
+		List<Game> games = new ArrayList<Game>();
 		  	try{
+		  		
 			    statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT gender FROM ch_user WHERE id= " + userID );
 			    
-			    String userGender
+			    String userGender = resultSet.getString("gender");
+			    
+			    ResultSet resultSet2 = null;
+			    resultSet2 = statement.executeQuery("Select * from ch_slot where gender= \""+ userGender +"\" And status= 1");
 			    
 			    while (resultSet.next()) {
 			    	  game.setWeek(resultSet.getString("week"));
