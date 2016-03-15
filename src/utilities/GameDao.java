@@ -112,25 +112,26 @@ public class GameDao {
 				
 				week++;
 				
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Calendar c = Calendar.getInstance();
-				c.setTime(sdf.parse(date));
-				c.add(Calendar.DATE, 7);  // number of days to add
-				date = sdf.format(c.getTime()); 
-				
-				
 				PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_game values (default, ?, ?, ?)");
 				preparedStatement.setInt(1, week);	//week of game
 				preparedStatement.setString(2, date); // date of game
 				preparedStatement.setString(3, seasonID);
 				preparedStatement.executeUpdate();
 				
-				PreparedStatement preparedStatement2 = connect.prepareStatement("insert into ch_slot values (default, ?, ?, ?, ?)");
+				PreparedStatement preparedStatement2 = connect.prepareStatement("insert into ch_slot values (default, ?, ?, ?, ?, ?)");
 				preparedStatement2.setInt(1, dayOfWeek );	//week of game
 				preparedStatement2.setInt(2, time); // date of game
 				preparedStatement2.setInt(3, week);
 				preparedStatement2.setString(4, gender);
+				preparedStatement2.setInt(5, 1);
 				preparedStatement2.executeUpdate();
+				
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar c = Calendar.getInstance();
+				c.setTime(sdf.parse(date));
+				c.add(Calendar.DATE, 7);  // number of days to add
+				date = sdf.format(c.getTime()); 
 				
 				
 			}while (cnt < games);
@@ -235,6 +236,27 @@ public class GameDao {
 			    statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT * FROM ch_game WHERE id= " + gameID );
 			    
+			    
+			    while (resultSet.next()) {
+			    	  game.setWeek(resultSet.getString("week"));
+			    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
+			    	  game.setSeasonId(resultSet.getString("seasonId"));
+			    	  game.setId(resultSet.getString("id"));
+			    	  
+			    	  
+			}} catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("game", game);
+	} 
+	
+	public void findOpenGames(HttpServletRequest request, String userID) throws Exception {
+		  //Game game = new Game();
+		  	try{
+			    statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT gender FROM ch_user WHERE id= " + userID );
+			    
+			    String userGender
 			    
 			    while (resultSet.next()) {
 			    	  game.setWeek(resultSet.getString("week"));

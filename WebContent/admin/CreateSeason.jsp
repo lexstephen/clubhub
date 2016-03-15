@@ -42,16 +42,16 @@
 		<div class="col-sm-3">
 
 				<input type="radio" name="gender" value="M"> Mens <br>
-				<input type="radio" name="gender" value="W"> Womens <br>
-				<input type="radio" name="gender" value="MW"> Mixed
+				<input type="radio" name="gender" value="F"> Womens <br>
+				<input type="radio" name="gender" value="MF"> Mixed
 		</div>
 		<br><br><br><br>
 		<div class="col-sm-6">
 		
 			<b>Start Date</b></b>
 		<br>
-			<input type="text" data-role="date">(YYYY-MM-DD)
-			<%--Insert a calender here --%>
+			<input type="text" name="theDate"><p class="help-block">yyyy-mm-dd</p>
+			
 		</div>
 		<br><br><br>
 		<div class="col-sm-6">
