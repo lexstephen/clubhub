@@ -13,14 +13,14 @@
 
 <% PostDao post = new PostDao();
 post.findPost(request, request.getParameter("postID"));
-request.setAttribute("thisPage", request.getParameter("blogTitle")); %>
+request.setAttribute("thisPage", request.getAttribute("postTitle")); %>
 
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
 	<div class="row">
 		<div class="col-xs-12">
 			<h1>${post.title}</h1>
-			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on Sept 7, 2015. Access level: ${post.accessLevel}</span>
+			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on ${post.postDate}. Access level: ${post.accessLevel}</span>
 			<p>"${post.content}"</p>
 				<span class="expand">
 				<c:if test="${(isAdmin == true)}">

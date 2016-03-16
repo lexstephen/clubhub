@@ -8,7 +8,9 @@
 
 <% request.setAttribute("thisPage", request.getAttribute("postTitle")); %>
 <%@ include file="/WEB-INF/header_public.jsp"%>
-<h1>${post.title}</h1>
+<h2>${post.title}</h2>
 <br><br>
 ${post.content}
+<br><br>
+
 <%@ include file="/WEB-INF/footer_public.jsp" %>

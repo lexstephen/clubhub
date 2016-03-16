@@ -10,21 +10,14 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
-   
-<%@ page import="utilities.InvoiceDao"%>
-<%@ page import="utilities.UserDao"%>
-<%-- page import="utilities.PreferenceDao"--%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="/WEB-INF/header_backend.jsp"%>
 <% 
 InvoiceDao invoice = new InvoiceDao();
 UserDao user = new UserDao();
 invoice.findInvoice(request, request.getParameter("invoiceID"));
 %>
-<% // PreferenceDao preference = new PreferenceDao(); %>
-<% // preference.taxRate(request); %>
-<% request.setAttribute("tax_rate", "0.13"); %>
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="/WEB-INF/header_backend.jsp"%>
+<% preference.taxRate(request); %>
 ${errorString }
 <ul>
 <c:if test="${!empty errorInvDate}"><li>${ errorInvDate }</li></c:if>
@@ -269,7 +262,7 @@ ${errorString }
 	</form>
 	
 				<script type="text/javascript">
-				$(".qty").on('input', function () {
+				/* $(".qty").on('input', function () {
 				    var self = $(this);
 				    // var unitVal = self.next().val();
 				    //var unitVal = self.parent().next().val();
@@ -295,7 +288,7 @@ ${errorString }
 				    });
 				    $(".result").val(total);
 				   	fnFinalTotal();
-				}
+				} */
 	
 				function fnAlltax(){
 				  	var total=0;
@@ -307,7 +300,7 @@ ${errorString }
 				    $(".taxes").val(total);
 				   	fnFinalTotal();
 				}
-	
+	/*
 				function fnFinalTotal(addThis){
 				  	var subtotal=$(".result").val();		
 				  	var tax=$(".taxes").val();					
@@ -315,7 +308,7 @@ ${errorString }
 				  	var total = parseFloat(subtotal) + parseFloat(tax);
 				  	
 				    $(".finalresult").val(total);
-				}
+				} */
 	
 				
 				var lineItems = new Array();
@@ -333,7 +326,7 @@ ${errorString }
 
 				
 				
-				$(document).ready(function(){
+				/* $(document).ready(function(){
 				    $("select[name='charge01']").change(function(){
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
@@ -390,6 +383,6 @@ ${errorString }
 				            }
 				        });
 				    }).change();
-				});
+				}); */
 				</script>
 <%@ include file="/WEB-INF/footer_backend.jsp" %>

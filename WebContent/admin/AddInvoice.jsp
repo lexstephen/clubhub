@@ -12,11 +12,10 @@
    pageEncoding="ISO-8859-1"%>
    
 <%@ page import="utilities.InvoiceDao"%>
-<%-- page import="utilities.PreferenceDao"--%>
+<%@ page import="utilities.PreferenceDao"%>
 <% InvoiceDao invoice = new InvoiceDao(); %>
-<% // PreferenceDao preference = new PreferenceDao(); %>
-<% // preference.taxRate(request); %>
-<% request.setAttribute("tax_rate", "0.13"); %>
+<% PreferenceDao preference2 = new PreferenceDao(); %>
+<% preference2.taxRate(request); %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
@@ -252,13 +251,10 @@ ${errorString }
 	lineItemObj.cost = ${lineitem.cost}; 
 	lineItems.push(lineItemObj);
 </c:forEach> 
-
 lineItemObj = new Object();
 lineItemObj.id = '---'; 
 lineItemObj.cost = 0; 
 lineItems.push(lineItemObj);
-
-
 function fnAlltax(){
   	var total=0;
 	var tax_rate = ${tax_rate };
