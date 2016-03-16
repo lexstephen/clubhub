@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import model.Game;
 import model.Post;
 import model.Season;
+import model.Slot;
 import model.User;
 import utilities.DatabaseAccess;
 
@@ -239,6 +240,7 @@ public class GameDao {
 			    
 			    
 			    while (resultSet.next()) {
+			    	Slot slot = new Slot();
 			    	  game.setWeek(resultSet.getString("week"));
 			    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
 			    	  game.setSeasonId(resultSet.getString("seasonId"));
@@ -265,7 +267,7 @@ public class GameDao {
 			    resultSet2 = statement.executeQuery("Select * from ch_slot where gender= \""+ userGender +"\" And status= 1");
 			    
 			    while (resultSet.next()) {
-			    	  game.setWeek(resultSet.getString("week"));
+			    	  .setWeek(resultSet.getString("week"));
 			    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
 			    	  game.setSeasonId(resultSet.getString("seasonId"));
 			    	  game.setId(resultSet.getString("id"));
