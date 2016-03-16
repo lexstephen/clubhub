@@ -7,8 +7,24 @@ package model;
 * Description: Slot model
 ****************************************************************************************************/
 public class Slot {
-	private String id, dayOfWeek, week, gender;
+	private String id, dayOfWeek, week, gender, players, scheduledDate;
 	private int time, status;
+	
+	public String getPlayers(){
+		return players;
+	}
+	
+	public void setPlayers(String players){
+		this.players = players;
+	}
+	
+	public String getscheduledDate(){
+		return scheduledDate;
+	}
+	
+	public void setScheduledDate(String scheduledDate){
+		this.scheduledDate = scheduledDate;
+	}
 	
 	public String getDayOfWeek(){
 		return dayOfWeek;

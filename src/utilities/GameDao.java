@@ -120,12 +120,14 @@ public class GameDao {
 				preparedStatement.setString(3, seasonID);
 				preparedStatement.executeUpdate();
 				
-				PreparedStatement preparedStatement2 = connect.prepareStatement("insert into ch_slot values (default, ?, ?, ?, ?, ?)");
+				PreparedStatement preparedStatement2 = connect.prepareStatement("insert into ch_slot values (default, ?, ?, ?, ?, ?, ?, null)");
 				preparedStatement2.setInt(1, dayOfWeek );	//week of game
 				preparedStatement2.setInt(2, time); // date of game
 				preparedStatement2.setInt(3, week);
 				preparedStatement2.setString(4, gender);
 				preparedStatement2.setInt(5, 1);
+				preparedStatement2.setString(6, date);
+				//preparedStatement2.setString(7, null);
 				preparedStatement2.executeUpdate();
 				
 				
@@ -240,11 +242,11 @@ public class GameDao {
 			    
 			    
 			    while (resultSet.next()) {
-			    	Slot slot = new Slot();
 			    	  game.setWeek(resultSet.getString("week"));
 			    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
 			    	  game.setSeasonId(resultSet.getString("seasonId"));
 			    	  game.setId(resultSet.getString("id"));
+			    	  
 			    	  
 			    	  
 			}} catch (SQLException e) {
@@ -253,30 +255,33 @@ public class GameDao {
 		  	request.setAttribute("game", game);
 	} 
 	
-	public void findOpenGames(HttpServletRequest request, String userID) throws Exception {
+	public void findOpenGameSlots(HttpServletRequest request, int userID) throws Exception {
 		  //Game game = new Game();
-		List<Game> games = new ArrayList<Game>();
+		List<Slot> slots = new ArrayList<Slot>();
 		  	try{
 		  		
 			    statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT gender FROM ch_user WHERE id= " + userID );
-			    
+			    resultSet = statement.executeQuery("SELECT * FROM ch_user WHERE id= " + userID );
+			    //String userGender = null;
+			    resultSet.next();
 			    String userGender = resultSet.getString("gender");
 			    
 			    ResultSet resultSet2 = null;
 			    resultSet2 = statement.executeQuery("Select * from ch_slot where gender= \""+ userGender +"\" And status= 1");
 			    
-			    while (resultSet.next()) {
-			    	  .setWeek(resultSet.getString("week"));
-			    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
-			    	  game.setSeasonId(resultSet.getString("seasonId"));
-			    	  game.setId(resultSet.getString("id"));
-			    	  
-			    	  
+			    while (resultSet2.next()) {
+			    	Slot slot = new Slot();
+			    	slot.setDayOfWeek(resultSet2.getString("dayOfWeek"));
+			    	slot.setTime(resultSet2.getInt("time"));
+			    	slot.setScheduledDate(resultSet2.getString("scheduledDate"));
+			    	     	  
+			    	request.setAttribute("slotID", slot.getId());
+			    	  slots.add(slot);
+			    	
 			}} catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("game", game);
+		  	request.setAttribute("slots", slots);
 	} 
 	/*
 	public void editSeason(HttpServletRequest request, HttpServletResponse response, String _seasonID) throws Exception {
