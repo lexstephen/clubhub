@@ -19,7 +19,7 @@
 			Title
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="text" name="blogTitle" value="${blogTitle}">
+			<input class="form-control" type="text" maxlength="50" name="blogTitle" value="${blogTitle}">
 		</div>	
 		<label class="col-sm-2 control-label">
 			Access Level
@@ -40,7 +40,7 @@
 			Page Type
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="pageType">
+			<select class="form-control" name="pageType" id="editPageType">
 				<option value="1">Blog Post</option>
 				<option value="2">Web Content</option>
 			</select>
@@ -49,7 +49,7 @@
 			Category
 		</label>
 		<div class="col-sm-3">
-			<select class="form-control" name="pageCategory">
+			<select class="form-control" name="pageCategory" id="editPageCategory">
 				<option value="1">Announcements</option>
 				<option value="2">Events</option>
 				<option value="3">Contests</option>

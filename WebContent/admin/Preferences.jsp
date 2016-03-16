@@ -14,7 +14,7 @@
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
 <p>Use this section to customize your ClubHub installation to suit your club.</p>
-<form action="/clubhub/PreferenceController" method="post" class="form" role="form">
+<form action="/clubhub/PreferenceController" method="post" class="form" role="form" enctype="multipart/form-data">
 <div class="form-group preferences">
 
 	<div class="row">
@@ -43,8 +43,8 @@
 		<div class="col-sm-9">
 			<div class="form-group <c:if test="${!empty errorCountry}">has-error</c:if>">
 				<select name="country" class="form-control" id="inptCountry">
-				  <option ${user.country == 'Canada' ? 'selected' : ''}>Canada</option>
-				  <option ${user.country == 'United States of America' ? 'selected' : ''}>United States of America</option>
+				  <option ${preference.country == 'Canada' ? 'selected' : ''}>Canada</option>
+				  <option ${preference.country == 'United States of America' ? 'selected' : ''}>United States of America</option>
 				</select>
 		  	</div>
 		</div>	
@@ -70,12 +70,13 @@
 				</label>
 				<div class="col-sm-8">
 						<div class="form-group <c:if test="${!empty errorCountry}">has-error</c:if>">
-							<select name="country" class="form-control" id="inptCountry">
-							  <option ${user.country == 'Canada' ? 'selected' : ''}>blues</option>
-							  <option ${user.country == 'United States of America' ? 'selected' : ''}>reds</option>
+							<select name="Colour_Schemeid" class="form-control" id="inptCountry">
+							  <option ${preference.colour_schemeid == '1' ? 'selected' : ''}>1</option>
+							  <option ${preference.colour_schemeid == '2' ? 'selected' : ''}>2</option>
 							</select>
 					  	</div>
 				</div>
+				<!--  
 				<label class="col-sm-4 control-label">
 					Customized Colour Scheme
 				</label>
@@ -105,7 +106,7 @@
 							<input class="form-control" type="text" name="light_colour" placeholder="#FFFFFF">
 						</div>	
 					</div>
-				</div>	
+				</div>	-->
 			</div>
 		</div>
 	</div>
@@ -119,7 +120,7 @@
 			<input class="form-control" type="file" name="image_logo">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
 	
@@ -131,7 +132,7 @@
 			<input class="form-control" type="file" name="image_small_logo">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
 	
@@ -144,7 +145,7 @@
 			<input class="form-control" type="file" name="featured_image_01">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
 	
@@ -156,7 +157,7 @@
 			<input class="form-control" type="file" name="featured_image_02">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
 	
@@ -168,7 +169,7 @@
 			<input class="form-control" type="file" name="featured_image_03">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
 	
@@ -180,7 +181,7 @@
 			<input class="form-control" type="file" name="featured_image_04">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
 	
@@ -192,7 +193,7 @@
 			<input class="form-control" type="file" name="featured_image_05">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
 	
@@ -204,7 +205,7 @@
 			<input class="form-control" type="file" name="featured_image_06">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
 	
@@ -216,7 +217,7 @@
 			<input class="form-control" type="file" name="featured_image_07">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
 	
@@ -228,7 +229,7 @@
 			<input class="form-control" type="file" name="featured_image_08">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
 	
@@ -240,7 +241,7 @@
 			<input class="form-control" type="file" name="featured_image_09">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
 	
@@ -252,11 +253,28 @@
 			<input class="form-control" type="file" name="featured_image_10">
 		</div>	
 		<div class="col-sm-2">
-			<img src="/clubhub/images/rcc.png">
+			<!-- <img src="/clubhub/images/rcc.png"> -->
 		</div>	
 	</div>
+	
+			<div class="row">
+			<div class="col-xs-3 control-label">
+			    	<label for="inptStatus">Status</label>			  
+			</div>
+			<div class="col-xs-9">
+				<div class="radio">
+			    	<label class="checkbox-inline">
+			      		<input type="radio" name="status" id="inptStatusActive" checked value="1" ${status == '1' ? 'checked' : ''}> Active
+			      	</label>
+			    	<label class="checkbox-inline">
+			      		<input type="radio" name="status" id="inptStatusInactive" value="0"  ${status == '0' ? 'checked' : ''}> Inactive
+			      	</label>
+			  	</div>
+			</div>
+		</div>
 
-	<button class="btn btn-info" type="submit" value="add" name="option">Submit</button>
+					<input type="hidden" name="option" value="add">
+					<button class="btn btn-info" type="submit" value="add" name="option">Submit</button>
 </div>
 </form>		
 			 

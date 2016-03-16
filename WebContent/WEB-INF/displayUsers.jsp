@@ -1,26 +1,33 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%-- 
 	Project: ClubHub Content and User Management System 
 	Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
 	Student Number: 100563954, 100911472, 100898311
 	Date: Feb 03, 2016
-	Description: displayUsers.jsp - HTML formatting for Main.jsp
+	Description: displayUsers.jsp - HTML formatting for BatchUsers.jsp
  --%>
-     
-	<div class="row">
-		<div class="col-xs-12 col-md-2">
-			<b>${user.username}</b>
-		</div>
-		<div class="col-xs-12 col-md-2">
-			<span class="userMeta">User Type: ${user.userStatus}</span>
-		</div>
-		<div class="col-xs-12 col-md-2">
-			<p>${user.firstName}
-		</div>
-		<div class="col-xs-12 col-md-2"> ${user.lastName}</p>
-				<span class="expand">
+
+<tr>
+ 	<td class="col-xs-12 col-md-1 checkbox">
+			<c:choose>
+				<c:when test="${(isAdmin == true)}">
+					<input type="checkbox" name="userSelected" value="${user.userid}">
+				</c:when>
+			</c:choose>
+	</td>
+	<td class="col-xs-12 col-md-3 control-label">${user.username}</td>
+	<td class="col-xs-12 col-md-2">${user.userStatus}</td>
+	<td class="col-xs-12 col-md-2">${user.firstName}</td>
+	<td class="col-xs-12 col-md-2">${user.lastName}</td>
+	<td class="col-xs-12 col-md-2">
+		<span class="expand">
+			<c:choose>
+				<c:when test="${(isAdmin == true) || (user.userid == loggedInUserID)}">
 					<a href="/clubhub/admin/EditProfile.jsp?userID=${user.userid}" class="btn btn-primary btn-xs">Edit</a>
-					<a href="/clubhub/Profile.jsp?userID=${user.userid}" class="btn btn-primary btn-xs">More</a>
-				</span>
-			<hr>
-		</div>
-	</div>
+				</c:when>
+			</c:choose>
+			<a href="/clubhub/Profile.jsp?userID=${user.userid}" class="btn btn-primary btn-xs">More</a>
+		</span>
+	</td>
+</tr>

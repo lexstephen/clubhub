@@ -6,32 +6,38 @@
 	Description: Main.jsp
  --%>
  
- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.List" %>
 <%@ page import="utilities.PostDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<% request.setAttribute("thisPage", "Rivendell Curling Club"); %>
+
+<%	
+	PreferenceDao prefTitle = new PreferenceDao();
+	prefTitle.showPrefs(request);
+	String thisPage = (String)request.getAttribute("clubName");
+	request.setAttribute("thisPage", thisPage);
+%>
+
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
-	
 	<%	PostDao post = new PostDao(); %>
+
+	<% post.getLastBlogs(request, response); %>
+	<c:forEach items="${blogs}" var="blog">
+		<%@ include file="/WEB-INF/displayPosts.jsp" %>					
+	</c:forEach>
 	
-	<!-- findPost requires blog id to be passed -->
-	<!--  we could write something that is like findLast5Posts?? -ADS -->
-	<% post.findPost(request, "1"); %>
-	<%@ include file="/WEB-INF/displayPosts.jsp" %>
-	
-	<% post.findPost(request, "2"); %>
-	<%@ include file="/WEB-INF/displayPosts.jsp" %>
-	
-	<% post.findPost(request, "3"); %>
-	<%@ include file="/WEB-INF/displayPosts.jsp" %>
-	
-	<span class="pagination">
-		<a href="?posts=-5">&lt;&lt;</a> | <a href="?posts=-1">&lt;</a> | <a href="?posts=1">&gt;</a> | <a href="?posts=5">&gt;&gt;</a>
-	</span>
+	<form action="/clubhub/PostController" method="post">
+		<span class="pagination">
+			<button class="btn btn-primary btn-xs" name="option" value="first">&lt;&lt;</button>
+			<button class="btn btn-primary btn-xs" name="option" value="previous">&lt;</button>
+			<button class="btn btn-primary btn-xs" name="option" value="next">&gt;</button>
+			<button class="btn btn-primary btn-xs" name="option" value="last">&gt;&gt;</button>
+		</span>
+	</form>
 	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
-<%@ include file="/WEB-INF/footer_public.jsp" %>
+	<%@ include file="/WEB-INF/footer_public.jsp" %>

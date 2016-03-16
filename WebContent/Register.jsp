@@ -14,10 +14,9 @@
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
-	
-	<h1>Join the Rivendell Curling Club</h1>
-	
-	<form action="/clubhub/UserController" method="post" class="form" role="form">
+	${errorString }
+
+	<form action="/clubhub/UserController" method="post" class="form" role="form" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorFirstName}">has-error</c:if>">
@@ -115,15 +114,6 @@
 			  	</div>
 			</div>
 			<div class="col-xs-6">
-				<div class="form-group <c:if test="${!empty errorPostalCode}">has-error</c:if>">
-			    	<label for="inptPostalCode">Postal Code</label>
-			    	<input type="text" name="postalCode" class="form-control" id="inptPostalCode" value="${postalCode}">
-			  	</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorCountry}">has-error</c:if>">
 			    	<label for="inptCountry">Country</label>
 					<select name="country" class="form-control" id="inptCountry">
@@ -132,9 +122,17 @@
 					</select>
 			  	</div>
 			</div>
+		</div>
+		
+		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorProvince}">has-error</c:if>">
-			    	<label for="inptProvince">Province / State</label>
+					<label for="inptProvince" id="lblProvince" ${country == 'United States of America' ? ' class="hiddenest"' : ''}>
+						Province
+					</label>
+					<label for="inptState" id="lblState" ${country == 'Canada' ? ' class="hiddenest"' : ''} ${country == null ? ' class="hiddenest"' : ''}>
+						State
+					</label>
 					<select name="province" class="form-control ${user.country == 'United States of America' ? ' hiddenest' : ''}" id="inptProvince">
 					  <option ${province == 'AB' ? 'selected' : ''}>AB</option>
 					  <option ${province == 'BC' ? 'selected' : ''}>BC</option>
@@ -151,58 +149,80 @@
 					  <option ${province == 'YT' ? 'selected' : ''}>YT</option>
 					</select>
 					<select name="state" class="form-control ${user.country == 'Canada' ? ' hiddenest' : ''} ${user.country == null ? ' hiddenest' : ''}" id="inptState">
-					  <option ${state == 'AL' ? 'selected' : ''}>AL</option>
-					  <option ${state == 'AK' ? 'selected' : ''}>AK</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>AZ</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>AR</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>CA</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>CO</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>CT</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>DE</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>FL</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>GA</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>HI</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>ID</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>IL</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>IN</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>IA</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>KS</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>KY</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>LA</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>ME</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>MD</option>
-					  <option ${state == 'AZ' ? 'selected' : ''}>MA</option>					  <option ${state == 'AZ' ? 'selected' : ''}>AZ</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>MI</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>MN</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>MS</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>MO</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>MT</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NE</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NV</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NH</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NJ</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NM</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NY</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>NC</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>ND</option>
-					  					  <option ${state == 'AZ' ? 'selected' : ''}>OH</option>
-					  
+					  <option ${province == 'AK' ? 'selected' : ''}>AK</option>
+					  <option ${province == 'AL' ? 'selected' : ''}>AL</option>
+					  <option ${province == 'AR' ? 'selected' : ''}>AR</option>
+					  <option ${province == 'AZ' ? 'selected' : ''}>AZ</option>
+					  <option ${province == 'CA' ? 'selected' : ''}>CA</option>
+					  <option ${province == 'CO' ? 'selected' : ''}>CO</option>
+					  <option ${province == 'CT' ? 'selected' : ''}>CT</option>
+					  <option ${province == 'DC' ? 'selected' : ''}>DC</option>
+					  <option ${province == 'DE' ? 'selected' : ''}>DE</option>
+					  <option ${province == 'FL' ? 'selected' : ''}>FL</option>
+					  <option ${province == 'GA' ? 'selected' : ''}>GA</option>
+					  <option ${province == 'HI' ? 'selected' : ''}>HI</option>
+					  <option ${province == 'IA' ? 'selected' : ''}>IA</option>
+					  <option ${province == 'ID' ? 'selected' : ''}>ID</option>
+					  <option ${province == 'IL' ? 'selected' : ''}>IL</option>
+					  <option ${province == 'IN' ? 'selected' : ''}>IN</option>
+					  <option ${province == 'KS' ? 'selected' : ''}>KS</option>
+					  <option ${province == 'KY' ? 'selected' : ''}>KY</option>
+					  <option ${province == 'LA' ? 'selected' : ''}>LA</option>
+					  <option ${province == 'MA' ? 'selected' : ''}>MA</option>
+					  <option ${province == 'MD' ? 'selected' : ''}>MD</option>		
+					  <option ${province == 'ME' ? 'selected' : ''}>ME</option>
+  					  <option ${province == 'MI' ? 'selected' : ''}>MI</option>
+  					  <option ${province == 'MN' ? 'selected' : ''}>MN</option>
+  					  <option ${province == 'MO' ? 'selected' : ''}>MO</option>
+  					  <option ${province == 'MS' ? 'selected' : ''}>MS</option>
+  					  <option ${province == 'MT' ? 'selected' : ''}>MT</option>
+  					  <option ${province == 'NC' ? 'selected' : ''}>NC</option>
+  					  <option ${province == 'ND' ? 'selected' : ''}>ND</option>
+  					  <option ${province == 'NE' ? 'selected' : ''}>NE</option>
+  					  <option ${province == 'NH' ? 'selected' : ''}>NH</option>
+  					  <option ${province == 'NJ' ? 'selected' : ''}>NJ</option>
+  					  <option ${province == 'NM' ? 'selected' : ''}>NM</option>
+  					  <option ${province == 'NV' ? 'selected' : ''}>NV</option>
+  					  <option ${province == 'NY' ? 'selected' : ''}>NY</option>
+  					  <option ${province == 'OH' ? 'selected' : ''}>OH</option>
+  					  <option ${province == 'OK' ? 'selected' : ''}>OK</option>
+  					  <option ${province == 'OR' ? 'selected' : ''}>OR</option>
+  					  <option ${province == 'PA' ? 'selected' : ''}>PA</option>
+  					  <option ${province == 'RI' ? 'selected' : ''}>RI</option>
+  					  <option ${province == 'SC' ? 'selected' : ''}>SC</option>
+  					  <option ${province == 'SD' ? 'selected' : ''}>SD</option>
+  					  <option ${province == 'TN' ? 'selected' : ''}>TN</option>
+  					  <option ${province == 'TX' ? 'selected' : ''}>TX</option>
+  					  <option ${province == 'UT' ? 'selected' : ''}>UT</option>
+  					  <option ${province == 'VA' ? 'selected' : ''}>VA</option>
+  					  <option ${province == 'VT' ? 'selected' : ''}>VT</option>
+  					  <option ${province == 'WA' ? 'selected' : ''}>WA</option>
+  					  <option ${province == 'WI' ? 'selected' : ''}>WI</option>
+  					  <option ${province == 'WV' ? 'selected' : ''}>WV</option>
+  					  <option ${province == 'WY' ? 'selected' : ''}>WY</option>
 					</select>
+			  	</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="form-group <c:if test="${!empty errorPostalCode}">has-error</c:if>">
+			    	<label for="inptPostalCode" id="lblPostalCode" ${country == 'United States of America' ? ' class="hiddenest"' : ''}>
+						Postal Code
+					</label>
+					<label for="inptProvince" id="lblZipCode" ${country == 'Canada' ? ' class="hiddenest"' : ''} ${country == null ? ' class="hiddenest"' : ''}>
+						Zip Code
+					</label>
+			    	<input type="text" name="postalCode" class="form-control" id="inptPostalCode" value="${postalCode}">
 			  	</div>
 			</div>
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-6">
+			<div class="col-xs-12">
 				<div class="form-group <c:if test="${!empty errorProfilePhoto}">has-error</c:if>">
 			    	<label for="inptProfilePhoto">Profile Photo</label>
 			    	<input type="file" name="profilePhoto" class="form-control" id="inptProfilePhoto">
-	    			<p class="help-block">Upload a square jpg or png.</p>
+	    			<p class="help-block">Upload a square jpg.</p>
 			  	</div>
-			</div>
-			<div class="col-xs-6 pull-right">
-		    	<label>Preview</label>
-				<img src="/clubhub/images/avatar.gif">
 			</div>
 		</div>
 		

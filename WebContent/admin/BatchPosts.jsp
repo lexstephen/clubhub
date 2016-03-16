@@ -17,53 +17,70 @@
 	
 	<%	PostDao post = new PostDao(); %>
 	
-	<% post.listAll(request); %>
-	
-	<!-- This form wont work because there are embedded forms in the included file. I dont know how to work around this.  --> 
+	<% post.listAll(request); %> 
 		
 	<form action="/clubhub/PostController" method="post" class="form" role="form">
-		<c:forEach items="${posts}" var="post">
-			<input type="checkbox" name="postSelected" value="${post.id}">
-			<%@ include file="/WEB-INF/displayEditPosts.jsp" %>			
-		</c:forEach>
+		<table class="table table-hover sortable">
+			<thead>
+				<tr><th class="sorttable_nosort"></th><th class="col-xs-12 col-md-3 control-label">Title</th>
+				<th class="col-xs-12 col-md-2">Category</th>
+				<th class="col-xs-12 col-md-2">Author</th><th class="col-xs-12 col-md-2">Post Type</th><th class="col-xs-12 col-md-3">Access Level</th><th class="sorttable_nosort"></th></tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${posts}" var="post">
+					<%@ include file="/WEB-INF/displayAllPosts.jsp" %>			
+				</c:forEach>
+			</tbody>
+		</table>
 		
-		<label class="col-sm-2 control-label">
-			Access Level
-		</label>
-		<div class="col-sm-3">
-			<select class="form-control" name="accessLevel">
-				<option value="3">Draft</option>
-				<option value="1">Public</option>
-				<option value="2">Members Only</option>
-			</select>
-		</div>
-		<label class="col-sm-2 control-label">
-			Page Type
-		</label>
-		<div class="col-sm-3">
-			<select class="form-control" name="pageType">
-				<option value="1">Blog Post</option>
-				<option value="2">Web Content</option>
-			</select>
-		</div>
-		<label class="col-sm-2 control-label">
-			Category
-		</label>
-		<div class="col-sm-3">
-			<select class="form-control" name="pageCategory">
-				<option value="1">Announcements</option>
-				<option value="2">Events</option>
-				<option value="3">Contests</option>
-			</select>
-		</div>
-		<br><br>
-		<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
-		<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
+		<c:if test="${(isAdmin == true)}">
+			<br><br>
+			
+			<label class="col-sm-1 control-label">
+				Access Level
+			</label>
+			<div class="col-sm-3">
+				<select class="form-control" name="accessLevel">
+					<option value="0">-- no change --</option>
+					<option value="3">Draft</option>
+					<option value="1">Public</option>
+					<option value="2">Members Only</option>
+				</select>
+			</div>
+			<label class="col-sm-1 control-label">
+				Post Type
+			</label>
+			<div class="col-sm-3">
+				<select class="form-control" name="pageType" id="editPageType">
+					<option value="0">-- no change --</option>
+					<option value="1">Blog Post</option>
+					<option value="2">Web Content</option>
+				</select>
+			</div>
+			<label class="col-sm-1 control-label">
+				Category
+			</label>
+			<div class="col-sm-3">
+				<select class="form-control" name="pageCategory" id="editPageCategory">
+					<option value="0">-- no change --</option>
+					<option value="1">Announcements</option>
+					<option value="2">Events</option>
+					<option value="3">Contests</option>
+				</select>
+			</div>
+			<br><br><br><br>
+			<div class="col-sm-3">
+				<button class="btn btn-warning " type="submit" name="option" value="batchEdit">Edit Marked</button>
+			</div>
+			<div class="col-sm-3">
+				<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
+			</div>
+		</c:if>
 	</form>
 	
-	<span class="pagination">
+<!-- 	<span class="pagination">
 		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>
-	</span>
+	</span> -->
 	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 

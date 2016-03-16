@@ -1,4 +1,5 @@
 package model;
+
 /****************************************************************************************************
 * Project: ClubHub
 * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
@@ -7,17 +8,37 @@ package model;
 * Description: Post model
 ****************************************************************************************************/
 public class Post {
-	private String id, title, content, Userid, userFirstName, userLastName, postType, accessLevel, category;
-	//Object comments = null;
-
-/*	public Object getComments() {
-		return comments;
-	}*/
-
-/*	public void setComments(Object comments) {
-		this.comments = comments;
-	}*/
+	private String id, title, content, content_short, Userid, userFirstName, userLastName, postType, accessLevel, category, postDate;
+	private boolean postMatchUser;
 	
+	public String getPostDate() {
+		return postDate;
+	}
+
+	public void setPostDate(String postDate) {
+		this.postDate = postDate;
+	}
+	
+	public void setPostMatchUser(boolean postMatchUser) {
+		this.postMatchUser = postMatchUser;
+	}
+
+	public boolean isPostMatchUser() {
+		return postMatchUser;
+	}
+
+	public boolean postMatchUser(String loggedInId) {
+		return (Userid == loggedInId);
+	}
+
+	public String getContent_short() {
+		int n = 250;
+		content_short = content.substring(0, Math.min(content.length(), n));     // change 20 to something bigger
+		if (content_short.length() > n-3)
+			content_short += "...";
+		return content_short;
+	}
+
 	public String getUsername() {
 		return userFirstName + " " + userLastName;
 	}

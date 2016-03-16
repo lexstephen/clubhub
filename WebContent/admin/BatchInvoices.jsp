@@ -19,52 +19,55 @@
 	
 	<% invoice.listAll(request); %>
 	
-	<!-- This form wont work because there are embedded forms in the included file. I dont know how to work around this.  --> 
-		
-	<form action="/clubhub/InvoiceController" method="invoice" class="form" role="form">
-		<c:forEach items="${invoices}" var="invoice">
-			<input type="checkbox" name="invoiceSelected" value="${invoice.id}">
-			<%@ include file="/WEB-INF/displayEditInvoices.jsp" %>			
-		</c:forEach>
-		
-		<label class="col-sm-2 control-label">
-			Access Level
-		</label>
+
+	<form action="/clubhub/InvoiceController" method="post" class="form" role="form">
+	<div class="row">
+		<div class="col-xs-12">
+			<table class="table table-hover sortable">
+				<thead>
+					<tr>
+						<th class="col-xs-12 col-md-1 sorttable_nosort"></th>
+						<th class="col-xs-12 col-md-3 control-label">Invoice Id</th>
+						<th class="col-xs-12 col-md-2">Invoice Date</th>
+						<th class="col-xs-12 col-md-2">User</th>
+						<th class="col-xs-12 col-md-2">Invoice Status</th>
+						<th class="col-xs-12 col-md-2 sorttable_nosort"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${invoices}" var="invoice">
+						<c:if test="${(isAdmin == true) || (invoice.userID == loggedInUserID)}">
+							<%@ include file="/WEB-INF/displayEditInvoices.jsp" %>
+						</c:if>			
+					</c:forEach>			
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<c:if test="${(isAdmin == true)}">
+	<div class="row">
+		<div class="col-sm-2 control-label">
+			Invoice Status
+		</div>
 		<div class="col-sm-3">
-			<select class="form-control" name="accessLevel">
-				<option value="3">Draft</option>
-				<option value="1">Public</option>
-				<option value="2">Members Only</option>
+			<select class="form-control" name="status">
+				<option value="paid">paid</option>
+				<option value="unpaid">unpaid</option>
 			</select>
 		</div>
-		<label class="col-sm-2 control-label">
-			Page Type
-		</label>
-		<div class="col-sm-3">
-			<select class="form-control" name="pageType">
-				<option value="1">Blog Invoice</option>
-				<option value="2">Web Content</option>
-			</select>
+		<div class="col-sm-4 control-label">
+			<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
+			<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
 		</div>
-		<label class="col-sm-2 control-label">
-			Category
-		</label>
-		<div class="col-sm-3">
-			<select class="form-control" name="pageCategory">
-				<option value="1">Announcements</option>
-				<option value="2">Events</option>
-				<option value="3">Contests</option>
-			</select>
-		</div>
-		<br><br>
-		<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
-		<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
-	</form>
+	</div>
+	</c:if>
 	
 	<span class="pagination">
 		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>
 	</span>
 	
+	</form>
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
 <%@ include file="/WEB-INF/footer_backend.jsp" %>

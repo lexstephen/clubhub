@@ -20,17 +20,14 @@
 	
 	<%	
 		UserDao user = new UserDao();
-		String userID;
+		String userID = null;
 		if (request.getParameter("userID") != null) {
 			userID = request.getParameter("userID");
-		} else {
-			userID = "1";
-		}
-		
+		}		
 		user.findUser(request, userID);
 	%>
 	
-	<form action="/clubhub/UserController" method="post" class="form" role="form">
+	<form action="/clubhub/UserController" method="post" class="form" role="form" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorFirstName}">has-error</c:if>">
@@ -123,7 +120,12 @@
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorPostalCode}">has-error</c:if>">
-			    	<label for="inptPostalCode">Postal Code</label>
+			    	<label for="inptPostalCode" id="lblPostalCode" ${user.country == 'United States of America' ? ' class="hiddenest"' : ''}>
+						Postal Code
+					</label>
+					<label for="inptProvince" id="lblZipCode" ${user.country == 'Canada' ? ' class="hiddenest"' : ''} ${user.country == null ? ' class="hiddenest"' : ''}>
+						Zip Code
+					</label>
 			    	<input type="text" name="postalCode" class="form-control" id="inptPostalCode" value="${user.postalCode}">
 			  	</div>
 			</div>
@@ -141,7 +143,12 @@
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorProvince}">has-error</c:if>">
-			    	<label for="inptProvince">Province / State</label>
+					<label for="inptProvince" id="lblProvince" ${user.country == 'United States of America' ? ' class="hiddenest"' : ''}>
+						Province
+					</label>
+					<label for="inptState" id="lblState" ${user.country == 'Canada' ? ' class="hiddenest"' : ''} ${user.country == null ? ' class="hiddenest"' : ''}>
+						State
+					</label>
 					<select name="province" class="form-control ${user.country == 'United States of America' ? ' hiddenest' : ''}" id="inptProvince">
 					  <option ${user.province == 'AB' ? 'selected' : ''}>AB</option>
 					  <option ${user.province == 'BC' ? 'selected' : ''}>BC</option>
@@ -158,25 +165,69 @@
 					  <option ${user.province == 'YT' ? 'selected' : ''}>YT</option>
 					</select>
 					<select name="state" class="form-control ${user.country == 'Canada' ? ' hiddenest' : ''}" id="inptState">
-					  <option ${user.province == 'AL' ? 'selected' : ''}>AL</option>
 					  <option ${user.province == 'AK' ? 'selected' : ''}>AK</option>
+					  <option ${user.province == 'AL' ? 'selected' : ''}>AL</option>
+					  <option ${user.province == 'AR' ? 'selected' : ''}>AR</option>
 					  <option ${user.province == 'AZ' ? 'selected' : ''}>AZ</option>
+					  <option ${user.province == 'CA' ? 'selected' : ''}>CA</option>
+					  <option ${user.province == 'CO' ? 'selected' : ''}>CO</option>
+					  <option ${user.province == 'CT' ? 'selected' : ''}>CT</option>
+					  <option ${user.province == 'DC' ? 'selected' : ''}>DC</option>
+					  <option ${user.province == 'DE' ? 'selected' : ''}>DE</option>
+					  <option ${user.province == 'FL' ? 'selected' : ''}>FL</option>
+					  <option ${user.province == 'GA' ? 'selected' : ''}>GA</option>
+					  <option ${user.province == 'HI' ? 'selected' : ''}>HI</option>
+					  <option ${user.province == 'IA' ? 'selected' : ''}>IA</option>
+					  <option ${user.province == 'ID' ? 'selected' : ''}>ID</option>
+					  <option ${user.province == 'IL' ? 'selected' : ''}>IL</option>
+					  <option ${user.province == 'IN' ? 'selected' : ''}>IN</option>
+					  <option ${user.province == 'KS' ? 'selected' : ''}>KS</option>
+					  <option ${user.province == 'KY' ? 'selected' : ''}>KY</option>
+					  <option ${user.province == 'LA' ? 'selected' : ''}>LA</option>
+					  <option ${user.province == 'MA' ? 'selected' : ''}>MA</option>
+					  <option ${user.province == 'MD' ? 'selected' : ''}>MD</option>		
+					  <option ${user.province == 'ME' ? 'selected' : ''}>ME</option>
+  					  <option ${user.province == 'MI' ? 'selected' : ''}>MI</option>
+  					  <option ${user.province == 'MN' ? 'selected' : ''}>MN</option>
+  					  <option ${user.province == 'MO' ? 'selected' : ''}>MO</option>
+  					  <option ${user.province == 'MS' ? 'selected' : ''}>MS</option>
+  					  <option ${user.province == 'MT' ? 'selected' : ''}>MT</option>
+  					  <option ${user.province == 'NC' ? 'selected' : ''}>NC</option>
+  					  <option ${user.province == 'ND' ? 'selected' : ''}>ND</option>
+  					  <option ${user.province == 'NE' ? 'selected' : ''}>NE</option>
+  					  <option ${user.province == 'NH' ? 'selected' : ''}>NH</option>
+  					  <option ${user.province == 'NJ' ? 'selected' : ''}>NJ</option>
+  					  <option ${user.province == 'NM' ? 'selected' : ''}>NM</option>
+  					  <option ${user.province == 'NV' ? 'selected' : ''}>NV</option>
+  					  <option ${user.province == 'NY' ? 'selected' : ''}>NY</option>
+  					  <option ${user.province == 'OH' ? 'selected' : ''}>OH</option>
+  					  <option ${user.province == 'OK' ? 'selected' : ''}>OK</option>
+  					  <option ${user.province == 'OR' ? 'selected' : ''}>OR</option>
+  					  <option ${user.province == 'PA' ? 'selected' : ''}>PA</option>
+  					  <option ${user.province == 'RI' ? 'selected' : ''}>RI</option>
+  					  <option ${user.province == 'SC' ? 'selected' : ''}>SC</option>
+  					  <option ${user.province == 'SD' ? 'selected' : ''}>SD</option>
+  					  <option ${user.province == 'TN' ? 'selected' : ''}>TN</option>
+  					  <option ${user.province == 'TX' ? 'selected' : ''}>TX</option>
+  					  <option ${user.province == 'UT' ? 'selected' : ''}>UT</option>
+  					  <option ${user.province == 'VA' ? 'selected' : ''}>VA</option>
+  					  <option ${user.province == 'VT' ? 'selected' : ''}>VT</option>
+  					  <option ${user.province == 'WA' ? 'selected' : ''}>WA</option>
+  					  <option ${user.province == 'WI' ? 'selected' : ''}>WI</option>
+  					  <option ${user.province == 'WV' ? 'selected' : ''}>WV</option>
+  					  <option ${user.province == 'WY' ? 'selected' : ''}>WY</option>
 					</select>
 			  	</div>
 			</div>
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-6">
+			<div class="col-xs-12">
 				<div class="form-group <c:if test="${!empty errorProfilePhoto}">has-error</c:if>">
 			    	<label for="inptProfilePhoto">Profile Photo</label>
 			    	<input type="file" name="profilePhoto" class="form-control" id="inptProfilePhoto">
-	    			<p class="help-block">Upload a square jpg or png.</p>
+	    			<p class="help-block">Upload a square jpg.</p>
 			  	</div>
-			</div>
-			<div class="col-xs-6 pull-right">
-		    	<label>Preview</label>
-				<img src="/clubhub/images/avatar.gif">
 			</div>
 		</div>
 		
@@ -195,7 +246,7 @@
 			</div>
 		</div>
 		
-		
+	<c:if test="${isAdmin == true}">
 		<div class="row bg-info">
 			<div class="col-xs-12">
 				<h3>Administrator Options</h3>
@@ -216,6 +267,7 @@
 
 			</div>
 		</div>
+		</c:if>
 		
 		<div class="row">
 			<div class="col-xs-12">

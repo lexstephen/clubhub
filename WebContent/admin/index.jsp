@@ -13,9 +13,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-admin gets: upcoming games with conflicts, recent games, new members, last few blog posts
-<br><br>
-member gets: upcoming games they are scheduled in, last four games they played, next few games - all players, last few games - all player
-
+	<p class="memberMeta">
+		You are now logged in as ${loggedInUserFullName } 
+		<c:if test="${isAdmin == true}">
+			[Administrator Access]
+		</c:if>
+	</p>
+	
+	<c:if test="${isAdmin == true}">
+		<%@ include file="/WEB-INF/dashboardAdmin.jsp"%>
+	</c:if>
+	<c:if test="${isAdmin == false}">
+		<%@ include file="/WEB-INF/dashboardUser.jsp"%>
+	</c:if>
 
 <%@ include file="/WEB-INF/footer_backend.jsp" %>

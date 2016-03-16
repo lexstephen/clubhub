@@ -31,17 +31,15 @@ public class PostController extends HttpServlet {
 		String option = request.getParameter("option");
 		PostDao dao = new PostDao();
 		String address = "";
-		//
-		String errorChecker = "n/a";
+		String errorChecker = "errorChecker is null";
 		
-		System.out.println(option);
+		System.out.println("option: " + option);
 		
 	    try {
 	    	switch(option) {
 		    	case "add":
 		    		if (ValidationUtilities.isValidPost(request)) {
 		    			dao.addToDatabase(request, response);
-		    			//
 		    			errorChecker = "Post successful";
 		    			address = "admin/BatchPosts.jsp";
 		    		} else {
@@ -52,16 +50,12 @@ public class PostController extends HttpServlet {
 	    		break;
 		    	case "edit":
 		    		if (ValidationUtilities.isValidPost(request)) {
-		    			String postID = request.getParameter("postID");
-		    			dao.editPost(request, response, postID);
-		    			//
+		    			dao.editPost(request, response);
 		    			errorChecker = "Post edited";
-		    			address = "/Main.jsp";
 		    		} else {
-		    			//
 			    		errorChecker = "Post failed to edit";
-		    			address = "/Main.jsp";
 		    		}
+		    		address = "admin/EditPost.jsp?postID=" + request.getParameter("postID");
 	    		break;
 		    	case "batchEdit":
 		    		try {
@@ -69,30 +63,52 @@ public class PostController extends HttpServlet {
 		    			errorChecker = "Posts edited";
 		    		} catch (Exception e){
 		    			e.printStackTrace();
+		    			errorChecker = "Posts fail";
 		    		}
 		    		address = "admin/BatchPosts.jsp";
 	    		break;
 		    	case "delete":
 		    		try {
-		    			String postID = request.getParameter("postID");
-		    			System.out.println("Delete postID = " + postID);
-						dao.deletePost(request, response, postID);
-						//
+						dao.deletePost(request, response);
 						errorChecker = "Post deleted";
 					} catch (Exception e) {
 						e.printStackTrace();
+						errorChecker = "Delete fail";
 					}
 		    		address = "admin/BatchPosts.jsp";
 	    		break;
 		    	case "batchDelete":
 		    		try {
 						dao.batchDelete(request, response);
-						//
 						errorChecker = "Posts deleted";
 					} catch (Exception e) {
 						e.printStackTrace();
+						errorChecker = "Deletes fail";
 					}
 		    		address = "admin/BatchPosts.jsp";
+	    		break;
+		    	case "first":
+		    	case "previous":
+		    	case "next":
+		    	case "last":		    			
+		    		try {
+		    			request.setAttribute("pageNav", option);
+		    			errorChecker = "Navigating";
+		    		} catch (Exception e) {
+		    			e.printStackTrace();
+		    			errorChecker = "ah nah";
+		    		}
+		    		address = "Main.jsp";
+		    		break;
+		    	case "search":
+		    		try {
+						dao.searchPosts(request, response);
+						errorChecker = "Posts search'd";
+					} catch (Exception e) {
+						e.printStackTrace();
+						errorChecker = "Search fail";
+					}
+		    		address = "/Search.jsp";
 	    		break;
 	    		default:
 	    			errorChecker = "Something has gone horribly wrong";

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import utilities.GameDao;
 import utilities.SeasonDao;
 import utilities.ValidationUtilities;
 
@@ -31,8 +32,9 @@ public class SeasonController extends HttpServlet {
 		
 		String option = request.getParameter("option");
 		SeasonDao dao = new SeasonDao();
+		GameDao gameDao = new GameDao();
 		String address = "";
-		//
+		HttpSession session = request.getSession();
 		String errorChecker = "n/a";
 		
 		System.out.println(option);
@@ -41,62 +43,46 @@ public class SeasonController extends HttpServlet {
 	    	switch(option) {
 		    	case "add":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
-		    			dao.addToDatabase(request, response);
-		    			//
+		    			String id = dao.addToDatabase(request, response);
+		    			int ID = Integer.parseInt(id);
+		    			System.out.println(id+"In controller");
 		    			errorChecker = "Season Created";
-		    			address = "admin/PopulateGames.jsp";
+		    			//HttpSession session = request.getSession();
+		    			session.setAttribute("seasonID", ID);
+		    			address = "admin/CreateGames.jsp";
+		    			
 		    		
 		    			//
 			    		/*errorChecker = "Season Not Created!!";
 		    			address = "/CreateSeason.jsp";*/
 		    		
 	    		break;
-		    	/*case "edit":
-		    		if (ValidationUtilities.isValidPost(request)) {
-		    			String postID = request.getParameter("postID");
-		    			dao.editPost(request, response, postID);
-		    			//
-		    			errorChecker = "Post edited";
-		    			address = "/Main.jsp";
-		    		} else {
-		    			//
-			    		errorChecker = "Post failed to edit";
-		    			address = "/Main.jsp";
-		    		}
-	    		break;
-		    	case "batchEdit":
-		    		try {
-		    			dao.batchEdit(request, response);
-		    			errorChecker = "Posts edited";
-		    		} catch (Exception e){
-		    			e.printStackTrace();
-		    		}
-		    		address = "admin/BatchPosts.jsp";
-	    		break;
 		    	case "delete":
-		    		try {
-		    			String postID = request.getParameter("postID");
-		    			System.out.println("Delete postID = " + postID);
-						dao.deletePost(request, response, postID);
-						//
-						errorChecker = "Post deleted";
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-		    		address = "admin/BatchPosts.jsp";
+		    		System.out.println("I'm in case delete");
+		    		String seasonID = request.getParameter("seasonID");
+	    			System.out.println("Delete seasonID = " + seasonID);
+					dao.deleteSeason(request, response, seasonID);
+					
+					errorChecker = "Season deleted";
+
+						System.out.println("You have canceled the creation of you season and will be taken back to create a new one, Sucker!!");
+					
+		    		address = "admin/CreateSeason.jsp";
 	    		break;
-		    	case "batchDelete":
-		    		try {
-						dao.batchDelete(request, response);
-						//
-						errorChecker = "Posts deleted";
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-		    		address = "admin/BatchPosts.jsp";
-	    		break;*/
-	    		default:
-	    			errorChecker = "Something has gone horribly wrong";
+		    	case "confirm":
+
+		    		System.out.println("I'm in case confirm");
+		    		Object id1 = session.getAttribute("seasonID");
+		    		String sID = id1.toString();
+		    		//String id1 =request.getParameter("seasonID");
+		    		System.out.println("The ID is:" + sID);
+					gameDao.addToDatabase(request, response, sID);
+					
+					errorChecker = "Games Created";
+		    		address ="admin/PopulateGames.jsp";;
+	    		break;
+		    	default:
+	    		errorChecker = "Something has gone horribly wrong";
 	    	}
 	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);

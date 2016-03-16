@@ -11,13 +11,21 @@ public class User {
 	private String userid = "", username = "", 
 			password = "", emailAddress = "", 
 			dateCreated = "", userStatus = "", 
-			firstName = "", lastName = "", gender = "", 
+			firstName = "", lastName = "", gender = "", teamGender = "",
 			telephone = "", streetAddress = "", 
 			city = "", province = "", postalCode = "",
 			country = "", photo = "", dateOfBirth = "", 
 			emergencyContactName = "", 
 			emergencyContactPhoneNumber = "";
-    // columns are 0 `id`, 1 `username`, 2 `password`, 3 `emailAddress`, etc 
+    public String getTeamGender() {
+		return teamGender;
+	}
+
+	public void setTeamGender(String teamGender) {
+		this.teamGender = teamGender;
+	}
+
+	// columns are 0 `id`, 1 `username`, 2 `password`, 3 `emailAddress`, etc 
     // 4 `dateCreated`, `userStatus`, `firstName`, `lastName`, `gender`, 
     // 9 `phoneNumber`, `streetAddress`, `city`, `province`, `postalCode`, 
     // 14 `country`, `photo`, `dateOfBirth`, `emergencyContactName`, 
