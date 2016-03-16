@@ -262,7 +262,7 @@ ${errorString }
 	</form>
 	
 				<script type="text/javascript">
-				$(".qty").on('input', function () {
+				/* $(".qty").on('input', function () {
 				    var self = $(this);
 				    // var unitVal = self.next().val();
 				    //var unitVal = self.parent().next().val();
@@ -288,7 +288,7 @@ ${errorString }
 				    });
 				    $(".result").val(total);
 				   	fnFinalTotal();
-				}
+				} */
 	
 				function fnAlltax(){
 				  	var total=0;
@@ -300,7 +300,7 @@ ${errorString }
 				    $(".taxes").val(total);
 				   	fnFinalTotal();
 				}
-	
+	/*
 				function fnFinalTotal(addThis){
 				  	var subtotal=$(".result").val();		
 				  	var tax=$(".taxes").val();					
@@ -308,7 +308,7 @@ ${errorString }
 				  	var total = parseFloat(subtotal) + parseFloat(tax);
 				  	
 				    $(".finalresult").val(total);
-				}
+				} */
 	
 				
 				var lineItems = new Array();
@@ -326,7 +326,7 @@ ${errorString }
 
 				
 				
-				$(document).ready(function(){
+				/* $(document).ready(function(){
 				    $("select[name='charge01']").change(function(){
 				        $(this).find("option:selected").each(function(){
 							for	(index = 0; index < lineItems.length; index++) {
@@ -383,6 +383,6 @@ ${errorString }
 				            }
 				        });
 				    }).change();
-				});
+				}); */
 				</script>
 <%@ include file="/WEB-INF/footer_backend.jsp" %>
