@@ -77,13 +77,12 @@ public class SeasonController extends HttpServlet {
 		    		//String id1 =request.getParameter("seasonID");
 		    		System.out.println("The ID is:" + sID);
 					gameDao.addToDatabase(request, response, sID);
-
-		    		address = "admin/PopulateGames.jsp";
+					
 					errorChecker = "Games Created";
+		    		address ="admin/PopulateGames.jsp";;
 	    		break;
 		    	default:
-		    		errorChecker = "Something has gone horribly wrong";
-		    		break;
+	    		errorChecker = "Something has gone horribly wrong";
 	    	}
 	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);

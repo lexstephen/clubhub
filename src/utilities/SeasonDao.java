@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -65,17 +66,24 @@ public class SeasonDao {
 		try {
 			HttpSession session = request.getSession();
 			
+			String theDate = request.getParameter("theDate");
+			
+			Calendar c = Calendar.getInstance();
+			Date date = new SimpleDateFormat("yyyy-mm-dd").parse(theDate);
+			c.setTime(date);
+			int year = c.get(Calendar.YEAR);
+			int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 			
 	      statement = connect.createStatement();
 	      PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_season values (default, ?, ?, ?, ?, ?, ?, ?)");
 	   
 	      
-	      preparedStatement.setString(1, request.getParameter("year"));	//year
+	      preparedStatement.setInt(1, year);	//year
 	      preparedStatement.setString(2, request.getParameter("season")); // season
 	      preparedStatement.setString(3, request.getParameter("gender")); // gender
-	      preparedStatement.setString(4, request.getParameter("startDate")); // startDate
+	      preparedStatement.setString(4, request.getParameter("theDate")); // startDate
 	      preparedStatement.setString(5, request.getParameter("startTime")); // startTime
-	      preparedStatement.setString(6, request.getParameter("dayOfWeek")); // dayOfWeek
+	      preparedStatement.setInt(6, dayOfWeek); // dayOfWeek
 	      preparedStatement.setString(7, request.getParameter("duration")); // duration
 	      preparedStatement.executeUpdate();
 	      
