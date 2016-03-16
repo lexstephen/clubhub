@@ -7,7 +7,7 @@
  --%>
  
 <%@ page import="utilities.GameDao"%>
-
+<% request.setAttribute("thisPage", "Populate Games"); %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -16,17 +16,14 @@
 //Object id = session.getAttribute("seasonID");
 //String str = id.toString();
 //int seasonID = Integer.parseInt(str);
-String str = request.getParameter("seasonID");
-int seasonID = Integer.parseInt(str);
-System.out.println("The current season ID is: " + seasonID);
-game.findGameSet(request, seasonID);
+//String str = request.getParameter("seasonID");
+//int seasonID = Integer.parseInt(str);
+System.out.println("The current season ID is: 13");
+game.findGameSet(request, 13);
 %>
 
-
-<%@ include file="/WEB-INF/header_backend.jsp"%>
-
 	<form action="/clubhub/GameController" method="post" class="form" role="form">
-	<h1>Below is a list of the games you have just created: </h1>
+	<h3>Below is a list of the games you have just created: </h3>
 	
 		<c:forEach items="${games}" var="game">
 			<%@ include file="/WEB-INF/displayGames.jsp" %>			

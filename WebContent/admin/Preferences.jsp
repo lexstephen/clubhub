@@ -264,7 +264,7 @@
 			<div class="col-xs-9">
 				<div class="radio">
 			    	<label class="checkbox-inline">
-			      		<input type="radio" name="status" id="inptStatusActive" value="1" ${status == '1' ? 'checked' : ''}> Active
+			      		<input type="radio" name="status" id="inptStatusActive" checked value="1" ${status == '1' ? 'checked' : ''}> Active
 			      	</label>
 			    	<label class="checkbox-inline">
 			      		<input type="radio" name="status" id="inptStatusInactive" value="0"  ${status == '0' ? 'checked' : ''}> Inactive

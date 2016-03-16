@@ -13,14 +13,15 @@
    
 <%@ page import="utilities.InvoiceDao"%>
 <%@ page import="utilities.UserDao"%>
-<%@ page import="utilities.PreferenceDao"%>
+<%-- page import="utilities.PreferenceDao"--%>
 <% 
 InvoiceDao invoice = new InvoiceDao();
 UserDao user = new UserDao();
 invoice.findInvoice(request, request.getParameter("invoiceID"));
 %>
-<% PreferenceDao preference = new PreferenceDao(); %>
-<% preference.taxRate(request); %>
+<% // PreferenceDao preference = new PreferenceDao(); %>
+<% // preference.taxRate(request); %>
+<% request.setAttribute("tax_rate", "0.13"); %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
