@@ -27,7 +27,8 @@ game.findOpenGameSlots(request, userID);
 		<c:forEach items="${slots}" var="game">
 			<tr>
 				<td class="col-xs-12 col-md-3 control-label">
-					<b>Week: ${game.week}</b>, ${game.scheduledDate}
+				<!--Change day of week from number to name of day and add radio buttons -->
+					<b>${game.dayOfWeek} at ${game.time} - ${game.scheduledDate}
 				</td>
 			</tr><br>		
 		</c:forEach>

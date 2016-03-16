@@ -266,7 +266,7 @@ public class GameDao {
 			    resultSet.next();
 			    String userGender = resultSet.getString("gender");
 			    
-			    ResultSet resultSet2 = null;
+			    ResultSet resultSet2;
 			    resultSet2 = statement.executeQuery("Select * from ch_slot where gender= \""+ userGender +"\" And status= 1");
 			    
 			    while (resultSet2.next()) {
