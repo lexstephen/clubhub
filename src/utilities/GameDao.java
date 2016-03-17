@@ -256,6 +256,12 @@ public class GameDao {
 		  	request.setAttribute("game", game);
 	} 
 	
+	public void playersAvailable(HttpServletRequest request, int userID, int slotID){
+		String users = null;
+		
+		
+	}
+	
 	public void findOpenGameSlots(HttpServletRequest request, int userID) throws Exception {
 		  //Game game = new Game();
 		List<Slot> slots = new ArrayList<Slot>();
@@ -272,13 +278,17 @@ public class GameDao {
 			    
 			    while (resultSet2.next()) {
 			    	int num = resultSet2.getInt("dayOfWeek");
+			    	int givenTime = resultSet2.getInt("time");
 			    	String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
-			    	System.out.println("The day of week is: "+ dayOfWeek);
+			    	String time = utilities.ValidationUtilities.toTime(request,givenTime);
+			    	
+			    	
+			    	//System.out.println("The day of week is: "+ dayOfWeek);
 			    	Slot slot = new Slot();
 			    	slot.setDayOfWeek(dayOfWeek);
-			    	slot.setTime(resultSet2.getInt("time"));
+			    	slot.setTime(time);
 			    	slot.setScheduledDate(resultSet2.getString("scheduledDate"));
-			    	     	  
+			    	slot.setId(resultSet2.getString("id"));    	  
 			    	request.setAttribute("slotID", slot.getId());
 			    	  slots.add(slot);
 			    	

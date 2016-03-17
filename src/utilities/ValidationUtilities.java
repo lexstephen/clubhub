@@ -142,6 +142,17 @@ public class ValidationUtilities {
 		}
 	}
 
+	public static String toTime (HttpServletRequest request, int givenTime){
+		String time = null;
+		
+		String input = Integer.toString(givenTime);
+		time = input.replaceAll("..(?!$)", "$0:");
+		
+		System.out.println("Game time is: " + time);
+		
+		return time;
+	}
+		
 	public static String numberToDay (HttpServletRequest request, int num){
 		String dayOfWeek = null;
 		if (num == 1){

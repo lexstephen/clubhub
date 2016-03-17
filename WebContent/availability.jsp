@@ -12,26 +12,25 @@
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
-<% GameDao game = new GameDao();
+<% GameDao slot = new GameDao();
 Object id = session.getAttribute("loggedInUserID");
 String str = id.toString();
 int userID = Integer.parseInt(str);
 System.out.println("The current user ID is: " + userID);
-game.findOpenGameSlots(request, userID);
+slot.findOpenGameSlots(request, userID);
 %>
 
 <form action="/clubhub/GameController" method="post" class="form" role="form">
-	<h3>Please select your availibility: </h3>
+	<h3>Please select your availability: </h3>
 	
 		
-		<c:forEach items="${slots}" var="game">
-			<tr>
-				<td class="col-xs-12 col-md-3 control-label">
-				<!--Change day of week from number to name of day and add radio buttons -->
-					<b>${game.dayOfWeek} at ${game.time} - ${game.scheduledDate}
-				</td>
-			</tr><br>		
+		<c:forEach items="${slots}" var="slot">
+			<input type="checkbox" name="slots" value="${slot.id}"> ${slot.dayOfWeek}  ${slot.time} - ${slot.scheduledDate} ---- ${slot.id}<br>
+			
+			
+		
 		</c:forEach>
+		<button class="btn btn-info" type="submit" value="players" name="option">Submit</button>
 	</form>
 
 

@@ -7,6 +7,7 @@ package controller;
 * Description: GameController - routes requests to proper view
 ****************************************************************************************************/
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -53,23 +54,32 @@ public class GameController extends HttpServlet {
 		    			address = "admin/PopulateGames.jsp";
 		    		
 		    			
-		    	/*case "playGame":
-		    		//if (ValidationUtilities.isValidSeason(request)) {
-		    			
-	    			String UserID = request.getParameter(arg0)
+		    	case "players":
 		    		
-		    		System.out.println("The Id is: "+ seasonID);
-		    		dao.addToDatabase(request, response, seasonID);
-		    			
-		    			
-		    			errorChecker = "Games Created";
-		    			
-		    			address = "admin/PopulateGames.jsp";
+		    		String [] ID =request.getParameterValues("slots");
 		    		
-		    			*/
-			    		/*errorChecker = "Season Not Created!!";
-		    			address = "/CreateSeason.jsp";*/
+		    		StringBuilder builder = new StringBuilder();
+		    		if (ID.length >= 1) {
+		    			builder.append(ID[0]);
+		    		}
+
+		    		for (int i = 1; i < ID.length; i++) { 
+		    			builder.append(", ");
+		    			builder.append(ID[i]);
+		    		}
+		    		// note that i starts at 1, since we already printed the element at index 0
+		    		/*for (int i = 1; i < arrayListWords.length, i++) { 
+		    		     System.out.print(", " + arrayListWords[i]);
+		    		}
+		    		for (String value : ID) {
+		    		    builder.append(value);
+		    		    builder.append(", ");
+		    		}*/
+		    		String text = builder.toString();
 		    		
+		    		
+		    		//String slots = ID.toString();
+		    		System.out.println(text);
 	    		break;
 		    	
 		    	default:
