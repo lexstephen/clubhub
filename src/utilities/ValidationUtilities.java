@@ -142,6 +142,29 @@ public class ValidationUtilities {
 		}
 	}
 
+	public static String numberToDay (HttpServletRequest request, int num){
+		String dayOfWeek = null;
+		if (num == 1){
+			 dayOfWeek = "Sunday";
+		}else if (num == 2){
+			dayOfWeek = "Monday";
+		}else if (num == 3){
+			dayOfWeek = "Tuesday";
+		}else if (num == 4){
+			dayOfWeek = "Wednesday";
+		}else if (num == 5){
+			dayOfWeek = "Thursday";
+		}else if (num == 6){
+			dayOfWeek = "Friday";
+		}else if (num == 7){
+			dayOfWeek = "Saturday";
+		}
+		
+		System.out.println("The day of week is: " +dayOfWeek);
+		return dayOfWeek;
+		
+	}
+		
 	public static boolean isValidLineItem(HttpServletRequest request) {
 		boolean isValid = true;
 		String description, cost;	

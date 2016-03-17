@@ -31,6 +31,7 @@ import model.Season;
 import model.Slot;
 import model.User;
 import utilities.DatabaseAccess;
+import utilities.ValidationUtilities;
 
 public class GameDao {
 	private Connection connect = null;
@@ -270,8 +271,11 @@ public class GameDao {
 			    resultSet2 = statement.executeQuery("Select * from ch_slot where gender= \""+ userGender +"\" And status= 1");
 			    
 			    while (resultSet2.next()) {
+			    	int num = resultSet2.getInt("dayOfWeek");
+			    	String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
+			    	System.out.println("The day of week is: "+ dayOfWeek);
 			    	Slot slot = new Slot();
-			    	slot.setDayOfWeek(resultSet2.getString("dayOfWeek"));
+			    	slot.setDayOfWeek(dayOfWeek);
 			    	slot.setTime(resultSet2.getInt("time"));
 			    	slot.setScheduledDate(resultSet2.getString("scheduledDate"));
 			    	     	  
