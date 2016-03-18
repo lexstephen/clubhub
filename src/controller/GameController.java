@@ -55,7 +55,7 @@ public class GameController extends HttpServlet {
 		    		
 		    			
 		    	case "players":
-		    		
+		    		HttpSession session = request.getSession();
 		    		String [] ID =request.getParameterValues("slots");
 		    		
 		    		StringBuilder builder = new StringBuilder();
@@ -67,19 +67,20 @@ public class GameController extends HttpServlet {
 		    			builder.append(", ");
 		    			builder.append(ID[i]);
 		    		}
-		    		// note that i starts at 1, since we already printed the element at index 0
-		    		/*for (int i = 1; i < arrayListWords.length, i++) { 
-		    		     System.out.print(", " + arrayListWords[i]);
-		    		}
-		    		for (String value : ID) {
-		    		    builder.append(value);
-		    		    builder.append(", ");
-		    		}*/
-		    		String text = builder.toString();
 		    		
+		    		
+		    		String slotIDs = builder.toString();
+		    		Object id = session.getAttribute("loggedInUserID");
+		    		String userID = id.toString();
+
+		    		System.out.println("The current user ID is: " + userID);
 		    		
 		    		//String slots = ID.toString();
-		    		System.out.println(text);
+		    		System.out.println(slotIDs);
+		    		
+		    		dao.playersAvailable(request, userID, slotIDs);
+		    		
+		    		errorChecker = "Dun";
 	    		break;
 		    	
 		    	default:

@@ -256,10 +256,36 @@ public class GameDao {
 		  	request.setAttribute("game", game);
 	} 
 	
-	public void playersAvailable(HttpServletRequest request, int userID, int slotID){
-		String users = null;
+	public void playersAvailable(HttpServletRequest request, String userID, String slotIDs) throws Exception{
 		
-		
+		String [] slots = slotIDs.split(",");
+		try{
+			statement = connect.createStatement();
+			
+			for (int i = 0; i < slots.length; i++) { 
+				String slotID = slots[i];
+				ResultSet results = statement.executeQuery("select * from ch_slot where id = " + slotID); 
+				while(results.next()){
+					String availablePlayers = results.getString("availablePlayers");
+					
+					if(availablePlayers != null){
+						userID = availablePlayers +", "+ userID;
+						System.out.println(userID);
+						PreparedStatement preparedStatement = connect.prepareStatement("UPDATE ch_slot SET availablePlayers = ? WHERE id= " + slotID);
+						preparedStatement.setString(1, userID);
+						preparedStatement.executeUpdate();
+					}else{
+						PreparedStatement preparedStatement = connect.prepareStatement("UPDATE ch_slot SET availablePlayers = ? WHERE id= " + slotID);
+						System.out.println(userID);
+						preparedStatement.setString(1, userID);
+						preparedStatement.executeUpdate();
+					}
+					
+				}
+			}
+		}catch(SQLException e) {
+		      throw e;
+		}
 	}
 	
 	public void findOpenGameSlots(HttpServletRequest request, int userID) throws Exception {
