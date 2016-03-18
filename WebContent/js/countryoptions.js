@@ -40,3 +40,18 @@ $('#editPageType').bind('change', function(event) {
 		$('#editAccess').prop('disabled', false);
 	}
 });
+
+function clearItem(row) {
+	$("#inptCharge0"+row+">option:eq(0)").prop("selected", true);
+	$("#inptCharge0"+row+"qty").val("0");
+	$("#charge0"+row+"cost").val("0");
+	$("#charge0"+row+"subtotal").val("0");
+	/*var self = $(this);
+	self.closest(".row").find(".qty").val("0");
+	$("#inptCharge01qty").val("0");*/
+}
+
+function clearRow() {
+	var self = $(this);
+	self.closest('.row').find('.dd>option:eq(0)').prop('selected', true);
+}
