@@ -267,22 +267,27 @@ public class GameDao {
 				ResultSet results = statement.executeQuery("select * from ch_slot where id = " + slotID); 
 				while(results.next()){
 					String availablePlayers = results.getString("availablePlayers");
-					
-					if(availablePlayers != null){
-						userID = availablePlayers +", "+ userID;
-						System.out.println(userID);
-						PreparedStatement preparedStatement = connect.prepareStatement("UPDATE ch_slot SET availablePlayers = ? WHERE id= " + slotID);
-						preparedStatement.setString(1, userID);
-						preparedStatement.executeUpdate();
-					}else{
-						PreparedStatement preparedStatement = connect.prepareStatement("UPDATE ch_slot SET availablePlayers = ? WHERE id= " + slotID);
-						System.out.println(userID);
-						preparedStatement.setString(1, userID);
-						preparedStatement.executeUpdate();
+					if(availablePlayers != null && availablePlayers.contains(userID)){
+						System.out.println("User already exists in current slot");
+						}else {
+							
+							if(availablePlayers != null){
+								String theIDs = availablePlayers +", "+ userID;
+								System.out.println(userID);
+								PreparedStatement preparedStatement = connect.prepareStatement("UPDATE ch_slot SET availablePlayers = ? WHERE id= " + slotID);
+								preparedStatement.setString(1, theIDs);
+								preparedStatement.executeUpdate();
+							}else{
+								PreparedStatement preparedStatement = connect.prepareStatement("UPDATE ch_slot SET availablePlayers = ? WHERE id= " + slotID);
+								System.out.println(userID);
+								preparedStatement.setString(1, userID);
+								preparedStatement.executeUpdate();
+							}
+							
+						}
 					}
-					
 				}
-			}
+			
 		}catch(SQLException e) {
 		      throw e;
 		}
