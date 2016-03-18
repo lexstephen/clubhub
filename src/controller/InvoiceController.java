@@ -34,6 +34,7 @@ public class InvoiceController extends HttpServlet {
 		PreferenceDao pref = new PreferenceDao();
 		String address = "";
 		String errorChecker = "n/a";
+		
 		request.setAttribute("userID", request.getParameter("userID"));
 		request.setAttribute("invDate", request.getParameter("invDate"));
 		request.setAttribute("charge01", request.getParameter("charge01"));
@@ -71,15 +72,14 @@ public class InvoiceController extends HttpServlet {
 	    		break;
 		    	case "edit":
 		    		if (ValidationUtilities.isValidInvoice(request)) {
-		    			String invoiceID = request.getParameter("invoiceID");
-		    			dao.editInvoice(request, response, invoiceID);
+		    			dao.editInvoice(request, response);
 		    			//
 		    			errorChecker = "Invoice edited";
-		    			address = "/Main.jsp";
+		    			address = "admin/BatchInvoices.jsp";
 		    		} else {
 		    			//
 			    		errorChecker = "Invoice failed to edit";
-		    			address = "/Main.jsp";
+		    			address = "admin/Invoice.jsp?invoiceID="+ request.getParameter("invoiceID");
 		    		}
 	    		break;
 		    	case "batchEdit":
@@ -93,9 +93,7 @@ public class InvoiceController extends HttpServlet {
 	    		break;
 		    	case "delete":
 		    		try {
-		    			String invoiceID = request.getParameter("invoiceID");
-		    			System.out.println("Delete invoiceID = " + invoiceID);
-						dao.deleteInvoice(request, response, invoiceID);
+						dao.deleteInvoice(request, response);
 						//
 						errorChecker = "Invoice deleted";
 					} catch (Exception e) {

@@ -236,10 +236,10 @@ ${errorString }
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-3 control-label">
+			<div class="col-xs-2 control-label">
 			    	<label for="inptStatus">Status</label>			  
 			</div>
-			<div class="col-xs-9">
+			<div class="col-xs-10">
 				<div class="radio">
 			    	<label class="checkbox-inline">
 			      		<input type="radio" name="status" id="inptStatusU" value="unpaid" ${invoice.status == 'unpaid' ? 'checked' : ''}> Unpaid
@@ -250,16 +250,22 @@ ${errorString }
 			  	</div>
 			</div>
 		</div>
-
+		<br>
 		<div class="row">
-			<div class="col-xs-12">
-				<div class="form-group">
-					<input type="hidden" name="option" value="add">
-			    	<input type="submit" class="btn btn-default" value="Create Invoice">
-			  	</div>
-			</div>
+			<div class="col-xs-2">
+    			<input type="hidden" name="option" value="edit">	
+    			<input type="hidden" name="invoiceID" value="${invoice.id}">
+    			<input type="submit" class="btn btn-default" value="Edit Invoice">
+    			</form>
+   			</div>
+   			<div class="col-xs-2">
+  			<form action="/clubhub/InvoiceController" method="post">
+				<input type="hidden" name="invoiceID" value="${invoice.id}">
+				<input type="hidden" name="option" value="delete">
+				<input class="btn btn-danger" type="submit" value="Delete">
+		  	</div>
+		  	<span class="col-xs-8"></span>
 		</div>
-	</form>
 	
 				<script type="text/javascript">
 				/* $(".qty").on('input', function () {
