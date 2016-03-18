@@ -121,14 +121,24 @@ public class GameDao {
 				preparedStatement.setString(3, seasonID);
 				preparedStatement.executeUpdate();
 				
-				PreparedStatement preparedStatement2 = connect.prepareStatement("insert into ch_slot values (default, ?, ?, ?, ?, ?, ?, null)");
+				statement = connect.createStatement();
+				ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID();");
+			     
+				String gameID = null;
+			      
+			      while(rs.next()){
+			    	  gameID = rs.getString("LAST_INSERT_ID()");
+			    	  System.out.println("The current game ID is: " + gameID);
+			      }
+				
+				PreparedStatement preparedStatement2 = connect.prepareStatement("insert into ch_slot values (default, ?, ?, ?, ?, ?, ?, null, ?)");
 				preparedStatement2.setInt(1, dayOfWeek );	//week of game
 				preparedStatement2.setInt(2, time); // date of game
 				preparedStatement2.setInt(3, week);
 				preparedStatement2.setString(4, gender);
 				preparedStatement2.setInt(5, 1);
 				preparedStatement2.setString(6, date);
-				//preparedStatement2.setString(7, null);
+				preparedStatement2.setString(7, gameID);
 				preparedStatement2.executeUpdate();
 				
 				
