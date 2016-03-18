@@ -5,21 +5,28 @@
 	Date: March 03, 2016
 	Description: PopulateGames.jsp
  --%>
+ 
+<%@ page import="utilities.GameDao"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 <% GameDao game = new GameDao();
-//Object id = session.getAttribute("seasonID");
-//String str = id.toString();
-//int seasonID = Integer.parseInt(str);
-String str = request.getParameter("seasonID");
+Object id = session.getAttribute("seasonID");
+String str = id.toString();
 int seasonID = Integer.parseInt(str);
+//String str = request.getParameter("seasonID");
+//int seasonID = Integer.parseInt(str);
 System.out.println("The current season ID is: " + seasonID);
 game.findGameSet(request, seasonID);
 %>
+
+<% request.setAttribute("thisPage", "Populate Games"); %>
+
+
 	<form action="/clubhub/GameController" method="post" class="form" role="form">
-	<h1>Below is a list of the games you have just created: </h1>
+	<h3>Below is a list of the games you have just created: </h3>
 	
 		<c:forEach items="${games}" var="game">
 			<%@ include file="/WEB-INF/displayGames.jsp" %>			

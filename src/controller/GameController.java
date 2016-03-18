@@ -51,9 +51,22 @@ public class GameController extends HttpServlet {
 		    			errorChecker = "Games Created";
 		    			
 		    			address = "admin/PopulateGames.jsp";
-		    			
 		    		
-		    			//
+		    			
+		    	/*case "playGame":
+		    		//if (ValidationUtilities.isValidSeason(request)) {
+		    			
+	    			String UserID = request.getParameter(arg0)
+		    		
+		    		System.out.println("The Id is: "+ seasonID);
+		    		dao.addToDatabase(request, response, seasonID);
+		    			
+		    			
+		    			errorChecker = "Games Created";
+		    			
+		    			address = "admin/PopulateGames.jsp";
+		    		
+		    			*/
 			    		/*errorChecker = "Season Not Created!!";
 		    			address = "/CreateSeason.jsp";*/
 		    		

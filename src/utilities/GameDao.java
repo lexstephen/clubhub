@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import model.Game;
 import model.Post;
 import model.Season;
+import model.Slot;
 import model.User;
 import utilities.DatabaseAccess;
 
@@ -36,6 +37,7 @@ public class GameDao {
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
+	
 	
 	public GameDao() {
 		try {
@@ -112,25 +114,28 @@ public class GameDao {
 				
 				week++;
 				
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Calendar c = Calendar.getInstance();
-				c.setTime(sdf.parse(date));
-				c.add(Calendar.DATE, 7);  // number of days to add
-				date = sdf.format(c.getTime()); 
-				
-				
 				PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_game values (default, ?, ?, ?)");
 				preparedStatement.setInt(1, week);	//week of game
 				preparedStatement.setString(2, date); // date of game
 				preparedStatement.setString(3, seasonID);
 				preparedStatement.executeUpdate();
 				
-				PreparedStatement preparedStatement2 = connect.prepareStatement("insert into ch_slot values (default, ?, ?, ?, ?)");
+				PreparedStatement preparedStatement2 = connect.prepareStatement("insert into ch_slot values (default, ?, ?, ?, ?, ?, ?, null)");
 				preparedStatement2.setInt(1, dayOfWeek );	//week of game
 				preparedStatement2.setInt(2, time); // date of game
 				preparedStatement2.setInt(3, week);
 				preparedStatement2.setString(4, gender);
+				preparedStatement2.setInt(5, 1);
+				preparedStatement2.setString(6, date);
+				//preparedStatement2.setString(7, null);
 				preparedStatement2.executeUpdate();
+				
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar c = Calendar.getInstance();
+				c.setTime(sdf.parse(date));
+				c.add(Calendar.DATE, 7);  // number of days to add
+				date = sdf.format(c.getTime()); 
 				
 				
 			}while (cnt < games);
@@ -243,10 +248,40 @@ public class GameDao {
 			    	  game.setId(resultSet.getString("id"));
 			    	  
 			    	  
+			    	  
 			}} catch (SQLException e) {
 			      throw e;
 			}
 		  	request.setAttribute("game", game);
+	} 
+	
+	public void findOpenGameSlots(HttpServletRequest request, int userID) throws Exception {
+		  //Game game = new Game();
+		List<Slot> slots = new ArrayList<Slot>();
+		  	try{
+		  		
+			    statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT * FROM ch_user WHERE id= " + userID );
+			    //String userGender = null;
+			    resultSet.next();
+			    String userGender = resultSet.getString("gender");
+			    
+			    ResultSet resultSet2;
+			    resultSet2 = statement.executeQuery("Select * from ch_slot where gender= \""+ userGender +"\" And status= 1");
+			    
+			    while (resultSet2.next()) {
+			    	Slot slot = new Slot();
+			    	slot.setDayOfWeek(resultSet2.getString("dayOfWeek"));
+			    	slot.setTime(resultSet2.getInt("time"));
+			    	slot.setScheduledDate(resultSet2.getString("scheduledDate"));
+			    	     	  
+			    	request.setAttribute("slotID", slot.getId());
+			    	  slots.add(slot);
+			    	
+			}} catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("slots", slots);
 	} 
 	/*
 	public void editSeason(HttpServletRequest request, HttpServletResponse response, String _seasonID) throws Exception {

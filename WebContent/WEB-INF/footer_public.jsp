@@ -13,7 +13,7 @@
 			
 			<div class="sidebar col-sm-4 col-xs-12">
 				<%@ include file="/WEB-INF/sidebar_public.jsp" %>
-				<img class="centerImage" src="/clubhub/ImageDao?t=image_small_logo">
+				<img class="centerImage" src="/clubhub/images/ch_logo.png">
 			</div>
 			
 		</div> <!-- end of main div class row -->

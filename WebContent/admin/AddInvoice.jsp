@@ -11,11 +11,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
    
+<%@ page import="utilities.InvoiceDao"%>
+<%@ page import="utilities.PreferenceDao"%>
 <% InvoiceDao invoice = new InvoiceDao(); %>
-<%-- <% PreferenceDao preference = new PreferenceDao(); %> --%>
+<% PreferenceDao preference2 = new PreferenceDao(); %>
+<% preference2.taxRate(request); %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
-<% preference.taxRate(request); %>
 ${errorString }
 <ul>
 <c:if test="${!empty errorInvDate}"><li>${ errorInvDate }</li></c:if>
@@ -248,13 +251,10 @@ ${errorString }
 	lineItemObj.cost = ${lineitem.cost}; 
 	lineItems.push(lineItemObj);
 </c:forEach> 
-
 lineItemObj = new Object();
 lineItemObj.id = '---'; 
 lineItemObj.cost = 0; 
 lineItems.push(lineItemObj);
-
-
 function fnAlltax(){
   	var total=0;
 	var tax_rate = ${tax_rate };
