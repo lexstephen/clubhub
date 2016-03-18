@@ -40,6 +40,10 @@ public class ValidationUtilities {
 	public static boolean isValidPreference(HttpServletRequest request) {
 	 return true;
 	}
+
+	public static boolean isValidColourScheme(HttpServletRequest request) {
+	 return true;
+	}
 		public static boolean isValidInvoice(HttpServletRequest request) {
 
 

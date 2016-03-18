@@ -2,8 +2,7 @@
 
 <%@ page import="utilities.PostDao"%>
 
-	<%	PostDao post = new PostDao(); %>
-	
+	<% PostDao post = new PostDao(); %>
 	<% post.getLastBlogs(request, response); %> 
 			<table class="table table-hover sortable jumbotron">
 			<thead>
