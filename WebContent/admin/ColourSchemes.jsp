@@ -10,12 +10,12 @@
 
 <%@ page import="utilities.ColourSchemeDao"%>
 <% ColourSchemeDao scheme = new ColourSchemeDao(); %>
+<% scheme.listAllColourSchemes(request); %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-<% scheme.listAllColourSchemes(request); %>
 	<script type="text/javascript">
 	var Schemes = new Array();
 	
@@ -39,11 +39,12 @@
 	Schemes.push(SchemeObj);
 </script>
 
+<form action="/clubhub/ColourSchemeController" method="post" class="form" role="form">
 
 <div class="row">
 	<div class="col-xs-12">
-		<p>Use this section to customize your frontend colour scheme options.</p>
-		<p>Once entered, default colour scheme can be set in the <a href="Preferences.jsp">Preferences</a> page.</p>
+		<p>Use this section to customize your frontend colour scheme options. Once entered, default colour scheme can be set in the <a href="Preferences.jsp">Preferences</a> page.</p>
+		<p>Edit a pre-existing colour scheme by selecting it from the drop down list, or select 'Add New' to enter a new one.</p>
 		<div class="row">
 			<div class="col-sm-7 col-sm-offset-5">
 				<select name="id" class="form-control" id="inptSchemeID">
@@ -58,7 +59,6 @@
 	</div>
 </div>
 
-<form action="/clubhub/ColourSchemeController" method="post" class="form" role="form">
 <div class="form-group ColourSchemes">
 
 

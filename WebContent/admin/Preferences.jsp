@@ -7,7 +7,9 @@
  --%>
  
 <% request.setAttribute("thisPage", "Site Preferences"); %>
-
+<%@ page import="utilities.ColourSchemeDao"%>
+<% ColourSchemeDao scheme = new ColourSchemeDao(); %>
+<% scheme.listAllColourSchemes(request); %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -70,10 +72,11 @@
 				</label>
 				<div class="col-sm-8">
 						<div class="form-group <c:if test="${!empty errorCountry}">has-error</c:if>">
-							<select name="Colour_Schemeid" class="form-control" id="inptCountry">
-							  <option ${preference.colour_schemeid == '1' ? 'selected' : ''}>1</option>
-							  <option ${preference.colour_schemeid == '2' ? 'selected' : ''}>2</option>
-							</select>
+						<select name="Colour_Schemeid" class="form-control" id="inptSchemeID">
+							<c:forEach items="${colour_schemes}" var="colour_scheme">
+						 		<option value="${colour_scheme.id}" ${Colour_schemeid == colour_scheme.id ? 'selected' : ''}>${colour_scheme.name}</option>
+							</c:forEach>
+						</select>
 					  	</div>
 				</div>
 				<!--  

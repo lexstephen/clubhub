@@ -194,13 +194,31 @@ public class PreferenceDao {
 			    		preparedStatement.setString(16, request.getParameter("tax_rate")); // tax_rate
 			    		preparedStatement.setString(17, request.getParameter("country")); // country
 			    		*/
-
-			    		preparedStatement.setInt(5, Integer.parseInt(request.getParameter("Colour_Schemeid"))); // Colour_Schemeid
+			    		String colour_schemeid = request.getParameter("Colour_Schemeid");
+			    		preparedStatement.setInt(5, Integer.parseInt(colour_schemeid)); // Colour_Schemeid
 			    		preparedStatement.setString(6, request.getParameter("tax_rate")); // tax_rate
 			    		preparedStatement.setString(7, request.getParameter("country")); // country
-			    		preparedStatement.setInt(8, Integer.parseInt(request.getParameter("status"))); // status
-			    		preparedStatement.executeUpdate();
-		    
+			    		String status = request.getParameter("status");
+			    		preparedStatement.setInt(8, Integer.parseInt(status)); // status
+
+			    		preparedStatement.executeUpdate(); 
+			    		
+			    		// 
+			    		String latestID = "";
+				  		statement = connect.createStatement();
+					    resultSet = statement.executeQuery("SELECT last_insert_id()");
+					    while (resultSet.next()) {
+					    	latestID = resultSet.getString("last_insert_id()");
+						  	System.out.println("InsertedID = " + latestID);
+					    }
+					    
+			    		if (status.equals("1")) {
+			    			preparedStatement = connect.prepareStatement("UPDATE ch_preferences set status = '0' WHERE id <> " + latestID);
+			    			preparedStatement.executeUpdate();
+			    		}
+			    		// UPDATE clubhub.ch_preferences set status = "0" WHERE id <> 4;
+			    		
+			    		
 	    } catch (Exception e) {
 	      throw e;
 	    }

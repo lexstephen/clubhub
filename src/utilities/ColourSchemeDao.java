@@ -49,14 +49,9 @@ public class ColourSchemeDao {
 	    try {	
 	    	
 	    	String option = request.getParameter("id");
+	    	System.out.println("I see this option: " + option);
 	    	switch(option) {
 	    	case "000":
-	    		System.out.println("This is new");
-	    		break;
-    		default:
-    			System.out.println("I am editing");
-    			break;
-	    	}
 	    	// connect to the database
 	    		statement = connect.createStatement();
 	    		// id, name, dark_colour, med_colour, light_colour, text_colour
@@ -70,6 +65,24 @@ public class ColourSchemeDao {
 			    		preparedStatement.setString(5, request.getParameter("text_colour")); // text_colour
 			    		preparedStatement.executeUpdate();
 		    
+	    		break;
+    		default:
+	    	// connect to the database
+	    		statement = connect.createStatement();
+	    		// id, name, dark_colour, med_colour, light_colour, text_colour
+	    	//
+
+
+			    		preparedStatement = connect.prepareStatement("UPDATE ch_colour_scheme SET `name`=?, `dark_colour`=?, `med_colour`=?, `light_colour`=?, `text_colour`=? WHERE `id` = " + request.getParameter("id"));
+			    		preparedStatement.setString(1, request.getParameter("name")); // name
+			    		preparedStatement.setString(2, request.getParameter("dark_colour")); // dark_colour 
+			    		preparedStatement.setString(3, request.getParameter("med_colour")); // med_colour
+			    		preparedStatement.setString(4, request.getParameter("light_colour")); // light_colour
+			    		preparedStatement.setString(5, request.getParameter("text_colour")); // text_colour
+			    		preparedStatement.executeUpdate();
+		    
+    			break;
+	    	}
 	    } catch (Exception e) {
 	      throw e;
 	    }
