@@ -18,9 +18,9 @@
 	<td class="col-xs-12 col-md-3 control-label">${post.title}</td>
 	<td class="col-xs-12 col-md-2">${post.category}</td>
 	<td class="col-xs-12 col-md-2">${post.username}</td>
-	<td class="col-xs-12 col-md-2">${post.postType}</td>
-	<td class="col-xs-12 col-md-3">${post.accessLevel}</td>
-	<td class="col-xs-12 col-md-1">
+	<td class="col-xs-12 col-md-1">${post.postType}</td>
+	<td class="col-xs-12 col-md-1">${post.accessLevel}</td>
+	<td class="col-xs-12 col-md-2">
 		<span class="expand">
 		<c:if test="${(isAdmin == true) || (post.userid == loggedInUserID)}">
 			<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>

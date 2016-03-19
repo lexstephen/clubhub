@@ -18,13 +18,31 @@
 	<%	PostDao post = new PostDao(); %>
 	
 	<% post.listAll(request); %> 
+	
+	<%-- 
+ 	<td class="col-xs-12 col-md-1">
+	 	<c:if test="${(isAdmin == true)}">
+			<input type="checkbox" name="postSelected" value="${post.id}">
+		</c:if>
+	</td>
+	<td class="col-xs-12 col-md-3 control-label">${post.title}</td>
+	<td class="col-xs-12 col-md-2">${post.category}</td>
+	<td class="col-xs-12 col-md-2">${post.username}</td>
+	<td class="col-xs-12 col-md-2">${post.postType}</td>
+	<td class="col-xs-12 col-md-2">${post.accessLevel}</td>
+	<td class="col-xs-12 col-md-2"> --%>
 		
 	<form action="/clubhub/PostController" method="post" class="form" role="form">
 		<table class="table table-hover sortable">
 			<thead>
-				<tr><th class="sorttable_nosort"></th><th class="col-xs-12 col-md-3 control-label">Title</th>
+				<tr>
+				<th class="sorttable_nosort col-md-1"></th>
+				<th class="col-xs-12 col-md-3 control-label">Title</th>
 				<th class="col-xs-12 col-md-2">Category</th>
-				<th class="col-xs-12 col-md-2">Author</th><th class="col-xs-12 col-md-2">Post Type</th><th class="col-xs-12 col-md-3">Access Level</th><th class="sorttable_nosort"></th></tr>
+				<th class="col-xs-12 col-md-2">Author</th>
+				<th class="col-xs-12 col-md-1">Post Type</th>
+				<th class="col-xs-12 col-md-1">Access Level</th>
+				<th class="sorttable_nosort col-md-2"></th></tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${posts}" var="post">
@@ -69,10 +87,9 @@
 				</select>
 			</div>
 			<br><br><br><br>
-			<div class="col-sm-3">
+			<div class="col-sm-6 control-label">
 				<button class="btn btn-warning " type="submit" name="option" value="batchEdit">Edit Marked</button>
-			</div>
-			<div class="col-sm-3">
+
 				<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
 			</div>
 		</c:if>
