@@ -21,7 +21,7 @@
 	
 	<c:forEach items="${colour_schemes}" var="colour_scheme" varStatus="status"> 
 		SchemeObj = new Object();
-		SchemeObj.id = ${colour_scheme.id}; 
+		SchemeObj.csid = ${colour_scheme.id}; 
 		SchemeObj.name = "${colour_scheme.name}";
 		SchemeObj.dark_colour = "${colour_scheme.dark_colour}";
 		SchemeObj.med_colour = "${colour_scheme.med_colour}";
@@ -30,7 +30,7 @@
 		Schemes.push(SchemeObj);
 	</c:forEach> 
 	SchemeObj = new Object();
-	SchemeObj.id = "000"; 
+	SchemeObj.csid = "000"; 
 	SchemeObj.name = "--Add New--";
 	SchemeObj.dark_colour = "";
 	SchemeObj.med_colour = "";
@@ -47,7 +47,7 @@
 		<p>Edit a pre-existing colour scheme by selecting it from the drop down list, or select 'Add New' to enter a new one.</p>
 		<div class="row">
 			<div class="col-sm-7 col-sm-offset-5">
-				<select name="id" class="form-control" id="inptSchemeID">
+				<select name="csid" class="form-control" id="inptSchemeID">
 			 		<option value="000" ${colour_scheme.name == '--Add New--' ? 'selected' : ''}>--Add New--</option>
 					<c:forEach items="${colour_schemes}" var="colour_scheme">
 				 		<option value="${colour_scheme.id}" ${colour_schemeID == colour_scheme.id ? 'selected' : ''}>${colour_scheme.name}</option>
@@ -80,40 +80,70 @@
 	<div class="row">
 		<label class="col-sm-3 col-sm-offset-2 control-label form-group">
 			Dark Colour
-		</label>
-		<div class="col-sm-7 form-group">
-			<input class="form-control" type="text" name="dark_colour" id="schemeDark_colour" value="">
 			<p class="help-block">Dark Colour is used for navbar, page headings and links.</p>
+		</label>
+		<div class="col-sm-7 form-group preview_colour" id="preview_Dark_colour">
+			<div class="row">
+				<div class="col-sm-6">
+					<input class="form-control hex_code" type="text" name="dark_colour" id="schemeDark_colour" value="">
+				</div>
+				<div class="col-sm-6">
+				&nbsp;
+				</div>
+			</div>
+			
 		</div>	
+		<div class="col-sm-2">&nbsp;</div>
 	</div>
 	
 	<div class="row">
 		<label class="col-sm-3 col-sm-offset-2 control-label form-group">
 			Medium Colour
+			<p class="help-block">Used as a background for hovered links in the navbar.</p>
 		</label>
-		<div class="col-sm-7 form-group">
-			<input class="form-control" type="text" name="med_colour" id="schemeMed_colour" value="">
-			<p class="help-block">Medium Colour is used as a background for hovered links in the navbar.</p>
+		<div class="col-sm-7 form-group preview_colour" id="preview_Med_colour">
+			<div class="row">
+				<div class="col-sm-6">
+					<input class="form-control hex_code" type="text" name="med_colour" id="schemeMed_colour" value="">
+				</div>
+				<div class="col-sm-6">
+				&nbsp;
+				</div>
+			</div>
 		</div>	
 	</div>
 	
 	<div class="row">
 		<label class="col-sm-3 col-sm-offset-2 control-label form-group">
 			Light Colour
+			<p class="help-block">Used as page background.</p>
 		</label>
-		<div class="col-sm-7 form-group">
-			<input class="form-control" type="text" name="light_colour" id="schemeLight_colour" value="">
-			<p class="help-block">Light Colour is used as page background.</p>
+		<div class="col-sm-7 form-group preview_colour" id="preview_Light_colour">
+			<div class="row">
+				<div class="col-sm-6">
+					<input class="form-control hex_code" type="text" name="light_colour" id="schemeLight_colour" value="">
+				</div>
+				<div class="col-sm-6">
+				&nbsp;
+				</div>
+			</div>
 		</div>	
 	</div>
 	
 	<div class="row">
 		<label class="col-sm-3 col-sm-offset-2 control-label form-group">
 			Text Colour
+			<p class="help-block">Used for all text except headers.</p>
 		</label>
-		<div class="col-sm-7 form-group">
-			<input class="form-control" type="text" name="text_colour" id="schemeText_colour" value="">
-			<p class="help-block">Text Colour is used for all text except headers.</p>
+		<div class="col-sm-7 form-group preview_colour" id="preview_Text_colour">
+			<div class="row">
+				<div class="col-sm-6">
+					<input class="form-control hex_code" type="text" name="text_colour" id="schemeText_colour" value="">
+				</div>
+				<div class="col-sm-6">
+				&nbsp;
+				</div>
+			</div>
 		</div>	
 	</div>
 	

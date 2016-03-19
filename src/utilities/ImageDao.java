@@ -54,8 +54,6 @@ public class ImageDao extends HttpServlet {
         InputStream sImage;
 		switch (type) {
 			case "profile":
-			        System.out.println(imageId);
-	
 			        // Check if ID is supplied to the request.
 			        if (imageId == null) {
 			            // Do your thing if the ID is not supplied to the request.
@@ -69,7 +67,6 @@ public class ImageDao extends HttpServlet {
 						preparedStatement = connect.prepareStatement("SELECT photo from ch_user where id = " + imageId);
 						resultSet = preparedStatement.executeQuery();
 			            if(resultSet.next()){
-			                System.out.println("Inside RS");
 			                byte[] bytearray = new byte[1048576];
 			                int size=0;
 			                sImage = resultSet.getBinaryStream("photo");
@@ -91,7 +88,6 @@ public class ImageDao extends HttpServlet {
 					preparedStatement = connect.prepareStatement("SELECT image_logo from ch_preferences where status = 1");
 					resultSet = preparedStatement.executeQuery();
 		            if(resultSet.next()){
-		                System.out.println("Inside RS");
 		                byte[] bytearray = new byte[1048576];
 		                int size=0;
 		                sImage = resultSet.getBinaryStream("image_logo");

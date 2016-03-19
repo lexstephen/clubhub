@@ -73,7 +73,7 @@ public class ColourSchemeDao {
 	    	//
 
 
-			    		preparedStatement = connect.prepareStatement("UPDATE ch_colour_scheme SET `name`=?, `dark_colour`=?, `med_colour`=?, `light_colour`=?, `text_colour`=? WHERE `id` = " + request.getParameter("id"));
+			    		preparedStatement = connect.prepareStatement("UPDATE ch_colour_scheme SET `name`=?, `dark_colour`=?, `med_colour`=?, `light_colour`=?, `text_colour`=? WHERE `id` = " + request.getParameter("csid"));
 			    		preparedStatement.setString(1, request.getParameter("name")); // name
 			    		preparedStatement.setString(2, request.getParameter("dark_colour")); // dark_colour 
 			    		preparedStatement.setString(3, request.getParameter("med_colour")); // med_colour

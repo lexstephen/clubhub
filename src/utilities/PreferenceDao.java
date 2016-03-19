@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import model.Post;
 import model.Preference;
 import model.User;
 import utilities.DatabaseAccess;
@@ -174,7 +175,7 @@ public class PreferenceDao {
 		            input_featured_image_10 = filePart.getInputStream();
 		        }
 		        */
-			    		preparedStatement = connect.prepareStatement("insert into ch_Preferences (`id`, `image_logo`, `image_small_logo`, `club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, `country`, `status`) values (default, ?, ?, ?, ?, ?, ?, ?, ?)");
+			    		preparedStatement = connect.prepareStatement("insert into ch_Preferences (`id`, `image_logo`, `image_small_logo`, `club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, `country`, `status`, `preference_name`) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			    		preparedStatement.setBlob(1, input_image_logo); // image_logo
 			    		preparedStatement.setBlob(2, input_image_small_logo); // image_small_logo
 			    		preparedStatement.setString(3, request.getParameter("club_name_long")); // club_name_long
@@ -200,6 +201,7 @@ public class PreferenceDao {
 			    		preparedStatement.setString(7, request.getParameter("country")); // country
 			    		String status = request.getParameter("status");
 			    		preparedStatement.setInt(8, Integer.parseInt(status)); // status
+			    		preparedStatement.setString(9, request.getParameter("preference_name")); // preference_name
 
 			    		preparedStatement.executeUpdate(); 
 			    		
@@ -241,6 +243,30 @@ public class PreferenceDao {
 			      throw e;
 			}
 	} 
+	public void showAllPrefs(HttpServletRequest request) throws Exception {
+    	HttpSession session = request.getSession();
+		List<Preference> prefs = new ArrayList<Preference>();
+		try{
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT * from ch_Preferences");
+			    while (resultSet.next()) {
+			    	Preference pref = new Preference();
+			    	pref.setId(resultSet.getString("id"));
+			    	pref.setPreference_name(resultSet.getString("preference_name"));
+			    	pref.setClub_name_long(resultSet.getString("club_name_long"));
+			    	pref.setClub_name_short(resultSet.getString("club_name_short"));
+			    	pref.setColour_schemeid(Integer.parseInt(resultSet.getString("Colour_Schemeid")));
+			    	pref.setTax_rate(Float.parseFloat(resultSet.getString("tax_rate")));
+			    	pref.setCountry(resultSet.getString("country"));
+			    	pref.setStatus(resultSet.getString("status"));
+				  	request.setAttribute("clubName", pref.getClub_name_long());
+				  	prefs.add(pref);
+			    }
+			  	session.setAttribute("prefs", prefs);
+		    } catch (SQLException e) {
+			      throw e;
+			}
+	} 
 
 	public void deletePreference(HttpServletRequest request, HttpServletResponse response, String PreferenceID) throws Exception {
 		
@@ -266,7 +292,7 @@ public class PreferenceDao {
 	  	ResultSet taxRate;
 		try {
 	  		statement = connect.createStatement();
-			taxRate = statement.executeQuery("SELECT * FROM ch_preferences");
+			taxRate = statement.executeQuery("SELECT tax_rate FROM ch_preferences WHERE status = 1");
 		  	double tax_rate = 0;
 		    while (taxRate.next()) {
 		    	tax_rate = Double.parseDouble(taxRate.getString("tax_rate"));
