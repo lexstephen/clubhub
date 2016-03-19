@@ -19,16 +19,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-<p>Use this section to customize your ClubHub installation to suit your club.</p>
 <form action="/clubhub/PreferenceController" method="post" class="form" role="form" enctype="multipart/form-data">
 <div class="form-group preferences">
 
 	<script type="text/javascript">
-	var prefs = new Array();
+	var Prefs = new Array();
 	
 	<c:forEach items="${prefs}" var="preference" varStatus="status"> 
 		PrefObj = new Object();
-		PrefObj.id = "${preference.id}"; 
+		PrefObj.prefid = "${preference.id}"; 
 		PrefObj.preference_name = "${preference.preference_name}";
 		PrefObj.club_name_long = "${preference.club_name_long}";
 		PrefObj.club_name_short = "${preference.club_name_short}";
@@ -36,26 +35,59 @@
 		PrefObj.tax_rate = "${preference.tax_rate}"; 
 		PrefObj.country = "${preference.country}";
 		PrefObj.status = "${preference.status}";  
-		prefs.push(PrefObj);
+		Prefs.push(PrefObj);
 	</c:forEach> 
 	PrefObj = new Object();
-	PrefObj.id = "000"; 
-	PrefObj.name = "--Add New--";
-	prefs.push(PrefObj);
+	PrefObj.prefid = "000"; 
+	PrefObj.preference_name = "";
+	PrefObj.club_name_long = "";
+	PrefObj.club_name_short = "";
+	PrefObj.colour_schemeid = "";
+	PrefObj.tax_rate = ""; 
+	PrefObj.country = "";
+	PrefObj.status = "";  
+	Prefs.push(PrefObj);
 </script>
 
+	<script type="text/javascript">
+	var Schemes = new Array();
+	
+	<c:forEach items="${colour_schemes}" var="colour_scheme" varStatus="status"> 
+		SchemeObj = new Object();
+		SchemeObj.csid = ${colour_scheme.id}; 
+		SchemeObj.name = "${colour_scheme.name}";
+		SchemeObj.dark_colour = "${colour_scheme.dark_colour}";
+		SchemeObj.med_colour = "${colour_scheme.med_colour}";
+		SchemeObj.light_colour = "${colour_scheme.light_colour}";
+		SchemeObj.text_colour = "${colour_scheme.text_colour}"; 
+		Schemes.push(SchemeObj);
+	</c:forEach> 
+	SchemeObj = new Object();
+	SchemeObj.csid = "000"; 
+	SchemeObj.name = "--Add New--";
+	SchemeObj.dark_colour = "";
+	SchemeObj.med_colour = "";
+	SchemeObj.light_colour = "";
+	SchemeObj.text_colour = ""; 
+	Schemes.push(SchemeObj);
+</script>
 	<div class="row">
-		<label class="col-sm-3 control-label">
-		 
-		</label>
-		<div class="col-sm-9">
-			<select name="prefid" class="form-control" id="inptPrefID">
-		 		<option value="000" ${preference.preference_name == '--Add New--' ? 'selected' : ''}>--Add New--</option>
-				<c:forEach items="${prefs}" var="preference">
-			 		<option value="${preference.id}" ${preferenceID == preference.id ? 'selected' : ''}>${preference.preference_name}</option>
-				</c:forEach>
-			</select>
-		</div>	
+		<div class="col-sm-12">
+			<p>Use this section to customize your ClubHub installation to suit your club.</p>
+			<p>Edit a pre-existing Preference by selecting it from the drop down list, or select 'Add New' to enter a new one.</p>
+		
+			<div class="row">
+				<div class="col-sm-7 col-sm-offset-5">
+					<select name="prefid" class="form-control" id="inptPrefID">
+				 		<option value="000" ${preference.id == '000' ? 'selected' : ''}>-- Add New --</option>
+						<c:forEach items="${prefs}" var="preference">
+					 		<option value="${preference.id}" ${preferenceID == preference.id ? 'selected' : ''}>${preference.preference_name}</option>
+						</c:forEach>
+					</select>
+				</div>	
+			</div>
+			<hr>
+		</div>
 	</div>
 	
 	<div class="row">
@@ -125,6 +157,12 @@
 						 		<option value="${colour_scheme.id}" ${colour_schemeid == colour_scheme.id ? 'selected' : ''}>${colour_scheme.name}</option>
 							</c:forEach>
 						</select>
+					  	</div>
+					  	<div class="row">
+					  		<div class="col-xs-3" id="preview_Dark_colour">&nbsp;</div>
+					  		<div class="col-xs-3" id="preview_Med_colour">&nbsp;</div>
+					  		<div class="col-xs-3" id="preview_Light_colour">&nbsp;</div>
+					  		<div class="col-xs-3" id="preview_Text_colour">&nbsp;</div>
 					  	</div>
 				</div>
 				<!--  

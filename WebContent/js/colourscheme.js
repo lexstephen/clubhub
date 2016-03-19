@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+	
     $("select[name='csid']").change(function(){
         $(this).find("option:selected").each(function(){
     		for	(index = 0; index < Schemes.length; index++) {
@@ -16,21 +17,52 @@ $(document).ready(function(){
     	            }
                 }
             });
-        }).change();
-});
+    }).change();
 
-$(document).ready(function(){
-    $("select[name='prefid']").change(function(){
+    $("select[name='colour_schemeid']").change(function(){
         $(this).find("option:selected").each(function(){
-    		for	(index = 0; index < prefs.length; index++) {
-                if($(this).attr("value")==prefs[index].prefid){
-  				  document.getElementById('inpt_preference_name').value = prefs[index].preference_name;
-				  document.getElementById('inpt_club_name_long').value = prefs[index].club_name_long;
-				  document.getElementById('inpt_club_name_short').value = prefs[index].club_name_short;
+    		for	(index = 0; index < Schemes.length; index++) {
+                if($(this).attr("value")==Schemes[index].csid){
+    				  $('#preview_Dark_colour').css({'background-color':'#'+Schemes[index].dark_colour});
+    				  $('#preview_Med_colour').css({'background-color':'#'+Schemes[index].med_colour});
+    				  $('#preview_Light_colour').css({'background-color':'#'+Schemes[index].light_colour});
+    				  $('#preview_Text_colour').css({'background-color':'#'+Schemes[index].text_colour}); 
     	            }
                 }
             });
-        }).change();
+    }).change();
+
+    $("select[name='prefid']").change(function(){
+        $(this).find("option:selected").each(function(){
+    		for	(index = 0; index < Schemes.length; index++) {
+                if($(this).attr("value")==Schemes[index].colour_schemeid){
+    				  $('#preview_Dark_colour').css({'background-color':'#'+Schemes[index].dark_colour});
+    				  $('#preview_Med_colour').css({'background-color':'#'+Schemes[index].med_colour});
+    				  $('#preview_Light_colour').css({'background-color':'#'+Schemes[index].light_colour});
+    				  $('#preview_Text_colour').css({'background-color':'#'+Schemes[index].text_colour}); 
+    	            }
+                }
+            });
+    }).change();
+    
+    $("select[name='prefid']").change(function(){
+        $(this).find("option:selected").each(function(){
+    		for	(index = 0; index < Prefs.length; index++) {
+                if($(this).attr("value")==Prefs[index].prefid){
+  				  $('#inpt_preference_name').val(Prefs[index].preference_name);
+				  document.getElementById('inpt_club_name_long').value = Prefs[index].club_name_long;
+				  document.getElementById('inpt_club_name_short').value = Prefs[index].club_name_short;
+				  document.getElementById('inptSchemeID').value = Prefs[index].colour_schemeid;
+				  $('#preview_Dark_colour').css({'background-color':'#'+Schemes[Prefs[index].colour_schemeid].dark_colour});
+   				  $('#preview_Med_colour').css({'background-color':'#'+Schemes[Prefs[index].colour_schemeid].med_colour});
+   				  $('#preview_Light_colour').css({'background-color':'#'+Schemes[Prefs[index].colour_schemeid].light_colour});
+   				  $('#preview_Text_colour').css({'background-color':'#'+Schemes[Prefs[index].colour_schemeid].text_colour}); 
+		    	         
+    	            }
+                }
+            });
+    }).change();
+    
 });
 
 
