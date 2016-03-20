@@ -13,7 +13,7 @@
 
 <%@ page import="utilities.PreferenceDao"%>
 <% PreferenceDao pref = new PreferenceDao(); %>
-<% pref.showAllPrefs(request); %>
+<% pref.showAllPrefs(request,response); %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -24,9 +24,12 @@
 
 	<script type="text/javascript">
 	var Prefs = new Array();
-	
+	var prefCnt = 0;
 	<c:forEach items="${prefs}" var="preference" varStatus="status"> 
 		PrefObj = new Object();
+		PrefObj.id = prefCnt;
+		prefCnt++;
+		console.log( "Preference count is " + prefCnt);
 		PrefObj.prefid = "${preference.id}"; 
 		PrefObj.preference_name = "${preference.preference_name}";
 		PrefObj.club_name_long = "${preference.club_name_long}";
@@ -35,17 +38,21 @@
 		PrefObj.tax_rate = "${preference.tax_rate}"; 
 		PrefObj.country = "${preference.country}";
 		PrefObj.status = "${preference.status}";  
+		PrefObj.featured_images = ${preference.featured_images};  
 		Prefs.push(PrefObj);
 	</c:forEach> 
 	PrefObj = new Object();
+	PrefObj.id = prefCnt;
+	prefCnt++;
 	PrefObj.prefid = "000"; 
 	PrefObj.preference_name = "";
 	PrefObj.club_name_long = "";
 	PrefObj.club_name_short = "";
-	PrefObj.colour_schemeid = "";
+	PrefObj.colour_schemeid = "8";
 	PrefObj.tax_rate = ""; 
 	PrefObj.country = "";
-	PrefObj.status = "";  
+	PrefObj.status = ""; 
+	PrefObj.featured_images = 0;   
 	Prefs.push(PrefObj);
 </script>
 
@@ -137,7 +144,7 @@
 			Tax Rate
 		</label>
 		<div class="col-sm-9">
-			<input class="form-control" type="text" name="tax_rate" placeholder="0.14">
+			<input class="form-control" type="text" name="tax_rate" id="tax_rate" value="">
 		</div>	
 	</div>
 	
@@ -165,37 +172,6 @@
 					  		<div class="col-xs-3" id="preview_Text_colour">&nbsp;</div>
 					  	</div>
 				</div>
-				<!--  
-				<label class="col-sm-4 control-label">
-					Customized Colour Scheme
-				</label>
-				<div class="col-sm-8">
-					<div class="row">
-						<div class="col-sm-12">
-							<input class="form-control" type="text" name="name" placeholder="Name your colour scheme">
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-1">
-							Dark:
-						</div>
-						<div class="col-sm-3">
-							<input class="form-control" type="text" name="dark_colour" placeholder="#000000">
-						</div>	
-						<div class="col-sm-1">
-							Medium:
-						</div>
-						<div class="col-sm-3">
-							<input class="form-control" type="text" name="med_colour" placeholder="#444444">
-						</div>	
-						<div class="col-sm-1">
-							Light:
-						</div>
-						<div class="col-sm-3">
-							<input class="form-control" type="text" name="light_colour" placeholder="#FFFFFF">
-						</div>	
-					</div>
-				</div>	-->
 			</div>
 		</div>
 	</div>
@@ -206,11 +182,9 @@
 			Website Logo
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="image_logo">
+			<input class="form-control" type="file" name="image_logo" id="image_logo">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2" id="display_image_logo">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -218,11 +192,9 @@
 			Small Website Logo
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="image_small_logo">
+			<input class="form-control" type="file" name="image_small_logo" id="image_small_logo">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2" id="display_image_small_logo">&nbsp;</div>	
 	</div>
 	
 	
@@ -233,9 +205,7 @@
 		<div class="col-sm-6">
 			<input class="form-control" type="file" name="featured_image_01">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2" id="display_featured_image_01">&nbsp;</div>	
 	</div>
 	
 	<div class="row">

@@ -1,5 +1,7 @@
 package utilities;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 /****************************************************************************************************
 * Project: ClubHub
 * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
@@ -243,7 +245,7 @@ public class PreferenceDao {
 			      throw e;
 			}
 	} 
-	public void showAllPrefs(HttpServletRequest request) throws Exception {
+	public void showAllPrefs(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	HttpSession session = request.getSession();
 		List<Preference> prefs = new ArrayList<Preference>();
 		try{
@@ -259,7 +261,10 @@ public class PreferenceDao {
 			    	pref.setTax_rate(Float.parseFloat(resultSet.getString("tax_rate")));
 			    	pref.setCountry(resultSet.getString("country"));
 			    	pref.setStatus(resultSet.getString("status"));
+			    	pref.setFeatured_images(Integer.parseInt(resultSet.getString("featured_images")));
 				  	request.setAttribute("clubName", pref.getClub_name_long());
+
+			  		pref.setImage_logo("true");
 				  	prefs.add(pref);
 			    }
 			  	session.setAttribute("prefs", prefs);
