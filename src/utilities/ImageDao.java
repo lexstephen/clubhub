@@ -173,6 +173,8 @@ public class ImageDao extends HttpServlet {
 			        }
 				}
 	        break;
+	        
+	        // featured image start
 			case "featured_image_01":
 				if(prefId != null) {
 					try{
@@ -218,6 +220,439 @@ public class ImageDao extends HttpServlet {
 			        }
 				}
 	        break;
+	        // featured image end
+	        
+	        // featured image start
+			case "featured_image_02":
+				if(prefId != null) {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_02 from ch_preferences where id = " + prefId);
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_02");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				} else {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_02 from ch_preferences where status = 1");
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_02");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				}
+	        break;
+	        // featured image end
+	        
+	        // featured image start
+			case "featured_image_03":
+				if(prefId != null) {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_03 from ch_preferences where id = " + prefId);
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_03");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				} else {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_03 from ch_preferences where status = 1");
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_03");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				}
+	        break;
+	        // featured image end
+	        
+	        // featured image start
+			case "featured_image_04":
+				if(prefId != null) {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_04 from ch_preferences where id = " + prefId);
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_04");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				} else {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_04 from ch_preferences where status = 1");
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_04");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				}
+	        break;
+	        // featured image end
+	        
+	        // featured image start
+			case "featured_image_05":
+				if(prefId != null) {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_05 from ch_preferences where id = " + prefId);
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_05");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				} else {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_05 from ch_preferences where status = 1");
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_05");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				}
+	        break;
+	        // featured image end
+	        
+	        // featured image start
+			case "featured_image_06":
+				if(prefId != null) {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_06 from ch_preferences where id = " + prefId);
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_06");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				} else {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_06 from ch_preferences where status = 1");
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_06");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				}
+	        break;
+	        // featured image end
+	        
+	        // featured image start
+			case "featured_image_07":
+				if(prefId != null) {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_07 from ch_preferences where id = " + prefId);
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_07");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				} else {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_07 from ch_preferences where status = 1");
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_07");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				}
+	        break;
+	        // featured image end
+	        
+	        // featured image start
+			case "featured_image_08":
+				if(prefId != null) {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_08 from ch_preferences where id = " + prefId);
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_08");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				} else {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_08 from ch_preferences where status = 1");
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_08");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				}
+	        break;
+	        // featured image end
+	        
+	        // featured image start
+			case "featured_image_09":
+				if(prefId != null) {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_09 from ch_preferences where id = " + prefId);
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_09");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				} else {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_09 from ch_preferences where status = 1");
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_09");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				}
+	        break;
+	        // featured image end
+	        
+	        // featured image start
+			case "featured_image_10":
+				if(prefId != null) {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_10 from ch_preferences where id = " + prefId);
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_10");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				} else {
+					try{
+						statement = connect.createStatement();
+						preparedStatement = connect.prepareStatement("SELECT featured_image_10 from ch_preferences where status = 1");
+						resultSet = preparedStatement.executeQuery();
+			            if(resultSet.next()){
+			                System.out.println("Inside RS");
+			                byte[] bytearray = new byte[1048576];
+			                int size=0;
+			                sImage = resultSet.getBinaryStream("featured_image_10");
+			                response.reset();
+			                response.setContentType("image/jpeg");
+			                while((size = sImage.read(bytearray)) != -1 ){
+			                    response.getOutputStream().
+			                    write(bytearray,0,size);
+			                }
+			            }
+
+			        } catch (Exception e){
+			            e.printStackTrace();
+			        }
+				}
+	        break;
+	        // featured image end
 		}
 	}
 }

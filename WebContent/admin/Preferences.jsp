@@ -182,9 +182,9 @@
 			Website Logo
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="image_logo" id="image_logo">
+			<input class="form-control file" type="file" name="image_logo" id="image_logo">
 		</div>	
-		<div class="col-sm-2" id="display_image_logo">&nbsp;</div>	
+		<div class="col-sm-2 prev_image" id="display_image_logo">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -192,9 +192,9 @@
 			Small Website Logo
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="image_small_logo" id="image_small_logo">
+			<input class="form-control file" type="file" name="image_small_logo" id="image_small_logo">
 		</div>	
-		<div class="col-sm-2" id="display_image_small_logo">&nbsp;</div>	
+		<div class="col-sm-2 prev_image" id="display_image_small_logo">&nbsp;</div>	
 	</div>
 	
 	
@@ -203,9 +203,9 @@
 			Featured Image 01
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="featured_image_01">
+			<input class="form-control file" type="file" name="featured_image_01">
 		</div>	
-		<div class="col-sm-2" id="display_featured_image_01">&nbsp;</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_01">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -213,11 +213,9 @@
 			Featured Image 02
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="featured_image_02">
+			<input class="form-control file" type="file" name="featured_image_02">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_02">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -225,11 +223,9 @@
 			Featured Image 03
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="featured_image_03">
+			<input class="form-control file" type="file" name="featured_image_03">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_03">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -237,11 +233,9 @@
 			Featured Image 04
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="featured_image_04">
+			<input class="form-control file" type="file" name="featured_image_04">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_04">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -249,11 +243,9 @@
 			Featured Image 05
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="featured_image_05">
+			<input class="form-control file" type="file" name="featured_image_05">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_05">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -261,11 +253,9 @@
 			Featured Image 06
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="featured_image_06">
+			<input class="form-control file" type="file" name="featured_image_06">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_06">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -273,11 +263,9 @@
 			Featured Image 07
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="featured_image_07">
+			<input class="form-control file" type="file" name="featured_image_07">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2" prev_image id="display_featured_image_07">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -285,11 +273,9 @@
 			Featured Image 08
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="featured_image_08">
+			<input class="form-control file" type="file" name="featured_image_08">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_08">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -297,11 +283,9 @@
 			Featured Image 09
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="featured_image_09">
+			<input class="form-control file" type="file" name="featured_image_09">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_09">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -309,11 +293,9 @@
 			Featured Image 10
 		</label>
 		<div class="col-sm-6">
-			<input class="form-control" type="file" name="featured_image_10">
+			<input class="form-control file" type="file" name="featured_image_10">
 		</div>	
-		<div class="col-sm-2">
-			<!-- <img src="/clubhub/images/rcc.png"> -->
-		</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_10">&nbsp;</div>	
 	</div>
 	
 			<div class="row">

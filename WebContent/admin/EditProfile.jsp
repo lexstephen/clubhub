@@ -225,7 +225,7 @@
 			<div class="col-xs-12">
 				<div class="form-group <c:if test="${!empty errorProfilePhoto}">has-error</c:if>">
 			    	<label for="inptProfilePhoto">Profile Photo</label>
-			    	<input type="file" name="profilePhoto" class="form-control" id="inptProfilePhoto">
+			    	<input type="file" name="profilePhoto" class="form-control file" id="inptProfilePhoto">
 	    			<p class="help-block">Upload a square jpg.</p>
 			  	</div>
 			</div>

@@ -43,11 +43,7 @@ $(document).ready(function(){
       				  $('#inptCountry').val(Prefs[index].country);
       				  $('#tax_rate').val(Prefs[index].tax_rate);
       				  $('#inptSchemeID').val(Prefs[index].colour_schemeid);
-      			//	  $('#image_logo').val(Prefs[index].image_logo);
-      			//	  $('#image_small_logo').val(Prefs[index].image_small_logo);
-//      				  $('#').val(Prefs[index].);
-  //    				  $('#').val(Prefs[index].);
-
+      				  
       				var image_logo = document.createElement("IMG");
       				image_logo.alt = "Preview of image"
       				image_logo.setAttribute('class', 'photo');
@@ -65,13 +61,21 @@ $(document).ready(function(){
       				console.log("Current image is " + currentImage + " and featured images is " + Prefs[currentImage].featured_images);
       				
     				if(Prefs[currentImage].featured_images > 0) {
-    					var featured_image_01 = document.createElement("IMG");
-    					featured_image_01.alt = "Preview of image"
-    						featured_image_01.setAttribute('class', 'photo');
-    					featured_image_01.src="/clubhub/ImageDao?t=featured_image_01&p=" + Prefs[index].prefid;
-    					$('#display_featured_image_01').html(featured_image_01);
+    					for (var i = 1; i <= Prefs[currentImage].featured_images; i++) {
+	    					var featured_image_01 = document.createElement("IMG");
+	    					featured_image_01.alt = "Preview of image"
+	    					featured_image_01.setAttribute('class', 'photo');
+	    					featured_image_01.src="/clubhub/ImageDao?t=featured_image_0"+i+"&p=" + Prefs[index].prefid;
+	    					$('#display_featured_image_0' + i).html(featured_image_01);
+    					}
    				  	} else {
-    					$('#display_featured_image_01').html("");
+    					for (var i = 1; i <= 10; i++) {
+	    					var featured_image_01 = document.createElement("IMG");
+	    					featured_image_01.alt = "Preview of image"
+	    					featured_image_01.setAttribute('class', 'photo');
+	    					featured_image_01.src="/clubhub/ImageDao?t=featured_image_0"+i+"&p=" + Prefs[index].prefid;
+	    					$('#display_featured_image_0' + i).html("");
+    					}
    				  		
    				  	}
     				  
