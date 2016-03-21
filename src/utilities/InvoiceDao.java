@@ -242,6 +242,33 @@ public class InvoiceDao {
 		  	request.setAttribute("invoices", invoices);
 
 	}
+	
+	public void listAllForUser(HttpServletRequest request) throws Exception { 
+		  
+		List<Invoice> invoices = new ArrayList<Invoice>();
+		String userID = request.getParameter("userID");
+				
+		  	try{
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT id, invDate, status"
+		    				+ " FROM clubhub.ch_invoice WHERE Userid = " + userID);
+			      
+			    while (resultSet.next()) {
+			    	  Invoice invoice = new Invoice();
+			    	  invoice.setId(resultSet.getString("id"));
+			    	  invoice.setInvDate(resultSet.getString("invDate"));
+			    	  invoice.setStatus(resultSet.getString("status"));
+			    	  request.setAttribute("invoiceID", invoice.getId());
+			    	  invoices.add(invoice);
+			    }
+		    } catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("invoices", invoices);
+		  	System.out.println("invoices = " + invoices);
+
+	}
+	
 	public void deleteInvoice(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		// if coming from batchDelte, attribute will be set. otherwise, parameter will be set
