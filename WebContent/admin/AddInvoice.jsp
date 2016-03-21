@@ -225,7 +225,7 @@ ${errorString }
 			<div class="col-xs-9">
 				<div class="radio">
 			    	<label class="checkbox-inline">
-			      		<input type="radio" name="status" id="inptStatusU" value="unpaid" ${status == 'unpaid' ? 'checked' : ''}> Unpaid
+			      		<input type="radio" name="status" id="inptStatusU" value="unpaid" ${status != 'paid' ? 'checked' : ''}> Unpaid
 			      	</label>
 			    	<label class="checkbox-inline">
 			      		<input type="radio" name="status" id="inptStatusP" value="paid"  ${status == 'paid' ? 'checked' : ''}> Paid

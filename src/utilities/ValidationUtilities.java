@@ -40,101 +40,101 @@ public class ValidationUtilities {
 	public static boolean isValidPreference(HttpServletRequest request) {
 	 return true;
 	}
-		public static boolean isValidInvoice(HttpServletRequest request) {
+	
+	public static boolean isValidInvoice(HttpServletRequest request) {
 
+	boolean isValid = true, isValidQty = true;
+	String invDate = request.getParameter("invDate");
+	String userID = request.getParameter("userID");
+	String charge01 = request.getParameter("charge01");
+	String charge01qty = request.getParameter("charge01qty");
+	String charge02 = request.getParameter("charge02");
+	String charge02qty = request.getParameter("charge02qty");
+	String charge03 = request.getParameter("charge03");
+	String charge03qty = request.getParameter("charge03qty");
+	String charge04 = request.getParameter("charge04");
+	String charge04qty = request.getParameter("charge04qty");
+	String charge05 = request.getParameter("charge05");
+	String charge05qty = request.getParameter("charge05qty");
+	
+	
+	try {
 
-		boolean isValid = true, isValidQty = true;
-		String invDate = request.getParameter("invDate");
-		String userID = request.getParameter("userID");
-		String charge01 = request.getParameter("charge01");
-		String charge01qty = request.getParameter("charge01qty");
-		String charge02 = request.getParameter("charge02");
-		String charge02qty = request.getParameter("charge02qty");
-		String charge03 = request.getParameter("charge03");
-		String charge03qty = request.getParameter("charge03qty");
-		String charge04 = request.getParameter("charge04");
-		String charge04qty = request.getParameter("charge04qty");
-		String charge05 = request.getParameter("charge05");
-		String charge05qty = request.getParameter("charge05qty");
+		System.out.println("Charge01 is " + charge01 + " and quantity is " + charge01qty);
+		System.out.println("Charge02 is " + charge02 + " and quantity is " + charge02qty);
+		System.out.println("Charge03 is " + charge03 + " and quantity is " + charge03qty);
+		System.out.println("Charge04 is " + charge04 + " and quantity is " + charge04qty);
+		System.out.println("Charge05 is " + charge05 + " and quantity is " + charge05qty);
 		
+		if ((!charge01.equals("---")) || 
+			(!charge02.equals("---")) || 
+			(!charge03.equals("---")) || 
+			(!charge04.equals("---")) || 
+			(!charge05.equals("---")) ) {
+		// at least one of the dropdowns has a selection so lets check their respective quantities 
+			if (!charge01.equals("---")) {
+				if (!charge01qty.equals("0")) 
+					isValidQty = true;
+				else {
+					request.setAttribute("errorLineItems", "Please check quantities selected.");
+					request.setAttribute("errorCharge01Qty", true);
+					isValidQty = false;
+				}
+			}	
+			if (!charge02.equals("---")) {
+				if (!charge02qty.equals("0"))
+					isValidQty = true;
+				else {
+					request.setAttribute("errorLineItems", "Please check quantities selected.");
+					request.setAttribute("errorCharge02Qty", true);
+					isValidQty = false;
+				}
+			}	
+			if (!charge03.equals("---")) {
+				if (!charge03qty.equals("0"))
+					isValidQty = true;
+				else {
+					request.setAttribute("errorLineItems", "Please check quantities selected.");
+					request.setAttribute("errorCharge03Qty", true);
+					isValidQty = false;
+				}
+			}	
+			if (!charge04.equals("---")) {
+				if (!charge04qty.equals("0"))
+					isValidQty = true;
+				else {
+					request.setAttribute("errorLineItems", "Please check quantities selected.");
+					request.setAttribute("errorCharge04Qty", true);
+					isValidQty = false;
+				}
+			}	
+			if (!charge05.equals("---")) {
+				if (!charge05qty.equals("0"))
+					isValidQty = true;
+				else {
+					request.setAttribute("errorLineItems", "Please check quantities selected.");
+					request.setAttribute("errorCharge05Qty", true);
+					isValidQty = false;
+				}
+			}	
+		} else {
+			// none of the dropdowns had a selection, your invoice is invalid
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorLineItems", "No line items selected");
+			isValidQty = false;
+		}
+			
 		
-		try {
-
-			System.out.println("Charge01 is " + charge01 + " and quantity is " + charge01qty);
-			System.out.println("Charge02 is " + charge02 + " and quantity is " + charge02qty);
-			System.out.println("Charge03 is " + charge03 + " and quantity is " + charge03qty);
-			System.out.println("Charge04 is " + charge04 + " and quantity is " + charge04qty);
-			System.out.println("Charge05 is " + charge05 + " and quantity is " + charge05qty);
-			
-			if ((!charge01.equals("---")) || 
-				(!charge02.equals("---")) || 
-				(!charge03.equals("---")) || 
-				(!charge04.equals("---")) || 
-				(!charge05.equals("---")) ) {
-			// at least one of the dropdowns has a selection so lets check their respective quantities 
-				if (!charge01.equals("---")) {
-					if (!charge01qty.equals("0")) 
-						isValidQty = true;
-					else {
-						request.setAttribute("errorLineItems", "Please check quantities selected.");
-						request.setAttribute("errorCharge01Qty", true);
-						isValidQty = false;
-					}
-				}	
-				if (!charge02.equals("---")) {
-					if (!charge02qty.equals("0"))
-						isValidQty = true;
-					else {
-						request.setAttribute("errorLineItems", "Please check quantities selected.");
-						request.setAttribute("errorCharge02Qty", true);
-						isValidQty = false;
-					}
-				}	
-				if (!charge03.equals("---")) {
-					if (!charge03qty.equals("0"))
-						isValidQty = true;
-					else {
-						request.setAttribute("errorLineItems", "Please check quantities selected.");
-						request.setAttribute("errorCharge03Qty", true);
-						isValidQty = false;
-					}
-				}	
-				if (!charge04.equals("---")) {
-					if (!charge04qty.equals("0"))
-						isValidQty = true;
-					else {
-						request.setAttribute("errorLineItems", "Please check quantities selected.");
-						request.setAttribute("errorCharge04Qty", true);
-						isValidQty = false;
-					}
-				}	
-				if (!charge05.equals("---")) {
-					if (!charge05qty.equals("0"))
-						isValidQty = true;
-					else {
-						request.setAttribute("errorLineItems", "Please check quantities selected.");
-						request.setAttribute("errorCharge05Qty", true);
-						isValidQty = false;
-					}
-				}	
-			} else {
-				// none of the dropdowns had a selection, your invoice is invalid
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItems", "No line items selected");
-				isValidQty = false;
-			}
-				
-			
-			// check date format to ensure it is entered yyyy-mm-dd
-			String dateFormat = "yyyy-mm-dd";
-			SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
-			sdf.setLenient(false);
-			
-			//if not valid, it will throw ParseException
-			Date date = sdf.parse(invDate);
-			System.out.println(date);
-			isValid = true;
-			return (isValid && isValidQty);
+		// check date format to ensure it is entered yyyy-mm-dd
+		String dateFormat = "yyyy-mm-dd";
+		SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+		sdf.setLenient(false);
+		
+		//if not valid, it will throw ParseException
+		Date date = sdf.parse(invDate);
+		System.out.println(date);
+		isValid = true;
+		return (isValid && isValidQty);
 		} catch (Exception e) {
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorInvDate", "Date format must be yyyy-mm-dd");

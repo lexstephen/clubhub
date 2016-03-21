@@ -13,7 +13,7 @@
 	<td class="col-xs-12 col-md-2">${invoice.status }</td>
 	<td class="col-xs-12 col-md-2">
 		<span class="expand">		
-			<a href="/clubhub/admin/Invoice.jsp?invoiceID=${invoice.id}" class="btn btn-primary btn-xs">View</a>
+			<a href="/clubhub/admin/EditInvoice.jsp?invoiceID=${invoice.id}" class="btn btn-primary btn-xs">View</a>
 		</span>
 	</td>
 </tr>
