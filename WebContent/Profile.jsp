@@ -17,8 +17,11 @@
 	request.setAttribute("userID", request.getParameter("userID"));
 	user.getUserAge(request);
 	user.getName(request,"viewprofile");
+	user.getUserId(request,"viewprofile");
 	String thisTitle = "View Profile: " + session.getAttribute("userFullName");
 	request.setAttribute("thisPage", thisTitle); 
+	InvoiceDao invoice = new InvoiceDao();
+	invoice.listAllForUser(request);
 %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
@@ -193,6 +196,55 @@
 		</div>
 	</div>
 	
+	<c:if test="${(isAdmin == true) || (invoice.userID == loggedInUserID)}">
+		<div class="row">
+			<h3>Invoices</h3>
+			<div class="col-xs-10 col-xs-offset-1">
+				<c:choose>
+					<c:when test = "${not empty invoices}">
+						<form action="/clubhub/InvoiceController" method="post" class="form" role="form">
+						  	<table class="table table-striped">
+						    <thead>
+						      <tr>
+						        <th class="col-xs-12 col-md-1 checkbox"></th>
+						        <th class="col-xs-12 col-md-3 control-label">Invoice ID</th>
+						        <th class="col-xs-12 col-md-2">Invoice Date</th>
+						        <th class="col-xs-12 col-md-2">Invoice Status</th>
+						        <th class="col-xs-12 col-md-2"></th>
+						      </tr>
+						    </thead>
+						    <tbody>
+							      <c:forEach items="${invoices}" var="invoice">
+										<%@ include file="/WEB-INF/displayUserInvoices.jsp" %>			
+								  </c:forEach>		
+						     </tbody>
+						     </table>
+						     <c:if test="${isAdmin == true }">
+								<div class="row">
+									<div class="col-sm-2 control-label">
+										Invoice Status
+									</div>
+									<div class="col-sm-3">
+										<select class="form-control" name="status">
+											<option value="paid">paid</option>
+											<option value="unpaid">unpaid</option>
+										</select>
+									</div>
+									<div class="col-sm-4 control-label">
+										<input type="hidden" name="profileRedirect" value="Profile.jsp?userID=${userID}">
+										<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
+										<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
+									</div>
+								</div>
+							</c:if>
+						</form>	
+					</c:when>
+					<c:otherwise><span class="text-center">No invoices found</span></c:otherwise>
+				</c:choose>
+			</div>		
+		</div>
+	</c:if>
+
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
 <%@ include file="/WEB-INF/footer_backend.jsp" %>

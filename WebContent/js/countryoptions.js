@@ -27,6 +27,7 @@ $('#inptCountry').bind('change', function(event) {
 	}
 });
 
+// disable PageType and Category if Web Content selected in Post
 $('#editPageType').bind('change', function(event) {
 	var i = $('#editPageType').val();
 	
@@ -41,17 +42,10 @@ $('#editPageType').bind('change', function(event) {
 	}
 });
 
+// clear item from Invoice page
 function clearItem(row) {
 	$("#inptCharge0"+row+">option:eq(0)").prop("selected", true);
 	$("#inptCharge0"+row+"qty").val("0");
 	$("#charge0"+row+"cost").val("0");
 	$("#charge0"+row+"subtotal").val("0");
-	/*var self = $(this);
-	self.closest(".row").find(".qty").val("0");
-	$("#inptCharge01qty").val("0");*/
-}
-
-function clearRow() {
-	var self = $(this);
-	self.closest('.row').find('.dd>option:eq(0)').prop('selected', true);
 }
