@@ -38,6 +38,8 @@
 		PrefObj.tax_rate = "${preference.tax_rate}"; 
 		PrefObj.country = "${preference.country}";
 		PrefObj.status = "${preference.status}";  
+		PrefObj.image_logo_exists = "true";  
+		PrefObj.image_small_logo_exists = "true";  
 		PrefObj.featured_images = ${preference.featured_images};  
 		Prefs.push(PrefObj);
 	</c:forEach> 
@@ -51,7 +53,9 @@
 	PrefObj.colour_schemeid = "8";
 	PrefObj.tax_rate = ""; 
 	PrefObj.country = "";
-	PrefObj.status = ""; 
+	PrefObj.status = "";   
+	PrefObj.image_logo_exists = "false";
+	PrefObj.image_small_logo_exists = "false";
 	PrefObj.featured_images = 0;   
 	Prefs.push(PrefObj);
 </script>
@@ -205,7 +209,7 @@
 		<div class="col-sm-6">
 			<input class="form-control file" type="file" name="featured_image_01">
 		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_01">&nbsp;</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_1">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -215,7 +219,7 @@
 		<div class="col-sm-6">
 			<input class="form-control file" type="file" name="featured_image_02">
 		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_02">&nbsp;</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_2">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -225,7 +229,7 @@
 		<div class="col-sm-6">
 			<input class="form-control file" type="file" name="featured_image_03">
 		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_03">&nbsp;</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_3">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -235,7 +239,7 @@
 		<div class="col-sm-6">
 			<input class="form-control file" type="file" name="featured_image_04">
 		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_04">&nbsp;</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_4">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -245,7 +249,7 @@
 		<div class="col-sm-6">
 			<input class="form-control file" type="file" name="featured_image_05">
 		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_05">&nbsp;</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_5">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -255,7 +259,7 @@
 		<div class="col-sm-6">
 			<input class="form-control file" type="file" name="featured_image_06">
 		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_06">&nbsp;</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_6">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -265,7 +269,7 @@
 		<div class="col-sm-6">
 			<input class="form-control file" type="file" name="featured_image_07">
 		</div>	
-		<div class="col-sm-2" prev_image id="display_featured_image_07">&nbsp;</div>	
+		<div class="col-sm-2" prev_image id="display_featured_image_7">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -275,7 +279,7 @@
 		<div class="col-sm-6">
 			<input class="form-control file" type="file" name="featured_image_08">
 		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_08">&nbsp;</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_8">&nbsp;</div>	
 	</div>
 	
 	<div class="row">
@@ -285,7 +289,7 @@
 		<div class="col-sm-6">
 			<input class="form-control file" type="file" name="featured_image_09">
 		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_09">&nbsp;</div>	
+		<div class="col-sm-2 prev_image" id="display_featured_image_9">&nbsp;</div>	
 	</div>
 	
 	<div class="row">

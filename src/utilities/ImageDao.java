@@ -175,7 +175,7 @@ public class ImageDao extends HttpServlet {
 	        break;
 	        
 	        // featured image start
-			case "featured_image_01":
+			case "featured_image_1":
 				if(prefId != null) {
 					try{
 						statement = connect.createStatement();
@@ -223,7 +223,7 @@ public class ImageDao extends HttpServlet {
 	        // featured image end
 	        
 	        // featured image start
-			case "featured_image_02":
+			case "featured_image_2":
 				if(prefId != null) {
 					try{
 						statement = connect.createStatement();
@@ -271,7 +271,7 @@ public class ImageDao extends HttpServlet {
 	        // featured image end
 	        
 	        // featured image start
-			case "featured_image_03":
+			case "featured_image_3":
 				if(prefId != null) {
 					try{
 						statement = connect.createStatement();
@@ -319,7 +319,7 @@ public class ImageDao extends HttpServlet {
 	        // featured image end
 	        
 	        // featured image start
-			case "featured_image_04":
+			case "featured_image_4":
 				if(prefId != null) {
 					try{
 						statement = connect.createStatement();
@@ -367,7 +367,7 @@ public class ImageDao extends HttpServlet {
 	        // featured image end
 	        
 	        // featured image start
-			case "featured_image_05":
+			case "featured_image_5":
 				if(prefId != null) {
 					try{
 						statement = connect.createStatement();
@@ -415,7 +415,7 @@ public class ImageDao extends HttpServlet {
 	        // featured image end
 	        
 	        // featured image start
-			case "featured_image_06":
+			case "featured_image_6":
 				if(prefId != null) {
 					try{
 						statement = connect.createStatement();
@@ -463,7 +463,7 @@ public class ImageDao extends HttpServlet {
 	        // featured image end
 	        
 	        // featured image start
-			case "featured_image_07":
+			case "featured_image_7":
 				if(prefId != null) {
 					try{
 						statement = connect.createStatement();
@@ -511,7 +511,7 @@ public class ImageDao extends HttpServlet {
 	        // featured image end
 	        
 	        // featured image start
-			case "featured_image_08":
+			case "featured_image_8":
 				if(prefId != null) {
 					try{
 						statement = connect.createStatement();
@@ -559,7 +559,7 @@ public class ImageDao extends HttpServlet {
 	        // featured image end
 	        
 	        // featured image start
-			case "featured_image_09":
+			case "featured_image_9":
 				if(prefId != null) {
 					try{
 						statement = connect.createStatement();

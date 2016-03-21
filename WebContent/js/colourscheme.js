@@ -43,18 +43,28 @@ $(document).ready(function(){
       				  $('#inptCountry').val(Prefs[index].country);
       				  $('#tax_rate').val(Prefs[index].tax_rate);
       				  $('#inptSchemeID').val(Prefs[index].colour_schemeid);
-      				  
-      				var image_logo = document.createElement("IMG");
-      				image_logo.alt = "Preview of image"
-      				image_logo.setAttribute('class', 'photo');
-      				image_logo.src="/clubhub/ImageDao?t=image_logo&p=" + Prefs[index].prefid;
-      				$('#display_image_logo').html(image_logo);
-  				  
+
+  					console.log("I am looking at " + Prefs[index] + " which is ");
+    				if(Prefs[index].image_logo_exists == "true") {
+    					console.log("I think the image logo exists");
+        				var image_logo = document.createElement("IMG");
+        				image_logo.alt = "Preview of image"
+        				image_logo.setAttribute('class', 'photo');
+        				image_logo.src="/clubhub/ImageDao?t=image_logo&p=" + Prefs[index].prefid;
+        				$('#display_image_logo').html(image_logo);
+  				}
+
+
+  				if(Prefs[index].image_small_logo_exists == "true") {
       				var image_small_logo = document.createElement("IMG");
       				image_small_logo.alt = "Preview of image"
       				image_small_logo.setAttribute('class', 'photo');
       				image_small_logo.src="/clubhub/ImageDao?t=image_small_logo&p=" + Prefs[index].prefid;
       				$('#display_image_small_logo').html(image_small_logo);
+				}
+    					
+  				  
+
 
       				console.log("Preference ID is " + Prefs[index].prefid);
       				var currentImage = (Prefs[index].id);
@@ -65,8 +75,8 @@ $(document).ready(function(){
 	    					var featured_image_01 = document.createElement("IMG");
 	    					featured_image_01.alt = "Preview of image"
 	    					featured_image_01.setAttribute('class', 'photo');
-	    					featured_image_01.src="/clubhub/ImageDao?t=featured_image_0"+i+"&p=" + Prefs[index].prefid;
-	    					$('#display_featured_image_0' + i).html(featured_image_01);
+	    					featured_image_01.src="/clubhub/ImageDao?t=featured_image_"+i+"&p=" + Prefs[index].prefid;
+	    					$('#display_featured_image_' + i).html(featured_image_01);
     					}
    				  	} else {
     					for (var i = 1; i <= 10; i++) {
