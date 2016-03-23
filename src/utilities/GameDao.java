@@ -159,9 +159,10 @@ public class GameDao {
 		    }
 
 	}
-/*
-	public void listAll(HttpServletRequest request) throws Exception {
-		  List<Season> seasons = new ArrayList<Season>();
+
+	/*public void listAll(HttpServletRequest request) throws Exception {
+		  List<Game> games = new ArrayList<Game>();
+		  
 		  	try{  		
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT year, season, "

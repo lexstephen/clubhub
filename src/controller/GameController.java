@@ -52,8 +52,9 @@ public class GameController extends HttpServlet {
 		    			errorChecker = "Games Created";
 		    			
 		    			address = "admin/PopulateGames.jsp";
-		    		
 		    			
+		    	break;
+		    				
 		    	case "players":
 		    		HttpSession session = request.getSession();
 		    		String [] ID =request.getParameterValues("slots");

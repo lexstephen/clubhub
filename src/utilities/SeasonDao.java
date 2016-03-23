@@ -106,28 +106,56 @@ public class SeasonDao {
 	    return season_id;
 	}
 
-	public void listAll(HttpServletRequest request) throws Exception {
+	public void listSeasonWithStatus(HttpServletRequest request) throws Exception {
 		  List<Season> seasons = new ArrayList<Season>();
 		  	try{  		
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT year, season, "
-			    		+ "gender, startDate, startTime, "
-			    		+ "dayOfWeek, duration" 
-				+ "FROM clubhub.ch_season");
+			    resultSet = statement.executeQuery("SELECT * from ch_season");
 			      
 			    while (resultSet.next()) {
 			    	  Season season = new Season();
+			    	  
+			    	  int num = resultSet.getInt("dayOfWeek");
+			    	  int givenTime = resultSet.getInt("startTime");
+			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
+			    	  String time = utilities.ValidationUtilities.toTime(request,givenTime);
+			    	  
 			    	  season.setYear(resultSet.getString("year"));
 			    	  season.setSeason(resultSet.getString("season"));
 			    	  season.setId(resultSet.getString("id"));
 			    	  season.setGender(resultSet.getString("gender"));
 			    	  season.setStartDate(resultSet.getString("startDate"));
-			    	  season.setStartTime(resultSet.getString("startTime"));
-			    	  season.setDayOfWeek(resultSet.getString("dayOfWeek"));
+			    	  season.setStartTime(time);
+			    	  season.setDayOfWeek(dayOfWeek);
 			    	  season.setDuration(resultSet.getString("duration"));
 			    	  
 			    	  request.setAttribute("seasonID", season.getId());
-
+			    	  String seasonID = resultSet.getString("id");
+			    	  
+			    	  Connection connect1 = null;
+			    	  Statement statement1 = null;
+			    	  ResultSet resultSet1 = null;
+			    		
+			    	  statement1 = connect1.createStatement();
+					  resultSet1 = statement1.executeQuery("SELECT * from ch_game where seasonID= "+ seasonID);
+					  
+					  while(resultSet1.next()){
+						  String gameID = resultSet1.getString("id");
+						  
+						  Connection connect2 = null;
+						  Statement statement2 = null;
+				    	  ResultSet resultSet2 = null;
+				    		
+				    	  statement2 = connect2.createStatement();
+						  resultSet2 = statement2.executeQuery("SELECT * from ch_slot where gameID= "+ gameID);
+						  while(resultSet2.next()){
+							  String status = resultSet2.getString("status");
+							  System.out.println("Status is :"+ status);
+						  }
+					  }
+					  
+			    	  
+			    	  
 			    	  seasons.add(season);
 			    }
 		    } catch (SQLException e) {
