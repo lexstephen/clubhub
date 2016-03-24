@@ -20,7 +20,7 @@ public class DatabaseAccess {
 	      // Setup the connection with the DB
 	      connect = DriverManager
 		          .getConnection("jdbc:mysql://localhost:3306/clubhub?"
-		              + "user=root&password=admin");
+		              + "user=root&password=clubhubGBC");
 	      return connect;
 	    } catch (Exception e) {
 	      throw e;
