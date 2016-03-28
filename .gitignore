@@ -12,6 +12,6 @@
 hs_err_pid*
 
 desktop.ini
-WebContent/Post.jsp
+
 /bin/
-src/utilities/DatabaseAccess.java
+*/DatabaseAccess.java
