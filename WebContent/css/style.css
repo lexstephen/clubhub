@@ -6746,6 +6746,10 @@ button.close {
   text-align: center;
   display: block;
 }
+body.frontend {
+  background-color: #fe0de0;
+  color: #BD8025;
+}
 .frontend {
   /* the Posted by X at 2pm section */
 }
@@ -6756,18 +6760,24 @@ button.close {
 .frontend h5,
 .frontend h6 {
   text-align: center;
-  color: #92c47d;
+  color: #2A5B84;
 }
 .frontend .base {
-  border-top: 1px solid #92c47d;
+  border-top: 1px solid #2A5B84;
+}
+.frontend .btn-primary {
+  background-color: #EBC137;
+  color: #fe0de0;
+  border-color: #EBC137;
 }
 .frontend h1,
 .frontend h2 {
-  border-bottom: 1px #92c47d solid;
+  border-bottom: 1px #2A5B84 solid;
   padding: 5px;
   margin: 5px;
 }
 .frontend .postMeta {
+  color: #EBC137;
   font-size: 12px;
   font-style: italic;
 }
@@ -6778,20 +6788,26 @@ button.close {
   text-align: right;
 }
 .frontend .navbar {
-  background: url(/clubhub/images/greenfade.png) repeat-x;
+  background-color: #2A5B84;
   border: 0;
-  padding-top: 10px;
 }
 .frontend .navbar img {
-  height: 100px;
+  height: 80px;
+  margin: 10px;
+}
+.frontend .navbar-collapse {
+  padding-top: 25px;
+}
+.frontend .pushdown {
+  padding-top: 10px;
 }
 .frontend .navbar-nav > li > a {
-  color: #eaf4e6;
+  color: #fe0de0;
 }
 .frontend .navbar-nav > li > a:hover,
 .frontend .navbar-nav > li > a:focus {
-  color: #333;
-  background-color: #a1cc8f;
+  color: #fe0de0;
+  background-color: #EBC137;
 }
 .backend {
   /* the You are now logged in as.. section */
@@ -6867,4 +6883,5 @@ button.close {
 }
 .preferences img {
   width: 50px;
+  margin: 10px;
 }
