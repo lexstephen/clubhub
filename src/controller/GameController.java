@@ -7,6 +7,7 @@ package controller;
 * Description: GameController - routes requests to proper view
 ****************************************************************************************************/
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -51,12 +52,24 @@ public class GameController extends HttpServlet {
 		    			errorChecker = "Games Created";
 		    			
 		    			address = "admin/PopulateGames.jsp";
-		    		
 		    			
-		    	/*case "playGame":
+		    	break;
+		    			
+		    	case "close":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
-	    			String UserID = request.getParameter(arg0)
+	    				dao.closeSlot(request, "1, 2, 3, 4, 6, 7, 8");
+		    			
+		    			errorChecker = "Games Created";
+		    			
+		    			address = "admin/PopulateGames.jsp";
+		    			
+		    	break;
+		    	
+		    	/*case "switchPlayers":
+		    		//if (ValidationUtilities.isValidSeason(request)) {
+		    			
+	    			String seasonID = request.getParameter("seasonID");
 		    		
 		    		System.out.println("The Id is: "+ seasonID);
 		    		dao.addToDatabase(request, response, seasonID);
@@ -65,11 +78,36 @@ public class GameController extends HttpServlet {
 		    			errorChecker = "Games Created";
 		    			
 		    			address = "admin/PopulateGames.jsp";
+		    			
+		    	break;*/
+		    	
+		    	case "players":
+		    		HttpSession session = request.getSession();
+		    		String [] ID =request.getParameterValues("slots");
 		    		
-		    			*/
-			    		/*errorChecker = "Season Not Created!!";
-		    			address = "/CreateSeason.jsp";*/
+		    		StringBuilder builder = new StringBuilder();
+		    		if (ID.length >= 1) {
+		    			builder.append(ID[0]);
+		    		}
+
+		    		for (int i = 1; i < ID.length; i++) { 
+		    			builder.append(", ");
+		    			builder.append(ID[i]);
+		    		}
 		    		
+		    		
+		    		String slotIDs = builder.toString();
+		    		Object id = session.getAttribute("loggedInUserID");
+		    		String userID = id.toString();
+
+		    		System.out.println("The current user ID is: " + userID);
+		    		
+		    		//String slots = ID.toString();
+		    		System.out.println(slotIDs);
+		    		
+		    		dao.playersAvailable(request, userID, slotIDs);
+		    		
+		    		errorChecker = "Dun";
 	    		break;
 		    	
 		    	default:

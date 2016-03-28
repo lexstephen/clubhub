@@ -8,7 +8,8 @@ package model;
 ****************************************************************************************************/
 public class Slot {
 	private String id, dayOfWeek, week, gender, players, scheduledDate;
-	private int time, status;
+	String time;
+	private int status;
 	
 	public String getPlayers(){
 		return players;
@@ -50,11 +51,11 @@ public class Slot {
 		this.gender = gender;
 	}
 	
-	public int getTime() {
+	public String getTime() {
 		return time;
 	}
 	
-	public void setTime(int time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 	

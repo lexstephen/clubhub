@@ -28,8 +28,8 @@
 			Season
 		</label><br><br>
 		<div class="col-sm-5">
-				Season
 			<select class="form-control" name="season">
+				Season
 				<option value="S">Spring</option>
 				<option value="SM">Summer</option>				
 				<option value="F">Fall</option>
@@ -48,7 +48,7 @@
 		<br><br><br><br>
 		<div class="col-sm-6">
 		
-			<b>Start Date</b>
+			<b>Start Date</b></b>
 		<br>
 			<input type="text" name="theDate"><p class="help-block">yyyy-mm-dd</p>
 			
@@ -56,7 +56,7 @@
 		<br><br><br>
 		<div class="col-sm-6">
 		
-			<b>Start Time</b>
+			<b>Start Time</b></b>
 		<br>
 			<input class="col-sm-4" type="text" name="startTime" value="${startTime}">
 		</div>
@@ -64,7 +64,7 @@
 		<br>
 		<div class="col-sm-6">
 		<br><br>
-			<b>Season Duration(in weeks)</b>
+			<b>Season Duration(in weeks)</b></b>
 		<br>
 			<input class="col-sm-4" type="text" name="duration" value="${duration}">
 		</div>

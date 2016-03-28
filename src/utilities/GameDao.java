@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletRequest;
@@ -31,6 +32,7 @@ import model.Season;
 import model.Slot;
 import model.User;
 import utilities.DatabaseAccess;
+import utilities.ValidationUtilities;
 
 public class GameDao {
 	private Connection connect = null;
@@ -120,14 +122,24 @@ public class GameDao {
 				preparedStatement.setString(3, seasonID);
 				preparedStatement.executeUpdate();
 				
-				PreparedStatement preparedStatement2 = connect.prepareStatement("insert into ch_slot values (default, ?, ?, ?, ?, ?, ?, null)");
+				statement = connect.createStatement();
+				ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID();");
+			     
+				String gameID = null;
+			      
+			      while(rs.next()){
+			    	  gameID = rs.getString("LAST_INSERT_ID()");
+			    	  System.out.println("The current game ID is: " + gameID);
+			      }
+				
+				PreparedStatement preparedStatement2 = connect.prepareStatement("insert into ch_slot values (default, ?, ?, ?, ?, ?, ?, null, ?)");
 				preparedStatement2.setInt(1, dayOfWeek );	//week of game
 				preparedStatement2.setInt(2, time); // date of game
 				preparedStatement2.setInt(3, week);
 				preparedStatement2.setString(4, gender);
 				preparedStatement2.setInt(5, 1);
 				preparedStatement2.setString(6, date);
-				//preparedStatement2.setString(7, null);
+				preparedStatement2.setString(7, gameID);
 				preparedStatement2.executeUpdate();
 				
 				
@@ -148,9 +160,10 @@ public class GameDao {
 		    }
 
 	}
-/*
-	public void listAll(HttpServletRequest request) throws Exception {
-		  List<Season> seasons = new ArrayList<Season>();
+
+	/*public void listAll(HttpServletRequest request) throws Exception {
+		  List<Game> games = new ArrayList<Game>();
+		  
 		  	try{  		
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT year, season, "
@@ -255,6 +268,59 @@ public class GameDao {
 		  	request.setAttribute("game", game);
 	} 
 	
+	public void playersAvailable(HttpServletRequest request, String userID, String slotIDs) throws Exception{
+		
+		String [] slots = slotIDs.split(",");
+		try{
+			statement = connect.createStatement();
+			
+			for (int i = 0; i < slots.length; i++) { 
+				String slotID = slots[i];
+				ResultSet results = statement.executeQuery("select * from ch_slot where id = " + slotID); 
+				while(results.next()){
+					String availablePlayers = results.getString("availablePlayers");
+					if(availablePlayers != null && availablePlayers.contains(userID)){
+						System.out.println("User already exists in current slot");
+						}else {
+							
+							if(availablePlayers != null){
+								String theIDs = availablePlayers +", "+ userID;
+								System.out.println(userID);
+								PreparedStatement preparedStatement = connect.prepareStatement("UPDATE ch_slot SET availablePlayers = ? WHERE id= " + slotID);
+								preparedStatement.setString(1, theIDs);
+								preparedStatement.executeUpdate();
+							}else{
+								PreparedStatement preparedStatement = connect.prepareStatement("UPDATE ch_slot SET availablePlayers = ? WHERE id= " + slotID);
+								System.out.println(userID);
+								preparedStatement.setString(1, userID);
+								preparedStatement.executeUpdate();
+							}
+							
+						}
+					}
+				}
+			
+		}catch(SQLException e) {
+		      throw e;
+		}
+	}
+	
+public void closeSlot(HttpServletRequest request, String playerIDs) throws Exception{
+		
+		String [] players = playerIDs.split(",");
+		String random = null;
+		for (int i=0; i < 4 ; i++){
+			if (random != null){
+			 random += (players[new Random().nextInt(players.length)]);
+			}else{
+				random = (players[new Random().nextInt(players.length)]);
+			}
+			 
+		}
+		System.out.println(random);
+	}
+	
+	
 	public void findOpenGameSlots(HttpServletRequest request, int userID) throws Exception {
 		  //Game game = new Game();
 		List<Slot> slots = new ArrayList<Slot>();
@@ -270,11 +336,18 @@ public class GameDao {
 			    resultSet2 = statement.executeQuery("Select * from ch_slot where gender= \""+ userGender +"\" And status= 1");
 			    
 			    while (resultSet2.next()) {
+			    	int num = resultSet2.getInt("dayOfWeek");
+			    	int givenTime = resultSet2.getInt("time");
+			    	String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
+			    	String time = utilities.ValidationUtilities.toTime(request,givenTime);
+			    	
+			    	
+			    	//System.out.println("The day of week is: "+ dayOfWeek);
 			    	Slot slot = new Slot();
-			    	slot.setDayOfWeek(resultSet2.getString("dayOfWeek"));
-			    	slot.setTime(resultSet2.getInt("time"));
+			    	slot.setDayOfWeek(dayOfWeek);
+			    	slot.setTime(time);
 			    	slot.setScheduledDate(resultSet2.getString("scheduledDate"));
-			    	     	  
+			    	slot.setId(resultSet2.getString("id"));    	  
 			    	request.setAttribute("slotID", slot.getId());
 			    	  slots.add(slot);
 			    	
