@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
-
+import model.Game;
 import model.Season;
 
 import utilities.DatabaseAccess;
@@ -132,22 +132,81 @@ public class SeasonDao {
 			    	  request.setAttribute("seasonID", season.getId());
 			    	  String seasonID = resultSet.getString("id");
 			    	  
-			    	  Connection connect1 = null;
 			    	  Statement statement1 = null;
 			    	  ResultSet resultSet1 = null;
 			    		
-			    	  statement1 = connect1.createStatement();
+			    	  statement1 = connect.createStatement();
 					  resultSet1 = statement1.executeQuery("SELECT * from ch_game where seasonID= "+ seasonID);
 					  
 					  while(resultSet1.next()){
 						  String gameID = resultSet1.getString("id");
-						  
-						  Connection connect2 = null;
+						  System.out.println("Game id is: " +gameID);
 						  Statement statement2 = null;
 				    	  ResultSet resultSet2 = null;
 				    		
-				    	  statement2 = connect2.createStatement();
+				    	  statement2 = connect.createStatement();
 						  resultSet2 = statement2.executeQuery("SELECT * from ch_slot where gameID= "+ gameID);
+						  
+						  while(resultSet2.next()){
+							  String status = resultSet2.getString("status");
+							  System.out.println("Status is :"+ status);
+						  }
+					  }
+					  
+			    	  
+			    	  
+			    	  seasons.add(season);
+			    }
+		    } catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("seasons", seasons);
+	} 
+	
+	
+	public void listSeasonWithGames(HttpServletRequest request, String seasonID) throws Exception {
+		  List<Game> games = new ArrayList<Game>();
+		  	try{  		
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT * from ch_season where id=" + seasonID);
+			      
+			    while (resultSet.next()) {
+			    	  Season season = new Season();
+			    	  
+			    	  int num = resultSet.getInt("dayOfWeek");
+			    	  int givenTime = resultSet.getInt("startTime");
+			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
+			    	  String time = utilities.ValidationUtilities.toTime(request,givenTime);
+			    	  
+			    	  season.setYear(resultSet.getString("year"));
+			    	  season.setSeason(resultSet.getString("season"));
+			    	  season.setId(resultSet.getString("id"));
+			    	  season.setGender(resultSet.getString("gender"));
+			    	  season.setStartDate(resultSet.getString("startDate"));
+			    	  season.setStartTime(time);
+			    	  season.setDayOfWeek(dayOfWeek);
+			    	  season.setDuration(resultSet.getString("duration"));
+			    	  
+			    	  
+			    	  Statement statement1 = null;
+			    	  ResultSet resultSet1 = null;
+			    		
+			    	  statement1 = connect.createStatement();
+					  resultSet1 = statement1.executeQuery("SELECT * from ch_game where seasonID= "+ seasonID);
+					  
+					  while(resultSet1.next()){
+						  Game game = new Game();
+						  
+						  game.set
+						  
+						  String gameID = resultSet1.getString("id");
+						  System.out.println("Game id is: " +gameID);
+						  Statement statement2 = null;
+				    	  ResultSet resultSet2 = null;
+				    		
+				    	  statement2 = connect.createStatement();
+						  resultSet2 = statement2.executeQuery("SELECT * from ch_slot where gameID= "+ gameID);
+						  
 						  while(resultSet2.next()){
 							  String status = resultSet2.getString("status");
 							  System.out.println("Status is :"+ status);

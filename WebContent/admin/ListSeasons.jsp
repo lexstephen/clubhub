@@ -27,7 +27,9 @@ season.listSeasonWithStatus(request);
 		
 		<c:forEach items="${seasons}" var="season">
 			<tr>
-				<td class="col-xs-12 col-md-3 control-label"><b>&nbsp&nbsp&nbsp&nbsp&nbsp${season.dayOfWeek} at ${season.startTime} (${season.duration} weeks) - ${season.gender}</b></td>
+				<td class="col-xs-12 col-md-3 control-label">
+					<a href="ListGame.jsp?seasonId=${season.id}" /> <b>&nbsp&nbsp&nbsp&nbsp&nbsp
+					${season.dayOfWeek} at ${season.startTime} (${season.duration} weeks) - ${season.gender} </a></b></td>
 			</tr><br>
 			
 			
