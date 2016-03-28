@@ -79,7 +79,7 @@ public class InvoiceController extends HttpServlet {
 		    		} else {
 		    			//
 			    		errorChecker = "Invoice failed to edit";
-		    			address = "admin/Invoice.jsp?invoiceID="+ request.getParameter("invoiceID");
+		    			address = "admin/EditInvoice.jsp?invoiceID=" + request.getParameter("invoiceID");
 		    		}
 	    		break;
 		    	case "batchEdit":
@@ -89,7 +89,15 @@ public class InvoiceController extends HttpServlet {
 		    		} catch (Exception e){
 		    			e.printStackTrace();
 		    		}
+		    		
+		    		System.out.println("attribute profile = " + request.getParameter("profileRedirect"));
+		    		
+		    		if (request.getParameter("profileRedirect") != null) {
+		    			address = (String) request.getParameter("profileRedirect");
+		    		} else {
 		    		address = "admin/BatchInvoices.jsp";
+		    		}
+		    		
 	    		break;
 		    	case "delete":
 		    		try {

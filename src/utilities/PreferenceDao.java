@@ -102,7 +102,7 @@ public class PreferenceDao {
     	HttpSession session = request.getSession();
 		try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * from ch_Preferences WHERE status = 1");
+			    resultSet = statement.executeQuery("SELECT * from ch_preferences WHERE status = 1");
 			    while (resultSet.next()) {
 			    	pref.setId(resultSet.getString("id"));
 			    	pref.setClub_name_long(resultSet.getString("club_name_long"));
