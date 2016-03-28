@@ -1,4 +1,9 @@
 package utilities;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -15,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
+import model.User;
 
 public class ValidationUtilities {
 	
@@ -40,106 +47,106 @@ public class ValidationUtilities {
 	public static boolean isValidPreference(HttpServletRequest request) {
 	 return true;
 	}
-
+	
 	public static boolean isValidColourScheme(HttpServletRequest request) {
-	 return true;
-	}
+		 return true;
+		}
 	
 	public static boolean isValidInvoice(HttpServletRequest request) {
 
 
-	boolean isValid = true, isValidQty = true;
-	String invDate = request.getParameter("invDate");
-	String userID = request.getParameter("userID");
-	String charge01 = request.getParameter("charge01");
-	String charge01qty = request.getParameter("charge01qty");
-	String charge02 = request.getParameter("charge02");
-	String charge02qty = request.getParameter("charge02qty");
-	String charge03 = request.getParameter("charge03");
-	String charge03qty = request.getParameter("charge03qty");
-	String charge04 = request.getParameter("charge04");
-	String charge04qty = request.getParameter("charge04qty");
-	String charge05 = request.getParameter("charge05");
-	String charge05qty = request.getParameter("charge05qty");
-	
-	
-	try {
+		boolean isValid = true, isValidQty = true;
+		String invDate = request.getParameter("invDate");
+		String userID = request.getParameter("userID");
+		String charge01 = request.getParameter("charge01");
+		String charge01qty = request.getParameter("charge01qty");
+		String charge02 = request.getParameter("charge02");
+		String charge02qty = request.getParameter("charge02qty");
+		String charge03 = request.getParameter("charge03");
+		String charge03qty = request.getParameter("charge03qty");
+		String charge04 = request.getParameter("charge04");
+		String charge04qty = request.getParameter("charge04qty");
+		String charge05 = request.getParameter("charge05");
+		String charge05qty = request.getParameter("charge05qty");
+		
+		
+		try {
 
-		System.out.println("Charge01 is " + charge01 + " and quantity is " + charge01qty);
-		System.out.println("Charge02 is " + charge02 + " and quantity is " + charge02qty);
-		System.out.println("Charge03 is " + charge03 + " and quantity is " + charge03qty);
-		System.out.println("Charge04 is " + charge04 + " and quantity is " + charge04qty);
-		System.out.println("Charge05 is " + charge05 + " and quantity is " + charge05qty);
-		
-		if ((!charge01.equals("---")) || 
-			(!charge02.equals("---")) || 
-			(!charge03.equals("---")) || 
-			(!charge04.equals("---")) || 
-			(!charge05.equals("---")) ) {
-		// at least one of the dropdowns has a selection so lets check their respective quantities 
-			if (!charge01.equals("---")) {
-				if (!charge01qty.equals("0")) 
-					isValidQty = true;
-				else {
-					request.setAttribute("errorLineItems", "Please check quantities selected.");
-					request.setAttribute("errorCharge01Qty", true);
-					isValidQty = false;
-				}
-			}	
-			if (!charge02.equals("---")) {
-				if (!charge02qty.equals("0"))
-					isValidQty = true;
-				else {
-					request.setAttribute("errorLineItems", "Please check quantities selected.");
-					request.setAttribute("errorCharge02Qty", true);
-					isValidQty = false;
-				}
-			}	
-			if (!charge03.equals("---")) {
-				if (!charge03qty.equals("0"))
-					isValidQty = true;
-				else {
-					request.setAttribute("errorLineItems", "Please check quantities selected.");
-					request.setAttribute("errorCharge03Qty", true);
-					isValidQty = false;
-				}
-			}	
-			if (!charge04.equals("---")) {
-				if (!charge04qty.equals("0"))
-					isValidQty = true;
-				else {
-					request.setAttribute("errorLineItems", "Please check quantities selected.");
-					request.setAttribute("errorCharge04Qty", true);
-					isValidQty = false;
-				}
-			}	
-			if (!charge05.equals("---")) {
-				if (!charge05qty.equals("0"))
-					isValidQty = true;
-				else {
-					request.setAttribute("errorLineItems", "Please check quantities selected.");
-					request.setAttribute("errorCharge05Qty", true);
-					isValidQty = false;
-				}
-			}	
-		} else {
-			// none of the dropdowns had a selection, your invoice is invalid
-			request.setAttribute("errorString", "Please check your input");
-			request.setAttribute("errorLineItems", "No line items selected");
-			isValidQty = false;
-		}
+			System.out.println("Charge01 is " + charge01 + " and quantity is " + charge01qty);
+			System.out.println("Charge02 is " + charge02 + " and quantity is " + charge02qty);
+			System.out.println("Charge03 is " + charge03 + " and quantity is " + charge03qty);
+			System.out.println("Charge04 is " + charge04 + " and quantity is " + charge04qty);
+			System.out.println("Charge05 is " + charge05 + " and quantity is " + charge05qty);
 			
-		
-		// check date format to ensure it is entered yyyy-mm-dd
-		String dateFormat = "yyyy-mm-dd";
-		SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
-		sdf.setLenient(false);
-		
-		//if not valid, it will throw ParseException
-		Date date = sdf.parse(invDate);
-		System.out.println(date);
-		isValid = true;
-		return (isValid && isValidQty);
+			if ((!charge01.equals("---")) || 
+				(!charge02.equals("---")) || 
+				(!charge03.equals("---")) || 
+				(!charge04.equals("---")) || 
+				(!charge05.equals("---")) ) {
+			// at least one of the dropdowns has a selection so lets check their respective quantities 
+				if (!charge01.equals("---")) {
+					if (!charge01qty.equals("0")) 
+						isValidQty = true;
+					else {
+						request.setAttribute("errorLineItems", "Please check quantities selected.");
+						request.setAttribute("errorCharge01Qty", true);
+						isValidQty = false;
+					}
+				}	
+				if (!charge02.equals("---")) {
+					if (!charge02qty.equals("0"))
+						isValidQty = true;
+					else {
+						request.setAttribute("errorLineItems", "Please check quantities selected.");
+						request.setAttribute("errorCharge02Qty", true);
+						isValidQty = false;
+					}
+				}	
+				if (!charge03.equals("---")) {
+					if (!charge03qty.equals("0"))
+						isValidQty = true;
+					else {
+						request.setAttribute("errorLineItems", "Please check quantities selected.");
+						request.setAttribute("errorCharge03Qty", true);
+						isValidQty = false;
+					}
+				}	
+				if (!charge04.equals("---")) {
+					if (!charge04qty.equals("0"))
+						isValidQty = true;
+					else {
+						request.setAttribute("errorLineItems", "Please check quantities selected.");
+						request.setAttribute("errorCharge04Qty", true);
+						isValidQty = false;
+					}
+				}	
+				if (!charge05.equals("---")) {
+					if (!charge05qty.equals("0"))
+						isValidQty = true;
+					else {
+						request.setAttribute("errorLineItems", "Please check quantities selected.");
+						request.setAttribute("errorCharge05Qty", true);
+						isValidQty = false;
+					}
+				}	
+			} else {
+				// none of the dropdowns had a selection, your invoice is invalid
+				request.setAttribute("errorString", "Please check your input");
+				request.setAttribute("errorLineItems", "No line items selected");
+				isValidQty = false;
+			}
+				
+			
+			// check date format to ensure it is entered yyyy-mm-dd
+			String dateFormat = "yyyy-mm-dd";
+			SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+			sdf.setLenient(false);
+			
+			//if not valid, it will throw ParseException
+			Date date = sdf.parse(invDate);
+			System.out.println(date);
+			isValid = true;
+			return (isValid && isValidQty);
 		} catch (Exception e) {
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorInvDate", "Date format must be yyyy-mm-dd");
@@ -147,6 +154,78 @@ public class ValidationUtilities {
 		}
 	}
 
+	public static String toTime (HttpServletRequest request, int givenTime){
+		String time = null;
+		
+		String input = Integer.toString(givenTime);
+		time = input.replaceAll("..(?!$)", "$0:");
+		
+		System.out.println("Game time is: " + time);
+		
+		return time;
+	}
+		
+	public static String numberToDay (HttpServletRequest request, int num){
+		String dayOfWeek = null;
+		if (num == 1){
+			 dayOfWeek = "Sunday";
+		}else if (num == 2){
+			dayOfWeek = "Monday";
+		}else if (num == 3){
+			dayOfWeek = "Tuesday";
+		}else if (num == 4){
+			dayOfWeek = "Wednesday";
+		}else if (num == 5){
+			dayOfWeek = "Thursday";
+		}else if (num == 6){
+			dayOfWeek = "Friday";
+		}else if (num == 7){
+			dayOfWeek = "Saturday";
+		}
+		
+		System.out.println("The day of week is: " +dayOfWeek);
+		return dayOfWeek;
+		
+	}
+	
+	public static String getPlayerNames (HttpServletRequest request, String playerIDs) throws Exception{
+		
+		//String playerNames = null;
+		Connection connect = null;
+		Statement statement = null;
+		//PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		String players = null;
+		
+		String [] playerID = playerIDs.split(",");
+		  
+		  
+		for (int i = 0; i < playerID.length; i++) { 
+				String player = playerID[i];
+			try{	
+				connect = DatabaseAccess.connectDataBase();
+				statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT * from ch_user where id= "+ player);
+			    
+			    while(resultSet.next()){
+			    	String playerName = resultSet.getString("firstName");
+			    	
+			    	if (players == null){
+			    		players = playerName;
+			    	
+			    	}else{
+			    		players += ", " + playerName;
+			    	}
+			    }
+			    
+	    		
+			}catch (SQLException e) {
+			      throw e;
+			}
+		}
+		return players;
+	}
+		
 	public static boolean isValidLineItem(HttpServletRequest request) {
 		boolean isValid = true;
 		String description, cost;	
