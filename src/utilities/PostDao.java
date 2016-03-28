@@ -364,7 +364,7 @@ public class PostDao {
 		int numOfPages = 0, ppp = 3;   // Posts Per Page. this can be changed, maybe in preferences even?
 		double numOfRows = 0;
 		String pageNav = (request.getAttribute("pageNav") == null ? "first" : request.getAttribute("pageNav").toString()) ;
-		
+		System.out.println(pageNav);
 		List<Post> posts = new ArrayList<Post>();	
 		@SuppressWarnings("unchecked")
 		List<Post> allBlogs = (List<Post>) request.getAttribute("blogs");

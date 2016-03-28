@@ -7,11 +7,31 @@ package model;
 * Description: Preference model
 ****************************************************************************************************/
 public class Preference {
-	private String id, image_logo, image_small_logo, club_name_long, club_name_short, country;
-	private String featured_image_01, featured_image_02, featured_image_03, featured_image_04, featured_image_05;
+	private String id, preference_name, club_name_long, club_name_short, status, country;
+	private String image_logo, image_small_logo, featured_image_01, featured_image_02, featured_image_03, featured_image_04, featured_image_05;
+	private int featured_images;
+	public int getFeatured_images() {
+		return featured_images;
+	}
+	public void setFeatured_images(int featured_images) {
+		this.featured_images = featured_images;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	private String featured_image_06, featured_image_07, featured_image_08, featured_image_09, featured_image_10;
 	private int colour_schemeid;
 	private float tax_rate;
+	
+	public String getPreference_name() {
+		return preference_name;
+	}
+	public void setPreference_name(String preference_name) {
+		this.preference_name = preference_name;
+	}
 	
 	public String getId() {
 		return id;

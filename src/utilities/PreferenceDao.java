@@ -1,5 +1,7 @@
 package utilities;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 /****************************************************************************************************
 * Project: ClubHub
 * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import model.Post;
 import model.Preference;
 import model.User;
 import utilities.DatabaseAccess;
@@ -72,8 +75,8 @@ public class PreferenceDao {
 		            System.out.println(filePart.getName());
 		            // obtains input stream of the upload file
 		            input_image_small_logo = filePart.getInputStream();
-		        }
-		        /*
+		        } 
+		        
 		        InputStream input_featured_image_01 = null; // input stream of the upload file 
 		        // obtains the upload file part in this multipart request
 		        filePart = request.getPart("featured_image_01");
@@ -173,13 +176,13 @@ public class PreferenceDao {
 		            // obtains input stream of the upload file
 		            input_featured_image_10 = filePart.getInputStream();
 		        }
-		        */
-			    		preparedStatement = connect.prepareStatement("insert into ch_Preferences (`id`, `image_logo`, `image_small_logo`, `club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, `country`, `status`) values (default, ?, ?, ?, ?, ?, ?, ?, ?)");
+		        
+			    		preparedStatement = connect.prepareStatement("insert into ch_Preferences (`id`, `image_logo`, `image_small_logo`, `club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, `country`, `status`, `preference_name`) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			    		preparedStatement.setBlob(1, input_image_logo); // image_logo
 			    		preparedStatement.setBlob(2, input_image_small_logo); // image_small_logo
 			    		preparedStatement.setString(3, request.getParameter("club_name_long")); // club_name_long
 			    		preparedStatement.setString(4, request.getParameter("club_name_short")); // club_name_short 
-			    		/*
+			    		
 			    		preparedStatement.setBlob(5, input_featured_image_01); // featured_image_01
 			    		preparedStatement.setBlob(6, input_featured_image_02); // featured_image_02
 			    		preparedStatement.setBlob(7, input_featured_image_03); // featured_image_03 
@@ -193,14 +196,33 @@ public class PreferenceDao {
 			    		preparedStatement.setInt(15, Integer.parseInt(request.getParameter("Colour_Schemeid"))); // Colour_Schemeid
 			    		preparedStatement.setString(16, request.getParameter("tax_rate")); // tax_rate
 			    		preparedStatement.setString(17, request.getParameter("country")); // country
-			    		*/
-
-			    		preparedStatement.setInt(5, Integer.parseInt(request.getParameter("Colour_Schemeid"))); // Colour_Schemeid
+			    		
+			    		String colour_schemeid = request.getParameter("Colour_Schemeid");
+			    		preparedStatement.setInt(5, Integer.parseInt(colour_schemeid)); // Colour_Schemeid
 			    		preparedStatement.setString(6, request.getParameter("tax_rate")); // tax_rate
 			    		preparedStatement.setString(7, request.getParameter("country")); // country
-			    		preparedStatement.setInt(8, Integer.parseInt(request.getParameter("status"))); // status
-			    		preparedStatement.executeUpdate();
-		    
+			    		String status = request.getParameter("status");
+			    		preparedStatement.setInt(8, Integer.parseInt(status)); // status
+			    		preparedStatement.setString(9, request.getParameter("preference_name")); // preference_name
+
+			    		preparedStatement.executeUpdate(); 
+			    		
+			    		// 
+			    		String latestID = "";
+				  		statement = connect.createStatement();
+					    resultSet = statement.executeQuery("SELECT last_insert_id()");
+					    while (resultSet.next()) {
+					    	latestID = resultSet.getString("last_insert_id()");
+						  	System.out.println("InsertedID = " + latestID);
+					    }
+					    
+			    		if (status.equals("1")) {
+			    			preparedStatement = connect.prepareStatement("UPDATE ch_preferences set status = '0' WHERE id <> " + latestID);
+			    			preparedStatement.executeUpdate();
+			    		}
+			    		// UPDATE clubhub.ch_preferences set status = "0" WHERE id <> 4;
+			    		
+			    		
 	    } catch (Exception e) {
 	      throw e;
 	    }
@@ -219,6 +241,33 @@ public class PreferenceDao {
 				  	request.setAttribute("clubName", pref.getClub_name_long());
 				  	System.out.println("clubName = " + request.getAttribute("clubName"));
 			    }
+		    } catch (SQLException e) {
+			      throw e;
+			}
+	} 
+	public void showAllPrefs(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	HttpSession session = request.getSession();
+		List<Preference> prefs = new ArrayList<Preference>();
+		try{
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT * from ch_preferences");
+			    while (resultSet.next()) {
+			    	Preference pref = new Preference();
+			    	pref.setId(resultSet.getString("id"));
+			    	pref.setPreference_name(resultSet.getString("preference_name"));
+			    	pref.setClub_name_long(resultSet.getString("club_name_long"));
+			    	pref.setClub_name_short(resultSet.getString("club_name_short"));
+			    	pref.setColour_schemeid(Integer.parseInt(resultSet.getString("Colour_Schemeid")));
+			    	pref.setTax_rate(Float.parseFloat(resultSet.getString("tax_rate")));
+			    	pref.setCountry(resultSet.getString("country"));
+			    	pref.setStatus(resultSet.getString("status"));
+			    	pref.setFeatured_images(Integer.parseInt(resultSet.getString("featured_images")));
+				  	request.setAttribute("clubName", pref.getClub_name_long());
+
+			  		pref.setImage_logo("true");
+				  	prefs.add(pref);
+			    }
+			  	session.setAttribute("prefs", prefs);
 		    } catch (SQLException e) {
 			      throw e;
 			}
@@ -248,7 +297,7 @@ public class PreferenceDao {
 	  	ResultSet taxRate;
 		try {
 	  		statement = connect.createStatement();
-			taxRate = statement.executeQuery("SELECT * FROM ch_preferences");
+			taxRate = statement.executeQuery("SELECT tax_rate FROM ch_preferences WHERE status = 1");
 		  	double tax_rate = 0;
 		    while (taxRate.next()) {
 		    	tax_rate = Double.parseDouble(taxRate.getString("tax_rate"));
