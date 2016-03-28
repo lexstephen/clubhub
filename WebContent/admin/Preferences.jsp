@@ -39,8 +39,7 @@
 		PrefObj.country = "${preference.country}";
 		PrefObj.status = "${preference.status}";  
 		PrefObj.image_logo_exists = "true";  
-		PrefObj.image_small_logo_exists = "true";  
-		PrefObj.featured_images = ${preference.featured_images};  
+		PrefObj.image_small_logo_exists = "true";    
 		Prefs.push(PrefObj);
 	</c:forEach> 
 	PrefObj = new Object();
@@ -56,7 +55,6 @@
 	PrefObj.status = "";   
 	PrefObj.image_logo_exists = "false";
 	PrefObj.image_small_logo_exists = "false";
-	PrefObj.featured_images = 0;   
 	Prefs.push(PrefObj);
 </script>
 
@@ -202,124 +200,8 @@
 	</div>
 	
 	
-	<div class="row">
-		<label class="col-sm-4 control-label">
-			Featured Image 01
-		</label>
-		<div class="col-sm-6">
-			<input class="form-control file" type="file" name="featured_image_01">
-		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_1">&nbsp;</div>	
-	</div>
-	
-	<div class="row">
-		<label class="col-sm-4 control-label">
-			Featured Image 02
-		</label>
-		<div class="col-sm-6">
-			<input class="form-control file" type="file" name="featured_image_02">
-		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_2">&nbsp;</div>	
-	</div>
-	
-	<div class="row">
-		<label class="col-sm-4 control-label">
-			Featured Image 03
-		</label>
-		<div class="col-sm-6">
-			<input class="form-control file" type="file" name="featured_image_03">
-		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_3">&nbsp;</div>	
-	</div>
-	
-	<div class="row">
-		<label class="col-sm-4 control-label">
-			Featured Image 04
-		</label>
-		<div class="col-sm-6">
-			<input class="form-control file" type="file" name="featured_image_04">
-		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_4">&nbsp;</div>	
-	</div>
-	
-	<div class="row">
-		<label class="col-sm-4 control-label">
-			Featured Image 05
-		</label>
-		<div class="col-sm-6">
-			<input class="form-control file" type="file" name="featured_image_05">
-		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_5">&nbsp;</div>	
-	</div>
-	
-	<div class="row">
-		<label class="col-sm-4 control-label">
-			Featured Image 06
-		</label>
-		<div class="col-sm-6">
-			<input class="form-control file" type="file" name="featured_image_06">
-		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_6">&nbsp;</div>	
-	</div>
-	
-	<div class="row">
-		<label class="col-sm-4 control-label">
-			Featured Image 07
-		</label>
-		<div class="col-sm-6">
-			<input class="form-control file" type="file" name="featured_image_07">
-		</div>	
-		<div class="col-sm-2" prev_image id="display_featured_image_7">&nbsp;</div>	
-	</div>
-	
-	<div class="row">
-		<label class="col-sm-4 control-label">
-			Featured Image 08
-		</label>
-		<div class="col-sm-6">
-			<input class="form-control file" type="file" name="featured_image_08">
-		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_8">&nbsp;</div>	
-	</div>
-	
-	<div class="row">
-		<label class="col-sm-4 control-label">
-			Featured Image 09
-		</label>
-		<div class="col-sm-6">
-			<input class="form-control file" type="file" name="featured_image_09">
-		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_9">&nbsp;</div>	
-	</div>
-	
-	<div class="row">
-		<label class="col-sm-4 control-label">
-			Featured Image 10
-		</label>
-		<div class="col-sm-6">
-			<input class="form-control file" type="file" name="featured_image_10">
-		</div>	
-		<div class="col-sm-2 prev_image" id="display_featured_image_10">&nbsp;</div>	
-	</div>
-	
-			<div class="row">
-			<div class="col-xs-3 control-label">
-			    	<label for="inptStatus">Status</label>			  
-			</div>
-			<div class="col-xs-9">
-				<div class="radio">
-			    	<label class="checkbox-inline">
-			      		<input type="radio" name="status" id="inptStatusActive" checked value="1" ${status == '1' ? 'checked' : ''}> Active
-			      	</label>
-			    	<label class="checkbox-inline">
-			      		<input type="radio" name="status" id="inptStatusInactive" value="0"  ${status == '0' ? 'checked' : ''}> Inactive
-			      	</label>
-			  	</div>
-			</div>
-		</div>
-
-					<input type="hidden" name="option" value="add">
-					<button class="btn btn-info" type="submit" value="add" name="option">Submit</button>
+			<!--  	<input type="hidden" name="option" value="add"> -->
+					<button class="btn btn-info" type="submit">Submit</button>
 </div>
 </form>		
 			 
