@@ -151,7 +151,7 @@
 	<div class="row">
 		<div class="col-xs-12 form-group">
 			<input type="hidden" name="option" value="add">
-			<button class="btn btn-info" type="submit" value="add" name="option">Submit</button>
+			<button class="btn btn-info" type="submit">Submit</button>
 		</div>
 	</div>			
 </div>

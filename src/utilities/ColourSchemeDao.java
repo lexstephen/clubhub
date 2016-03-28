@@ -48,7 +48,7 @@ public class ColourSchemeDao {
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {	
 	    	
-	    	String option = request.getParameter("id");
+	    	String option = request.getParameter("csid");
 	    	System.out.println("I see this option: " + option);
 	    	switch(option) {
 	    	case "000":
