@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletRequest;
@@ -303,6 +304,22 @@ public class GameDao {
 		      throw e;
 		}
 	}
+	
+public void closeSlot(HttpServletRequest request, String playerIDs) throws Exception{
+		
+		String [] players = playerIDs.split(",");
+		String random = null;
+		for (int i=0; i < 4 ; i++){
+			if (random != null){
+			 random += (players[new Random().nextInt(players.length)]);
+			}else{
+				random = (players[new Random().nextInt(players.length)]);
+			}
+			 
+		}
+		System.out.println(random);
+	}
+	
 	
 	public void findOpenGameSlots(HttpServletRequest request, int userID) throws Exception {
 		  //Game game = new Game();

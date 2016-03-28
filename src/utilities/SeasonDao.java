@@ -27,7 +27,7 @@ import javax.swing.JOptionPane;
 
 import model.Game;
 import model.Season;
-
+import model.Slot;
 import utilities.DatabaseAccess;
 
 public class SeasonDao {
@@ -165,7 +165,9 @@ public class SeasonDao {
 	
 	
 	public void listSeasonWithGames(HttpServletRequest request, String seasonID) throws Exception {
-		  List<Game> games = new ArrayList<Game>();
+		  List<Slot> slots = new ArrayList<Slot>();
+		  Boolean display = true;
+		  
 		  	try{  		
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT * from ch_season where id=" + seasonID);
@@ -197,10 +199,12 @@ public class SeasonDao {
 					  while(resultSet1.next()){
 						  Game game = new Game();
 						  
-						  game.set
+						  
+						  
 						  
 						  String gameID = resultSet1.getString("id");
 						  System.out.println("Game id is: " +gameID);
+						  
 						  Statement statement2 = null;
 				    	  ResultSet resultSet2 = null;
 				    		
@@ -208,19 +212,27 @@ public class SeasonDao {
 						  resultSet2 = statement2.executeQuery("SELECT * from ch_slot where gameID= "+ gameID);
 						  
 						  while(resultSet2.next()){
-							  String status = resultSet2.getString("status");
-							  System.out.println("Status is :"+ status);
+							  Slot slot = new Slot();
+							  String playerIDs = resultSet2.getString("availablePlayers");
+							  String playerNames = utilities.ValidationUtilities.getPlayerNames(request, playerIDs);
+							  System.out.println("Player Names: " +playerNames);
+							  
+							  slot.setPlayers(playerNames);
+							  slot.setScheduledDate(resultSet2.getString("scheduledDate"));
+							  slot.setStatus(resultSet2.getInt("status"));
+							   
+							  slots.add(slot);
 						  }
+						  }
+					  request.setAttribute("dayOfWeek", dayOfWeek);
+					  request.setAttribute("time", time);
 					  }
-					  
-			    	  
-			    	  
-			    	  seasons.add(season);
-			    }
+
 		    } catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("seasons", seasons);
+		  	request.setAttribute("slots", slots);
+		  	
 	} 
 	
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {

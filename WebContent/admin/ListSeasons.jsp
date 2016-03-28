@@ -28,16 +28,13 @@ season.listSeasonWithStatus(request);
 		<c:forEach items="${seasons}" var="season">
 			<tr>
 				<td class="col-xs-12 col-md-3 control-label">
-					<a href="ListGame.jsp?seasonId=${season.id}" /> <b>&nbsp&nbsp&nbsp&nbsp&nbsp
+					<a href="ListGames.jsp?seasonID=${season.id}" /> <b>&nbsp&nbsp&nbsp&nbsp&nbsp
 					${season.dayOfWeek} at ${season.startTime} (${season.duration} weeks) - ${season.gender} </a></b></td>
 			</tr><br>
 			
 			
 		
 		</c:forEach>
-	
-		
-		<button class="btn btn-info" type="submit" value="players" name="option">Submit</button>
 	</form>
 
 

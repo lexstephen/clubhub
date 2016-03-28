@@ -81,19 +81,19 @@ public class SeasonController extends HttpServlet {
 					errorChecker = "Games Created";
 		    		address ="admin/PopulateGames.jsp";;
 	    		break;
-		    	case "ListSeasons":
+		    	/*case "ListSeasons":
 
 		    		System.out.println("I'm in case list seasons");
-		    		dao.listAll(request);
+		    		dao.listSeasonWithStatus(request);
 		    		Object id2 = session.getAttribute("seasonID");
 		    		String ssnID = id2.toString();
 		    		//String id2 =request.getParameter("seasonID");
 		    		System.out.println("The ID is:" + ssnID);
 					
 					
-					
+				*/	
 		    		//address ="admin/PopulateGames.jsp";;
-	    		break;
+	    		
 	    		
 		    	default:
 	    		errorChecker = "Something has gone horribly wrong";

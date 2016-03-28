@@ -1,4 +1,9 @@
 package utilities;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -15,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
+import model.User;
 
 public class ValidationUtilities {
 	
@@ -174,6 +181,44 @@ public class ValidationUtilities {
 		System.out.println("The day of week is: " +dayOfWeek);
 		return dayOfWeek;
 		
+	}
+	
+	public static String getPlayerNames (HttpServletRequest request, String playerIDs) throws Exception{
+		
+		//String playerNames = null;
+		Connection connect = null;
+		Statement statement = null;
+		//PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		String players = null;
+		
+		String [] playerID = playerIDs.split(",");
+		  
+		  
+		for (int i = 0; i < playerID.length; i++) { 
+				String player = playerID[i];
+			try{	
+				connect = DatabaseAccess.connectDataBase();
+				statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT * from ch_user where id= "+ player);
+			    
+			    while(resultSet.next()){
+			    	String playerName = resultSet.getString("firstName");
+			    	
+			    	if (players == null){
+			    		players = playerName;
+			    	
+			    	}else{
+			    		players += ", " + playerName;
+			    	}
+			    }
+			    
+	    		
+			}catch (SQLException e) {
+			      throw e;
+			}
+		}
+		return players;
 	}
 		
 	public static boolean isValidLineItem(HttpServletRequest request) {
