@@ -50,183 +50,52 @@ public class PreferenceDao {
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {	// connect to the database
-	    		statement = connect.createStatement();
-	    		// id, image_logo, image_small_logo, club_name_long, club_name_short, 
-	    		// featured_image_01, featured_image_02, featured_image_03, featured_image_04, featured_image_05, 
-	    		// featured_image_06, featured_image_07, featured_image_08, featured_image_09, featured_image_10,
-	    		// Colour_Schemeid, tax_rate, country
+    		statement = connect.createStatement();
+    		// id, image_logo, image_small_logo, club_name_long, club_name_short, 
+    		// Colour_Schemeid, tax_rate, country
 
-	    		
-		        InputStream input_image_logo = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        Part filePart = request.getPart("image_logo");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_image_logo = filePart.getInputStream();
-		        }
-		        
-		        InputStream input_image_small_logo = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        filePart = request.getPart("image_small_logo");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_image_small_logo = filePart.getInputStream();
-		        } 
-		        
-		        InputStream input_featured_image_01 = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        filePart = request.getPart("featured_image_01");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_featured_image_01 = filePart.getInputStream();
-		        }
-		        
-		        InputStream input_featured_image_02 = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        filePart = request.getPart("featured_image_02");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_featured_image_02 = filePart.getInputStream();
-		        }
-		        
-		        InputStream input_featured_image_03 = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        filePart = request.getPart("featured_image_03");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_featured_image_03 = filePart.getInputStream();
-		        }
-		        
-		        InputStream input_featured_image_04 = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        filePart = request.getPart("featured_image_04");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_featured_image_04 = filePart.getInputStream();
-		        }
-		        
-		        InputStream input_featured_image_05 = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        filePart = request.getPart("featured_image_05");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_featured_image_05 = filePart.getInputStream();
-		        }
-		        
-		        InputStream input_featured_image_06 = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        filePart = request.getPart("featured_image_06");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_featured_image_06 = filePart.getInputStream();
-		        }
-		        
-		        InputStream input_featured_image_07 = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        filePart = request.getPart("featured_image_07");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_featured_image_07 = filePart.getInputStream();
-		        }
-		        
-		        InputStream input_featured_image_08 = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        filePart = request.getPart("featured_image_08");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_featured_image_08 = filePart.getInputStream();
-		        }
-		        
-		        InputStream input_featured_image_09 = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        filePart = request.getPart("featured_image_09");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_featured_image_09 = filePart.getInputStream();
-		        }
-		        
-		        InputStream input_featured_image_10 = null; // input stream of the upload file 
-		        // obtains the upload file part in this multipart request
-		        filePart = request.getPart("featured_image_10");
-		        if (filePart != null) {
-		            // prints out some information for debugging
-		            System.out.println(filePart.getName());
-		            // obtains input stream of the upload file
-		            input_featured_image_10 = filePart.getInputStream();
-		        }
-		        
-			    		preparedStatement = connect.prepareStatement("insert into ch_Preferences (`id`, `image_logo`, `image_small_logo`, `club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, `country`, `status`, `preference_name`) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			    		preparedStatement.setBlob(1, input_image_logo); // image_logo
-			    		preparedStatement.setBlob(2, input_image_small_logo); // image_small_logo
-			    		preparedStatement.setString(3, request.getParameter("club_name_long")); // club_name_long
-			    		preparedStatement.setString(4, request.getParameter("club_name_short")); // club_name_short 
-			    		
-			    		preparedStatement.setBlob(5, input_featured_image_01); // featured_image_01
-			    		preparedStatement.setBlob(6, input_featured_image_02); // featured_image_02
-			    		preparedStatement.setBlob(7, input_featured_image_03); // featured_image_03 
-			    		preparedStatement.setBlob(8, input_featured_image_04); // featured_image_04
-			    		preparedStatement.setBlob(9, input_featured_image_05); // featured_image_05 
-			    		preparedStatement.setBlob(10, input_featured_image_06); // featured_image_06
-			    		preparedStatement.setBlob(11, input_featured_image_07); // featured_image_07
-			    		preparedStatement.setBlob(12, input_featured_image_08); // featured_image_08
-			    		preparedStatement.setBlob(13, input_featured_image_09); // featured_image_09
-			    		preparedStatement.setBlob(14, input_featured_image_10); // featured_image_10
-			    		preparedStatement.setInt(15, Integer.parseInt(request.getParameter("Colour_Schemeid"))); // Colour_Schemeid
-			    		preparedStatement.setString(16, request.getParameter("tax_rate")); // tax_rate
-			    		preparedStatement.setString(17, request.getParameter("country")); // country
-			    		
-			    		String colour_schemeid = request.getParameter("Colour_Schemeid");
-			    		preparedStatement.setInt(5, Integer.parseInt(colour_schemeid)); // Colour_Schemeid
-			    		preparedStatement.setString(6, request.getParameter("tax_rate")); // tax_rate
-			    		preparedStatement.setString(7, request.getParameter("country")); // country
-			    		String status = request.getParameter("status");
-			    		preparedStatement.setInt(8, Integer.parseInt(status)); // status
-			    		preparedStatement.setString(9, request.getParameter("preference_name")); // preference_name
+    		
+	        InputStream input_image_logo = null; // input stream of the upload file 
+	        // obtains the upload file part in this multipart request
+	        Part filePart = request.getPart("image_logo");
+	        if (filePart != null) {
+	            // prints out some information for debugging
+	            System.out.println(filePart.getName());
+	            // obtains input stream of the upload file
+	            input_image_logo = filePart.getInputStream();
+	        }
+	        
+	        InputStream input_image_small_logo = null; // input stream of the upload file 
+	        // obtains the upload file part in this multipart request
+	        filePart = request.getPart("image_small_logo");
+	        if (filePart != null) {
+	            // prints out some information for debugging
+	            System.out.println(filePart.getName());
+	            // obtains input stream of the upload file
+	            input_image_small_logo = filePart.getInputStream();
+	        } 
 
-			    		preparedStatement.executeUpdate(); 
-			    		
-			    		// 
-			    		String latestID = "";
-				  		statement = connect.createStatement();
-					    resultSet = statement.executeQuery("SELECT last_insert_id()");
-					    while (resultSet.next()) {
-					    	latestID = resultSet.getString("last_insert_id()");
-						  	System.out.println("InsertedID = " + latestID);
-					    }
-					    
-			    		if (status.equals("1")) {
-			    			preparedStatement = connect.prepareStatement("UPDATE ch_preferences set status = '0' WHERE id <> " + latestID);
-			    			preparedStatement.executeUpdate();
-			    		}
-			    		// UPDATE clubhub.ch_preferences set status = "0" WHERE id <> 4;
-			    		
-			    		
-	    } catch (Exception e) {
-	      throw e;
-	    }
-	}
+		    		preparedStatement = connect.prepareStatement("insert into ch_Preferences "
+		    				+ "(`id`, `image_logo`, `image_small_logo`, "
+		    				+ "`club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, "
+		    				+ "`country`, `status`, `preference_name`) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		    		preparedStatement.setBlob(1, input_image_logo); // image_logo
+		    		preparedStatement.setBlob(2, input_image_small_logo); // image_small_logo
+		    		preparedStatement.setString(3, request.getParameter("club_name_long")); // club_name_long
+		    		preparedStatement.setString(4, request.getParameter("club_name_short")); // club_name_short 
+		    		String colour_schemeid = request.getParameter("colour_schemeid");
+		    		preparedStatement.setInt(5, Integer.parseInt(colour_schemeid)); // Colour_Schemeid
+		    		preparedStatement.setString(6, request.getParameter("tax_rate")); // tax_rate
+		    		preparedStatement.setString(7, request.getParameter("country")); // country
+		    		preparedStatement.setString(8, "0"); // status
+		    		preparedStatement.setString(9, request.getParameter("preference_name")); // preference_name
+
+		    		preparedStatement.executeUpdate(); 
+
+    } catch (Exception e) {
+      throw e;
+    }
+}
 
 	public void showPrefs(HttpServletRequest request) throws Exception {
     	Preference pref = new Preference();
@@ -235,11 +104,14 @@ public class PreferenceDao {
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT * from ch_Preferences WHERE status = 1");
 			    while (resultSet.next()) {
+			    	pref.setId(resultSet.getString("id"));
 			    	pref.setClub_name_long(resultSet.getString("club_name_long"));
 			    	pref.setClub_name_short(resultSet.getString("club_name_short"));
 				  	session.setAttribute("preference", pref);
+				  	session.setAttribute("prefID", pref.getId());
 				  	request.setAttribute("clubName", pref.getClub_name_long());
-				  	System.out.println("clubName = " + request.getAttribute("clubName"));
+				  	
+				  	System.out.println("clubName = " + request.getAttribute("clubName") + " and ID is " + pref.getId());
 			    }
 		    } catch (SQLException e) {
 			      throw e;
@@ -250,7 +122,7 @@ public class PreferenceDao {
 		List<Preference> prefs = new ArrayList<Preference>();
 		try{
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * from ch_Preferences");
+			    resultSet = statement.executeQuery("SELECT * from ch_preferences");
 			    while (resultSet.next()) {
 			    	Preference pref = new Preference();
 			    	pref.setId(resultSet.getString("id"));
@@ -261,7 +133,6 @@ public class PreferenceDao {
 			    	pref.setTax_rate(Float.parseFloat(resultSet.getString("tax_rate")));
 			    	pref.setCountry(resultSet.getString("country"));
 			    	pref.setStatus(resultSet.getString("status"));
-			    	pref.setFeatured_images(Integer.parseInt(resultSet.getString("featured_images")));
 				  	request.setAttribute("clubName", pref.getClub_name_long());
 
 			  		pref.setImage_logo("true");
@@ -281,13 +152,85 @@ public class PreferenceDao {
 		
 	}
 	
-	public void findPreference(HttpServletRequest request, String PreferenceID) throws Exception { 
+	public void setPreference(HttpServletRequest request) throws Exception { 
+		// this function sets status for all all preferences to 0 except the selected one which becomes 1
+		String setPrefID = request.getParameter("inptPrefID");
+		preparedStatement = connect.prepareStatement("UPDATE ch_preferences set status = '0' WHERE id <> " + setPrefID);
+		preparedStatement.executeUpdate();
+		preparedStatement = connect.prepareStatement("UPDATE ch_preferences set status = '1' WHERE id = " + setPrefID);
+		preparedStatement.executeUpdate();
 		
 	} 
 	
 	public void editPreference(HttpServletRequest request, HttpServletResponse response, String _PreferenceID) throws Exception {
-		
-	}
+	    try {	// connect to the database
+    		statement = connect.createStatement();
+    		// id, image_logo, image_small_logo, club_name_long, club_name_short, 
+    		// Colour_Schemeid, tax_rate, country
+
+    		
+	        InputStream input_image_logo = null; // input stream of the upload file 
+	        // obtains the upload file part in this multipart request
+	        Part filePart = request.getPart("image_logo");
+	        if (filePart != null) {
+	            // prints out some information for debugging
+	            System.out.println(filePart.getName());
+	            // obtains input stream of the upload file
+	            input_image_logo = filePart.getInputStream();
+	        }
+	        
+	        InputStream input_image_small_logo = null; // input stream of the upload file 
+	        // obtains the upload file part in this multipart request
+	        filePart = request.getPart("image_small_logo");
+	        if (filePart != null) {
+	            // prints out some information for debugging
+	            System.out.println(filePart.getName());
+	            // obtains input stream of the upload file
+	            input_image_small_logo = filePart.getInputStream();
+	        } 
+
+					String prefID = request.getParameter("prefid");
+	        		String qry = "UPDATE ch_Preferences "
+	        				+ "SET image_logo = ?, image_small_logo = ?, club_name_long = ?, "
+	        				+ "club_name_short = ?, Colour_Schemeid = ?, tax_rate = ?, "
+	        				+ "country = ?, status = ?, preference_name = ?"
+	        				+ "WHERE id = " + prefID;
+		    		preparedStatement = connect.prepareStatement(qry);
+		    		preparedStatement.setBlob(1, input_image_logo); // image_logo
+		    		preparedStatement.setBlob(2, input_image_small_logo); // image_small_logo
+		    		preparedStatement.setString(3, request.getParameter("club_name_long")); // club_name_long
+		    		preparedStatement.setString(4, request.getParameter("club_name_short")); // club_name_short 
+		    				    		
+		    		String colour_schemeid = request.getParameter("colour_schemeid");
+		    		preparedStatement.setInt(5, Integer.parseInt(colour_schemeid)); // Colour_Schemeid
+		    		preparedStatement.setString(6, request.getParameter("tax_rate")); // tax_rate
+		    		preparedStatement.setString(7, request.getParameter("country")); // country
+		    		String status = request.getParameter("status");
+		    		preparedStatement.setInt(8, Integer.parseInt(status)); // status
+		    		preparedStatement.setString(9, request.getParameter("preference_name")); // preference_name
+
+		    		preparedStatement.executeUpdate(); 
+		    		
+		    		// 
+		    		String latestID = "";
+			  		statement = connect.createStatement();
+				    resultSet = statement.executeQuery("SELECT last_insert_id()");
+				    while (resultSet.next()) {
+				    	latestID = resultSet.getString("last_insert_id()");
+					  	System.out.println("InsertedID = " + latestID);
+				    }
+				    
+		    		if (status.equals("1")) {
+		    			preparedStatement = connect.prepareStatement("UPDATE ch_preferences set status = '0' WHERE id <> " + latestID);
+		    			preparedStatement.executeUpdate();
+		    		}
+		    		// UPDATE clubhub.ch_preferences set status = "0" WHERE id <> 4;
+		    		
+		    		
+    } catch (Exception e) {
+      throw e;
+    }
+}
 
 	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 

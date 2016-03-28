@@ -47,6 +47,7 @@
 		<c:if test="${(isAdmin == true)}">
 			<li><a href="/clubhub/admin/ColourSchemes.jsp">Colour Scheme</a></li>
 			<li><a href="/clubhub/admin/Preferences.jsp">Preferences</a></li>
+			<li><a href="/clubhub/admin/SetPreferences.jsp">Set Default</a></li>
 		</c:if>
 	</ul>
 </fieldset>
