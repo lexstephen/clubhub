@@ -43,7 +43,7 @@
 
 				<input type="radio" name="gender" value="M"> Mens <br>
 				<input type="radio" name="gender" value="F"> Womens <br>
-				<input type="radio" name="gender" value="MF"> Mixed
+				<input type="radio" name="gender" value="X"> Mixed
 		</div>
 		<br><br><br><br>
 		<div class="col-sm-6">

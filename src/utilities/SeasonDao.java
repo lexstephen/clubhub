@@ -105,6 +105,25 @@ public class SeasonDao {
 	    
 	    return season_id;
 	}
+	
+	public void listSeasonIDs(HttpServletRequest request) throws Exception {
+		List<String> seasons = new ArrayList<String>();
+		
+		try {
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT id from ch_season");
+			
+			while (resultSet.next()) {
+				seasons.add(resultSet.getString("id"));
+			}
+			
+		} catch (SQLException e) {
+		      throw e;
+		}
+		
+	  	request.setAttribute("seasons", seasons);
+		
+	}
 
 	public void listSeasonWithStatus(HttpServletRequest request) throws Exception {
 		  List<Season> seasons = new ArrayList<Season>();
@@ -164,9 +183,10 @@ public class SeasonDao {
 	} 
 	
 	
-	public void listSeasonWithGames(HttpServletRequest request, String seasonID) throws Exception {
+	public void listSeasonWithGames(HttpServletRequest request) throws Exception {
 		  List<Slot> slots = new ArrayList<Slot>();
 		  Boolean display = true;
+		  String seasonID = (String) request.getAttribute("seasonID");
 		  
 		  	try{  		
 		  		statement = connect.createStatement();

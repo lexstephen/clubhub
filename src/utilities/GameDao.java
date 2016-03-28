@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -161,35 +162,44 @@ public class GameDao {
 
 	}
 
-	/*public void listAll(HttpServletRequest request) throws Exception {
-		  List<Game> games = new ArrayList<Game>();
+	public void listAll(HttpServletRequest request) throws Exception {
+		List<Game> games = new ArrayList<Game>();
+		  String seasonID = (String) request.getAttribute("seasonID");
+		  //request.setAttribute("seasonID", seasonID);
 		  
 		  	try{  		
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT year, season, "
-			    		+ "gender, startDate, startTime, "
-			    		+ "dayOfWeek, duration" 
-				+ "FROM clubhub.ch_season");
+			    resultSet = statement.executeQuery("SELECT * from ch_game where Seasonid=" + seasonID);
 			      
 			    while (resultSet.next()) {
-			    	  Season season = new Season();
-			    	  season.setYear(resultSet.getString("year"));
-			    	  season.setSeason(resultSet.getString("season"));
-			    	  season.setId(resultSet.getString("id"));
-			    	  season.setGender(resultSet.getString("gender"));
-			    	  season.setStartDate(resultSet.getString("startDate"));
-			    	  season.setStartTime(resultSet.getString("startTime"));
-			    	  season.setDayOfWeek(resultSet.getString("dayOfWeek"));
-			    	  season.setDuration(resultSet.getString("duration"));
+			    	Game game = new Game();
 			    	  
-			    	  request.setAttribute("seasonID", season.getId());
-			    	  seasons.add(season);
-			    }
+			    	game.setId(resultSet.getString("id"));
+					game.setScheduledDate(resultSet.getString("scheduledDate"));
+					
+					// Get month from date //
+					
+					DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					Date date = format.parse(game.getScheduledDate());
+					
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(date);					
+					game.setSchedMonth(cal.get(Calendar.MONTH) + 1);
+					
+					System.out.println("dao sched month: " + game.getSchedMonth());
+									
+					games.add(game);
+		    	}
+
 		    } catch (SQLException e) {
 			      throw e;
 			}
-		  	request.setAttribute("seasons", seasons);
-	} 
+		  	request.setAttribute("games", games);
+		  	
+	}  
+	
+	
+	
 	/*
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
 		  try {

@@ -32,7 +32,7 @@ public class GameController extends HttpServlet {
 		
 		String option = request.getParameter("option");
 		GameDao dao = new GameDao();
-		String address = "";
+		String address = "", seasonID, gameMonth;
 		//
 		String errorChecker = "n/a";
 		
@@ -43,7 +43,7 @@ public class GameController extends HttpServlet {
 		    	case "add":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
-	    			String seasonID = request.getParameter("seasonID");
+	    			seasonID = request.getParameter("seasonID");
 		    		
 		    		System.out.println("The Id is: "+ seasonID);
 		    		dao.addToDatabase(request, response, seasonID);
@@ -109,6 +109,21 @@ public class GameController extends HttpServlet {
 		    		
 		    		errorChecker = "Dun";
 	    		break;
+		    	case "displayGames":
+	    			
+	    			seasonID = request.getParameter("seasonID");
+	    			gameMonth = request.getParameter("gameMonth");  			
+		    		request.setAttribute("seasonID", seasonID);
+		    		request.setAttribute("gameMonth", gameMonth);
+		    		
+		    		System.out.println("The Id is: "+ seasonID);
+		    		System.out.println("The month is: " + gameMonth);
+		    		
+	    			errorChecker = "Redirect to listgames";
+	    			
+	    			address = "admin/ListGames.jsp";
+		    			
+		    	break;
 		    	
 		    	default:
 	    		errorChecker = "Something has gone horribly wrong";

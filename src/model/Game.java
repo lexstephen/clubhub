@@ -7,9 +7,18 @@ package model;
 * Description: Game model
 ****************************************************************************************************/
 public class Game {
-	private String id, scheduledDate, week, seasonId;
+	private String id, scheduledDate, week, seasonId; 
+	private int schedMonth;
 	
 	
+	public int getSchedMonth() {
+		return schedMonth;
+	}
+
+	public void setSchedMonth(int i) {
+		this.schedMonth = i;
+	}
+
 	public String getWeek() {
 		return week;
 	}
