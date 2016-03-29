@@ -25,6 +25,21 @@
 	<script type="text/javascript">
 	var Prefs = new Array();
 	var prefCnt = 0;
+
+	PrefObj = new Object();
+	PrefObj.id = prefCnt;
+	PrefObj.prefid = "000"; 
+	PrefObj.preference_name = "${preference_name}";
+	PrefObj.club_name_long = "${club_name_long}";
+	PrefObj.club_name_short = "${club_name_short}";
+	PrefObj.colour_schemeid = "${csid}";
+	PrefObj.tax_rate = "${tax_rate}"; 
+	PrefObj.country = "${country}";
+	PrefObj.image_logo_exists = "false";
+	PrefObj.image_small_logo_exists = "false"; 
+	Prefs.push(PrefObj);
+	prefCnt++;
+	
 	<c:forEach items="${prefs}" var="preference" varStatus="status"> 
 		PrefObj = new Object();
 		PrefObj.id = prefCnt;
@@ -42,20 +57,6 @@
 		PrefObj.image_small_logo_exists = "true";    
 		Prefs.push(PrefObj);
 	</c:forEach> 
-	PrefObj = new Object();
-	PrefObj.id = prefCnt;
-	prefCnt++;
-	PrefObj.prefid = "000"; 
-	PrefObj.preference_name = "";
-	PrefObj.club_name_long = "";
-	PrefObj.club_name_short = "";
-	PrefObj.colour_schemeid = "8";
-	PrefObj.tax_rate = ""; 
-	PrefObj.country = "";
-	PrefObj.status = "";   
-	PrefObj.image_logo_exists = "false";
-	PrefObj.image_small_logo_exists = "false";
-	Prefs.push(PrefObj);
 </script>
 
 	<script type="text/javascript">
@@ -96,6 +97,13 @@
 				</div>	
 			</div>
 			<hr>
+			<c:if test="${!empty errorString}">
+				<div class="alert alert-danger" role="alert">
+				  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				  <span class="sr-only">Error:</span>
+				  ${errorString }
+				</div>
+			</c:if>
 		</div>
 	</div>
 	
@@ -134,8 +142,29 @@
 		<div class="col-sm-9">
 			<div class="form-group">
 				<select name="country" class="form-control" id="inptCountry">
-				  <option ${preference.country == 'Canada' ? 'selected' : ''}>Canada</option>
-				  <option ${preference.country == 'United States of America' ? 'selected' : ''}>United States of America</option>
+				  <option 
+				  
+				  <c:choose>
+				  	<c:when test="${!empty country}">
+				  		${country == 'Canada' ? 'selected' : ''}
+			  		</c:when>
+				  	<c:otherwise>
+				  		${preference.country == 'Canada' ? 'selected' : ''}
+				  	</c:otherwise>
+				  </c:choose>
+				  		  
+				  >Canada</option>
+				  <option 
+				  <c:choose>
+				  	<c:when test="${!empty country}">
+				  		${country == 'United States of America' ? 'selected' : ''}
+			  		</c:when>
+				  	<c:otherwise>
+				  		${preference.country == 'United States of America' ? 'selected' : ''}
+				  	</c:otherwise>
+				  </c:choose>
+				  		  
+				  >United States of America</option>
 				</select>
 		  	</div>
 		</div>	

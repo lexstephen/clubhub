@@ -70,10 +70,8 @@ public class PreferenceController extends HttpServlet {
 			}
 				break;
 			case "setPref":
-
 					dao.setPreference(request);
 					address = "/admin/SetPreferences.jsp";
-
 				break;
 				
 /*	    	case "delete":

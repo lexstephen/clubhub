@@ -48,10 +48,13 @@ public class ValidationUtilities {
 
 	public static boolean isValidPreference(HttpServletRequest request) {
 		boolean isValid = true;
+		request.setAttribute("preferenceID", request.getParameter("prefid"));
 		request.setAttribute("preference_name", request.getParameter("preference_name"));
 		request.setAttribute("club_name_long", request.getParameter("club_name_long"));
 		request.setAttribute("club_name_short", request.getParameter("club_name_short"));
+		request.setAttribute("country", request.getParameter("country"));
 		request.setAttribute("tax_rate", request.getParameter("tax_rate"));
+		request.setAttribute("csid", request.getParameter("csid"));
 
 		if (isMissing(request.getParameter("preference_name"))) {
 			isValid = false;
@@ -68,7 +71,7 @@ public class ValidationUtilities {
 			request.setAttribute("errorClub_Name_Short", true);
 		}
 
-		if (isMissing(request.getParameter("tax_rate"))) {
+		if (isMissing(request.getParameter("tax_rate")) || !isInt(request.getParameter("tax_rate"))) {
 			isValid = false;
 			request.setAttribute("errorTax_Rate", true);
 		}

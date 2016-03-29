@@ -34,7 +34,7 @@ $(document).ready(function(){
 
     $("select[name='prefid']").change(function(){
         $(this).find("option:selected").each(function(){
-        	for	(index = 0; index < Prefs.length; index++) {
+        	for	(index = 1; index < Prefs.length; index++) {
     			var colour_id;
                 if($(this).attr("value")==Prefs[index].prefid){
     				  $('#inpt_preference_name').val(Prefs[index].preference_name);
