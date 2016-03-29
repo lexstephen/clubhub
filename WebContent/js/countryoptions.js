@@ -49,3 +49,8 @@ function clearItem(row) {
 	$("#charge0"+row+"cost").val("0");
 	$("#charge0"+row+"subtotal").val("0");
 }
+
+// enable pop-ups
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover(); 
+});

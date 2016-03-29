@@ -32,10 +32,8 @@ public class CalendarController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String option = request.getParameter("option");
-		//GameDao dao = new GameDao();
-		String address = "";
+		String address = "Main.jsp";
 		int month, year;
-		//
 		String errorChecker = "n/a";
 		
 		System.out.println(option);
@@ -51,10 +49,7 @@ public class CalendarController extends HttpServlet {
 		    			session.setAttribute("selectedYear", year - 1);
 		    		} else {
 		    			session.setAttribute("selectedMonth", month - 1);
-		    		}
-		    		
-	    			address = "Main.jsp";
-		    			
+		    		}		
 		    	break;
 		    	case "next":
 		    		month = Integer.parseInt(session.getAttribute("selectedMonth").toString());
@@ -64,10 +59,7 @@ public class CalendarController extends HttpServlet {
 		    			session.setAttribute("selectedYear", year + 1);
 		    		} else {
 		    			session.setAttribute("selectedMonth", month + 1);
-		    		}
-		    		
-	    			address = "Main.jsp";
-		    			
+		    		}		    			
 		    	break;
 		    			
 		    	default:

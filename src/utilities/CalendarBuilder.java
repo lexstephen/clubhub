@@ -28,8 +28,9 @@ public class CalendarBuilder {
 		public String output = "<thead><tr><th colspan=\"7\" class=\"text-center\">";	
 		public static int[] monthAndYear = new int[3];
 		
+		
 		public static void todaysDate() throws Exception {			
-
+	    	
 			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());			
 			monthAndYear[0] = ValidationUtilities.monthOfDate(date);
 			monthAndYear[1] = ValidationUtilities.yearOfDate(date);
@@ -55,6 +56,7 @@ public class CalendarBuilder {
 	    	
 	    	HttpSession session = request.getSession();
 	    	int M, Y, currentDay;
+			String calendarDate;
 	    	todaysDate();
 	    	
 	    	if (m == 0 || y == 0){
@@ -67,7 +69,7 @@ public class CalendarBuilder {
 	    		if (m == monthAndYear[0] && y == monthAndYear[1]) {
 	    			currentDay = monthAndYear[2]; }
 	    		else { currentDay = 0; }
-	    	}
+	    	}	    	
 
 	        // months[i] = name of month i
 	        String[] months = {
@@ -99,6 +101,10 @@ public class CalendarBuilder {
 	        for (int i = 0; i < d; i++)
 	            output += "<td></td>";
 	        for (int i = 1; i <= days[M]; i++) {
+	        	
+	        	calendarDate = Y + "-" + String.format("%02d", M) + "-" + String.format("%02d", i);
+	        	System.out.println("calendarDate = " + calendarDate);
+	        	
 	        	if (i == currentDay) {
 	        		output += "<td><strong>" + String.format("%2d ", i) + "</strong></td>";
 	        	} else {
@@ -106,6 +112,8 @@ public class CalendarBuilder {
 	        	}
 	            if (((i + d) % 7 == 0) || (i == days[M])) output += "</tr><tr>";
 	        }
+	        
+	        //<a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
 	        
 	        output += "</tr></tbody>";	 
 	        
