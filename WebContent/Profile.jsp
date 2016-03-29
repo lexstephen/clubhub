@@ -54,16 +54,16 @@
 			<p><b>${user.firstName } ${user.lastName }</b> [${user.gender }]</p>
 			<p>${user.city }, ${user.province }</p>
 			<p>Member Since ${dateCreated }</p>
-		
+
 		 	<c:if test="${(isAdmin == true) || user.userid == loggedInUserID}">	
 		 		<b>Registration Info</b>
 			 	<p><small>${user.streetAddress }<br>${user.city }, ${user.country }<br>${user.postalCode }</small></p>
-			 	<p><small>${user.telephone }</small></p>
-			 	<p><small>Birthday: ${user.dateOfBirth }</small></p>
-			 	<p><small>Emergency Contact:<br>${user.emergencyContactName } ${user.emergencyContactPhoneNumber }</small></p>
+			 	<p><small>${user.formattedTelephone }</small></p>
+			 	<p><small>Birthday: ${user.formattedDateOfBirth }</small></p>
+			 	<p><small>Emergency Contact:<br>${user.emergencyContactName } ${user.formattedEmergencyContactPhoneNumber }</small></p>
 		 	
 			 	<span class="expand">
-					<a href="/clubhub/admin/EditProfile.jsp?userID=${user.userid}" class="btn btn-info btn-primary">Edit</a>
+					<a href="${pageContext.request.contextPath}/admin/EditProfile.jsp?userID=${user.userid}" class="btn btn-info btn-primary">Edit</a>
 				</span>
 			</c:if>
 		</div>

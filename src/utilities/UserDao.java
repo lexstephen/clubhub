@@ -200,11 +200,6 @@ public class UserDao {
 	        // obtains the upload file part in this multipart request
 	        Part filePart = request.getPart("profilePhoto");
 	        if (filePart != null) {
-	            // prints out some information for debugging
-	            System.out.println(filePart.getName());
-	            System.out.println(filePart.getSize());
-	            System.out.println(filePart.getContentType());
-	             
 	            // obtains input stream of the upload file
 	            inputStream = filePart.getInputStream();
 	        }
@@ -271,8 +266,6 @@ public class UserDao {
 				user.setProvince(resultSet.getString("province"));
 				user.setPostalCode(resultSet.getString("postalCode"));
 				user.setCountry(resultSet.getString("country"));
-				
-				user.setPhoto(resultSet.getString("photo"));
 				user.setDateOfBirth(resultSet.getString("dateOfBirth"));
 				user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
 				user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
@@ -343,7 +336,9 @@ public class UserDao {
 			user.setTeamGender(teamGender);				
 			user.setStreetAddress(resultSet.getString("streetAddress"));
 			String number = resultSet.getString("phoneNumber");
-			user.setTelephone(String.format("(%s) %s-%s", number.substring(0, 3), number.substring(3, 6), number.substring(6, 10)));
+			// 
+			user.setTelephone(number);
+			user.setFormattedTelephone(String.format("(%s) %s-%s", number.substring(0, 3), number.substring(3, 6), number.substring(6, 10)));
 			user.setCity(resultSet.getString("city"));
 			user.setProvince(resultSet.getString("province"));
 			user.setPostalCode(resultSet.getString("postalCode"));
@@ -355,12 +350,14 @@ public class UserDao {
 			SimpleDateFormat formatDate = new SimpleDateFormat("MMM dd yyyy");
 			Date date = (Date) parseDate.parse(MyDate);
 			String DisplayDate = formatDate.format(date);
-			user.setDateOfBirth(DisplayDate);
+			user.setFormattedDateOfBirth(DisplayDate);
+			user.setDateOfBirth(MyDate);
 			
 			user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
-			user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
 			String contactNumber = resultSet.getString("emergencyContactPhoneNumber");
-			user.setEmergencyContactPhoneNumber(String.format("(%s) %s-%s", contactNumber.substring(0, 3), contactNumber.substring(3, 6), contactNumber.substring(6, 10)));
+			// String.format("(%s) %s-%s", contactNumber.substring(0, 3), contactNumber.substring(3, 6), contactNumber.substring(6, 10))
+			user.setEmergencyContactPhoneNumber(contactNumber);
+			user.setFormattedEmergencyContactPhoneNumber(String.format("(%s) %s-%s", contactNumber.substring(0, 3), contactNumber.substring(3, 6), contactNumber.substring(6, 10)));
 		}
 
 		request.setAttribute("user", user);

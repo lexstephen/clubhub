@@ -10,10 +10,10 @@ $(document).ready(function(){
     				  document.getElementById('schemeMed_colour').value = Schemes[index].med_colour;
     				  document.getElementById('schemeLight_colour').value = Schemes[index].light_colour;
     				  document.getElementById('schemeText_colour').value = Schemes[index].text_colour;
-    				  $('#preview_Dark_colour').css({'background-color':'#'+Schemes[index].dark_colour});
-    				  $('#preview_Med_colour').css({'background-color':'#'+Schemes[index].med_colour});
-    				  $('#preview_Light_colour').css({'background-color':'#'+Schemes[index].light_colour});
-    				  $('#preview_Text_colour').css({'background-color':'#'+Schemes[index].text_colour}); 
+    				  $('#preview_Dark_colour').css({'background-color':Schemes[index].dark_colour});
+    				  $('#preview_Med_colour').css({'background-color':Schemes[index].med_colour});
+    				  $('#preview_Light_colour').css({'background-color':Schemes[index].light_colour});
+    				  $('#preview_Text_colour').css({'background-color':Schemes[index].text_colour}); 
     	            }
                 }
             });
@@ -23,10 +23,10 @@ $(document).ready(function(){
         $(this).find("option:selected").each(function(){
     		for	(index = 0; index < Schemes.length; index++) {
                 if($(this).attr("value")==Schemes[index].csid){
-    				  $('#preview_Dark_colour').css({'background-color':'#'+Schemes[index].dark_colour});
-    				  $('#preview_Med_colour').css({'background-color':'#'+Schemes[index].med_colour});
-    				  $('#preview_Light_colour').css({'background-color':'#'+Schemes[index].light_colour});
-    				  $('#preview_Text_colour').css({'background-color':'#'+Schemes[index].text_colour}); 
+    				  $('#preview_Dark_colour').css({'background-color':Schemes[index].dark_colour});
+    				  $('#preview_Med_colour').css({'background-color':Schemes[index].med_colour});
+    				  $('#preview_Light_colour').css({'background-color':Schemes[index].light_colour});
+    				  $('#preview_Text_colour').css({'background-color':Schemes[index].text_colour}); 
     	            }
                 }
             });
@@ -91,10 +91,10 @@ $(document).ready(function(){
     				  
 //      				$('#display_image_logo').prepend('<img src=>');
 				  colour_id = (Prefs[index].colour_schemeid - 1);
-				  $('#preview_Dark_colour').css({'background-color':'#'+Schemes[(Prefs[index].colour_schemeid-1)].dark_colour});
-   				  $('#preview_Med_colour').css({'background-color':'#'+Schemes[colour_id].med_colour});
-   				  $('#preview_Light_colour').css({'background-color':'#'+Schemes[colour_id].light_colour});
-   				  $('#preview_Text_colour').css({'background-color':'#'+Schemes[colour_id].text_colour}); 
+				  $('#preview_Dark_colour').css({'background-color':Schemes[(Prefs[index].colour_schemeid-1)].dark_colour});
+   				  $('#preview_Med_colour').css({'background-color':Schemes[colour_id].med_colour});
+   				  $('#preview_Light_colour').css({'background-color':Schemes[colour_id].light_colour});
+   				  $('#preview_Text_colour').css({'background-color':Schemes[colour_id].text_colour}); 
     	        }
     		}
         });
@@ -109,6 +109,6 @@ var self = $(this);
 //var unitVal = self.parent().next().val();
 var hex_colour = self.val();
 console.log("I am here " + hex_colour);
-self.closest(".preview_colour").css({'background-color':'#'+hex_colour});
+self.closest(".preview_colour").css({'background-color':hex_colour});
 
 });

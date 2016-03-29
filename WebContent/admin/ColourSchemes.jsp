@@ -85,7 +85,7 @@
 		<div class="col-sm-7 form-group preview_colour" id="preview_Dark_colour">
 			<div class="row">
 				<div class="col-sm-6">
-					<input class="form-control hex_code" type="text" name="dark_colour" id="schemeDark_colour" value="">
+					<input class="form-control hex_code" type="color" name="dark_colour" id="schemeDark_colour" value="">
 				</div>
 				<div class="col-sm-6">
 				&nbsp;
@@ -104,7 +104,7 @@
 		<div class="col-sm-7 form-group preview_colour" id="preview_Med_colour">
 			<div class="row">
 				<div class="col-sm-6">
-					<input class="form-control hex_code" type="text" name="med_colour" id="schemeMed_colour" value="">
+					<input class="form-control hex_code" type="color" name="med_colour" id="schemeMed_colour" value="">
 				</div>
 				<div class="col-sm-6">
 				&nbsp;
@@ -121,7 +121,7 @@
 		<div class="col-sm-7 form-group preview_colour" id="preview_Light_colour">
 			<div class="row">
 				<div class="col-sm-6">
-					<input class="form-control hex_code" type="text" name="light_colour" id="schemeLight_colour" value="">
+					<input class="form-control hex_code" type="color" name="light_colour" id="schemeLight_colour" value="">
 				</div>
 				<div class="col-sm-6">
 				&nbsp;
@@ -138,7 +138,7 @@
 		<div class="col-sm-7 form-group preview_colour" id="preview_Text_colour">
 			<div class="row">
 				<div class="col-sm-6">
-					<input class="form-control hex_code" type="text" name="text_colour" id="schemeText_colour" value="">
+					<input class="form-control hex_code" type="color" name="text_colour" id="schemeText_colour" value="">
 				</div>
 				<div class="col-sm-6">
 				&nbsp;
@@ -151,7 +151,7 @@
 	<div class="row">
 		<div class="col-xs-12 form-group">
 			<input type="hidden" name="option" value="add">
-			<button class="btn btn-info" type="submit" value="add" name="option">Submit</button>
+			<button class="btn btn-info" type="submit">Submit</button>
 		</div>
 	</div>			
 </div>

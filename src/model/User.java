@@ -16,8 +16,35 @@ public class User {
 			city = "", province = "", postalCode = "",
 			country = "", photo = "", dateOfBirth = "", 
 			emergencyContactName = "", 
-			emergencyContactPhoneNumber = "";
-    public String getTeamGender() {
+			emergencyContactPhoneNumber = "", 
+			formattedTelephone = "", 
+			formattedEmergencyContactPhoneNumber = "",
+			formattedDateOfBirth = "";
+    public String getFormattedDateOfBirth() {
+		return formattedDateOfBirth;
+	}
+
+	public void setFormattedDateOfBirth(String formattedDateOfBirth) {
+		this.formattedDateOfBirth = formattedDateOfBirth;
+	}
+
+	public String getFormattedTelephone() {
+		return formattedTelephone;
+	}
+
+	public void setFormattedTelephone(String formattedTelephone) {
+		this.formattedTelephone = formattedTelephone;
+	}
+
+	public String getFormattedEmergencyContactPhoneNumber() {
+		return formattedEmergencyContactPhoneNumber;
+	}
+
+	public void setFormattedEmergencyContactPhoneNumber(String formattedEmergencyContactPhoneNumber) {
+		this.formattedEmergencyContactPhoneNumber = formattedEmergencyContactPhoneNumber;
+	}
+
+	public String getTeamGender() {
 		return teamGender;
 	}
 

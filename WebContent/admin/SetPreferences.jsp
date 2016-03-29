@@ -41,7 +41,6 @@
 		PrefObj.status = "${preference.status}";  
 		PrefObj.image_logo_exists = "true";  
 		PrefObj.image_small_logo_exists = "true";  
-		PrefObj.featured_images = ${preference.featured_images};  
 		Prefs.push(PrefObj);
 	</c:forEach> 
 	PrefObj = new Object();
@@ -56,8 +55,7 @@
 	PrefObj.country = "";
 	PrefObj.status = "";   
 	PrefObj.image_logo_exists = "false";
-	PrefObj.image_small_logo_exists = "false";
-	PrefObj.featured_images = 0;   
+	PrefObj.image_small_logo_exists = "false";  
 	Prefs.push(PrefObj);
 </script>
 

@@ -17,12 +17,8 @@
 		<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/css/custom.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js" charset="utf-8"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/countryoptions.js" charset="utf-8"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/sorttable.js" charset="utf-8"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/invoice.js" charset="utf-8"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/colourscheme.js" charset="utf-8"></script>
-		<script src="${pageContext.request.contextPath}/js/fileinput.min.js"></script>
+		<%@ include file="/WEB-INF/header_public_css.jsp" %>
+
 	</head>
 	<body class="frontend">	
 		<nav class="navbar navbar-static-top sidebar">
@@ -32,15 +28,11 @@
 						<a href="/clubhub/Main.jsp" class="pull-left"><img src="/clubhub/ImageDao?t=image_logo" id="rcc_circle_logo"></a>
 					</div>
 					<div class="collapse navbar-collapse navbar-right">
-						<form action="/clubhub/PostController" method="post" class="clearfix">
-						  	<div class="form-group inline pull-left">
-								
-								
-								<input type="text" name="searchTerm" placeholder="search updates" onfocus="this.placeholder = ''" onblur="this.placeholder = 'search updates'">
-								<input type="submit" class="btn btn-default btn-xs" name="option" value="search">
-								
-								
-							</div>
+						<form action="/clubhub/PostController" method="post" class="form-inline clearfix pushdown">
+						<div class="form-group">
+								<input type="text" class="form-control" name="searchTerm" placeholder="search updates" onfocus="this.placeholder = ''" onblur="this.placeholder = 'search updates'">
+								<input type="submit" class="btn btn-primary btn-xs" name="option" value="search">
+						</div>
 						</form>
 					</div>
 					<div id="navbar" class="navbar-collapse collapse">
