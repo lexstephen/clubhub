@@ -304,6 +304,8 @@ public class GameDao {
 		}
 	}
 	
+	
+	
 public void closeSlot(HttpServletRequest request, String slotID) throws Exception{
 	System.out.println("The slot ID recieved is: "+ slotID);
 	System.out.println("Im in closeSlot");
