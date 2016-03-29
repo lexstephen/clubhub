@@ -24,17 +24,20 @@ slot.listSeasonWithGames(request, seasonID);
 
 
 	<h3><u> ${dayOfWeek} at ${time}</u> </h3>
-	<form action="/clubhub/GameController" method="post" class="form" role="form">
+	
 	<c:forEach items="${slots}" var="slot">
+	<form action="/clubhub/GameController" method="post" class="form" role="form">
 			<tr>
 				<td class="col-xs-12 col-md-3 control-label">
 					<ol>
-						${slot.scheduledDate} ${slot.players}
+						${slot.scheduledDate} ${slot.players} The Slot Id : ${slot.id}
 						<c:choose>
 							<c:when test="${slot.status == 1}">
+								<input type="hidden" name="slotID" value="${slot.id}">
 								<button type="submit" value="close" name="option">Close</button>
 							</c:when>
 							<c:otherwise>
+								<input type="hidden" name="slotID" value="${slot.id}">
 								<button type="submit" value="switchPlayers" name="option">Switch Players</button>
 							</c:otherwise>
 						</c:choose>
@@ -45,9 +48,9 @@ slot.listSeasonWithGames(request, seasonID);
 			</tr><br>
 			
 			
-		
+		</form>
 		</c:forEach>
-	</form>
+	
 	
 
 

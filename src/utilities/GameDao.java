@@ -280,7 +280,6 @@ public class GameDao {
 				while(results.next()){
 					String availablePlayers = results.getString("availablePlayers");
 					if(availablePlayers != null && availablePlayers.contains(userID)){
-						System.out.println("User already exists in current slot");
 						}else {
 							
 							if(availablePlayers != null){
@@ -305,8 +304,26 @@ public class GameDao {
 		}
 	}
 	
-public void closeSlot(HttpServletRequest request, String playerIDs) throws Exception{
-		
+public void closeSlot(HttpServletRequest request, String slotID) throws Exception{
+	System.out.println("The slot ID recieved is: "+ slotID);
+	System.out.println("Im in closeSlot");
+	//String seasonID = null;
+	//Statement statement1 = null;
+	//ResultSet resultSet1 = null;
+	statement = connect.createStatement();
+	ResultSet resultSet = statement.executeQuery("SELECT * from ch_slot where id= "+ slotID);
+	  
+	  while(resultSet.first()){
+		  //Slot slot = new Slot();
+		  String playerIDs = resultSet.getString("availablePlayers");
+		  String gameID = resultSet.getString("gameID");
+		  
+	  
+	System.out.println("Available Players: "+ playerIDs);
+	Statement statement2 = null;
+	  statement2 = connect.createStatement();
+	  statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
+	  
 		String [] players = playerIDs.split(", ");
 		List<Integer> indexes = new ArrayList<Integer>();
 		//String [] indexes = new String[4];
@@ -343,6 +360,16 @@ public void closeSlot(HttpServletRequest request, String playerIDs) throws Excep
 		playingPlayers[2] = players[indexes.get(2)];
 		playingPlayers[3] = players[indexes.get(3)];
 		
+		for(int i=0; i < playingPlayers.length ;i++){
+			//Statement statement3 = null;
+			statement = connect.createStatement();
+		    PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game values (?,?,null,null)");
+		    preparedStatement.setString(1, playingPlayers[i]);	//userID
+		    preparedStatement.setString(2, gameID); // gameID
+		    preparedStatement.executeUpdate();
+		}
+	    
+		
 		StringBuilder builder = new StringBuilder();
 		
 		if (playingPlayers.length >= 1) {
@@ -355,9 +382,17 @@ public void closeSlot(HttpServletRequest request, String playerIDs) throws Excep
 		}
 		
 		String thePlayers = builder.toString();
-		System.out.println(thePlayers);
+		System.out.println("Playing Players: "+thePlayers);
 		
+		statement = connect.createStatement();
+		ResultSet resultSet1 = statement.executeQuery("Select * from ch_game where id= "+ gameID);
+		while(resultSet1.next()){
+			String seasonID= resultSet1.getString("seasonID");
+			request.setAttribute("seasonID", seasonID);
+		}
 		
+	  }
+	;
 	}
 	
 	

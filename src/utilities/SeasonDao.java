@@ -190,6 +190,7 @@ public class SeasonDao {
 			    	  season.setDuration(resultSet.getString("duration"));
 			    	  
 			    	  
+			    	  
 			    	  Statement statement1 = null;
 			    	  ResultSet resultSet1 = null;
 			    		
@@ -211,8 +212,12 @@ public class SeasonDao {
 				    	  statement2 = connect.createStatement();
 						  resultSet2 = statement2.executeQuery("SELECT * from ch_slot where gameID= "+ gameID);
 						  
+						  
 						  while(resultSet2.next()){
+							  int status = resultSet2.getInt("status");
+							  
 							  Slot slot = new Slot();
+							  if(status == 1){
 							  String playerIDs = resultSet2.getString("availablePlayers");
 							  String playerNames = utilities.ValidationUtilities.getPlayerNames(request, playerIDs);
 							  System.out.println("Player Names: " +playerNames);
@@ -220,7 +225,34 @@ public class SeasonDao {
 							  slot.setPlayers(playerNames);
 							  slot.setScheduledDate(resultSet2.getString("scheduledDate"));
 							  slot.setStatus(resultSet2.getInt("status"));
-							   
+							  slot.setGameId(resultSet2.getString("gameID"));
+							  slot.setId(resultSet2.getString("id"));
+							  
+							  
+							  }else if (status == 0){
+								  Statement statement3 = null;
+						    	  ResultSet resultSet3 = null;
+						    		
+						    	  slot.setScheduledDate(resultSet2.getString("scheduledDate"));
+						    	  
+						    	  statement3 = connect.createStatement();
+								  resultSet3 = statement3.executeQuery("SELECT * from ch_user_game where Gameid= "+ gameID);
+								  String playerIDs = null;
+								  while(resultSet3.next()){
+									  if (playerIDs != null){
+										  playerIDs += ", " + resultSet3.getString("Userid");
+										  System.out.println(resultSet3.getString("Userid"));
+									  }else {
+										  playerIDs = resultSet3.getString("Userid");
+									  }
+								  }
+								  System.out.println(playerIDs);
+								  String playerNames = utilities.ValidationUtilities.getPlayerNames(request, playerIDs);
+								  System.out.println("Player Names: " +playerNames);
+								  slot.setPlayers(playerNames);
+								  
+							  }
+							  
 							  slots.add(slot);
 						  }
 						  }
