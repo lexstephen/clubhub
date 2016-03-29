@@ -200,6 +200,26 @@ public class ValidationUtilities {
 		return cal.get(Calendar.MONTH) + 1;
 	}
 	
+	public static int yearOfDate (String scheduledDate) throws Exception{
+		// Get month from date //	
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = format.parse(scheduledDate);		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);					
+		return cal.get(Calendar.YEAR);
+	}
+	
+	public static int numberOfDate (String scheduledDate) throws Exception{
+		// Get month from date //	
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = format.parse(scheduledDate);		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);		
+		return cal.get(Calendar.DAY_OF_MONTH);
+	}
+	
 	public static String getPlayerNames (HttpServletRequest request, String playerIDs) throws Exception{
 		
 		//String playerNames = null;

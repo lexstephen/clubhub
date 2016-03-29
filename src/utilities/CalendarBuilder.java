@@ -12,13 +12,14 @@ public class CalendarBuilder {
 	    *  0 for Sunday, 1 for Monday, and so forth.
 	    ***************************************************************************/
 		public String output = "<thead><tr><th colspan=\"7\" class=\"text-center\">";	
+		public static int[] monthAndYear = new int[3];
 		
-		public static int[] date() {
-			
-			new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-			
-			
-			return null;
+		public static void todaysDate() throws Exception {			
+
+			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());			
+			monthAndYear[0] = ValidationUtilities.monthOfDate(date);
+			monthAndYear[1] = ValidationUtilities.yearOfDate(date);
+			monthAndYear[2] = ValidationUtilities.numberOfDate(date);
 		}
 	
 	    public static int day(int M, int D, int Y) {
@@ -36,9 +37,12 @@ public class CalendarBuilder {
 	        return false;
 	    }
 
-	    public CalendarBuilder() {
+	    public CalendarBuilder() throws Exception {
 	    	
-	    	int M, Y;
+	    	todaysDate();
+	    	int M = monthAndYear[0]; // current month #
+	    	int Y = monthAndYear[1]; // current year
+	    	int currentDay = monthAndYear[2]; // current day #
 
 	        // months[i] = name of month i
 	        String[] months = {
@@ -69,7 +73,11 @@ public class CalendarBuilder {
 	        for (int i = 0; i < d; i++)
 	            output += "<td></td>";
 	        for (int i = 1; i <= days[M]; i++) {
+	        	if (i == currentDay) {
+	        		output += "<td><strong>" + String.format("%2d ", i) + "</strong></td>";
+	        	} else {
 	            output += "<td>" + String.format("%2d ", i) + "</td>";
+	        	}
 	            if (((i + d) % 7 == 0) || (i == days[M])) output += "</tr><tr>";
 	        }
 	        
