@@ -24,7 +24,7 @@ request.setAttribute("isAdmin", true);
 System.out.println("The current season ID is: " + request.getAttribute("seasonID"));
 System.out.println("The current month is: " + request.getAttribute("gameMonth"));
 seasons.listSeasonIDs(request);
-games.listAll(request);
+games.findGameSet(request, Integer.parseInt(request.getAttribute("seasonID").toString()));
 %>
 
 	<h3>Season ${seasonID}</h3>

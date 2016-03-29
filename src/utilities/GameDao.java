@@ -160,45 +160,7 @@ public class GameDao {
 			      throw e;
 		    }
 
-	}
-
-	public void listAll(HttpServletRequest request) throws Exception {
-		List<Game> games = new ArrayList<Game>();
-		  String seasonID = (String) request.getAttribute("seasonID");
-		  //request.setAttribute("seasonID", seasonID);
-		  
-		  	try{  		
-		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * from ch_game where Seasonid=" + seasonID + " ORDER BY scheduledDate");
-			      
-			    while (resultSet.next()) {
-			    	Game game = new Game();
-			    	  
-			    	game.setId(resultSet.getString("id"));
-					game.setScheduledDate(resultSet.getString("scheduledDate"));
-					
-					// Get month from date //
-					
-					DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-					Date date = format.parse(game.getScheduledDate());
-					
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(date);					
-					game.setSchedMonth(cal.get(Calendar.MONTH) + 1);
-					
-					System.out.println("dao sched month: " + game.getSchedMonth());
-									
-					games.add(game);
-		    	}
-
-		    } catch (SQLException e) {
-			      throw e;
-			}
-		  	request.setAttribute("games", games);
-		  	
-	}  
-	
-	
+	}	
 	
 	/*
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
@@ -237,14 +199,16 @@ public class GameDao {
 		 List<Game> games = new ArrayList<Game>();
 		  	try{  		
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT week, scheduledDate, seasonID "
+			    resultSet = statement.executeQuery("SELECT * "
 				+ "FROM ch_game WHERE seasonID= " + seasonID);
 			      
 			    while (resultSet.next()) {
 			    	
 			    	  Game game = new Game();
+			    	  game.setId(resultSet.getString("id"));
 			    	  game.setWeek(resultSet.getString("week"));
 			    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
+			    	  game.setSchedMonth(ValidationUtilities.monthOfDate(game.getScheduledDate()));
 			    	  game.setSeasonId(resultSet.getString("seasonID"));
 			    	  
 			    	  request.setAttribute("gameID", game.getId());

@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 
@@ -186,6 +188,16 @@ public class ValidationUtilities {
 		System.out.println("The day of week is: " +dayOfWeek);
 		return dayOfWeek;
 		
+	}
+	
+	public static int monthOfDate (String scheduledDate) throws Exception{
+		// Get month from date //	
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = format.parse(scheduledDate);		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);					
+		return cal.get(Calendar.MONTH) + 1;
 	}
 	
 	public static String getPlayerNames (HttpServletRequest request, String playerIDs) throws Exception{
