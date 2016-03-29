@@ -22,7 +22,7 @@
   </script>
 
 
-<form action="/clubhub/SeasonController" method="post" class="form" role="form">
+<form action="${pageContext.request.contextPath}/SeasonController" method="post" class="form" role="form">
 	<div class="form-group">
 		<label class="col-sm-1 control-label">
 			Season

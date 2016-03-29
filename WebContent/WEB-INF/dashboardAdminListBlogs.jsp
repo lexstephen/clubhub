@@ -14,7 +14,7 @@
 			<tbody>
 				<c:forEach items="${blogs}" var="blog">
 				<tr>
-					<td class="col-xs-12 col-md-3 control-label"><a href="/clubhub/admin/EditPost.jsp?postID=${blog.id}">${blog.title}</a></td>
+					<td class="col-xs-12 col-md-3 control-label"><a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${blog.id}">${blog.title}</a></td>
 					<td class="col-xs-12 col-md-2">${blog.username}</td>
 				</tr>
 				</c:forEach>

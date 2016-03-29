@@ -21,7 +21,7 @@ post.findPost(request, postID);
 %>
 
 <div class="form-group">
-	<form action="/clubhub/PostController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/PostController" method="post" class="form" role="form">
 		<div class="row">
 			<div class="col-xs-1">
 				<label class="control-label">
@@ -83,7 +83,7 @@ post.findPost(request, postID);
 				</form>
 			</div>
 			<div class="col-xs-1">
-				<form action="/clubhub/PostController" method="post">
+				<form action="${pageContext.request.contextPath}/PostController" method="post">
 					<input type="hidden" name="postID" value="${post.id}">
 					<input type="hidden" name="option" value="delete">
 					<input class="btn btn-danger" type="submit" value="Delete">

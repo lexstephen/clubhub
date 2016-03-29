@@ -24,7 +24,7 @@ request.setAttribute("thisPage", request.getAttribute("postTitle")); %>
 			<p>"${post.content}"</p>
 				<span class="expand">
 				<c:if test="${(isAdmin == true)}">
-					<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+					<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
 				</c:if>
 				</span>
 			<hr>

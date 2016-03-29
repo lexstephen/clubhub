@@ -29,7 +29,7 @@
 		<%@ include file="/WEB-INF/displayPosts.jsp" %>					
 	</c:forEach>
 	
-	<form action="/clubhub/PostController" method="post">
+	<form action="${pageContext.request.contextPath}/PostController" method="post">
 		<span class="pagination">
 			<button class="btn btn-primary btn-xs" name="option" value="first">&lt;&lt;</button>
 			<button class="btn btn-primary btn-xs" name="option" value="previous">&lt;</button>

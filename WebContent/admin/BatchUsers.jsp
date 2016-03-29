@@ -21,7 +21,7 @@
 	
 	<!-- This form wont work because there are embedded forms in the included file. I dont know how to work around this.  --> 
 		
-	<form action="/clubhub/UserController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/UserController" method="post" class="form" role="form">
 
 		<table class="table table-hover sortable">
 			<thead>

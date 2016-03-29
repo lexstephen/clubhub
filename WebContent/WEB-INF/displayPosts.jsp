@@ -16,13 +16,13 @@
 				<span class="expand">
 					<c:choose>
 						<c:when test="${(isAdmin == true) && (blog.accessLevel != 'Private')}">
-							<a href="/clubhub/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
+							<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
 						</c:when>
 						<c:when test="${(postMatchesUser == true) && (blog.accessLevel == 'Private')}">
-							<a href="/clubhub/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
+							<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
 						</c:when>
 					</c:choose>
-					<a href="/clubhub/Post.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">More</a>
+					<a href="${pageContext.request.contextPath}/Post.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">More</a>
 				</span>
 			<hr>
 		</div>

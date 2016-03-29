@@ -19,7 +19,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-<form action="/clubhub/PreferenceController" method="post" class="form" role="form" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/PreferenceController" method="post" class="form" role="form" enctype="multipart/form-data">
 <div class="form-group preferences">
 
 	<script type="text/javascript">

@@ -15,7 +15,7 @@
 			<tbody>
 				<c:forEach items="${users}" var="user">
 				<tr>
-					<td class="col-xs-12 col-md-3 control-label"><a href="/clubhub/admin/EditProfile.jsp?userID=${user.userid}">${user.firstName} ${user.lastName}</a></td>
+					<td class="col-xs-12 col-md-3 control-label"><a href="${pageContext.request.contextPath}/admin/EditProfile.jsp?userID=${user.userid}">${user.firstName} ${user.lastName}</a></td>
 					<td class="col-xs-12 col-md-2">${user.userStatus}</td>
 				</tr>
 				</c:forEach>

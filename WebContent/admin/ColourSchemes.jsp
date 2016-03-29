@@ -39,7 +39,7 @@
 	Schemes.push(SchemeObj);
 </script>
 
-<form action="/clubhub/ColourSchemeController" method="post" class="form" role="form">
+<form action="${pageContext.request.contextPath}/ColourSchemeController" method="post" class="form" role="form">
 
 <div class="row">
 	<div class="col-xs-12">

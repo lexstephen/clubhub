@@ -23,9 +23,9 @@
 	<td class="col-xs-12 col-md-2">
 		<span class="expand">
 		<c:if test="${(isAdmin == true) || (post.userid == loggedInUserID)}">
-			<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+			<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
 		</c:if>
-			<a href="/clubhub/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
+			<a href="${pageContext.request.contextPath}/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
 		</span>
 	</td>
 </tr>

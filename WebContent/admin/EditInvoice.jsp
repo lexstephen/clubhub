@@ -30,7 +30,7 @@ ${errorString }
 <c:if test="${!empty errorLineItems}"><li>${ errorLineItems }</li></c:if>
 
 </ul>
-	<form action="/clubhub/InvoiceController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/InvoiceController" method="post" class="form" role="form">
 		<div class="row">
 			<div class="col-xs-3 control-label">
 		    	<label for="inptUserID">Member</label>
@@ -265,7 +265,7 @@ ${errorString }
     			</form>
    			</div>
    			<div class="col-xs-2">
-  			<form action="/clubhub/InvoiceController" method="post">
+  			<form action="${pageContext.request.contextPath}/InvoiceController" method="post">
 				<input type="hidden" name="invoiceID" value="${invoice.id}">
 				<input type="hidden" name="option" value="delete">
 				<input class="btn btn-danger" type="submit" value="Delete">

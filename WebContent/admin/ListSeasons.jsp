@@ -20,7 +20,7 @@ season.listSeasonWithStatus(request);
 //System.out.println("The current user ID is: " + seasonID);
 %>
 
-<form action="/clubhub/GameController" method="post" class="form" role="form">
+<form action="${pageContext.request.contextPath}/GameController" method="post" class="form" role="form">
 	<h3><u>List of Seasons: </u> </h3>
 		
 		<c:forEach items="${seasons}" var="season">

@@ -25,7 +25,7 @@ game.findGameSet(request, seasonID);
 <% request.setAttribute("thisPage", "Populate Games"); %>
 
 
-	<form action="/clubhub/GameController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/GameController" method="post" class="form" role="form">
 	<h3>Below is a list of the games you have just created: </h3>
 	
 		<c:forEach items="${games}" var="game">

@@ -20,7 +20,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-<form action="/clubhub/PreferenceController" method="post" class="form" role="form" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/PreferenceController" method="post" class="form" role="form" enctype="multipart/form-data">
 <div class="form-group preferences">
 
 	<script type="text/javascript">
@@ -88,7 +88,7 @@
 			<div class="row">
 				<div class="col-sm-7 col-sm-offset-5">
 					<div class="radio">
-						<form action="/clubhub/PreferenceController" method="post" class="form" role="form" enctype="multipart/form-data">
+						<form action="${pageContext.request.contextPath}/PreferenceController" method="post" class="form" role="form" enctype="multipart/form-data">
 							<c:forEach items="${prefs}" var="preference">
 								<div class="row">
 							    	<label class="checkbox-inline">

@@ -20,7 +20,7 @@
 	<% invoice.listAll(request); %>
 	
 
-	<form action="/clubhub/InvoiceController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/InvoiceController" method="post" class="form" role="form">
 	<div class="row">
 		<div class="col-xs-12">
 			<table class="table table-hover sortable">

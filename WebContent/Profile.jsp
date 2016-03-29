@@ -45,7 +45,7 @@
 	<hr>
 	<div class="row">
 		<div class="col-xs-3 col-xs-offset-1">
-		<!-- 	<img src="/clubhub/images/avatar.gif" class="profile_photo"> -->
+		<!-- 	<img src="${pageContext.request.contextPath}/images/avatar.gif" class="profile_photo"> -->
 		
 	    	<img src="ImageDao?t=profile&id=${userID }" class="profile_photo">
 		  
@@ -202,7 +202,7 @@
 			<div class="col-xs-10 col-xs-offset-1">
 				<c:choose>
 					<c:when test = "${not empty invoices}">
-						<form action="/clubhub/InvoiceController" method="post" class="form" role="form">
+						<form action="${pageContext.request.contextPath}/InvoiceController" method="post" class="form" role="form">
 						  	<table class="table table-striped">
 						    <thead>
 						      <tr>

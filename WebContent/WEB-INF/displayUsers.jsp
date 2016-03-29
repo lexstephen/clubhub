@@ -22,7 +22,7 @@
 	<td class="col-xs-12 col-md-2">${user.lastName}</td>
 	<td class="col-xs-12 col-md-2">
 		<span class="expand">
-			<a href="/clubhub/Profile.jsp?userID=${user.userid}" class="btn btn-primary btn-xs">View</a>
+			<a href="${pageContext.request.contextPath}/Profile.jsp?userID=${user.userid}" class="btn btn-primary btn-xs">View</a>
 		</span>
 	</td>
 </tr>

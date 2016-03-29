@@ -29,7 +29,7 @@ games.listAll(request);
 
 	<h3>Season ${seasonID}</h3>
 	Select Season
-	<form action="/clubhub/GameController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/GameController" method="post" class="form" role="form">
 		<select name="seasonID">
 			<c:forEach items="${seasons}" var="season">
 				<option value="${season}" ${season == seasonID ? 'selected' : ''}>${season}</option>
@@ -59,9 +59,9 @@ games.listAll(request);
 					<td class="col-xs-12 col-md-2">
 						<span class="expand">
 						<c:if test="${isAdmin == true}">
-							<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+							<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
 						</c:if>
-							<a href="/clubhub/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
+							<a href="${pageContext.request.contextPath}/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
 						</span>
 					</td>
 				</tr>
@@ -102,9 +102,9 @@ games.listAll(request);
 						<td class="col-xs-12 col-md-2">
 							<span class="expand">
 							<c:if test="${isAdmin == true}">
-								<a href="/clubhub/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+								<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
 							</c:if>
-								<a href="/clubhub/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
+								<a href="${pageContext.request.contextPath}/Post.jsp?postID=${post.id}" class="btn btn-primary btn-xs">More</a>
 							</span>
 						</td>
 					</tr>

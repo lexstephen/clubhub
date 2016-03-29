@@ -12,19 +12,19 @@
 			<tbody>
 
 				<tr>
-					<td class="col-xs-12 col-md-3 control-label"><a href="/clubhub/admin/EditGame.jsp?gameID=${game.gameid}">4</a></td>
+					<td class="col-xs-12 col-md-3 control-label"><a href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.gameid}">4</a></td>
 					<td class="col-xs-12 col-md-2">2016-02-04</td>
 					<td class="col-xs-12 col-md-2">F</td>
 				</tr>
 
 				<tr>
-					<td class="col-xs-12 col-md-3 control-label"><a href="/clubhub/admin/EditGame.jsp?gameID=${game.gameid}">3</a></td>
+					<td class="col-xs-12 col-md-3 control-label"><a href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.gameid}">3</a></td>
 					<td class="col-xs-12 col-md-2">2016-02-03</td>
 					<td class="col-xs-12 col-md-2">M</td>
 				</tr>
 
 				<tr>
-					<td class="col-xs-12 col-md-3 control-label"><a href="/clubhub/admin/EditGame.jsp?gameID=${game.gameid}">2</a></td>
+					<td class="col-xs-12 col-md-3 control-label"><a href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.gameid}">2</a></td>
 					<td class="col-xs-12 col-md-2">2016-02-02</td>
 					<td class="col-xs-12 col-md-2">F</td>
 				</tr>
