@@ -18,12 +18,7 @@
 		<link href="${pageContext.request.contextPath}/css/custom.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 		<%@ include file="/WEB-INF/header_public_css.jsp" %>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js" charset="utf-8"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/countryoptions.js" charset="utf-8"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/sorttable.js" charset="utf-8"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/invoice.js" charset="utf-8"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/colourscheme.js" charset="utf-8"></script>
-		<script src="${pageContext.request.contextPath}/js/fileinput.min.js"></script>
+
 	</head>
 	<body class="frontend">	
 		<nav class="navbar navbar-static-top sidebar">
