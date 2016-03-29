@@ -63,7 +63,7 @@
 			 	<p><small>Emergency Contact:<br>${user.emergencyContactName } ${user.formattedEmergencyContactPhoneNumber }</small></p>
 		 	
 			 	<span class="expand">
-					<a href="/clubhub/admin/EditProfile.jsp?userID=${user.userid}" class="btn btn-info btn-primary">Edit</a>
+					<a href="${pageContext.request.contextPath}/admin/EditProfile.jsp?userID=${user.userid}" class="btn btn-info btn-primary">Edit</a>
 				</span>
 			</c:if>
 		</div>
