@@ -354,11 +354,10 @@ public void closeSlot(HttpServletRequest request, String playerIDs) throws Excep
 			builder.append(playingPlayers[i]);
 		}
 		
-		
-		 
-		
 		String thePlayers = builder.toString();
 		System.out.println(thePlayers);
+		
+		
 	}
 	
 	
