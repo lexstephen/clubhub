@@ -19,10 +19,16 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
-${errorString }
+	<c:if test="${!empty errorString}">
+		<div class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		  ${errorString }
+				<c:if test="${!empty errorInvDate}"><li>${ errorInvDate }</li></c:if>
+				<c:if test="${!empty errorLineItems}"><li>${ errorLineItems }</li></c:if>
+		</div>
+	</c:if>
 <ul>
-<c:if test="${!empty errorInvDate}"><li>${ errorInvDate }</li></c:if>
-<c:if test="${!empty errorLineItems}"><li>${ errorLineItems }</li></c:if>
 
 </ul>
 	<form action="${pageContext.request.contextPath}/InvoiceController" method="post" class="form" role="form">

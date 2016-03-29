@@ -20,7 +20,7 @@
 	<td class="col-xs-12 col-md-2">
 		<span class="expand">
 			<c:choose>
-				<c:when test="${isAdmin == true}"><a href="${pageContext.request.contextPath}/admin/EditInvoice.jsp?invoiceID=${invoice.id}" class="btn btn-primary btn-xs">View</a></c:when>
+				<c:when test="${isAdmin == true}"><a href="${pageContext.request.contextPath}/admin/EditInvoice.jsp?invoiceID=${invoice.id}" class="btn btn-primary btn-xs">View / Edit</a></c:when>
 				<c:otherwise><a href="${pageContext.request.contextPath}/admin/Invoice.jsp?invoiceID=${invoice.id}" class="btn btn-primary btn-xs">View</a></c:otherwise>
 			</c:choose>
 		</span>

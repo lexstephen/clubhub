@@ -16,8 +16,13 @@
 <%@ page import="utilities.InvoiceLineItemDao"%>
 <%	InvoiceLineItemDao lineitem = new InvoiceLineItemDao(); %>
 <% lineitem.listAllLineItems(request); %>
-
-${errorString }
+	<c:if test="${!empty errorString}">
+		<div class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		  ${errorString }
+		</div>
+	</c:if>
 
 	<form action="${pageContext.request.contextPath}/InvoiceLineItemController" method="post" class="form" role="form">
 		<div class="row">
@@ -30,7 +35,7 @@ ${errorString }
 			</div>
 		</div>
 
-		<div class="row form-group">
+		<div class="row form-group <c:if test="${!empty errorLineItem01}">has-error</c:if>">
 			<div class="col-xs-4 control-label">
 		    	<label for="inptUserID">New Item #1:</label>
 			</div>
@@ -42,7 +47,7 @@ ${errorString }
 			</div>
 		</div>
 
-		<div class="row form-group">
+		<div class="row form-group <c:if test="${!empty errorLineItem02}">has-error</c:if>">
 			<div class="col-xs-4 control-label">
 		    	<label for="inptUserID">New Item #2:</label>
 			</div>
@@ -55,7 +60,7 @@ ${errorString }
 		</div>
 
 
-		<div class="row form-group">
+		<div class="row form-group <c:if test="${!empty errorLineItem03}">has-error</c:if>">
 			<div class="col-xs-4 control-label">
 		    	<label for="inptUserID">New Item #3:</label>
 			</div>
@@ -68,7 +73,7 @@ ${errorString }
 		</div>		
 		
 
-		<div class="row form-group">
+		<div class="row form-group <c:if test="${!empty errorLineItem04}">has-error</c:if>">
 			<div class="col-xs-4 control-label">
 		    	<label for="inptUserID">New Item #4:</label>
 			</div>
@@ -81,7 +86,7 @@ ${errorString }
 		</div>
 		
 
-		<div class="row form-group">
+		<div class="row form-group <c:if test="${!empty errorLineItem05}">has-error</c:if>">
 			<div class="col-xs-4 control-label">
 		    	<label for="inptUserID">New Item #5:</label>
 			</div>

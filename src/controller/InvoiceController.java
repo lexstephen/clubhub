@@ -62,11 +62,11 @@ public class InvoiceController extends HttpServlet {
 		    		if (ValidationUtilities.isValidInvoice(request)) {
 		    			dao.addToDatabase(request, response);
 		    			//
-		    			errorChecker = "Invoice successful";
+						request.setAttribute("errorString", "Invoice created successfully.");
 		    			address = "admin/BatchInvoices.jsp";
 		    		} else {
 		    			//
-			    		errorChecker = "Invoice fail";
+						request.setAttribute("errorString", "Please correct highlighted fields");
 		    			address = "admin/AddInvoice.jsp";
 		    		}
 	    		break;
@@ -74,19 +74,20 @@ public class InvoiceController extends HttpServlet {
 		    		if (ValidationUtilities.isValidInvoice(request)) {
 		    			dao.editInvoice(request, response);
 		    			//
-		    			errorChecker = "Invoice edited";
+						request.setAttribute("errorString", "Invoice edited successfully.");
 		    			address = "admin/BatchInvoices.jsp";
 		    		} else {
 		    			//
-			    		errorChecker = "Invoice failed to edit";
+						request.setAttribute("errorString", "Please correct highlighted fields");
 		    			address = "admin/EditInvoice.jsp?invoiceID=" + request.getParameter("invoiceID");
 		    		}
 	    		break;
 		    	case "batchEdit":
 		    		try {
 		    			dao.batchEdit(request, response);
-		    			errorChecker = "Invoices edited";
+						request.setAttribute("errorString", "Invoice edited successfully.");
 		    		} catch (Exception e){
+						request.setAttribute("errorString", "Please correct highlighted fields");
 		    			e.printStackTrace();
 		    		}
 		    		
@@ -103,8 +104,9 @@ public class InvoiceController extends HttpServlet {
 		    		try {
 						dao.deleteInvoice(request, response);
 						//
-						errorChecker = "Invoice deleted";
+						request.setAttribute("errorString", "Invoice deleted successfully.");
 					} catch (Exception e) {
+						request.setAttribute("errorString", "Something went wrong.");
 						e.printStackTrace();
 					}
 		    		address = "admin/BatchInvoices.jsp";
@@ -113,14 +115,16 @@ public class InvoiceController extends HttpServlet {
 		    		try {
 						dao.batchDelete(request, response);
 						//
-						errorChecker = "Invoices deleted";
+						request.setAttribute("errorString", "Invoice deleted successfully.");
 					} catch (Exception e) {
+						request.setAttribute("errorString", "Something went wrong.");
 						e.printStackTrace();
 					}
 		    		address = "admin/BatchInvoices.jsp";
 	    		break;
 	    		default:
-	    			errorChecker = "Something has gone horribly wrong";
+					request.setAttribute("errorString", "Something went wrong.");
+				break;
 	    	}
 	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);

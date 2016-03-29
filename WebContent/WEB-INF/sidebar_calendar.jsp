@@ -6,6 +6,7 @@
 		<h3>Club Schedule:</h3>
 	</div>
 
+
 	<table class="table">
 		<% 
 		CalendarBuilder cal = new CalendarBuilder();

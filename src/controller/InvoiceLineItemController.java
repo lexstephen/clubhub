@@ -42,11 +42,11 @@ public class InvoiceLineItemController extends HttpServlet {
 		    		if (ValidationUtilities.isValidLineItem(request)) {
 		    			dao.addToDatabase(request, response);
 		    			//
-		    			errorChecker = "Line Item successful";
+						request.setAttribute("errorString", "Line Item created successfully.");
 		    			address = "admin/BatchInvoices.jsp";
 		    		} else {
 		    			//
-			    		errorChecker = "Line Item fail";
+						request.setAttribute("errorString", "Please correct highlighted fields");
 		    			address = "admin/AddLineItems.jsp";
 		    		}
 	    		break;

@@ -30,7 +30,7 @@ public class UserController extends HttpServlet {
 					// yes it is! but are they already in the database? 
 					if(dao.isInDatabase(request, response)) {
 						// Yes - User already exists, send error, redisplay registration form
-						request.setAttribute("errorString", "Error: username already exists");
+						request.setAttribute("errorString", "Username already exists");
 						address = "Register.jsp";
 					} else {
 						// User was entered successfully and is new!
@@ -42,7 +42,7 @@ public class UserController extends HttpServlet {
 					// the form is not filled out correctly. send an error back and send them 
 					// back to the registration form
 				} else {
-					request.setAttribute("errorString", "Error: please correct highlighted fields");
+					request.setAttribute("errorString", "Please correct highlighted fields");
 					address = "Register.jsp";
 				}
 				break;
@@ -54,7 +54,7 @@ public class UserController extends HttpServlet {
 					address = "/admin/EditProfile.jsp";
 				} else {
 					// unsuccessful edit
-					request.setAttribute("errorString", "Error: please correct highlighted fields");
+					request.setAttribute("errorString", "Please correct highlighted fields");
 					address = "/admin/EditProfile.jsp";
 				}
 				break;

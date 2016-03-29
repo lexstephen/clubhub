@@ -40,50 +40,50 @@ public class PostController extends HttpServlet {
 		    	case "add":
 		    		if (ValidationUtilities.isValidPost(request)) {
 		    			dao.addToDatabase(request, response);
-		    			errorChecker = "Post successful";
+						request.setAttribute("errorString", "Post added successfully.");
 		    			address = "admin/BatchPosts.jsp";
 		    		} else {
 		    			//
-			    		errorChecker = "Post fail";
-		    			address = "/Main.jsp";
+						request.setAttribute("errorString", "Please correct highlighted fields");
+		    			address = "admin/AddPost.jsp";
 		    		}
 	    		break;
 		    	case "edit":
 		    		if (ValidationUtilities.isValidPost(request)) {
 		    			dao.editPost(request, response);
-		    			errorChecker = "Post edited";
+						request.setAttribute("errorString", "Post edited successfully.");
 		    		} else {
-			    		errorChecker = "Post failed to edit";
+						request.setAttribute("errorString", "Please correct highlighted fields");
 		    		}
 		    		address = "admin/EditPost.jsp?postID=" + request.getParameter("postID");
 	    		break;
 		    	case "batchEdit":
 		    		try {
 		    			dao.batchEdit(request, response);
-		    			errorChecker = "Posts edited";
+						request.setAttribute("errorString", "Post edited successfully.");
 		    		} catch (Exception e){
 		    			e.printStackTrace();
-		    			errorChecker = "Posts fail";
+						request.setAttribute("errorString", "Please correct highlighted fields");
 		    		}
 		    		address = "admin/BatchPosts.jsp";
 	    		break;
 		    	case "delete":
 		    		try {
 						dao.deletePost(request, response);
-						errorChecker = "Post deleted";
+						request.setAttribute("errorString", "Post deleted successfully.");
 					} catch (Exception e) {
 						e.printStackTrace();
-						errorChecker = "Delete fail";
+						request.setAttribute("errorString", "Please correct highlighted fields");
 					}
 		    		address = "admin/BatchPosts.jsp";
 	    		break;
 		    	case "batchDelete":
 		    		try {
 						dao.batchDelete(request, response);
-						errorChecker = "Posts deleted";
+						request.setAttribute("errorString", "Post deleted successfully.");
 					} catch (Exception e) {
 						e.printStackTrace();
-						errorChecker = "Deletes fail";
+						request.setAttribute("errorString", "Please correct highlighted fields");
 					}
 		    		address = "admin/BatchPosts.jsp";
 	    		break;
@@ -93,25 +93,22 @@ public class PostController extends HttpServlet {
 		    	case "last":		    			
 		    		try {
 		    			request.setAttribute("pageNav", option);
-		    			errorChecker = "Navigating";
 		    		} catch (Exception e) {
 		    			e.printStackTrace();
-		    			errorChecker = "ah nah";
 		    		}
-		    		address = "Main.jsp";
+		    		address = "/Main.jsp";
 		    		break;
 		    	case "search":
 		    		try {
 						dao.searchPosts(request, response);
-						errorChecker = "Posts search'd";
 					} catch (Exception e) {
 						e.printStackTrace();
-						errorChecker = "Search fail";
 					}
 		    		address = "/Search.jsp";
 	    		break;
 	    		default:
-	    			errorChecker = "Something has gone horribly wrong";
+					request.setAttribute("errorString", "Something went wrong!");
+				break;
 	    	}
 	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);
