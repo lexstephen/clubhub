@@ -5,16 +5,28 @@
 	Date: January 24, 2016
 	Description: Main.jsp
  --%>
- 
-<% request.setAttribute("thisPage", "Join the Rivendell Curling Club"); %>
 
- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%	
+	PreferenceDao prefTitle = new PreferenceDao();
+	prefTitle.showPrefs(request);
+	String thisPage = "Register for the " + (String)request.getAttribute("clubName") + " club";
+	request.setAttribute("thisPage", thisPage);
+%>
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
+	<h1>${thisPage }</h1>
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
-	${errorString }
+	<c:if test="${!empty errorString}">
+		<div class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		  ${errorString }
+		</div>
+	</c:if>
 
 	<form action="${pageContext.request.contextPath}/UserController" method="post" class="form" role="form" enctype="multipart/form-data">
 		<div class="row">

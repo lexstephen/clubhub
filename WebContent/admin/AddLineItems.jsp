@@ -16,8 +16,13 @@
 <%@ page import="utilities.InvoiceLineItemDao"%>
 <%	InvoiceLineItemDao lineitem = new InvoiceLineItemDao(); %>
 <% lineitem.listAllLineItems(request); %>
-
-${errorString }
+	<c:if test="${!empty errorString}">
+		<div class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		  ${errorString }
+		</div>
+	</c:if>
 
 	<form action="${pageContext.request.contextPath}/InvoiceLineItemController" method="post" class="form" role="form">
 		<div class="row">
