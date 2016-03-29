@@ -9,7 +9,7 @@ CalendarBuilder cal = new CalendarBuilder();
 	</div>
 	<div class="col-sm-12">
 		
-		<% cal.CalendarBuilder(); %>
+		<% // cal.CalendarBuilder(); %>
 		
 		</div>
 	</div>

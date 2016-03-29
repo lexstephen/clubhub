@@ -25,6 +25,9 @@
 		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 		  <span class="sr-only">Error:</span>
 		  ${errorString }
+				<c:if test="${!empty errorString2}"><li>${ errorString2 }</li></c:if>
+				<c:if test="${!empty errorString3}"><li>${ errorString3 }</li></c:if>
+				<c:if test="${!empty errorString4}"><li>${ errorString4 }</li></c:if>
 		</div>
 	</c:if>
 

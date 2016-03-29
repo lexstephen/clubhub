@@ -20,28 +20,36 @@
 		</div>
 	</c:if>
 <form action="${pageContext.request.contextPath}/PostController" method="post" class="form" role="form">
-	<div class="form-group">
-		<label class="col-sm-1 control-label">
-			Title
-		</label>
-		<div class="col-sm-6">
-			<input class="form-control" type="text" maxlength="50" name="blogTitle" value="${blogTitle}">
-		</div>	
-		<label class="col-sm-2 control-label">
-			Access Level
-		</label>
-		<div class="col-sm-3">
-			<select class="form-control" name="accessLevel">
-				<option value="3">Draft</option>
-				<option value="2">Members Only</option>				
-				<option value="1">Public</option>
-			</select>
+	<div class="row">
+		<div class="form-group">
+			<div class="<c:if test="${!empty errorNewPostTitle}">has-error</c:if>">
+				<label class="col-sm-1 control-label">
+					Title
+				</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" maxlength="50" name="blogTitle" value="${blogTitle}">
+				</div>	
+			</div>
+			<label class="col-sm-2 control-label">
+				Access Level
+			</label>
+			<div class="col-sm-3">
+				<select class="form-control" name="accessLevel">
+					<option value="3">Draft</option>
+					<option value="2">Members Only</option>				
+					<option value="1">Public</option>
+				</select>
+			</div>
+		</div><br><br>
+	</div>
+	<div class="row">
+		<div class="form-group">
+			<div class="<c:if test="${!empty errorNewPostContent}">has-error</c:if>">	
+				<textarea id="blogContent" name="blogContent" class="form-control" rows="16">${blogContent}</textarea>
+			</div>
 		</div>
-		<br><br>
-		<div>
-			<textarea id="blogContent" name="blogContent" class="form-control" rows="16"></textarea><br><br>
-		</div>
-		<br>
+	</div>
+	<div class="row">
 		<label class="col-sm-2 control-label">
 			Page Type
 		</label>

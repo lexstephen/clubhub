@@ -35,7 +35,7 @@
 			</div>
 		</div>
 
-		<div class="row form-group">
+		<div class="row form-group <c:if test="${!empty errorLineItem01}">has-error</c:if>">
 			<div class="col-xs-4 control-label">
 		    	<label for="inptUserID">New Item #1:</label>
 			</div>
@@ -47,7 +47,7 @@
 			</div>
 		</div>
 
-		<div class="row form-group">
+		<div class="row form-group <c:if test="${!empty errorLineItem02}">has-error</c:if>">
 			<div class="col-xs-4 control-label">
 		    	<label for="inptUserID">New Item #2:</label>
 			</div>
@@ -60,7 +60,7 @@
 		</div>
 
 
-		<div class="row form-group">
+		<div class="row form-group <c:if test="${!empty errorLineItem03}">has-error</c:if>">
 			<div class="col-xs-4 control-label">
 		    	<label for="inptUserID">New Item #3:</label>
 			</div>
@@ -73,7 +73,7 @@
 		</div>		
 		
 
-		<div class="row form-group">
+		<div class="row form-group <c:if test="${!empty errorLineItem04}">has-error</c:if>">
 			<div class="col-xs-4 control-label">
 		    	<label for="inptUserID">New Item #4:</label>
 			</div>
@@ -86,7 +86,7 @@
 		</div>
 		
 
-		<div class="row form-group">
+		<div class="row form-group <c:if test="${!empty errorLineItem05}">has-error</c:if>">
 			<div class="col-xs-4 control-label">
 		    	<label for="inptUserID">New Item #5:</label>
 			</div>

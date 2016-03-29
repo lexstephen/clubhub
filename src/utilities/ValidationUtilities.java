@@ -239,78 +239,83 @@ public class ValidationUtilities {
 	}
 		
 	public static boolean isValidLineItem(HttpServletRequest request) {
-		boolean isValid = true;
-		String description, cost;	
+		boolean isValid = false;
+		String description = "", cost = "";	
+
+		request.setAttribute("lineItem01Description", request.getParameter("lineItem01Description"));
+		request.setAttribute("lineItem01Cost", request.getParameter("lineItem01Cost"));
 		
-		if (Double.parseDouble(request.getParameter("lineItem01Cost")) != 0) {
-			description = request.getParameter("lineItem01Description");
-			cost = request.getParameter("lineItem01Cost");	
-			request.setAttribute("lineItem01Description", description);
-			request.setAttribute("lineItem01Cost", cost);
-			if (isMissing(description)) {
+		if (Double.parseDouble(request.getParameter("lineItem01Cost")) > 0) {
+			if (isMissing(request.getParameter("lineItem01Description")) 
+				 || !isInt(request.getParameter("lineItem01Cost"))) {
 				isValid = false;
 				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem01", true);}
-			if (!isInt(cost)) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem01", true);}
+				request.setAttribute("errorLineItem01", true);} 
+			else {
+				isValid = true;
+			}
+		} else {
+			if (!isMissing(request.getParameter("lineItem01Description"))) {
+				request.setAttribute("errorString", "Please enter a valid cost.");
+				request.setAttribute("errorLineItem01", true);
+			}
 		}
-		if (Double.parseDouble(request.getParameter("lineItem02Cost")) != 0) {
+		 
+		if (Double.parseDouble(request.getParameter("lineItem02Cost")) > 0) {
 			description = request.getParameter("lineItem02Description");
 			cost = request.getParameter("lineItem02Cost");	
 			request.setAttribute("lineItem02Description", description);
 			request.setAttribute("lineItem02Cost", cost);
-			if (isMissing(description)) {
+			if (isMissing(description) || !isInt(cost)) {
 				isValid = false;
 				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem02", true);}
-			if (!isInt(cost)) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem02", true);}
+				request.setAttribute("errorLineItem02", true);} 
+			else {
+				isValid = true;
+			}
 		}
-		if (Double.parseDouble(request.getParameter("lineItem03Cost")) != 0) {
+		
+		if (Double.parseDouble(request.getParameter("lineItem03Cost")) > 0) {
 			description = request.getParameter("lineItem03Description");
 			cost = request.getParameter("lineItem03Cost");	
 			request.setAttribute("lineItem03Description", description);
 			request.setAttribute("lineItem03Cost", cost);
-			if (isMissing(description)) {
+			if (isMissing(description) || !isInt(cost)) {
 				isValid = false;
 				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem03", true);}
-			if (!isInt(cost)) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem03", true);}
+				request.setAttribute("errorLineItem03", true);} 
+			else {
+				isValid = true;
+			}
 		}
-		if (Double.parseDouble(request.getParameter("lineItem04Cost")) != 0) {
+		
+		if (Double.parseDouble(request.getParameter("lineItem04Cost")) > 0) {
 			description = request.getParameter("lineItem04Description");
 			cost = request.getParameter("lineItem04Cost");	
 			request.setAttribute("lineItem04Description", description);
 			request.setAttribute("lineItem04Cost", cost);
-			if (isMissing(description)) {
+			if (isMissing(description) || !isInt(cost)) {
 				isValid = false;
 				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem04", true);}
-			if (!isInt(cost)) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem04", true);}
+				request.setAttribute("errorLineItem04", true);} 
+			else {
+				isValid = true;
+			}
 		}
-		if (Double.parseDouble(request.getParameter("lineItem05Cost")) != 0) {
+
+		
+		if (Double.parseDouble(request.getParameter("lineItem05Cost")) > 0) {
 			description = request.getParameter("lineItem05Description");
-			cost = request.getParameter("lineItem05Cost");
+			cost = request.getParameter("lineItem05Cost");	
 			request.setAttribute("lineItem05Description", description);
 			request.setAttribute("lineItem05Cost", cost);
-			if (isMissing(description)) {
+			if (isMissing(description) || !isInt(cost)) {
 				isValid = false;
 				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem05", true);}
-			if (!isInt(cost)) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem05", true);}
+				request.setAttribute("errorLineItem05", true);} 
+			else {
+				isValid = true;
+			}
 		}
 		
 		return isValid;
@@ -416,10 +421,17 @@ public class ValidationUtilities {
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorGender", true);} 
 
-		if (!isInt(telephone)) {
+
+		if (isMissing(telephone)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorTelephone", true);} 
+		else {
+			if (!isInt(telephone)) {
 			isValid = false;
 			request.setAttribute("errorString2", "Please enter only numbers in your telephone number");
 			request.setAttribute("errorTelephone", true);}
+		}
 
 		if (isMissing(streetAddress)) {
 			isValid = false;
