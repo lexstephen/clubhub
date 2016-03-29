@@ -37,7 +37,7 @@ slot.listSeasonWithGames(request, seasonID);
 								<button type="submit" value="close" name="option">Close</button>
 							</c:when>
 							<c:otherwise>
-								<input type="hidden" name="slotID" value="${slot.id}">
+								<input type="hidden" name="gameID" value="${slot.gameID}">
 								<button type="submit" value="switchPlayers" name="option">Switch Players</button>
 							</c:otherwise>
 						</c:choose>

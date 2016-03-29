@@ -69,20 +69,19 @@ public class GameController extends HttpServlet {
 		    			
 		    	break;
 		    	
-		    	/*case "switchPlayers":
+		    	case "switchPlayers":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
-	    			String seasonID = request.getParameter("seasonID");
+	    			String gameID = request.getParameter("gameID");
 		    		
-		    		System.out.println("The Id is: "+ seasonID);
-		    		dao.addToDatabase(request, response, seasonID);
+		    		
 		    			
 		    			
 		    			errorChecker = "Games Created";
 		    			
 		    			address = "admin/PopulateGames.jsp";
 		    			
-		    	break;*/
+		    	break;
 		    	
 		    	case "players":
 		    		HttpSession session = request.getSession();
