@@ -243,81 +243,120 @@ public class ValidationUtilities {
 		String description = "", cost = "";	
 
 		request.setAttribute("lineItem01Description", request.getParameter("lineItem01Description"));
-		request.setAttribute("lineItem01Cost", request.getParameter("lineItem01Cost"));
+		request.setAttribute("lineItem01Cost", isInt(request.getParameter("lineItem01Cost"))?request.getParameter("lineItem01Cost"):0);
+
+		request.setAttribute("lineItem02Description", request.getParameter("lineItem02Description"));
+		request.setAttribute("lineItem02Cost", isInt(request.getParameter("lineItem02Cost"))?request.getParameter("lineItem02Cost"):0);
+
+		request.setAttribute("lineItem03Description", request.getParameter("lineItem03Description"));
+		request.setAttribute("lineItem03Cost", isInt(request.getParameter("lineItem03Cost"))?request.getParameter("lineItem03Cost"):0);
+
+		request.setAttribute("lineItem04Description", request.getParameter("lineItem04Description"));
+		request.setAttribute("lineItem04Cost", isInt(request.getParameter("lineItem04Cost"))?request.getParameter("lineItem04Cost"):0);
+
+		request.setAttribute("lineItem05Description", request.getParameter("lineItem05Description"));
+		request.setAttribute("lineItem05Cost", isInt(request.getParameter("lineItem05Cost"))?request.getParameter("lineItem05Cost"):0);
 		
-		if (Double.parseDouble(request.getParameter("lineItem01Cost")) > 0) {
-			if (isMissing(request.getParameter("lineItem01Description")) 
-				 || !isInt(request.getParameter("lineItem01Cost"))) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem01", true);} 
-			else {
-				isValid = true;
+		if (isInt(request.getParameter("lineItem01Cost"))) {
+			if (!request.getParameter("lineItem01Cost").equals("0")) {
+				if (!isMissing(request.getParameter("lineItem01Description"))) {
+					// a description was entered and the cost is a number higher than 0
+					isValid = true;
+				} else {
+					// the cost is a number higher than 0 but no description was entered
+					request.setAttribute("errorString", "Please check your input");
+					request.setAttribute("errorLineItem01", true);
+				}
+			} else {
+				if (!isMissing(request.getParameter("lineItem01Description"))) {
+					request.setAttribute("errorString", "Please enter a valid cost.");
+					request.setAttribute("errorLineItem01", true);
+				}
 			}
 		} else {
-			if (!isMissing(request.getParameter("lineItem01Description"))) {
-				request.setAttribute("errorString", "Please enter a valid cost.");
-				request.setAttribute("errorLineItem01", true);
-			}
-		}
-		 
-		if (Double.parseDouble(request.getParameter("lineItem02Cost")) > 0) {
-			description = request.getParameter("lineItem02Description");
-			cost = request.getParameter("lineItem02Cost");	
-			request.setAttribute("lineItem02Description", description);
-			request.setAttribute("lineItem02Cost", cost);
-			if (isMissing(description) || !isInt(cost)) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem02", true);} 
-			else {
-				isValid = true;
-			}
-		}
-		
-		if (Double.parseDouble(request.getParameter("lineItem03Cost")) > 0) {
-			description = request.getParameter("lineItem03Description");
-			cost = request.getParameter("lineItem03Cost");	
-			request.setAttribute("lineItem03Description", description);
-			request.setAttribute("lineItem03Cost", cost);
-			if (isMissing(description) || !isInt(cost)) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem03", true);} 
-			else {
-				isValid = true;
-			}
-		}
-		
-		if (Double.parseDouble(request.getParameter("lineItem04Cost")) > 0) {
-			description = request.getParameter("lineItem04Description");
-			cost = request.getParameter("lineItem04Cost");	
-			request.setAttribute("lineItem04Description", description);
-			request.setAttribute("lineItem04Cost", cost);
-			if (isMissing(description) || !isInt(cost)) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem04", true);} 
-			else {
-				isValid = true;
-			}
+			request.setAttribute("errorLineItem01", true);
 		}
 
-		
-		if (Double.parseDouble(request.getParameter("lineItem05Cost")) > 0) {
-			description = request.getParameter("lineItem05Description");
-			cost = request.getParameter("lineItem05Cost");	
-			request.setAttribute("lineItem05Description", description);
-			request.setAttribute("lineItem05Cost", cost);
-			if (isMissing(description) || !isInt(cost)) {
-				isValid = false;
-				request.setAttribute("errorString", "Please check your input");
-				request.setAttribute("errorLineItem05", true);} 
-			else {
-				isValid = true;
+		if (isInt(request.getParameter("lineItem02Cost"))) {
+			if (!request.getParameter("lineItem02Cost").equals("0")) {
+				if (!isMissing(request.getParameter("lineItem02Description"))) {
+					// a description was entered and the cost is a number higher than 0
+					isValid = true;
+				} else {
+					// the cost is a number higher than 0 but no description was entered
+					request.setAttribute("errorString", "Please check your input");
+					request.setAttribute("errorLineItem02", true);
+				}
+			} else {
+				if (!isMissing(request.getParameter("lineItem02Description"))) {
+					request.setAttribute("errorString", "Please enter a valid cost.");
+					request.setAttribute("errorLineItem02", true);
+				}
 			}
+		} else {
+			request.setAttribute("errorLineItem02", true);
 		}
-		
+
+		if (isInt(request.getParameter("lineItem03Cost"))) {
+			if (!request.getParameter("lineItem03Cost").equals("0")) {
+				if (!isMissing(request.getParameter("lineItem03Description"))) {
+					// a description was entered and the cost is a number higher than 0
+					isValid = true;
+				} else {
+					// the cost is a number higher than 0 but no description was entered
+					request.setAttribute("errorString", "Please check your input");
+					request.setAttribute("errorLineItem03", true);
+				}
+			} else {
+				if (!isMissing(request.getParameter("lineItem03Description"))) {
+					request.setAttribute("errorString", "Please enter a valid cost.");
+					request.setAttribute("errorLineItem03", true);
+				}
+			}
+		} else {
+			request.setAttribute("errorLineItem03", true);
+		}
+
+		if (isInt(request.getParameter("lineItem04Cost"))) {
+			if (!request.getParameter("lineItem04Cost").equals("0")) {
+				if (!isMissing(request.getParameter("lineItem04Description"))) {
+					// a description was entered and the cost is a number higher than 0
+					isValid = true;
+				} else {
+					// the cost is a number higher than 0 but no description was entered
+					request.setAttribute("errorString", "Please check your input");
+					request.setAttribute("errorLineItem04", true);
+				}
+			} else {
+				if (!isMissing(request.getParameter("lineItem04Description"))) {
+					request.setAttribute("errorString", "Please enter a valid cost.");
+					request.setAttribute("errorLineItem04", true);
+				}
+			}
+		} else {
+			request.setAttribute("errorLineItem04", true);
+		}
+
+		if (isInt(request.getParameter("lineItem05Cost"))) {
+			if (!request.getParameter("lineItem05Cost").equals("0")) {
+				if (!isMissing(request.getParameter("lineItem05Description"))) {
+					// a description was entered and the cost is a number higher than 0
+					isValid = true;
+				} else {
+					// the cost is a number higher than 0 but no description was entered
+					request.setAttribute("errorString", "Please check your input");
+					request.setAttribute("errorLineItem05", true);
+				}
+			} else {
+				if (!isMissing(request.getParameter("lineItem05Description"))) {
+					request.setAttribute("errorString", "Please enter a valid cost.");
+					request.setAttribute("errorLineItem05", true);
+				}
+			}
+		} else {
+			request.setAttribute("errorLineItem05", true);
+		}
+
 		return isValid;
 	}
 	
