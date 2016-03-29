@@ -1,7 +1,18 @@
-package utilities;
+/* 
+	Project: ClubHub Content and User Management System 
+	Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
+	Student Number: 100563954, 100911472, 100898311
+	Date: March 29 , 2016
+	Description: Builds sidebar calendar as HTML output
+ */
+ 
 
+package utilities;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 
 public class CalendarBuilder { 
 
@@ -10,7 +21,10 @@ public class CalendarBuilder {
 	    *  of the week it falls on according to the Gregorian calendar.
 	    *  For M use 1 for January, 2 for February, and so forth. Outputs
 	    *  0 for Sunday, 1 for Monday, and so forth.
+	    *  
+	    *  Some code used from http://introcs.cs.princeton.edu/java/21function/Calendar.java.html
 	    ***************************************************************************/
+	
 		public String output = "<thead><tr><th colspan=\"7\" class=\"text-center\">";	
 		public static int[] monthAndYear = new int[3];
 		
@@ -37,12 +51,23 @@ public class CalendarBuilder {
 	        return false;
 	    }
 
-	    public CalendarBuilder() throws Exception {
+	    public CalendarBuilder(HttpServletRequest request, int m, int y) throws Exception {
 	    	
+	    	HttpSession session = request.getSession();
+	    	int M, Y, currentDay;
 	    	todaysDate();
-	    	int M = monthAndYear[0]; // current month #
-	    	int Y = monthAndYear[1]; // current year
-	    	int currentDay = monthAndYear[2]; // current day #
+	    	
+	    	if (m == 0 || y == 0){
+		    	M = monthAndYear[0]; // current month #
+		    	Y = monthAndYear[1]; // current year
+		    	currentDay = monthAndYear[2]; // current day #
+	    	} else {
+	    		M = m;
+	    		Y = y;
+	    		if (m == monthAndYear[0] && y == monthAndYear[1]) {
+	    			currentDay = monthAndYear[2]; }
+	    		else { currentDay = 0; }
+	    	}
 
 	        // months[i] = name of month i
 	        String[] months = {
@@ -63,7 +88,8 @@ public class CalendarBuilder {
 
 
 	        // print calendar header
-	        output += months[M] + " " + Y + "</th></tr>";
+	        output += "<a href=\"CalendarController?option=prev\">&lt</a> " + months[M] + " " + Y 
+	        		+ " <a href=\"CalendarController?option=next\">&gt</a></th></tr>";
 	        output += "<tr><th class=\"text-center\">S</th><th>M</th><th>Tu</th><th>W</th><th>Th</th><th>F</th><th>S</th></tr><tr>";
 
 	        // starting day
@@ -81,10 +107,10 @@ public class CalendarBuilder {
 	            if (((i + d) % 7 == 0) || (i == days[M])) output += "</tr><tr>";
 	        }
 	        
-	        output += "</tr></tbody>";
-
-	        System.out.println("output: " + output);
+	        output += "</tr></tbody>";	 
 	        
+	        session.setAttribute("selectedMonth", M);
+	        session.setAttribute("selectedYear", Y);
 	    }
 
 		@Override
