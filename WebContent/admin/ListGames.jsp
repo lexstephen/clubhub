@@ -76,7 +76,6 @@ games.listAll(request);
 			<c:forEach var="i" begin="1" end="12">
 			   <option value="${i}" ${i == gameMonth ? 'selected' : ''}>${i}</option>
 			</c:forEach>
-
 		</select>
 		<input type="hidden" name="option" value="displayGames">
 		<input type="submit" value="Go"> 
@@ -109,8 +108,7 @@ games.listAll(request);
 							</span>
 						</td>
 					</tr>
-				</c:if>
-							
+				</c:if>							
 			</c:forEach>
 		</tbody>
 	</table>

@@ -169,7 +169,7 @@ public class GameDao {
 		  
 		  	try{  		
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * from ch_game where Seasonid=" + seasonID);
+			    resultSet = statement.executeQuery("SELECT * from ch_game where Seasonid=" + seasonID + " ORDER BY scheduledDate");
 			      
 			    while (resultSet.next()) {
 			    	Game game = new Game();
