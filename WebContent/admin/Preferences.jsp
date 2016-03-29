@@ -99,31 +99,31 @@
 		</div>
 	</div>
 	
-	<div class="row">
+	<div class="row <c:if test="${!empty errorPreference_Name}">has-error</c:if>">
 		<label class="col-sm-3 control-label">
 			Name these settings:
 		</label>
 		<div class="col-sm-9">
-			<input class="form-control" type="text" name="preference_name" id="inpt_preference_name" value="">
+			<input class="form-control" type="text" name="preference_name" id="inpt_preference_name" value="${preference_name}">
 		</div>	
 	</div>
 	
-	<div class="row">
+	<div class="row <c:if test="${!empty errorClub_Name_Long}">has-error</c:if>">
 		<h3>Club Settings</h3>
 		<label class="col-sm-3 control-label">
 			Club Name (Long)
 		</label>
 		<div class="col-sm-9">
-			<input class="form-control" type="text" name="club_name_long" id="inpt_club_name_long" value="">
+			<input class="form-control" type="text" name="club_name_long" id="inpt_club_name_long" value="${club_name_long }">
 		</div>	
 	</div>
 	
-	<div class="row">
+	<div class="row <c:if test="${!empty errorClub_Name_Short}">has-error</c:if>">
 		<label class="col-sm-3 control-label">
 			Club Name (Short)
 		</label>
 		<div class="col-sm-9">
-			<input class="form-control" type="text" name="club_name_short" id="inpt_club_name_short" value="">
+			<input class="form-control" type="text" name="club_name_short" id="inpt_club_name_short" value="${club_name_short }">
 		</div>	
 	</div>
 	
@@ -132,7 +132,7 @@
 			Country
 		</label>
 		<div class="col-sm-9">
-			<div class="form-group <c:if test="${!empty errorCountry}">has-error</c:if>">
+			<div class="form-group">
 				<select name="country" class="form-control" id="inptCountry">
 				  <option ${preference.country == 'Canada' ? 'selected' : ''}>Canada</option>
 				  <option ${preference.country == 'United States of America' ? 'selected' : ''}>United States of America</option>
@@ -141,12 +141,12 @@
 		</div>	
 	</div>
 	
-	<div class="row">
+	<div class="row <c:if test="${!empty errorTax_Rate}">has-error</c:if>">
 		<label class="col-sm-3 control-label">
 			Tax Rate
 		</label>
 		<div class="col-sm-9">
-			<input class="form-control" type="text" name="tax_rate" id="tax_rate" value="">
+			<input class="form-control" type="text" name="tax_rate" id="tax_rate" value="${tax_rate }">
 		</div>	
 	</div>
 	
@@ -160,10 +160,10 @@
 					Colour Scheme
 				</label>
 				<div class="col-sm-8">
-						<div class="form-group <c:if test="${!empty errorCountry}">has-error</c:if>">
+						<div class="form-group">
 						<select name="colour_schemeid" class="form-control" id="inptSchemeID">
 							<c:forEach items="${colour_schemes}" var="colour_scheme">
-						 		<option value="${colour_scheme.id}" ${colour_schemeid == colour_scheme.id ? 'selected' : ''}>${colour_scheme.name}</option>
+						 		<option value="${colour_scheme.id}" ${csid == colour_scheme.id ? 'selected' : ''}>${colour_scheme.name}</option>
 							</c:forEach>
 						</select>
 					  	</div>

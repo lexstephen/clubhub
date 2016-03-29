@@ -51,8 +51,8 @@ public class ColourSchemeController extends HttpServlet {
 					// the form is not filled out correctly. send an error back and send them 
 					// back to the registration form
 				} else {
-					request.setAttribute("errorString", "Error: please correct highlighted fields");
-					address = "Register.jsp";
+					request.setAttribute("errorString", "Please check your input");
+					address = "/admin/ColourSchemes.jsp";
 				}
 				break;
 				/*case "edit":

@@ -97,7 +97,7 @@
 			    <label for="inptGender <c:if test="${!empty errorGender}">has-error</c:if>">Gender</label>
 				<div class="radio">
 			    	<label class="checkbox-inline">
-			      		<input type="radio" name="gender" id="inptGenderF" value="F" checked  ${gender == 'F' ? 'checked' : ''}> Female
+			      		<input type="radio" name="gender" id="inptGenderF" value="F" checked ${gender == 'F' ? 'checked' : ''}> Female
 			      	</label>
 			    	<label class="checkbox-inline">
 			      		<input type="radio" name="gender" id="inptGenderM" value="M"  ${gender == 'M' ? 'checked' : ''}> Male

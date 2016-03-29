@@ -65,6 +65,12 @@ public class ColourSchemeDao {
 			    		preparedStatement.setString(5, request.getParameter("text_colour")); // text_colour
 			    		preparedStatement.executeUpdate();
 		    
+
+			  	      ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID();");
+			  	      
+			  	      while(rs.next()){
+			  	    	  request.setAttribute("csid", rs.getString("LAST_INSERT_ID()"));
+  			  	      }
 	    		break;
     		default:
 	    	// connect to the database

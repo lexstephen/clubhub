@@ -54,8 +54,8 @@ public class PreferenceController extends HttpServlet {
 					// the form is not filled out correctly. send an error back and send them 
 					// back to the registration form
 				} else {
-					request.setAttribute("errorString", "Error: please correct highlighted fields");
-					address = "Register.jsp";
+					request.setAttribute("errorString", "Please correct highlighted fields");
+					address = "/admin/Preferences.jsp";
 				}
 				break;
 			case "edit":
@@ -65,8 +65,8 @@ public class PreferenceController extends HttpServlet {
 				address = "/admin/SetPreferences.jsp";
 			} else {
 				// unsuccessful edit
-				request.setAttribute("errorString", "Error: please correct highlighted fields");
-				address = "/admin/EditProfile.jsp";
+				request.setAttribute("errorString", "Please correct highlighted fields");
+				address = "/admin/Preferences.jsp";
 			}
 				break;
 			case "setPref":

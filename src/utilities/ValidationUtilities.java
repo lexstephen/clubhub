@@ -47,12 +47,69 @@ public class ValidationUtilities {
 	}
 
 	public static boolean isValidPreference(HttpServletRequest request) {
-	 return true;
+		boolean isValid = true;
+		request.setAttribute("preference_name", request.getParameter("preference_name"));
+		request.setAttribute("club_name_long", request.getParameter("club_name_long"));
+		request.setAttribute("club_name_short", request.getParameter("club_name_short"));
+		request.setAttribute("tax_rate", request.getParameter("tax_rate"));
+
+		if (isMissing(request.getParameter("preference_name"))) {
+			isValid = false;
+			request.setAttribute("errorPreference_Name", true);
+		}
+
+		if (isMissing(request.getParameter("club_name_long"))) {
+			isValid = false;
+			request.setAttribute("errorClub_Name_Long", true);
+		}
+
+		if (isMissing(request.getParameter("club_name_short"))) {
+			isValid = false;
+			request.setAttribute("errorClub_Name_Short", true);
+		}
+
+		if (isMissing(request.getParameter("tax_rate"))) {
+			isValid = false;
+			request.setAttribute("errorTax_Rate", true);
+		}
+			
+		return isValid;
 	}
 	
 	public static boolean isValidColourScheme(HttpServletRequest request) {
-		 return true;
+		boolean isValid = true;
+		request.setAttribute("csname", request.getParameter("name"));
+		request.setAttribute("dark_colour", request.getParameter("dark_colour"));
+		request.setAttribute("med_colour", request.getParameter("med_colour"));
+		request.setAttribute("light_colour", request.getParameter("light_colour"));
+		request.setAttribute("text_colour", request.getParameter("text_colour"));
+		request.setAttribute("csid", request.getParameter("csid"));
+		
+		if (isMissing(request.getParameter("name")) || (request.getParameter("name").equals("--Add New--"))) {
+			isValid = false;
+			request.setAttribute("errorCSName", true);
+		} 
+		if ( request.getParameter("dark_colour").equals(request.getParameter("med_colour"))
+				&& request.getParameter("dark_colour").equals(request.getParameter("light_colour"))
+				&& request.getParameter("dark_colour").equals(request.getParameter("text_colour"))	
+			) {
+			// they entered the same colour four times.. bad idea
+			isValid = false;
+			request.setAttribute("errorCSName", true);
+			request.setAttribute("errorCSColour", true);
 		}
+		
+		if (!isRightLength(request.getParameter("dark_colour"),7) || 
+				!isRightLength(request.getParameter("med_colour"),7) || 
+				!isRightLength(request.getParameter("light_colour"),7) || 
+				!isRightLength(request.getParameter("text_colour"),7)) {
+			isValid = false;
+			request.setAttribute("errorCSName", true);
+			request.setAttribute("errorCSColour", true);
+		}
+			
+		return isValid;
+	}
 	
 	public static boolean isValidInvoice(HttpServletRequest request) {
 

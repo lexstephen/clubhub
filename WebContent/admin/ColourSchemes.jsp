@@ -50,7 +50,7 @@
 				<select name="csid" class="form-control" id="inptSchemeID">
 			 		<option value="000" ${colour_scheme.name == '--Add New--' ? 'selected' : ''}>--Add New--</option>
 					<c:forEach items="${colour_schemes}" var="colour_scheme">
-				 		<option value="${colour_scheme.id}" ${colour_schemeID == colour_scheme.id ? 'selected' : ''}>${colour_scheme.name}</option>
+				 		<option value="${colour_scheme.id}" ${csid == colour_scheme.id ? 'selected' : ''}>${colour_scheme.name}</option>
 					</c:forEach>
 				</select>
 			</div>
@@ -60,14 +60,20 @@
 </div>
 
 <div class="form-group ColourSchemes">
+	<c:if test="${!empty errorString}">
+		<div class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		  ${errorString }
+		</div>
+	</c:if>
 
-
-	<div class="row">
+	<div class="row <c:if test="${!empty errorCSName}">has-error</c:if>">
 		<label class="col-sm-3 col-sm-offset-2 control-label form-group">
 			Colour Scheme Name
 		</label>
 		<div class="col-sm-7 form-group">
-			<input class="form-control" type="text" name="name" id="schemeName">
+			<input class="form-control" type="text" name="name" id="schemeName" value="${csname}">
 		</div>	
 	</div>
 	
@@ -77,7 +83,7 @@
 		</div>
 	</div>
 	
-	<div class="row">
+	<div class="row <c:if test="${!empty errorCSColour}">has-error</c:if>">
 		<label class="col-sm-3 col-sm-offset-2 control-label form-group">
 			Dark Colour
 			<p class="help-block">Dark Colour is used for navbar, page headings and links.</p>
@@ -85,7 +91,7 @@
 		<div class="col-sm-7 form-group preview_colour" id="preview_Dark_colour">
 			<div class="row">
 				<div class="col-sm-6">
-					<input class="form-control hex_code" type="color" name="dark_colour" id="schemeDark_colour" value="">
+					<input class="form-control hex_code" type="color" name="dark_colour" id="schemeDark_colour" value="${dark_colour }">
 				</div>
 				<div class="col-sm-6">
 				&nbsp;
@@ -96,7 +102,7 @@
 		<div class="col-sm-2">&nbsp;</div>
 	</div>
 	
-	<div class="row">
+	<div class="row <c:if test="${!empty errorCSColour}">has-error</c:if>">
 		<label class="col-sm-3 col-sm-offset-2 control-label form-group">
 			Medium Colour
 			<p class="help-block">Used as a background for hovered links in the navbar.</p>
@@ -104,7 +110,7 @@
 		<div class="col-sm-7 form-group preview_colour" id="preview_Med_colour">
 			<div class="row">
 				<div class="col-sm-6">
-					<input class="form-control hex_code" type="color" name="med_colour" id="schemeMed_colour" value="">
+					<input class="form-control hex_code" type="color" name="med_colour" id="schemeMed_colour" value="${med_colour }">
 				</div>
 				<div class="col-sm-6">
 				&nbsp;
@@ -113,7 +119,7 @@
 		</div>	
 	</div>
 	
-	<div class="row">
+	<div class="row <c:if test="${!empty errorCSColour}">has-error</c:if>">
 		<label class="col-sm-3 col-sm-offset-2 control-label form-group">
 			Light Colour
 			<p class="help-block">Used as page background.</p>
@@ -121,7 +127,7 @@
 		<div class="col-sm-7 form-group preview_colour" id="preview_Light_colour">
 			<div class="row">
 				<div class="col-sm-6">
-					<input class="form-control hex_code" type="color" name="light_colour" id="schemeLight_colour" value="">
+					<input class="form-control hex_code" type="color" name="light_colour" id="schemeLight_colour" value="${light_colour }">
 				</div>
 				<div class="col-sm-6">
 				&nbsp;
@@ -130,7 +136,7 @@
 		</div>	
 	</div>
 	
-	<div class="row">
+	<div class="row <c:if test="${!empty errorCSColour}">has-error</c:if>">
 		<label class="col-sm-3 col-sm-offset-2 control-label form-group">
 			Text Colour
 			<p class="help-block">Used for all text except headers.</p>
@@ -138,7 +144,7 @@
 		<div class="col-sm-7 form-group preview_colour" id="preview_Text_colour">
 			<div class="row">
 				<div class="col-sm-6">
-					<input class="form-control hex_code" type="color" name="text_colour" id="schemeText_colour" value="">
+					<input class="form-control hex_code" type="color" name="text_colour" id="schemeText_colour" value="${text_colour }">
 				</div>
 				<div class="col-sm-6">
 				&nbsp;
