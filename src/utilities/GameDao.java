@@ -307,17 +307,58 @@ public class GameDao {
 	
 public void closeSlot(HttpServletRequest request, String playerIDs) throws Exception{
 		
-		String [] players = playerIDs.split(",");
-		String random = null;
-		for (int i=0; i < 4 ; i++){
-			if (random != null){
-			 random += (players[new Random().nextInt(players.length)]);
+		String [] players = playerIDs.split(", ");
+		List<Integer> indexes = new ArrayList<Integer>();
+		//String [] indexes = new String[4];
+		int hold1,hold2,hold3,hold4;
+		hold1 = new Random().nextInt(players.length);
+		hold2 = new Random().nextInt(players.length);
+		hold3 = new Random().nextInt(players.length);
+		hold4 = new Random().nextInt(players.length);
+		
+		do{
+			if(hold1==hold2 ||hold1 == hold3 || hold1 == hold4){
+				hold1 = new Random().nextInt(players.length);
 			}else{
-				random = (players[new Random().nextInt(players.length)]);
+				indexes.add(0,hold1);
+				if(hold2==hold3||hold2==hold4){
+					hold2 = new Random().nextInt(players.length);
+				}
+				else{
+					indexes.add(1,hold2);
+					if(hold3==hold4){
+						hold3 = new Random().nextInt(players.length);
+					}else{
+						indexes.add(2,hold3);
+						indexes.add(3,hold4);
+					}
+				}
 			}
-			 
+		}while(indexes.size()<4);
+		
+		
+		String [] playingPlayers = new String[4];
+		playingPlayers[0] = players[indexes.get(0)];
+		playingPlayers[1] = players[indexes.get(1)];
+		playingPlayers[2] = players[indexes.get(2)];
+		playingPlayers[3] = players[indexes.get(3)];
+		
+		StringBuilder builder = new StringBuilder();
+		
+		if (playingPlayers.length >= 1) {
+			builder.append(playingPlayers[0]);
 		}
-		System.out.println(random);
+
+		for (int i = 1; i < playingPlayers.length; i++) { 
+			builder.append(",");
+			builder.append(playingPlayers[i]);
+		}
+		
+		
+		 
+		
+		String thePlayers = builder.toString();
+		System.out.println(thePlayers);
 	}
 	
 	
