@@ -1,5 +1,8 @@
 package utilities;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CalendarBuilder { 
 
 	   /***************************************************************************
@@ -8,8 +11,16 @@ public class CalendarBuilder {
 	    *  For M use 1 for January, 2 for February, and so forth. Outputs
 	    *  0 for Sunday, 1 for Monday, and so forth.
 	    ***************************************************************************/
+		public String output = "<thead><tr><th colspan=\"7\" class=\"text-center\">";	
+		
+		public static int[] date() {
+			
+			new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+			
+			
+			return null;
+		}
 	
-	public CalendarBuilder() {
 	    public static int day(int M, int D, int Y) {
 	        int y = Y - (14 - M) / 12;
 	        int x = y + y/4 - y/100 + y/400;
@@ -25,9 +36,9 @@ public class CalendarBuilder {
 	        return false;
 	    }
 
-	    public static void main(String[] args) {
-	        int M = Integer.parseInt(args[0]);    // month (Jan = 1, Dec = 12)
-	        int Y = Integer.parseInt(args[1]);    // year
+	    public CalendarBuilder() {
+	    	
+	    	int M, Y;
 
 	        // months[i] = name of month i
 	        String[] months = {
@@ -48,20 +59,28 @@ public class CalendarBuilder {
 
 
 	        // print calendar header
-	        System.out.println("   " + months[M] + " " + Y);
-	        System.out.println(" S  M Tu  W Th  F  S");
+	        output += months[M] + " " + Y + "</th></tr>";
+	        output += "<tr><th class=\"text-center\">S</th><th>M</th><th>Tu</th><th>W</th><th>Th</th><th>F</th><th>S</th></tr><tr>";
 
 	        // starting day
 	        int d = day(M, 1, Y);
 
 	        // print the calendar
 	        for (int i = 0; i < d; i++)
-	            System.out.print("   ");
+	            output += "<td></td>";
 	        for (int i = 1; i <= days[M]; i++) {
-	            System.out.printf("%2d ", i);
-	            if (((i + d) % 7 == 0) || (i == days[M])) System.out.println();
+	            output += "<td>" + String.format("%2d ", i) + "</td>";
+	            if (((i + d) % 7 == 0) || (i == days[M])) output += "</tr><tr>";
 	        }
+	        
+	        output += "</tr></tbody>";
 
+	        System.out.println("output: " + output);
+	        
 	    }
-	    }
+
+		@Override
+		public String toString() {
+			return output;
+		}
 	}
