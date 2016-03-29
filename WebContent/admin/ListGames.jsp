@@ -24,7 +24,7 @@ request.setAttribute("isAdmin", true);
 System.out.println("The current season ID is: " + request.getAttribute("seasonID"));
 System.out.println("The current month is: " + request.getAttribute("gameMonth"));
 seasons.listSeasonIDs(request);
-games.listAll(request);
+games.findGameSet(request, Integer.parseInt(request.getAttribute("seasonID").toString()));
 %>
 
 	<h3>Season ${seasonID}</h3>
@@ -76,7 +76,6 @@ games.listAll(request);
 			<c:forEach var="i" begin="1" end="12">
 			   <option value="${i}" ${i == gameMonth ? 'selected' : ''}>${i}</option>
 			</c:forEach>
-
 		</select>
 		<input type="hidden" name="option" value="displayGames">
 		<input type="submit" value="Go"> 
@@ -109,8 +108,7 @@ games.listAll(request);
 							</span>
 						</td>
 					</tr>
-				</c:if>
-							
+				</c:if>							
 			</c:forEach>
 		</tbody>
 	</table>
