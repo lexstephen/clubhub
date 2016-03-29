@@ -25,7 +25,7 @@ ${errorString }
 <c:if test="${!empty errorLineItems}"><li>${ errorLineItems }</li></c:if>
 
 </ul>
-	<form action="/clubhub/InvoiceController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/InvoiceController" method="post" class="form" role="form">
 		<div class="row">
 			<div class="col-xs-3 control-label">
 		    	<label for="inptUserID">Member</label>

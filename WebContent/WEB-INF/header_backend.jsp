@@ -22,16 +22,16 @@
 			<div class="container">
 				<div class="navbar-header">
 					<!--  todo: modify link to main page - modify image to pull dynamically -->
-					<a href="/clubhub/Main.jsp" class="pull-left"><img src="/clubhub/ImageDao?t=image_small_logo"></a>
+					<a href="${pageContext.request.contextPath}/Main.jsp" class="pull-left"><img src="${pageContext.request.contextPath}/ImageDao?t=image_small_logo"></a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 					<c:if test="${isLoggedIn == true}">
-						<li><a href="/clubhub/Profile.jsp?userID=${loggedInUserID }">Logged in as ${loggedInUserFullName }</a></li>
-						<li><img src="/clubhub/ImageDao?t=profile&id=${loggedInUserID }" class="header_photo"></li>
-						<li><a href="/clubhub/Logout">Log Out</a></li>
+						<li><a href="${pageContext.request.contextPath}/Profile.jsp?userID=${loggedInUserID }">Logged in as ${loggedInUserFullName }</a></li>
+						<li><img src="${pageContext.request.contextPath}/ImageDao?t=profile&id=${loggedInUserID }" class="header_photo"></li>
+						<li><a href="${pageContext.request.contextPath}/Logout">Log Out</a></li>
 					</c:if>
-						<li><a href="/clubhub/admin/">Dashboard Main</a></li>
+						<li><a href="${pageContext.request.contextPath}/admin/">Dashboard Main</a></li>
 					</ul>
 				</div>
 			</div>

@@ -13,7 +13,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-<form action="/clubhub/PostController" method="post" class="form" role="form">
+<form action="${pageContext.request.contextPath}/PostController" method="post" class="form" role="form">
 	<div class="form-group">
 		<label class="col-sm-1 control-label">
 			Title

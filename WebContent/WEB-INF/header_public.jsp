@@ -25,10 +25,10 @@
 			<div class="container">
 				<div class="row">
 					<div class="navbar-header">
-						<a href="/clubhub/Main.jsp" class="pull-left"><img src="/clubhub/ImageDao?t=image_logo" id="rcc_circle_logo"></a>
+						<a href="${pageContext.request.contextPath}/Main.jsp" class="pull-left"><img src="${pageContext.request.contextPath}/ImageDao?t=image_logo" id="rcc_circle_logo"></a>
 					</div>
 					<div class="collapse navbar-collapse navbar-right">
-						<form action="/clubhub/PostController" method="post" class="form-inline clearfix pushdown">
+						<form action="${pageContext.request.contextPath}/PostController" method="post" class="form-inline clearfix pushdown">
 						<div class="form-group">
 								<input type="text" class="form-control" name="searchTerm" placeholder="search updates" onfocus="this.placeholder = ''" onblur="this.placeholder = 'search updates'">
 								<input type="submit" class="btn btn-primary btn-xs" name="option" value="search">
@@ -37,14 +37,14 @@
 					</div>
 					<div id="navbar" class="navbar-collapse collapse">
 						<ul class="nav navbar-nav">
-							<li><a href="/clubhub/Register.jsp">Register</a></li>
-							<li><a href="/clubhub/Updates.jsp">Updates</a></li>
+							<li><a href="${pageContext.request.contextPath}/Register.jsp">Register</a></li>
+							<li><a href="${pageContext.request.contextPath}/Updates.jsp">Updates</a></li>
 							<c:forEach items="${posts}" var="post">
-								<li><a href="/clubhub/Static.jsp?postID=${post.id}">${post.title}</a></li>					
+								<li><a href="${pageContext.request.contextPath}/Static.jsp?postID=${post.id}">${post.title}</a></li>					
 							</c:forEach>
 							<c:if test="${isLoggedIn == true}">
-								<li><a href="/clubhub/admin/">Dashboard</a></li>
-								<li><a href="/clubhub/Logout">Log Out</a></li>
+								<li><a href="${pageContext.request.contextPath}/admin/">Dashboard</a></li>
+								<li><a href="${pageContext.request.contextPath}/Logout">Log Out</a></li>
 							</c:if>
 						</ul>
 					</div>

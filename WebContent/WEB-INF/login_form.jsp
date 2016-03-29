@@ -1,6 +1,6 @@
 
 	<div class="col-sm-12">
-	<form action="/clubhub/UserController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/UserController" method="post" class="form" role="form">
 		  <div class="form-group">
 		  	<h3>Member Login</h3>
 		    <label for="inptUsername" class="hidden">Username</label>

@@ -21,7 +21,7 @@ season.findSeason(request, seasonID);%>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-	<form action="/clubhub/SeasonController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/SeasonController" method="post" class="form" role="form">
 		
 		<div class="col-sm-9">
 			Please review the following information: (clicking continue will make this final!)

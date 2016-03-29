@@ -32,7 +32,7 @@
 	<td class="col-xs-12 col-md-2">${post.accessLevel}</td>
 	<td class="col-xs-12 col-md-2"> --%>
 		
-	<form action="/clubhub/PostController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/PostController" method="post" class="form" role="form">
 		<table class="table table-hover sortable">
 			<thead>
 				<tr>
