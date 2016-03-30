@@ -45,6 +45,11 @@ $(document).ready(function(){
     				$('#inpt_preference_name').val(Prefs[index].preference_name);
       				$('#inpt_club_name_long').val(Prefs[index].club_name_long);
       				$('#inpt_club_name_short').val(Prefs[index].club_name_short);
+      				$('#inptTelephone').val(Prefs[index].telephone);
+      				$('#inptAddress').val(Prefs[index].address);
+      				$('#inptCity').val(Prefs[index].city);
+      				$('#inptPostalCode').val(Prefs[index].postal_code);
+      				$('#inptProvince').val(Prefs[index].province);
       				$('#inptCountry').val(Prefs[index].country);
       				$('#tax_rate').val(Prefs[index].tax_rate);
       				$('#inptSchemeID').val(Prefs[index].colour_schemeid);

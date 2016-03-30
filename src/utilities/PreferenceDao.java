@@ -240,7 +240,7 @@ public class PreferenceDao {
 		    		preparedStatement.setString(7, request.getParameter("address")); // address
 		    		preparedStatement.setString(8, request.getParameter("city")); // city
 		    		preparedStatement.setString(9, request.getParameter("province")); // province
-		    		preparedStatement.setString(10, request.getParameter("postal_code")); // postal_code
+		    		preparedStatement.setString(10, request.getParameter("postalCode")); // postal_code
 		    		preparedStatement.setString(11, request.getParameter("country")); // country
 		    		if(isImageLogo) {
 		    			preparedStatement.setBlob(12, input_image_logo);// image_logo
