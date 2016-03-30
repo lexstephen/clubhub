@@ -1,5 +1,7 @@
 package controller;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -64,6 +66,7 @@ public class UserController extends HttpServlet {
 					dao.getUserId(request,option);
 					dao.getName(request,option);
 					dao.isAdmin(request);
+					
 					// yes it is! and are they in the database?	    					    				
 					if (session.getAttribute("isAdmin").equals(true)) {
 						// they are admins! send them to AdminController

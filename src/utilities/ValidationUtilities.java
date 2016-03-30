@@ -71,7 +71,7 @@ public class ValidationUtilities {
 			request.setAttribute("errorClub_Name_Short", true);
 		}
 
-		if (isMissing(request.getParameter("tax_rate")) || !isInt(request.getParameter("tax_rate"))) {
+		if (isMissing(request.getParameter("tax_rate")) || !isDouble(request.getParameter("tax_rate"))) {
 			isValid = false;
 			request.setAttribute("errorTax_Rate", true);
 		}
@@ -581,6 +581,8 @@ public class ValidationUtilities {
 		String city = request.getParameter("city");
 		String province = request.getParameter("province");
 		String postalCode = request.getParameter("postalCode");
+		postalCode = postalCode.replaceAll("\\s+","");
+		System.out.println("PC is " + postalCode);
 		String country = request.getParameter("country");
 		String profilePhoto = request.getParameter("profilePhoto");
 		String dateOfBirth = request.getParameter("dateOfBirth");
@@ -661,10 +663,17 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorProvince", true);}
-		if (!isRightLength(postalCode,6)) {
+		int postalCodeLength = 0;
+		if (country.equals("Canada")) {
+			postalCodeLength = 6;
+		} else {
+			postalCodeLength = 5;
+		}
+		if (!isRightLength(postalCode,postalCodeLength)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPostalCode", true);}
+		
 		if (isMissing(country)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
@@ -789,7 +798,15 @@ public class ValidationUtilities {
 		String alpha = "^.*(?=.*[0-9])(?=.*[a-zA-z]).*$";
 		return ((!isMissing(theInput)) && (theInput.matches(alpha)));
 	}
-
+	
+	public static boolean isDouble(String theInput) {
+        try {
+            Double.parseDouble(theInput);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 	// check that value is correct length range
 	public static boolean isRightLength(String theInput, int startLength, int endLength) {
 		return ((theInput.length() >= startLength) && (theInput.length() <= endLength));

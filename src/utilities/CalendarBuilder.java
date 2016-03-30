@@ -8,7 +8,7 @@ public class CalendarBuilder {
 	    *  For M use 1 for January, 2 for February, and so forth. Outputs
 	    *  0 for Sunday, 1 for Monday, and so forth.
 	    ***************************************************************************/
-	
+	/*
 	public CalendarBuilder() {
 	    public static int day(int M, int D, int Y) {
 	        int y = Y - (14 - M) / 12;
@@ -63,5 +63,5 @@ public class CalendarBuilder {
 	        }
 
 	    }
-	    }
+	    } */
 	}

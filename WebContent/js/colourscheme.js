@@ -102,6 +102,10 @@ $(document).ready(function(){
     
 });
 
+$("#loadPref").click(function () {
+	$("select[name='prefid']").val($("#activePrefId").text());
+});
+
 
 $(".hex_code").on('input', function () {
 var self = $(this);

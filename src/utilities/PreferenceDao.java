@@ -62,7 +62,9 @@ public class PreferenceDao {
 	            // prints out some information for debugging
 	            System.out.println(filePart.getName());
 	            // obtains input stream of the upload file
-	            input_image_logo = filePart.getInputStream();
+	            if (filePart.getSize() != 0) {
+		            input_image_logo = filePart.getInputStream();
+	            }
 	        }
 	        
 	        InputStream input_image_small_logo = null; // input stream of the upload file 
@@ -72,22 +74,24 @@ public class PreferenceDao {
 	            // prints out some information for debugging
 	            System.out.println(filePart.getName());
 	            // obtains input stream of the upload file
-	            input_image_small_logo = filePart.getInputStream();
+	            if (filePart.getSize() != 0) {
+		            input_image_small_logo = filePart.getInputStream();
+	            }
 	        } 
 
 		    		preparedStatement = connect.prepareStatement("insert into ch_Preferences "
-		    				+ "(`id`, `image_logo`, `image_small_logo`, "
+		    				+ "(`id`, "
 		    				+ "`club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, "
-		    				+ "`country`, `status`, `preference_name`) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		    		preparedStatement.setBlob(1, input_image_logo); // image_logo
-		    		preparedStatement.setBlob(2, input_image_small_logo); // image_small_logo
-		    		preparedStatement.setString(3, request.getParameter("club_name_long")); // club_name_long
-		    		preparedStatement.setString(4, request.getParameter("club_name_short")); // club_name_short 
-		    		preparedStatement.setInt(5, Integer.parseInt(request.getParameter("colour_schemeid"))); // Colour_Schemeid
-		    		preparedStatement.setString(6, request.getParameter("tax_rate")); // tax_rate
-		    		preparedStatement.setString(7, request.getParameter("country")); // country
-		    		preparedStatement.setString(8, "0"); // status
-		    		preparedStatement.setString(9, request.getParameter("preference_name")); // preference_name
+		    				+ "`country`, `status`, `preference_name`, `image_logo`, `image_small_logo`) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		    		preparedStatement.setString(1, request.getParameter("club_name_long")); // club_name_long
+		    		preparedStatement.setString(2, request.getParameter("club_name_short")); // club_name_short 
+		    		preparedStatement.setInt(3, Integer.parseInt(request.getParameter("colour_schemeid"))); // Colour_Schemeid
+		    		preparedStatement.setString(4, request.getParameter("tax_rate")); // tax_rate
+		    		preparedStatement.setString(5, request.getParameter("country")); // country
+		    		preparedStatement.setString(6, "0"); // status
+		    		preparedStatement.setString(7, request.getParameter("preference_name")); // preference_name
+		    		preparedStatement.setBlob(8, input_image_logo); // image_logo
+		    		preparedStatement.setBlob(9, input_image_small_logo); // image_small_logo
 
 		    		preparedStatement.executeUpdate(); 
 
@@ -106,11 +110,13 @@ public class PreferenceDao {
 			    	pref.setId(resultSet.getString("id"));
 			    	pref.setClub_name_long(resultSet.getString("club_name_long"));
 			    	pref.setClub_name_short(resultSet.getString("club_name_short"));
+			    	pref.setPreference_name(resultSet.getString("preference_name"));
 				  	session.setAttribute("preference", pref);
 				  	session.setAttribute("prefID", pref.getId());
+				  	//session.setAttribute("active_preference_name", resultSet.getString("preference_name"));
 				  	request.setAttribute("clubName", pref.getClub_name_long());
 				  	
-				  	System.out.println("clubName = " + request.getAttribute("clubName") + " and ID is " + pref.getId());
+				  	System.out.println("clubName = " + request.getAttribute("clubName") + " and ID is " + pref.getId() + " and pref name is " + resultSet.getString("preference_name"));
 			    }
 		    } catch (SQLException e) {
 			      throw e;
@@ -166,7 +172,12 @@ public class PreferenceDao {
     		statement = connect.createStatement();
     		// id, image_logo, image_small_logo, club_name_long, club_name_short, 
     		// Colour_Schemeid, tax_rate, country
-
+    		boolean isImageLogo = false, isImageSmallLogo = false;
+    		
+    		String qry = "UPDATE ch_Preferences "
+    				+ "SET club_name_long = ?, "
+    				+ "club_name_short = ?, Colour_Schemeid = ?, tax_rate = ?, "
+    				+ "country = ?, preference_name = ?";
     		
 	        InputStream input_image_logo = null; // input stream of the upload file 
 	        // obtains the upload file part in this multipart request
@@ -175,7 +186,11 @@ public class PreferenceDao {
 	            // prints out some information for debugging
 	            System.out.println(filePart.getName());
 	            // obtains input stream of the upload file
-	            input_image_logo = filePart.getInputStream();
+	            if (filePart.getSize() != 0) {
+	            	isImageLogo = true;
+	            	qry += ", image_logo = ?";
+		            input_image_logo = filePart.getInputStream();
+	            }
 	        }
 	        
 	        InputStream input_image_small_logo = null; // input stream of the upload file 
@@ -185,25 +200,33 @@ public class PreferenceDao {
 	            // prints out some information for debugging
 	            System.out.println(filePart.getName());
 	            // obtains input stream of the upload file
-	            input_image_small_logo = filePart.getInputStream();
+	            if (filePart.getSize() != 0) {
+	            	isImageSmallLogo = true;
+	            	qry += ", image_small_logo = ?";
+		            input_image_small_logo = filePart.getInputStream();
+	            }
 	        } 
 
 					String prefID = request.getParameter("prefid");
-	        		String qry = "UPDATE ch_Preferences "
-	        				+ "SET image_logo = ?, image_small_logo = ?, club_name_long = ?, "
-	        				+ "club_name_short = ?, Colour_Schemeid = ?, tax_rate = ?, "
-	        				+ "country = ?, preference_name = ?"
-	        				+ "WHERE id = " + prefID;
-		    		preparedStatement = connect.prepareStatement(qry);
-		    		preparedStatement.setBlob(1, input_image_logo); // image_logo
-		    		preparedStatement.setBlob(2, input_image_small_logo); // image_small_logo
-		    		preparedStatement.setString(3, request.getParameter("club_name_long")); // club_name_long
-		    		preparedStatement.setString(4, request.getParameter("club_name_short")); // club_name_short 
-		    		preparedStatement.setInt(5, Integer.parseInt(request.getParameter("colour_schemeid"))); // Colour_Schemeid
-		    		preparedStatement.setString(6, request.getParameter("tax_rate")); // tax_rate
-		    		preparedStatement.setString(7, request.getParameter("country")); // country
-		    		preparedStatement.setString(8, request.getParameter("preference_name")); // preference_name
 
+	        				qry += " WHERE id = " + prefID;
+		    		preparedStatement = connect.prepareStatement(qry);
+		    		preparedStatement.setString(1, request.getParameter("club_name_long")); // club_name_long
+		    		preparedStatement.setString(2, request.getParameter("club_name_short")); // club_name_short 
+		    		preparedStatement.setInt(3, Integer.parseInt(request.getParameter("colour_schemeid"))); // Colour_Schemeid
+		    		preparedStatement.setString(4, request.getParameter("tax_rate")); // tax_rate
+		    		preparedStatement.setString(5, request.getParameter("country")); // country
+		    		preparedStatement.setString(6, request.getParameter("preference_name")); // preference_name
+		    		if(isImageLogo) {
+		    			preparedStatement.setBlob(7, input_image_logo);// image_logo
+			    		if(isImageSmallLogo) {
+			    			preparedStatement.setBlob(8, input_image_small_logo); // image_small_logo
+		    			} 
+	    			} else {
+			    		if(isImageSmallLogo) {
+			    			preparedStatement.setBlob(7, input_image_small_logo); // image_small_logo
+		    			} 
+	    			}
 		    		preparedStatement.executeUpdate(); 
 		    		
 		    		

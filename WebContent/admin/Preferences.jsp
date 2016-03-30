@@ -13,7 +13,10 @@
 
 <%@ page import="utilities.PreferenceDao"%>
 <% PreferenceDao pref = new PreferenceDao(); %>
-<% pref.showAllPrefs(request,response); %>
+<% 
+	pref.showAllPrefs(request,response);
+	pref.showPrefs(request); 
+%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -87,7 +90,17 @@
 			<p>Edit a pre-existing Preference by selecting it from the drop down list, or select 'Add New' to enter a new one.</p>
 		
 			<div class="row">
-				<div class="col-sm-7 col-sm-offset-5">
+				<div class="col-sm-6">
+					<div class="row">
+						<label class="col-sm-4 control-label">
+							Active Preference:
+						</label>
+						<div class="col-sm-8">
+							 <em><span id="activePrefId" class="hidden">${preference.id }</span> ${preference.preference_name }</em> [<a href="#" id="loadPref">load</a>]
+						</div>	
+					</div>
+				</div>
+				<div class="col-sm-6">
 					<select name="prefid" class="form-control" id="inptPrefID">
 				 		<option value="000" ${preference.id == '000' ? 'selected' : ''}>-- Add New --</option>
 						<c:forEach items="${prefs}" var="preference">

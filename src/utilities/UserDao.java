@@ -365,7 +365,21 @@ public class UserDao {
 
 	public void editUser(HttpServletRequest request, HttpServletResponse response, String _userID) throws Exception {
 		try {			
+			String userStatus = request.getParameter("userStatus");
 
+			String province = null;
+			switch(request.getParameter("country")) {
+			case "Canada":
+				province = request.getParameter("province");
+				break;
+			case "United States of America":
+				province = request.getParameter("state");
+				break;
+			}
+
+			String qry = "";
+			
+			statement = connect.createStatement();
 			/* ********** take care of image uploading *****************/
 
 	        InputStream inputStream = null; // input stream of the upload file
@@ -379,25 +393,13 @@ public class UserDao {
 	            System.out.println(filePart.getContentType());
 	             
 	            // obtains input stream of the upload file
-	            inputStream = filePart.getInputStream();
+	            if (filePart.getSize() != 0) {
+	            	inputStream = filePart.getInputStream();
+	            }
 	        }
 	         
-	       
-			String userStatus = request.getParameter("userStatus");
-
-			String province = null;
-			switch(request.getParameter("country")) {
-			case "Canada":
-				province = request.getParameter("province");
-				break;
-			case "United States of America":
-				province = request.getParameter("state");
-				break;
-			}
-			
-			statement = connect.createStatement();
                     
-			String qry = "UPDATE clubhub.ch_user SET username = ?, password = ?, emailAddress = ?" // 1 2 3
+			qry = "UPDATE clubhub.ch_user SET username = ?, password = ?, emailAddress = ?" // 1 2 3
 					+ ", firstName = ?, lastName = ?, gender = ?, phoneNumber = ?"  // 4 5 6 7
 					+ ", streetAddress = ?, city = ?, province = ?, postalCode = ?"  // 8 9 10 11
 					+ ", country = ?, dateOfBirth = ?, emergencyContactName = ?, emergencyContactPhoneNumber = ?";  // 12, 13, 14, 15
@@ -416,7 +418,10 @@ public class UserDao {
                     }
                     
                     qry += " WHERE id = ?"; // 18 or 17 or 16
-                    
+
+            		String postalCode = request.getParameter("postalCode");
+            		postalCode = postalCode.replaceAll("\\s+","");
+            		
 			preparedStatement = connect.prepareStatement(qry);
             preparedStatement.setString(1, request.getParameter("username")); 					// username
 			preparedStatement.setString(2, request.getParameter("password1")); 					// password
@@ -428,7 +433,7 @@ public class UserDao {
 			preparedStatement.setString(8, request.getParameter("streetAddress"));				// streetAddress
 			preparedStatement.setString(9, request.getParameter("city"));						// city
 			preparedStatement.setString(10, province);											// province
-			preparedStatement.setString(11, request.getParameter("postalCode"));				// postalCode
+			preparedStatement.setString(11, postalCode);										// postalCode
 			preparedStatement.setString(12, request.getParameter("country"));					// country
 			preparedStatement.setString(13, request.getParameter("dateOfBirth"));				// dateOfBirth
 			preparedStatement.setString(14, request.getParameter("emergencyContactName"));		// emergencyContactName
