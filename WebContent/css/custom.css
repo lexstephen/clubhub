@@ -9,3 +9,7 @@ table.sortable tr td {
 textarea {
     resize: none;
 }
+
+.hang_left {
+	text-align:left !important;
+}

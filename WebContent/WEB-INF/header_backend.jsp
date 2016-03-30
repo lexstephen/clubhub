@@ -42,6 +42,6 @@
 					<%@ include file="/WEB-INF/sidebar_backend.jsp" %>
 				</div>
 				
-				<div class="content col-sm-10 col-xs-12">
+				<div class="content col-sm-10 col-xs-12" style="padding-left:50px;">
 					<h1><%= request.getAttribute("thisPage") %></h1>
 					<hr><br>

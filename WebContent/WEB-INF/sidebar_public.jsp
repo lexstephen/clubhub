@@ -4,13 +4,8 @@
 	<c:if test="${!isLoggedIn == true}">
 		<%@ include file="/WEB-INF/login_form.jsp"%>
 	</c:if>
-	
-	<c:if test="${!isLoggedIn == true}">
-		<%@ include file="/WEB-INF/logged_in_sidebar_calendar.jsp"%>
-	</c:if>
-	
-	<c:if test="${!isLoggedIn == false}">
-		<%@ include file="/WEB-INF/sidebar_calendar.jsp"%>
-	</c:if>
+
+	<%@ include file="/WEB-INF/sidebar_calendar.jsp"%>
+
 
 </div>

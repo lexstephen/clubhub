@@ -167,7 +167,7 @@ public class ValidationUtilities {
 		return time;
 	}
 		
-	public static String numberToDay (HttpServletRequest request, int num){
+	public static String numberToDay (int num){
 		String dayOfWeek = null;
 		if (num == 1){
 			 dayOfWeek = "Sunday";

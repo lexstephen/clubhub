@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -160,7 +159,49 @@ public class GameDao {
 			      throw e;
 		    }
 
-	}	
+	}
+
+	public void listAll(HttpServletRequest request) throws Exception {
+
+		List<Game> games = new ArrayList<Game>();
+	  	try{  		
+	  		statement = connect.createStatement();
+		    resultSet = statement.executeQuery("SELECT * FROM ch_game");
+		      
+		    while (resultSet.next()) {
+		    	  Game game = new Game();
+		    	  game.setId(resultSet.getString("id"));
+		    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
+		    	  
+		    	  games.add(game);
+		    }
+	    } catch (SQLException e) {
+		      throw e;
+		}
+	  	request.setAttribute("games", games);
+	}
+	
+	public boolean gameOnDate(HttpServletRequest request, String calendarDate) throws Exception {
+		
+		boolean isMatched = false;
+		String output = "";
+	  	try{  		
+	  		statement = connect.createStatement();
+		    resultSet = statement.executeQuery("SELECT * FROM ch_game WHERE scheduledDate LIKE '" + calendarDate + "'");
+		      
+		    while (resultSet.next()) {
+		    	output += "Season " + resultSet.getString("Seasonid") + " GameID " + resultSet.getString("id") + "<br>";
+		    }
+	    } catch (SQLException e) {
+		      throw e;
+		}
+	  	if (!output.equals("")) {
+	  		request.setAttribute("output", output);
+	  		isMatched = true;
+	  	}
+	  	
+	  	return isMatched;
+	}
 	
 	/*
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
@@ -254,7 +295,6 @@ public class GameDao {
 				while(results.next()){
 					String availablePlayers = results.getString("availablePlayers");
 					if(availablePlayers != null && availablePlayers.contains(userID)){
-						System.out.println("User already exists in current slot");
 						}else {
 							
 							if(availablePlayers != null){
@@ -279,19 +319,97 @@ public class GameDao {
 		}
 	}
 	
-public void closeSlot(HttpServletRequest request, String playerIDs) throws Exception{
+	
+	
+public void closeSlot(HttpServletRequest request, String slotID) throws Exception{
+	System.out.println("The slot ID recieved is: "+ slotID);
+	System.out.println("Im in closeSlot");
+	//String seasonID = null;
+	//Statement statement1 = null;
+	//ResultSet resultSet1 = null;
+	statement = connect.createStatement();
+	ResultSet resultSet = statement.executeQuery("SELECT * from ch_slot where id= "+ slotID);
+	  
+	  while(resultSet.first()){
+		  //Slot slot = new Slot();
+		  String playerIDs = resultSet.getString("availablePlayers");
+		  String gameID = resultSet.getString("gameID");
+		  
+	  
+	System.out.println("Available Players: "+ playerIDs);
+	Statement statement2 = null;
+	  statement2 = connect.createStatement();
+	  statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
+	  
+		String [] players = playerIDs.split(", ");
+		List<Integer> indexes = new ArrayList<Integer>();
+		//String [] indexes = new String[4];
+		int hold1,hold2,hold3,hold4;
+		hold1 = new Random().nextInt(players.length);
+		hold2 = new Random().nextInt(players.length);
+		hold3 = new Random().nextInt(players.length);
+		hold4 = new Random().nextInt(players.length);
 		
-		String [] players = playerIDs.split(",");
-		String random = null;
-		for (int i=0; i < 4 ; i++){
-			if (random != null){
-			 random += (players[new Random().nextInt(players.length)]);
+		do{
+			if(hold1==hold2 ||hold1 == hold3 || hold1 == hold4){
+				hold1 = new Random().nextInt(players.length);
 			}else{
-				random = (players[new Random().nextInt(players.length)]);
+				indexes.add(0,hold1);
+				if(hold2==hold3||hold2==hold4){
+					hold2 = new Random().nextInt(players.length);
+				}
+				else{
+					indexes.add(1,hold2);
+					if(hold3==hold4){
+						hold3 = new Random().nextInt(players.length);
+					}else{
+						indexes.add(2,hold3);
+						indexes.add(3,hold4);
+					}
+				}
 			}
-			 
+		}while(indexes.size()<4);
+		
+		
+		String [] playingPlayers = new String[4];
+		playingPlayers[0] = players[indexes.get(0)];
+		playingPlayers[1] = players[indexes.get(1)];
+		playingPlayers[2] = players[indexes.get(2)];
+		playingPlayers[3] = players[indexes.get(3)];
+		
+		for(int i=0; i < playingPlayers.length ;i++){
+			//Statement statement3 = null;
+			statement = connect.createStatement();
+		    PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game values (?,?,null,null)");
+		    preparedStatement.setString(1, playingPlayers[i]);	//userID
+		    preparedStatement.setString(2, gameID); // gameID
+		    preparedStatement.executeUpdate();
 		}
-		System.out.println(random);
+	    
+		
+		StringBuilder builder = new StringBuilder();
+		
+		if (playingPlayers.length >= 1) {
+			builder.append(playingPlayers[0]);
+		}
+
+		for (int i = 1; i < playingPlayers.length; i++) { 
+			builder.append(",");
+			builder.append(playingPlayers[i]);
+		}
+		
+		String thePlayers = builder.toString();
+		System.out.println("Playing Players: "+thePlayers);
+		
+		statement = connect.createStatement();
+		ResultSet resultSet1 = statement.executeQuery("Select * from ch_game where id= "+ gameID);
+		while(resultSet1.next()){
+			String seasonID= resultSet1.getString("seasonID");
+			request.setAttribute("seasonID", seasonID);
+		}
+		
+	  }
+	;
 	}
 	
 	
@@ -312,7 +430,7 @@ public void closeSlot(HttpServletRequest request, String playerIDs) throws Excep
 			    while (resultSet2.next()) {
 			    	int num = resultSet2.getInt("dayOfWeek");
 			    	int givenTime = resultSet2.getInt("time");
-			    	String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
+			    	String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
 			    	String time = utilities.ValidationUtilities.toTime(request,givenTime);
 			    	
 			    	

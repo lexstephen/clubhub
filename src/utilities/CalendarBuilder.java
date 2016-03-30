@@ -9,9 +9,14 @@
 
 package utilities;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import model.Game;
 
 
 public class CalendarBuilder { 
@@ -27,7 +32,6 @@ public class CalendarBuilder {
 	
 		public String output = "<thead><tr><th colspan=\"7\" class=\"text-center\">";	
 		public static int[] monthAndYear = new int[3];
-		
 		
 		public static void todaysDate() throws Exception {			
 	    	
@@ -55,8 +59,10 @@ public class CalendarBuilder {
 	    public CalendarBuilder(HttpServletRequest request, int m, int y) throws Exception {
 	    	
 	    	HttpSession session = request.getSession();
-	    	int M, Y, currentDay;
+			GameDao dao = new GameDao();
+	    	int M, Y, currentDay, dayOfWeek;
 			String calendarDate;
+			boolean isMatched;
 	    	todaysDate();
 	    	
 	    	if (m == 0 || y == 0){
@@ -96,24 +102,48 @@ public class CalendarBuilder {
 
 	        // starting day
 	        int d = day(M, 1, Y);
+	        
+	        System.out.println("d = " + d);
 
 	        // print the calendar
-	        for (int i = 0; i < d; i++)
-	            output += "<td></td>";
+	        for (int i = 0; i < d; i++) {
+	            output += "<td></td>"; }
 	        for (int i = 1; i <= days[M]; i++) {
 	        	
 	        	calendarDate = Y + "-" + String.format("%02d", M) + "-" + String.format("%02d", i);
-	        	System.out.println("calendarDate = " + calendarDate);
-	        	
-	        	if (i == currentDay) {
-	        		output += "<td><strong>" + String.format("%2d ", i) + "</strong></td>";
+	        	isMatched = dao.gameOnDate(request, calendarDate);
+
+	        	if (isMatched){
+
+	        		if (i + d >= 1 && i + d <= 7)
+	        			dayOfWeek = i + d;
+	        		else if (i + d >= 8 && i + d <= 14)
+	        			dayOfWeek = i-7+d;
+	        		else if (i + d >= 15 && i + d <= 21)
+	        			dayOfWeek = i-14+d;
+	        		else if (i + d >= 21 && i + d <= 28)
+	        			dayOfWeek = i-21+d;
+	        		else
+    					dayOfWeek = i-28+d;
+	        		
+	        		
+	        		if (i == currentDay) {
+		        		output += "<td><strong><a href=\"#\" data-toggle=\"popover\" title=\"" + ValidationUtilities.numberToDay(dayOfWeek)  + " " + i + "\" data-content=\"" 
+		        				+ request.getAttribute("output") + "\"><u>" + String.format("%2d ", i) + "</u></a></strong></td>";
+		        	} else {
+		        		output += "<td><a href=\"#\" data-toggle=\"popover\" title=\"" + ValidationUtilities.numberToDay(dayOfWeek)  + " " + i + "\" data-content=\"" 
+		        				+ request.getAttribute("output") + "\"><u>" + String.format("%2d ", i) + "</u></a></td>";
+		        	}
 	        	} else {
-	            output += "<td>" + String.format("%2d ", i) + "</td>";
+		        	if (i == currentDay) {
+		        		output += "<td><strong>" + String.format("%2d ", i) + "</strong></td>";
+		        	} else {
+		        		output += "<td>" + String.format("%2d ", i) + "</td>";
+		        	}
 	        	}
-	            if (((i + d) % 7 == 0) || (i == days[M])) output += "</tr><tr>";
+	            if (((i + d) % 7 == 0) || (i == days[M])) 
+	            	output += "</tr><tr>";
 	        }
-	        
-	        //<a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
 	        
 	        output += "</tr></tbody>";	 
 	        
