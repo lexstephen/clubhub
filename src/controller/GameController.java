@@ -73,13 +73,10 @@ public class GameController extends HttpServlet {
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
 	    			String gameID = request.getParameter("gameID");
-		    		
-		    		
-		    			
-		    			
-		    			errorChecker = "Games Created";
-		    			
-		    			address = "admin/PopulateGames.jsp";
+		    		System.out.println("The GameID is: "+gameID);
+	    			
+		    		dao.playersToSwitch(request, gameID);
+		    		address = "admin/EditGame.jsp";
 		    			
 		    	break;
 		    	

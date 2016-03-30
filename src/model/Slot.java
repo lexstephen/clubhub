@@ -75,11 +75,11 @@ public class Slot {
 		this.id = id;
 	}
 	
-	public String getGameId() {
+	public String getGameID() {
 		return gameID;
 	}
 
-	public void setGameId(String gameID) {
+	public void setGameID(String gameID) {
 		this.gameID = gameID;
 	}
 

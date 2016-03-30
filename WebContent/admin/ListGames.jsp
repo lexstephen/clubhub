@@ -30,7 +30,7 @@ slot.listSeasonWithGames(request, seasonID);
 			<tr>
 				<td class="col-xs-12 col-md-3 control-label">
 					<ol>
-						${slot.scheduledDate} ${slot.players} The Slot Id : ${slot.id}
+						${slot.scheduledDate} ${slot.players} The Game Id : ${slot.gameID}
 						<c:choose>
 							<c:when test="${slot.status == 1}">
 								<input type="hidden" name="slotID" value="${slot.id}">

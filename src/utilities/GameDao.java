@@ -305,6 +305,54 @@ public class GameDao {
 	}
 	
 	
+	public void playersToSwitch(HttpServletRequest request, String gameID) throws Exception{
+		
+		statement = connect.createStatement();
+		resultSet = statement.executeQuery("Select * from ch_user_game where Gameid= "+gameID);
+		ArrayList<String> currentPlayers = new ArrayList<String>();
+		while (resultSet.next()){
+			currentPlayers.add(resultSet.getString("Userid"));
+			StringBuilder builder = new StringBuilder();
+    		if (currentPlayers.size() >= 1) {
+    			builder.append(currentPlayers.get(0));
+    		}
+
+    		for (int i = 1; i < currentPlayers.size(); i++) { 
+    			builder.append(", ");
+    			builder.append(currentPlayers.get(i));
+    		}
+    		
+    		String players = builder.toString();
+    		players =  utilities.ValidationUtilities.getPlayerNames(request, players);
+    		String [] theCurrentPlayers = players.split(", ");
+			request.setAttribute("theCurrentPlayers", theCurrentPlayers);
+		
+		
+			statement = connect.createStatement();
+			ResultSet resultSet1 = statement.executeQuery("Select * from ch_slot where gameID= "+gameID);
+			
+			while (resultSet1.next()){
+				String players2 = resultSet1.getString("availablePlayers");
+				players2 =  utilities.ValidationUtilities.getPlayerNames(request, players2);
+				String [] availablePlayers = players2.split(", ");
+				ArrayList<String> theAvailablePlayers = new ArrayList<String>();
+				
+				for(int i=0; i < availablePlayers.length; i++){
+					//for(int j=0; j < theCurrentPlayers.length; j++){
+						if(!theCurrentPlayers.equals(availablePlayers[i])){
+							theAvailablePlayers.add(availablePlayers[i]);
+						}
+								//if(ArrayUtils.contains(theCurrentPlayers, availablePlayers[i])
+					/*	if(!availablePlayers[i].equals(theCurrentPlayers[j])){
+							theAvailablePlayers.add(availablePlayers[j]);
+						
+						}*/
+					//}
+				}
+				request.setAttribute("theAvailablePlayers", theAvailablePlayers);
+			}
+		}
+	}
 	
 public void closeSlot(HttpServletRequest request, String slotID) throws Exception{
 	System.out.println("The slot ID recieved is: "+ slotID);

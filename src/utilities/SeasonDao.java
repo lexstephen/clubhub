@@ -225,7 +225,7 @@ public class SeasonDao {
 							  slot.setPlayers(playerNames);
 							  slot.setScheduledDate(resultSet2.getString("scheduledDate"));
 							  slot.setStatus(resultSet2.getInt("status"));
-							  slot.setGameId(resultSet2.getString("gameID"));
+							  slot.setGameID(resultSet2.getString("gameID"));
 							  slot.setId(resultSet2.getString("id"));
 							  
 							  
@@ -234,7 +234,7 @@ public class SeasonDao {
 						    	  ResultSet resultSet3 = null;
 						    		
 						    	  slot.setScheduledDate(resultSet2.getString("scheduledDate"));
-						    	  
+						    	  slot.setGameID(resultSet2.getString("gameID"));
 						    	  statement3 = connect.createStatement();
 								  resultSet3 = statement3.executeQuery("SELECT * from ch_user_game where Gameid= "+ gameID);
 								  String playerIDs = null;
