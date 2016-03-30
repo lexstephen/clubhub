@@ -78,20 +78,27 @@ public class PreferenceDao {
 		            input_image_small_logo = filePart.getInputStream();
 	            }
 	        } 
-
-		    		preparedStatement = connect.prepareStatement("insert into ch_Preferences "
-		    				+ "(`id`, "
-		    				+ "`club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, "
-		    				+ "`country`, `status`, `preference_name`, `image_logo`, `image_small_logo`) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	        		String qry = "insert into ch_Preferences "
+		    				+ "(`id`, `club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, "
+		    				+ "`telephone`, `address`, `city`, `province`, `postal_code`, country`, "
+		    				+ "`status`, `preference_name`, `image_logo`, `image_small_logo`) "
+		    				+ " values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        		System.out.println(qry);
+		    		preparedStatement = connect.prepareStatement(qry);
 		    		preparedStatement.setString(1, request.getParameter("club_name_long")); // club_name_long
 		    		preparedStatement.setString(2, request.getParameter("club_name_short")); // club_name_short 
 		    		preparedStatement.setInt(3, Integer.parseInt(request.getParameter("colour_schemeid"))); // Colour_Schemeid
 		    		preparedStatement.setString(4, request.getParameter("tax_rate")); // tax_rate
-		    		preparedStatement.setString(5, request.getParameter("country")); // country
-		    		preparedStatement.setString(6, "0"); // status
-		    		preparedStatement.setString(7, request.getParameter("preference_name")); // preference_name
-		    		preparedStatement.setBlob(8, input_image_logo); // image_logo
-		    		preparedStatement.setBlob(9, input_image_small_logo); // image_small_logo
+		    		preparedStatement.setString(5, request.getParameter("telephone")); // telephone
+		    		preparedStatement.setString(6, request.getParameter("address")); // address
+		    		preparedStatement.setString(7, request.getParameter("city")); // city
+		    		preparedStatement.setString(8, request.getParameter("province")); // province
+		    		preparedStatement.setString(9, request.getParameter("postal_code")); // postalcode
+		    		preparedStatement.setString(10, request.getParameter("country")); // country
+		    		preparedStatement.setString(11, "0"); // status
+		    		preparedStatement.setString(12, request.getParameter("preference_name")); // preference_name
+		    		preparedStatement.setBlob(13, input_image_logo); // image_logo
+		    		preparedStatement.setBlob(14, input_image_small_logo); // image_small_logo
 
 		    		preparedStatement.executeUpdate(); 
 
@@ -134,13 +141,25 @@ public class PreferenceDao {
 			    	pref.setPreference_name(resultSet.getString("preference_name"));
 			    	pref.setClub_name_long(resultSet.getString("club_name_long"));
 			    	pref.setClub_name_short(resultSet.getString("club_name_short"));
-			    	pref.setColour_schemeid(Integer.parseInt(resultSet.getString("Colour_Schemeid")));
-			    	pref.setTax_rate(Float.parseFloat(resultSet.getString("tax_rate")));
+			    	pref.setTelephone(resultSet.getString("telephone"));
+			    	pref.setAddress(resultSet.getString("address"));
+			    	pref.setCity(resultSet.getString("city"));
+			    	pref.setProvince(resultSet.getString("province"));
 			    	pref.setCountry(resultSet.getString("country"));
+			    	pref.setTax_rate(Float.parseFloat(resultSet.getString("tax_rate")));
+			    	pref.setColour_schemeid(Integer.parseInt(resultSet.getString("Colour_Schemeid")));
 			    	pref.setStatus(resultSet.getString("status"));
 				  	request.setAttribute("clubName", pref.getClub_name_long());
-
-			  		pref.setImage_logo("true");
+				  	if(resultSet.getBlob("image_logo")!=null) {
+				  		pref.setImage_logo("true");				  		
+				  	} else {
+				  		pref.setImage_logo("false");
+				  	}
+				  	if(resultSet.getBlob("image_small_logo")!=null) {
+				  		pref.setImage_small_logo("true");				  		
+				  	} else {
+				  		pref.setImage_small_logo("false");
+				  	}
 				  	prefs.add(pref);
 			    }
 			  	session.setAttribute("prefs", prefs);
@@ -175,9 +194,9 @@ public class PreferenceDao {
     		boolean isImageLogo = false, isImageSmallLogo = false;
     		
     		String qry = "UPDATE ch_Preferences "
-    				+ "SET club_name_long = ?, "
+    				+ "SET  preference_name = ?, club_name_long = ?, "
     				+ "club_name_short = ?, Colour_Schemeid = ?, tax_rate = ?, "
-    				+ "country = ?, preference_name = ?";
+    				+ "telephone = ?, address = ?, city = ?, province = ?, postal_code = ?, country = ?";
     		
 	        InputStream input_image_logo = null; // input stream of the upload file 
 	        // obtains the upload file part in this multipart request
@@ -209,24 +228,28 @@ public class PreferenceDao {
 
 					String prefID = request.getParameter("prefid");
 
-	        				qry += " WHERE id = " + prefID;
+	        		qry += " WHERE id = " + prefID;
+	        		System.out.println("Edit query: " + qry);
 		    		preparedStatement = connect.prepareStatement(qry);
-		    		preparedStatement.setString(1, request.getParameter("club_name_long")); // club_name_long
-		    		preparedStatement.setString(2, request.getParameter("club_name_short")); // club_name_short 
-		    		preparedStatement.setInt(3, Integer.parseInt(request.getParameter("colour_schemeid"))); // Colour_Schemeid
-		    		preparedStatement.setString(4, request.getParameter("tax_rate")); // tax_rate
-		    		preparedStatement.setString(5, request.getParameter("country")); // country
-		    		preparedStatement.setString(6, request.getParameter("preference_name")); // preference_name
+		    		preparedStatement.setString(1, request.getParameter("preference_name")); // preference_name
+		    		preparedStatement.setString(2, request.getParameter("club_name_long")); // club_name_long
+		    		preparedStatement.setString(3, request.getParameter("club_name_short")); // club_name_short 
+		    		preparedStatement.setInt(4, Integer.parseInt(request.getParameter("colour_schemeid"))); // Colour_Schemeid
+		    		preparedStatement.setString(5, request.getParameter("tax_rate")); // tax_rate
+		    		preparedStatement.setInt(6, Integer.parseInt(request.getParameter("telephone"))); // telephone
+		    		preparedStatement.setString(7, request.getParameter("address")); // address
+		    		preparedStatement.setString(8, request.getParameter("city")); // city
+		    		preparedStatement.setString(9, request.getParameter("province")); // province
+		    		preparedStatement.setString(10, request.getParameter("postal_code")); // postal_code
+		    		preparedStatement.setString(11, request.getParameter("country")); // country
 		    		if(isImageLogo) {
-		    			preparedStatement.setBlob(7, input_image_logo);// image_logo
+		    			preparedStatement.setBlob(12, input_image_logo);// image_logo
 			    		if(isImageSmallLogo) {
-			    			preparedStatement.setBlob(8, input_image_small_logo); // image_small_logo
+			    			preparedStatement.setBlob(13, input_image_small_logo); // image_small_logo
 		    			} 
-	    			} else {
-			    		if(isImageSmallLogo) {
-			    			preparedStatement.setBlob(7, input_image_small_logo); // image_small_logo
-		    			} 
-	    			}
+	    			} else if(isImageSmallLogo) {
+			    			preparedStatement.setBlob(12, input_image_small_logo); // image_small_logo
+	    			} 
 		    		preparedStatement.executeUpdate(); 
 		    		
 		    		

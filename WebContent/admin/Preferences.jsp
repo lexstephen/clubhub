@@ -36,8 +36,13 @@
 	PrefObj.club_name_long = "${club_name_long}";
 	PrefObj.club_name_short = "${club_name_short}";
 	PrefObj.colour_schemeid = "${csid}";
+	PrefObj.telephone = "${country}";
+	PrefObj.address = "${address}";
+	PrefObj.city = "${city}";
+	PrefObj.province = "${province}";
+	PrefObj.country = "<c:choose><c:when test="${empty country}">Canada</c:when><c:otherwise>${country}</c:otherwise></c:choose>"	;
+	PrefObj.postalcode = "${postalcode}";
 	PrefObj.tax_rate = "${tax_rate}"; 
-	PrefObj.country = "${country}";
 	PrefObj.image_logo_exists = "false";
 	PrefObj.image_small_logo_exists = "false"; 
 	Prefs.push(PrefObj);
@@ -53,11 +58,16 @@
 		PrefObj.club_name_long = "${preference.club_name_long}";
 		PrefObj.club_name_short = "${preference.club_name_short}";
 		PrefObj.colour_schemeid = "${preference.colour_schemeid}";
-		PrefObj.tax_rate = "${preference.tax_rate}"; 
+		PrefObj.telephone = "${preference.telephone}";
+		PrefObj.address = "${preference.address}";
+		PrefObj.city = "${preference.city}";
+		PrefObj.province = "${preference.province}";
 		PrefObj.country = "${preference.country}";
+		PrefObj.postalcode = "${preference.postalcode}";
+		PrefObj.tax_rate = "${preference.tax_rate}"; 
 		PrefObj.status = "${preference.status}";  
-		PrefObj.image_logo_exists = "true";  
-		PrefObj.image_small_logo_exists = "true";    
+		PrefObj.image_logo_exists = "${preference.image_logo}";  
+		PrefObj.image_small_logo_exists = "${preference.image_small_logo}";    
 		Prefs.push(PrefObj);
 	</c:forEach> 
 </script>
@@ -75,14 +85,14 @@
 		SchemeObj.text_colour = "${colour_scheme.text_colour}"; 
 		Schemes.push(SchemeObj);
 	</c:forEach> 
-	SchemeObj = new Object();
-	SchemeObj.csid = "000"; 
-	SchemeObj.name = "--Add New--";
-	SchemeObj.dark_colour = "";
-	SchemeObj.med_colour = "";
-	SchemeObj.light_colour = "";
-	SchemeObj.text_colour = ""; 
-	Schemes.push(SchemeObj);
+		SchemeObj = new Object();
+		SchemeObj.csid = "000"; 
+		SchemeObj.name = "--Add New--";
+		SchemeObj.dark_colour = "";
+		SchemeObj.med_colour = "";
+		SchemeObj.light_colour = "";
+		SchemeObj.text_colour = ""; 
+		Schemes.push(SchemeObj);
 </script>
 	<div class="row">
 		<div class="col-sm-12">
@@ -148,40 +158,135 @@
 		</div>	
 	</div>
 	
-	<div class="row">
+	
+	<div class="row <c:if test="${!empty errorTelephone}">has-error</c:if>">
 		<label class="col-sm-3 control-label">
-			Country
+			Telephone
 		</label>
 		<div class="col-sm-9">
-			<div class="form-group">
-				<select name="country" class="form-control" id="inptCountry">
-				  <option 
-				  
-				  <c:choose>
-				  	<c:when test="${!empty country}">
-				  		${country == 'Canada' ? 'selected' : ''}
-			  		</c:when>
-				  	<c:otherwise>
-				  		${preference.country == 'Canada' ? 'selected' : ''}
-				  	</c:otherwise>
-				  </c:choose>
-				  		  
-				  >Canada</option>
-				  <option 
-				  <c:choose>
-				  	<c:when test="${!empty country}">
-				  		${country == 'United States of America' ? 'selected' : ''}
-			  		</c:when>
-				  	<c:otherwise>
-				  		${preference.country == 'United States of America' ? 'selected' : ''}
-				  	</c:otherwise>
-				  </c:choose>
-				  		  
-				  >United States of America</option>
-				</select>
-		  	</div>
+			<input class="form-control" type="text" name="telephone" id="inpt_telephone" value="${telephone }">
 		</div>	
 	</div>
+	
+	<div class="row <c:if test="${!empty errorAddress}">has-error</c:if>">
+		<label class="col-sm-3 control-label">
+			Address
+		</label>
+		<div class="col-sm-9">
+			<input class="form-control" type="text" name="address" id="inpt_address" value="${address }">
+		</div>	
+	</div>
+	
+	
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="form-group <c:if test="${!empty errorCity}">has-error</c:if>">
+			    	<label for="inptCity">City</label>
+			    	<input type="text" name="city" class="form-control" id="inptCity" value="${city}">
+			  	</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="form-group <c:if test="${!empty errorPostalCode}">has-error</c:if>">
+			    	<label for="inptPostalCode" id="lblPostalCode" ${country == 'United States of America' ? ' class="hiddenest"' : ''}>
+						Postal Code
+					</label>
+					<label for="inptProvince" id="lblZipCode" ${country == 'Canada' ? ' class="hiddenest"' : ''} ${country == null ? ' class="hiddenest"' : ''}>
+						Zip Code
+					</label>
+			    	<input type="text" name="postalCode" class="form-control" id="inptPostalCode" value="${postalCode}">
+			  	</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="form-group <c:if test="${!empty errorCountry}">has-error</c:if>">
+			    	<label for="inptCountry">Country</label>
+					<select name="country" class="form-control" id="inptCountry">
+					  <option ${country == 'Canada' ? 'selected' : ''}>Canada</option>
+					  <option ${country == 'United States of America' ? 'selected' : ''}>United States of America</option>
+					</select>
+			  	</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="form-group <c:if test="${!empty errorProvince}">has-error</c:if>">
+					<label for="inptProvince" id="lblProvince" ${country == 'United States of America' ? ' class="hiddenest"' : ''}>
+						Province
+					</label>
+					<label for="inptState" id="lblState" ${country == 'Canada' ? ' class="hiddenest"' : ''} ${country == null ? ' class="hiddenest"' : ''}>
+						State
+					</label>
+					<select name="province" class="form-control ${country == 'United States of America' ? ' hiddenest' : ''}" id="inptProvince">
+					  <option ${province == 'AB' ? 'selected' : ''}>AB</option>
+					  <option ${province == 'BC' ? 'selected' : ''}>BC</option>
+					  <option ${province == 'MB' ? 'selected' : ''}>MB</option>
+					  <option ${province == 'NB' ? 'selected' : ''}>NB</option>
+					  <option ${province == 'NL' ? 'selected' : ''}>NL</option>
+					  <option ${province == 'NS' ? 'selected' : ''}>NS</option>
+					  <option ${province == 'NT' ? 'selected' : ''}>NT</option>
+					  <option ${province == 'NU' ? 'selected' : ''}>NU</option>
+					  <option ${province == 'ON' ? 'selected' : ''}>ON</option>
+					  <option ${province == 'PE' ? 'selected' : ''}>PE</option>
+					  <option ${province == 'QC' ? 'selected' : ''}>QC</option>
+					  <option ${province == 'SK' ? 'selected' : ''}>SK</option>
+					  <option ${province == 'YT' ? 'selected' : ''}>YT</option>
+					</select>
+					<select name="state" class="form-control ${country == 'Canada' ? ' hiddenest' : ''} ${country == null ? ' hiddenest' : ''}" id="inptState">
+					  <option ${province == 'AK' ? 'selected' : ''}>AK</option>
+					  <option ${province == 'AL' ? 'selected' : ''}>AL</option>
+					  <option ${province == 'AR' ? 'selected' : ''}>AR</option>
+					  <option ${province == 'AZ' ? 'selected' : ''}>AZ</option>
+					  <option ${province == 'CA' ? 'selected' : ''}>CA</option>
+					  <option ${province == 'CO' ? 'selected' : ''}>CO</option>
+					  <option ${province == 'CT' ? 'selected' : ''}>CT</option>
+					  <option ${province == 'DC' ? 'selected' : ''}>DC</option>
+					  <option ${province == 'DE' ? 'selected' : ''}>DE</option>
+					  <option ${province == 'FL' ? 'selected' : ''}>FL</option>
+					  <option ${province == 'GA' ? 'selected' : ''}>GA</option>
+					  <option ${province == 'HI' ? 'selected' : ''}>HI</option>
+					  <option ${province == 'IA' ? 'selected' : ''}>IA</option>
+					  <option ${province == 'ID' ? 'selected' : ''}>ID</option>
+					  <option ${province == 'IL' ? 'selected' : ''}>IL</option>
+					  <option ${province == 'IN' ? 'selected' : ''}>IN</option>
+					  <option ${province == 'KS' ? 'selected' : ''}>KS</option>
+					  <option ${province == 'KY' ? 'selected' : ''}>KY</option>
+					  <option ${province == 'LA' ? 'selected' : ''}>LA</option>
+					  <option ${province == 'MA' ? 'selected' : ''}>MA</option>
+					  <option ${province == 'MD' ? 'selected' : ''}>MD</option>		
+					  <option ${province == 'ME' ? 'selected' : ''}>ME</option>
+  					  <option ${province == 'MI' ? 'selected' : ''}>MI</option>
+  					  <option ${province == 'MN' ? 'selected' : ''}>MN</option>
+  					  <option ${province == 'MO' ? 'selected' : ''}>MO</option>
+  					  <option ${province == 'MS' ? 'selected' : ''}>MS</option>
+  					  <option ${province == 'MT' ? 'selected' : ''}>MT</option>
+  					  <option ${province == 'NC' ? 'selected' : ''}>NC</option>
+  					  <option ${province == 'ND' ? 'selected' : ''}>ND</option>
+  					  <option ${province == 'NE' ? 'selected' : ''}>NE</option>
+  					  <option ${province == 'NH' ? 'selected' : ''}>NH</option>
+  					  <option ${province == 'NJ' ? 'selected' : ''}>NJ</option>
+  					  <option ${province == 'NM' ? 'selected' : ''}>NM</option>
+  					  <option ${province == 'NV' ? 'selected' : ''}>NV</option>
+  					  <option ${province == 'NY' ? 'selected' : ''}>NY</option>
+  					  <option ${province == 'OH' ? 'selected' : ''}>OH</option>
+  					  <option ${province == 'OK' ? 'selected' : ''}>OK</option>
+  					  <option ${province == 'OR' ? 'selected' : ''}>OR</option>
+  					  <option ${province == 'PA' ? 'selected' : ''}>PA</option>
+  					  <option ${province == 'RI' ? 'selected' : ''}>RI</option>
+  					  <option ${province == 'SC' ? 'selected' : ''}>SC</option>
+  					  <option ${province == 'SD' ? 'selected' : ''}>SD</option>
+  					  <option ${province == 'TN' ? 'selected' : ''}>TN</option>
+  					  <option ${province == 'TX' ? 'selected' : ''}>TX</option>
+  					  <option ${province == 'UT' ? 'selected' : ''}>UT</option>
+  					  <option ${province == 'VA' ? 'selected' : ''}>VA</option>
+  					  <option ${province == 'VT' ? 'selected' : ''}>VT</option>
+  					  <option ${province == 'WA' ? 'selected' : ''}>WA</option>
+  					  <option ${province == 'WI' ? 'selected' : ''}>WI</option>
+  					  <option ${province == 'WV' ? 'selected' : ''}>WV</option>
+  					  <option ${province == 'WY' ? 'selected' : ''}>WY</option>
+					</select>
+			  	</div>
+			</div>
+		</div>
 	
 	<div class="row <c:if test="${!empty errorTax_Rate}">has-error</c:if>">
 		<label class="col-sm-3 control-label">

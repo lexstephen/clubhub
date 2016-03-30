@@ -16,6 +16,8 @@
 */
 
 /* **************** dark colour ******************* */
+hr {
+  border-top: 1px ${colour_scheme.med_colour } solid;}
 .frontend h1,
 .frontend h2,
 .frontend h3,
@@ -23,7 +25,11 @@
 .frontend h5,
 .frontend h6 {
   text-align: center;
-  color: ${colour_scheme.dark_colour };
+  color: ${colour_scheme.med_colour };
+}
+
+.btn-primary {
+	background-color: ${colour_scheme.med_colour };
 }
 
 .frontend .base {

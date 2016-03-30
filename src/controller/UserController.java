@@ -62,7 +62,7 @@ public class UserController extends HttpServlet {
 				break;
 			case "login":
 				// valid input?
-				if (ValidationUtilities.isValidLogin(request)) {
+				if (ValidationUtilities.isValidLogin(request) && dao.isInDatabase(request, response)) {
 					dao.getUserId(request,option);
 					dao.getName(request,option);
 					dao.isAdmin(request);
