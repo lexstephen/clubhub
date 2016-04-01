@@ -13,33 +13,34 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 <% SeasonDao slot = new SeasonDao();
-//Object id = session.getAttribute("loggedInUserID");
-//String str = id.toString();
-//int userID = Integer.parseInt(str);
-Object theCuurrentPlayers = session.getAttribute("theCurrentPlayers");
+Object gameID = session.getAttribute("gameID");
+
+Object theCurrentPlayers = session.getAttribute("theCurrentPlayers");
 Object theAvailablePlayers = session.getAttribute("theAvailablePlayers");
+
 
 %>
 <div class="row">
 <form action="/clubhub/GameController" method="post" class="form" role="form">
 	<div class="col-xs-12 col-md-6">
-	<form action="/clubhub/GameController" method="post" class="form" role="form">
+	
 		<c:forEach items="${theCurrentPlayers}" var="theCurrentPlayers">
 			
 				<input type="radio" name="currentPlayer" value="${theCurrentPlayers}" ><c:out value="${theCurrentPlayers}" /><br>
-			
+				
 		</c:forEach>
-	</form>
+	
 	</div>
-	<div class="col-xs-12 col-md-6">
-		<form action="/clubhub/GameController" method="post" class="form" role="form">
+	<div >
+		
 			<c:forEach items="${theAvailablePlayers}" var="theAvailablePlayers">
 				<input type="radio" name="newPlayer" value="${theAvailablePlayers}" ><c:out value="${theAvailablePlayers}" /><br>
 			</c:forEach>
-		</form>
+		
 	</div>	
 	<br><br>
-	<button type="submit" value="switchThem">Switch</button>
+	<input type="hidden" name="gameID" value="${gameID}">
+	<button type="submit" value="switchThem" name="option">Switch</button>
 </form>
 </div>
 	

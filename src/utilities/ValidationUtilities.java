@@ -182,6 +182,24 @@ public class ValidationUtilities {
 		return dayOfWeek;
 		
 	}
+	public static String getPlayerNumber (HttpServletRequest request, String PlayerName) throws Exception {
+		
+		Connection connect = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+		String playerID = null;
+		
+		
+		connect = DatabaseAccess.connectDataBase();
+		statement = connect.createStatement();
+	    resultSet = statement.executeQuery("SELECT * from ch_user where firstName= '" + PlayerName+"'");
+		
+	    while(resultSet.next()){
+	    	playerID = resultSet.getString("id");
+	    	
+	    }
+	    return playerID;
+	}
 	
 	public static String getPlayerNames (HttpServletRequest request, String playerIDs) throws Exception{
 		
