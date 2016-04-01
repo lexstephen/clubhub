@@ -337,7 +337,26 @@ public class GameDao {
 				String [] availablePlayers = players2.split(", ");
 				ArrayList<String> theAvailablePlayers = new ArrayList<String>();
 				
-				for(int i=0; i < availablePlayers.length; i++){
+				//System.out.print(theCurrentPlayers[0]);
+				//System.out.println(theCurrentPlayers[1]);
+				//System.out.println(theCurrentPlayers[2]);
+				//System.out.println(theCurrentPlayers[3]);
+				System.out.println("Finished list:");
+				for (int k = 0; k < theCurrentPlayers.length; k++) {
+				    System.out.println(k+ ":" + theCurrentPlayers[k]);
+				}
+				
+				for (int j = 0; j < availablePlayers.length; j++) {
+					if (
+							   !availablePlayers[j].equals(theCurrentPlayers[0]) 
+							&& !availablePlayers[j].equals(theCurrentPlayers[1])
+							&& !availablePlayers[j].equals(theCurrentPlayers[2])
+							&& !availablePlayers[j].equals(theCurrentPlayers[3])) {
+						theAvailablePlayers.add(availablePlayers[j]);
+					} 
+				}
+				
+				/*for(int i=0; i < availablePlayers.length; i++){
 					//for(int j=0; j < theCurrentPlayers.length; j++){
 						if(!theCurrentPlayers.equals(availablePlayers[i])){
 							theAvailablePlayers.add(availablePlayers[i]);
@@ -347,8 +366,8 @@ public class GameDao {
 							theAvailablePlayers.add(availablePlayers[j]);
 						
 						}*/
-					//}
-				}
+					//}*/
+				
 				request.setAttribute("theAvailablePlayers", theAvailablePlayers);
 			}
 		}
