@@ -346,15 +346,7 @@ public class GameDao {
 				    System.out.println(k+ ":" + theCurrentPlayers[k]);
 				}
 				
-				for (int j = 0; j < availablePlayers.length; j++) {
-					if (
-							   !availablePlayers[j].equals(theCurrentPlayers[0]) 
-							&& !availablePlayers[j].equals(theCurrentPlayers[1])
-							&& !availablePlayers[j].equals(theCurrentPlayers[2])
-							&& !availablePlayers[j].equals(theCurrentPlayers[3])) {
-						theAvailablePlayers.add(availablePlayers[j]);
-					} 
-				}
+				
 				
 				/*for(int i=0; i < availablePlayers.length; i++){
 					//for(int j=0; j < theCurrentPlayers.length; j++){
