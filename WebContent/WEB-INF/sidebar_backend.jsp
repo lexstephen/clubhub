@@ -12,6 +12,10 @@
 	<legend>Users</legend>
 	<ul>
 		<li><a href="${pageContext.request.contextPath}/admin/BatchUsers.jsp">List All</a></li>
+		<c:if test="${isLoggedIn == true}">
+		<li><a href="${pageContext.request.contextPath}/Profile.jsp?userID=${loggedInUserID }">Edit Profile</a></li>
+		<li><a href="${pageContext.request.contextPath}/Availability.jsp">Availability</a></li>
+		</c:if>
 		<c:if test="${(isAdmin == true)}">
 			<li><a href="${pageContext.request.contextPath}/Register.jsp">Add New</a></li>
 		</c:if>

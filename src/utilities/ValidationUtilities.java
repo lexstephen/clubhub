@@ -29,7 +29,6 @@ public class ValidationUtilities {
 	
 	// check that email and password match required formatting
 	public static boolean isValidLogin(HttpServletRequest request) {
-		System.out.println("in isValidLogin");
 		boolean isValid = true;
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -199,7 +198,6 @@ public class ValidationUtilities {
 			
 			//if not valid, it will throw ParseException
 			Date date = sdf.parse(invDate);
-			System.out.println(date);
 			isValid = true;
 			return (isValid && isValidQty);
 		} catch (Exception e) {
@@ -211,12 +209,8 @@ public class ValidationUtilities {
 
 	public static String toTime (HttpServletRequest request, int givenTime){
 		String time = null;
-		
 		String input = Integer.toString(givenTime);
 		time = input.replaceAll("..(?!$)", "$0:");
-		
-		System.out.println("Game time is: " + time);
-		
 		return time;
 	}
 		
@@ -237,10 +231,7 @@ public class ValidationUtilities {
 		}else if (num == 7){
 			dayOfWeek = "Saturday";
 		}
-		
-		System.out.println("The day of week is: " +dayOfWeek);
 		return dayOfWeek;
-		
 	}
 	
 	public static int monthOfDate (String scheduledDate) throws Exception{
@@ -614,7 +605,6 @@ public class ValidationUtilities {
 		String province = request.getParameter("province");
 		String postalCode = request.getParameter("postalCode");
 		postalCode = postalCode.replaceAll("\\s+","");
-		System.out.println("PC is " + postalCode);
 		String country = request.getParameter("country");
 		String profilePhoto = request.getParameter("profilePhoto");
 		String dateOfBirth = request.getParameter("dateOfBirth");

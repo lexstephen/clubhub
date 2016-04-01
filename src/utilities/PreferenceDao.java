@@ -59,8 +59,6 @@ public class PreferenceDao {
 	        // obtains the upload file part in this multipart request
 	        Part filePart = request.getPart("image_logo");
 	        if (filePart != null) {
-	            // prints out some information for debugging
-	            System.out.println(filePart.getName());
 	            // obtains input stream of the upload file
 	            if (filePart.getSize() != 0) {
 		            input_image_logo = filePart.getInputStream();
@@ -71,8 +69,6 @@ public class PreferenceDao {
 	        // obtains the upload file part in this multipart request
 	        filePart = request.getPart("image_small_logo");
 	        if (filePart != null) {
-	            // prints out some information for debugging
-	            System.out.println(filePart.getName());
 	            // obtains input stream of the upload file
 	            if (filePart.getSize() != 0) {
 		            input_image_small_logo = filePart.getInputStream();
@@ -83,7 +79,6 @@ public class PreferenceDao {
 		    				+ "`telephone`, `address`, `city`, `province`, `postal_code`, country`, "
 		    				+ "`status`, `preference_name`, `image_logo`, `image_small_logo`) "
 		    				+ " values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	        		System.out.println(qry);
 		    		preparedStatement = connect.prepareStatement(qry);
 		    		preparedStatement.setString(1, request.getParameter("club_name_long")); // club_name_long
 		    		preparedStatement.setString(2, request.getParameter("club_name_short")); // club_name_short 
@@ -132,8 +127,6 @@ public class PreferenceDao {
 				  	session.setAttribute("prefID", pref.getId());
 				  	//session.setAttribute("active_preference_name", resultSet.getString("preference_name"));
 				  	request.setAttribute("clubName", pref.getClub_name_long());
-				  	
-				  	System.out.println("clubName = " + request.getAttribute("clubName") + " and ID is " + pref.getId() + " and pref name is " + resultSet.getString("preference_name"));
 			    }
 		    } catch (SQLException e) {
 			      throw e;
@@ -212,8 +205,6 @@ public class PreferenceDao {
 	        // obtains the upload file part in this multipart request
 	        Part filePart = request.getPart("image_logo");
 	        if (filePart != null) {
-	            // prints out some information for debugging
-	            System.out.println(filePart.getName());
 	            // obtains input stream of the upload file
 	            if (filePart.getSize() != 0) {
 	            	isImageLogo = true;
@@ -226,8 +217,6 @@ public class PreferenceDao {
 	        // obtains the upload file part in this multipart request
 	        filePart = request.getPart("image_small_logo");
 	        if (filePart != null) {
-	            // prints out some information for debugging
-	            System.out.println(filePart.getName());
 	            // obtains input stream of the upload file
 	            if (filePart.getSize() != 0) {
 	            	isImageSmallLogo = true;
@@ -239,7 +228,6 @@ public class PreferenceDao {
 					String prefID = request.getParameter("prefid");
 
 	        		qry += " WHERE id = " + prefID;
-	        		System.out.println("Edit query: " + qry);
 		    		preparedStatement = connect.prepareStatement(qry);
 		    		preparedStatement.setString(1, request.getParameter("preference_name")); // preference_name
 		    		preparedStatement.setString(2, request.getParameter("club_name_long")); // club_name_long

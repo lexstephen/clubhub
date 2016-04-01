@@ -9,7 +9,22 @@
 <%	PostDao postHead = new PostDao(); 
 	
 	postHead.listStatic(request); %>
-	 
+<%
+   Cookie cookie = null;
+   Cookie[] cookies = null;
+   cookies = request.getCookies();
+   if( cookies != null ){
+      for (int i = 0; i < cookies.length; i++){
+         cookie = cookies[i];
+         if ((cookies[i].getName().equals("isAdmin")) && (cookies[i].getValue().equals("true"))) {
+        	 session.setAttribute("isAdmin", true);
+         }         
+         if ((cookies[i].getName().equals("isLoggedIn")) && (cookies[i].getValue().equals("true"))) {
+        	 session.setAttribute("isLoggedIn", true);
+         }
+      }   
+  }
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -50,7 +65,7 @@
 							</c:forEach>
 							<c:choose>
 							<c:when test="${isLoggedIn == true}">
-								<li><a href="${pageContext.request.contextPath}/admin/">Dashboard</a></li>
+								<li><a href="${pageContext.request.contextPath}/admin/">Dashboard [${loggedInUserFullName }]</a></li>
 								<li><a href="${pageContext.request.contextPath}/Logout">Log Out</a></li>
 							</c:when>
 							<c:otherwise>

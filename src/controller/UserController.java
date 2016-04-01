@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,11 +73,24 @@ public class UserController extends HttpServlet {
 						// they are admins! send them to AdminController
 						session.setAttribute("isLoggedIn", true);
 						request.setAttribute("errorString", null);
+						Cookie adminCookie = new Cookie("isAdmin", "true");
+						Cookie loggedInCookie = new Cookie("isLoggedIn", "true");
+						adminCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
+						response.addCookie(adminCookie);
+						loggedInCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
+						response.addCookie(loggedInCookie);
+						
 						address = "/admin/index.jsp";
 					} else if (dao.isInDatabase(request, response)) {
 						// yes they are, let's log them in
 						session.setAttribute("isLoggedIn", true);
 						request.setAttribute("errorString", null);
+						Cookie adminCookie = new Cookie("isAdmin", "false");
+						Cookie loggedInCookie = new Cookie("isLoggedIn", "true");
+						adminCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
+						response.addCookie(adminCookie);
+						loggedInCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
+						response.addCookie(loggedInCookie);
 						address = "/admin/index.jsp";
 					} else {
 						// wrong username or password, send back to login form
@@ -115,7 +129,7 @@ public class UserController extends HttpServlet {
     		break;
 			default:
 				// something went wrong, display main page
-				address = "/index.jsp";
+				address = "/Main.jsp";
 				break;
 			}
 			// we've done what we needed to do, where should we send them?
