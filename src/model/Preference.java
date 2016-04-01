@@ -11,8 +11,14 @@ public class Preference {
 	private String id, preference_name, club_name_long, club_name_short, status;
 	private String image_logo, image_small_logo;
 	private float tax_rate;
-	private String telephone, address, city, country, province, postalcode;
+	private String telephone, formatted_telephone, address, city, country, province, postalcode;
 
+	public String getFormatted_telephone() {
+		return formatted_telephone;
+	}
+	public void setFormatted_telephone(String formatted_telephone) {
+		this.formatted_telephone = formatted_telephone;
+	}
 	public String getAddress() {
 		return address;
 	}

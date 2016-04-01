@@ -117,6 +117,16 @@ public class PreferenceDao {
 			    	pref.setId(resultSet.getString("id"));
 			    	pref.setClub_name_long(resultSet.getString("club_name_long"));
 			    	pref.setClub_name_short(resultSet.getString("club_name_short"));
+			    	pref.setAddress(resultSet.getString("address"));
+			    	pref.setCity(resultSet.getString("city"));
+			    	pref.setProvince(resultSet.getString("province"));
+			    	pref.setPostalcode(resultSet.getString("postal_code"));
+			    	pref.setCountry(resultSet.getString("country"));
+					String number = resultSet.getString("telephone");
+			    	pref.setTelephone(number);
+					pref.setFormatted_telephone(String.format("(%s) %s-%s", number.substring(0, 3), number.substring(3, 6), number.substring(6, 10)));
+			    	pref.setTax_rate(Float.parseFloat(resultSet.getString("tax_rate")));
+
 			    	pref.setPreference_name(resultSet.getString("preference_name"));
 				  	session.setAttribute("preference", pref);
 				  	session.setAttribute("prefID", pref.getId());

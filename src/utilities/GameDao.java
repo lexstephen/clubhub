@@ -161,25 +161,7 @@ public class GameDao {
 
 	}
 
-	public void listAll(HttpServletRequest request) throws Exception {
-
-		List<Game> games = new ArrayList<Game>();
-	  	try{  		
-	  		statement = connect.createStatement();
-		    resultSet = statement.executeQuery("SELECT * FROM ch_game");
-		      
-		    while (resultSet.next()) {
-		    	  Game game = new Game();
-		    	  game.setId(resultSet.getString("id"));
-		    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
-		    	  
-		    	  games.add(game);
-		    }
-	    } catch (SQLException e) {
-		      throw e;
-		}
-	  	request.setAttribute("games", games);
-	}
+	
 	
 	public boolean gameOnDate(HttpServletRequest request, String calendarDate) throws Exception {
 		
@@ -204,6 +186,26 @@ public class GameDao {
 	}
 	
 	/*
+	 public void listAll(HttpServletRequest request) throws Exception {
+
+		List<Game> games = new ArrayList<Game>();
+	  	try{  		
+	  		statement = connect.createStatement();
+		    resultSet = statement.executeQuery("SELECT * FROM ch_game");
+		      
+		    while (resultSet.next()) {
+		    	  Game game = new Game();
+		    	  game.setId(resultSet.getString("id"));
+		    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
+		    	  
+		    	  games.add(game);
+		    }
+	    } catch (SQLException e) {
+		      throw e;
+		}
+	  	request.setAttribute("games", games);
+	}
+	
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
 		  try {
 			  statement = connect.createStatement();
@@ -320,6 +322,56 @@ public class GameDao {
 	}
 	
 	
+
+	
+	public void playersToSwitch(HttpServletRequest request, String gameID) throws Exception{
+		
+		statement = connect.createStatement();
+		resultSet = statement.executeQuery("Select * from ch_user_game where Gameid= "+gameID);
+		ArrayList<String> currentPlayers = new ArrayList<String>();
+		while (resultSet.next()){
+			currentPlayers.add(resultSet.getString("Userid"));
+			StringBuilder builder = new StringBuilder();
+    		if (currentPlayers.size() >= 1) {
+    			builder.append(currentPlayers.get(0));
+    		}
+
+    		for (int i = 1; i < currentPlayers.size(); i++) { 
+    			builder.append(", ");
+    			builder.append(currentPlayers.get(i));
+    		}
+    		
+    		String players = builder.toString();
+    		players =  utilities.ValidationUtilities.getPlayerNames(request, players);
+    		String [] theCurrentPlayers = players.split(", ");
+			request.setAttribute("theCurrentPlayers", theCurrentPlayers);
+		
+		
+			statement = connect.createStatement();
+			ResultSet resultSet1 = statement.executeQuery("Select * from ch_slot where gameID= "+gameID);
+			
+			while (resultSet1.next()){
+				String players2 = resultSet1.getString("availablePlayers");
+				players2 =  utilities.ValidationUtilities.getPlayerNames(request, players2);
+				String [] availablePlayers = players2.split(", ");
+				ArrayList<String> theAvailablePlayers = new ArrayList<String>();
+				
+				for(int i=0; i < availablePlayers.length; i++){
+					//for(int j=0; j < theCurrentPlayers.length; j++){
+						if(!theCurrentPlayers.equals(availablePlayers[i])){
+							theAvailablePlayers.add(availablePlayers[i]);
+						}
+								//if(ArrayUtils.contains(theCurrentPlayers, availablePlayers[i])
+					/*	if(!availablePlayers[i].equals(theCurrentPlayers[j])){
+							theAvailablePlayers.add(availablePlayers[j]);
+						
+						}*/
+					//}
+				}
+				request.setAttribute("theAvailablePlayers", theAvailablePlayers);
+			}
+		}
+	}
 	
 public void closeSlot(HttpServletRequest request, String slotID) throws Exception{
 	System.out.println("The slot ID recieved is: "+ slotID);
@@ -413,41 +465,41 @@ public void closeSlot(HttpServletRequest request, String slotID) throws Exceptio
 	}
 	
 	
-	public void findOpenGameSlots(HttpServletRequest request, int userID) throws Exception {
-		  //Game game = new Game();
-		List<Slot> slots = new ArrayList<Slot>();
-		  	try{
-		  		
-			    statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * FROM ch_user WHERE id= " + userID );
-			    //String userGender = null;
-			    resultSet.next();
-			    String userGender = resultSet.getString("gender");
-			    
-			    ResultSet resultSet2;
-			    resultSet2 = statement.executeQuery("Select * from ch_slot where gender= \""+ userGender +"\" And status= 1");
-			    
-			    while (resultSet2.next()) {
-			    	int num = resultSet2.getInt("dayOfWeek");
-			    	int givenTime = resultSet2.getInt("time");
-			    	String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
-			    	String time = utilities.ValidationUtilities.toTime(request,givenTime);
-			    	
-			    	
-			    	//System.out.println("The day of week is: "+ dayOfWeek);
-			    	Slot slot = new Slot();
-			    	slot.setDayOfWeek(dayOfWeek);
-			    	slot.setTime(time);
-			    	slot.setScheduledDate(resultSet2.getString("scheduledDate"));
-			    	slot.setId(resultSet2.getString("id"));    	  
-			    	request.setAttribute("slotID", slot.getId());
-			    	  slots.add(slot);
-			    	
-			}} catch (SQLException e) {
-			      throw e;
-			}
-		  	request.setAttribute("slots", slots);
-	} 
+public void findOpenGameSlots(HttpServletRequest request, int userID) throws Exception {
+	  //Game game = new Game();
+	List<Slot> slots = new ArrayList<Slot>();
+	  	try{
+	  		
+		    statement = connect.createStatement();
+		    resultSet = statement.executeQuery("SELECT * FROM ch_user WHERE id= " + userID );
+		    //String userGender = null;
+		    resultSet.next();
+		    String userGender = resultSet.getString("gender");
+		    
+		    ResultSet resultSet2;
+		    resultSet2 = statement.executeQuery("Select * from ch_slot where gender= \""+ userGender +"\" And status= 1");
+		    
+		    while (resultSet2.next()) {
+		    	int num = resultSet2.getInt("dayOfWeek");
+		    	int givenTime = resultSet2.getInt("time");
+		    	String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
+		    	String time = utilities.ValidationUtilities.toTime(request,givenTime);
+		    	
+		    	
+		    	//System.out.println("The day of week is: "+ dayOfWeek);
+		    	Slot slot = new Slot();
+		    	slot.setDayOfWeek(dayOfWeek);
+		    	slot.setTime(time);
+		    	slot.setScheduledDate(resultSet2.getString("scheduledDate"));
+		    	slot.setId(resultSet2.getString("id"));    	  
+		    	request.setAttribute("slotID", slot.getId());
+		    	  slots.add(slot);
+		    	
+		}} catch (SQLException e) {
+		      throw e;
+		}
+	  	request.setAttribute("slots", slots);
+} 
 	/*
 	public void editSeason(HttpServletRequest request, HttpServletResponse response, String _seasonID) throws Exception {
 	    try {			

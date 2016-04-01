@@ -16,8 +16,8 @@
 				<address> 
 				  <strong>${preference.club_name_long }</strong><br>
 				  ${preference.address }<br>
-				  ${preference.city }, ${preference.province } ${preference.postal_code }<br>
-				  <abbr title="Phone">P:</abbr> (123) 456-7890
+				  ${preference.city }, ${preference.province } ${preference.postalcode }<br>
+				  <abbr title="Phone">P:</abbr> ${preference.formatted_telephone }
 				</address>
 			</div>
 			<div class="col-xs-12 col-md-6">

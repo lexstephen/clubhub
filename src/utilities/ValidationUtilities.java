@@ -78,7 +78,7 @@ public class ValidationUtilities {
 			
 		return isValid;
 	}
-	
+
 	public static boolean isValidColourScheme(HttpServletRequest request) {
 		boolean isValid = true;
 		request.setAttribute("csname", request.getParameter("name"));
@@ -227,7 +227,7 @@ public class ValidationUtilities {
 		return time;
 	}
 		
-	public static String numberToDay (int num){
+	public static String numberToDay (HttpServletRequest request, int num){
 		String dayOfWeek = null;
 		if (num == 1){
 			 dayOfWeek = "Sunday";
@@ -320,7 +320,6 @@ public class ValidationUtilities {
 		
 	public static boolean isValidLineItem(HttpServletRequest request) {
 		boolean isValid = false;
-		String description = "", cost = "";	
 
 		request.setAttribute("lineItem01Description", request.getParameter("lineItem01Description"));
 		request.setAttribute("lineItem01Cost", isInt(request.getParameter("lineItem01Cost"))?request.getParameter("lineItem01Cost"):0);
