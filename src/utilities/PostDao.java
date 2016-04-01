@@ -159,10 +159,10 @@ public class PostDao {
 			    	  
 			    	  if (post.getAccessLevel().equals("Public")) {
 			    		  posts.add(post);		
-			    	  } else if(post.getAccessLevel().equals("Members") && ((isLoggedIn == true))){
+			    	  } else if (post.getAccessLevel().equals("Members") && ((isLoggedIn == true))){
 			    		  posts.add(post);	
-			    	  } else if(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == true) {
-			    			posts.add(post);		
+			    	  } else if (post.getAccessLevel().equals("Private") && post.isPostMatchUser() == true) {
+			    		  posts.add(post);		
 			    	  }
 			    	  			    	  
 			    }

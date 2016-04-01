@@ -19,7 +19,16 @@
 	<td class="col-xs-12 col-md-2">${post.category}</td>
 	<td class="col-xs-12 col-md-2">${post.username}</td>
 	<td class="col-xs-12 col-md-1">${post.postType}</td>
-	<td class="col-xs-12 col-md-1">${post.accessLevel}</td>
+	<td class="col-xs-12 col-md-1">
+		<c:choose>
+			<c:when test="${post.accessLevel == 'Private'}">
+				<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+			</c:when>
+			<c:when test="${post.accessLevel == 'Members'}">
+				<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+			</c:when>
+		</c:choose>
+	</td>
 	<td class="col-xs-12 col-md-2">
 		<span class="expand">
 		<c:if test="${(isAdmin == true) || (post.userid == loggedInUserID)}">

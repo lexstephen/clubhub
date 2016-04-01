@@ -24,7 +24,6 @@ hr {
 .frontend h4,
 .frontend h5,
 .frontend h6 {
-  text-align: center;
   color: ${colour_scheme.med_colour };
 }
 
@@ -39,13 +38,10 @@ hr {
 .frontend h1,
 .frontend h2 {
   border-bottom: 1px ${colour_scheme.dark_colour } solid;
-  padding: 5px;
-  margin: 5px;
 }
 
 .frontend .navbar {
   background-color: ${colour_scheme.dark_colour };
-  border: 0;
 }
 
 /* **************** med & text colour ******************* */
@@ -57,8 +53,6 @@ hr {
 
 .frontend .postMeta {
   color: ${colour_scheme.med_colour };
-  font-size: 12px;
-  font-style: italic;
 }
 
 .frontend .navbar-nav > li > a:hover,

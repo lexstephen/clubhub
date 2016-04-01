@@ -6777,9 +6777,10 @@ body.frontend {
   margin: 5px;
 }
 .frontend .postMeta {
+  display: block;
   color: #EBC137;
   font-size: 12px;
-  font-style: italic;
+  text-align: center;
 }
 .frontend .expand,
 .frontend .pagination {
@@ -6792,11 +6793,7 @@ body.frontend {
   border: 0;
 }
 .frontend .navbar img {
-  height: 80px;
-  margin: 10px;
-}
-.frontend .navbar-collapse {
-  padding-top: 25px;
+  height: 50px;
 }
 .frontend .pushdown {
   padding-top: 10px;
@@ -6820,6 +6817,9 @@ body.frontend {
 .backend h6 {
   color: #00ace0;
   text-align: center;
+}
+.backend .btn-primary {
+  background-color: #00ace0;
 }
 .backend .memberMeta {
   font-size: 12px;

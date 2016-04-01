@@ -12,6 +12,7 @@
 		<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/css/custom.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+		
 	</head>
 	<body class="backend">
 		<c:if test="${isLoggedIn == false || isLoggedIn == null}">
@@ -44,4 +45,4 @@
 				
 				<div class="content col-sm-10 col-xs-12" style="padding-left:50px;">
 					<h1><%= request.getAttribute("thisPage") %></h1>
-					<hr><br>
+					<hr>

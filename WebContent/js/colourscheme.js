@@ -1,11 +1,12 @@
 
-$(document).ready(function(){
-
+//$(document).ready(function(){
+// getting javaescript conflicts if the document.ready function is called
     $("#loadPref").click(function () {
     	$("select[name='prefid']").val($("#activePrefId").text()).change();
     });
 
     $("select[name='csid']").change(function(){
+    	console.log("CSID changed");
         $(this).find("option:selected").each(function(){
     		for	(index = 0; index < Schemes.length; index++) {
                 if($(this).attr("value")==Schemes[index].csid){
@@ -77,15 +78,12 @@ $(document).ready(function(){
         });
     }).change();
 
-});
-
-
-$(".hex_code").on('input', function () {
-var self = $(this);
-// var unitVal = self.next().val();
-//var unitVal = self.parent().next().val();
-var hex_colour = self.val();
-console.log("I am here " + hex_colour);
-self.closest(".preview_colour").css({'background-color':hex_colour});
-
-});
+	$(".hex_code").on('input', function () {
+		var self = $(this);
+		// var unitVal = self.next().val();
+		//var unitVal = self.parent().next().val();
+		var hex_colour = self.val();
+		console.log("I am here " + hex_colour);
+		self.closest(".preview_colour").css({'background-color':hex_colour});
+	});
+//});

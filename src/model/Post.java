@@ -32,7 +32,7 @@ public class Post {
 	}
 
 	public String getContent_short() {
-		int n = 250;
+		int n = 700;
 		content_short = content.substring(0, Math.min(content.length(), n));     // change 20 to something bigger
 		if (content_short.length() > n-3)
 			content_short += "...";
