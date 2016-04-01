@@ -133,13 +133,6 @@ public class ValidationUtilities {
 		
 		
 		try {
-
-			System.out.println("Charge01 is " + charge01 + " and quantity is " + charge01qty);
-			System.out.println("Charge02 is " + charge02 + " and quantity is " + charge02qty);
-			System.out.println("Charge03 is " + charge03 + " and quantity is " + charge03qty);
-			System.out.println("Charge04 is " + charge04 + " and quantity is " + charge04qty);
-			System.out.println("Charge05 is " + charge05 + " and quantity is " + charge05qty);
-			
 			if ((!charge01.equals("---")) || 
 				(!charge02.equals("---")) || 
 				(!charge03.equals("---")) || 
@@ -279,6 +272,26 @@ public class ValidationUtilities {
 		cal.setTime(date);		
 		return cal.get(Calendar.DAY_OF_MONTH);
 	}
+
+	public static String getPlayerNumber (HttpServletRequest request, String PlayerName) throws Exception {
+		
+		Connection connect = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+		String playerID = null;
+		
+		
+		connect = DatabaseAccess.connectDataBase();
+		statement = connect.createStatement();
+	    resultSet = statement.executeQuery("SELECT * from ch_user where firstName= '" + PlayerName+"'");
+		
+	    while(resultSet.next()){
+	    	playerID = resultSet.getString("id");
+	    	
+	    }
+	    return playerID;
+	}
+	
 	
 	public static String getPlayerNames (HttpServletRequest request, String playerIDs) throws Exception{
 		
