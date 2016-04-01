@@ -136,7 +136,7 @@ public class SeasonDao {
 			    	  
 			    	  int num = resultSet.getInt("dayOfWeek");
 			    	  int givenTime = resultSet.getInt("startTime");
-			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
+			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
 			    	  String time = utilities.ValidationUtilities.toTime(request,givenTime);
 			    	  
 			    	  season.setYear(resultSet.getString("year"));
@@ -197,7 +197,7 @@ public class SeasonDao {
 			    	  
 			    	  int num = resultSet.getInt("dayOfWeek");
 			    	  int givenTime = resultSet.getInt("startTime");
-			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
+			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
 			    	  String time = utilities.ValidationUtilities.toTime(request,givenTime);
 			    	  
 			    	  season.setYear(resultSet.getString("year"));

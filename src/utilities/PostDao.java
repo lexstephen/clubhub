@@ -141,7 +141,7 @@ public class PostDao {
 				+ "ON post.Accessid = access.id "
 				+ "JOIN clubhub.ch_category category "
 				+ "ON post.Categoryid = category.id "
-				+ "WHERE posttype.id = 1");			// Where post is blog
+				+ "WHERE posttype.id = 1 ORDER BY Postdate");			// Where post is blog
 			      
 			    while (resultSet.next()) {
 			    	  Post post = new Post();

@@ -1,5 +1,5 @@
 
-	<div class="col-sm-12">
+	<div class="col-sm-12"  style="padding-bottom:50px;">
 	<form action="${pageContext.request.contextPath}/UserController" method="post" class="form" role="form">
 		  <div class="form-group">
 		  	<h3>Member Login</h3>
@@ -19,3 +19,4 @@
 		  <input type="submit" class="btn btn-default" value="Login">
 		</form>
 	</div>
+	

@@ -39,5 +39,5 @@
 	</form>
 	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
-
+ 
 	<%@ include file="/WEB-INF/footer_public.jsp" %>

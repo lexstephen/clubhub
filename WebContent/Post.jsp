@@ -32,5 +32,5 @@ request.setAttribute("thisPage", request.getAttribute("postTitle")); %>
 	</div>
 	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
-
+ 
 <%@ include file="/WEB-INF/footer_public.jsp" %>

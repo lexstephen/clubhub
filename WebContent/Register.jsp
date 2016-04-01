@@ -138,7 +138,7 @@
 			  	</div>
 			</div>
 		</div>
-		
+		 
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorProvince}">has-error</c:if>">
