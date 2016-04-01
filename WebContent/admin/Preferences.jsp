@@ -106,7 +106,7 @@
 							Active Preference:
 						</label>
 						<div class="col-sm-8">
-							 <em><span id="activePrefId" class="hidden">${preference.id }</span> ${preference.preference_name }</em> [<a href="#" id="loadPref">load</a>]
+							 <em><span id="activePrefId" class="hidden">${preference.id }</span> ${preference.preference_name }</em> [<a href="#" id="loadPref">load</a>] [<a href="SetPreferences.jsp">change default</a>]
 						</div>	
 					</div>
 				</div>
