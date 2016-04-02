@@ -47,14 +47,33 @@ public class ValidationUtilities {
 
 	public static boolean isValidPreference(HttpServletRequest request) {
 		boolean isValid = true;
+		String province = null;
+		int postalCodeLength = 0;
+		switch(request.getParameter("country")) {
+		case "Canada":
+			postalCodeLength = 6;
+			province = request.getParameter("province");
+			break;
+		case "United States of America":
+			postalCodeLength = 5;
+			province = request.getParameter("state");
+			break;
+		}
 		request.setAttribute("preferenceID", request.getParameter("prefid"));
 		request.setAttribute("preference_name", request.getParameter("preference_name"));
 		request.setAttribute("club_name_long", request.getParameter("club_name_long"));
 		request.setAttribute("club_name_short", request.getParameter("club_name_short"));
+		request.setAttribute("telephone", request.getParameter("telephone"));
+		request.setAttribute("Colour_Schemeid", request.getParameter("colour_schemeid"));
+		request.setAttribute("address", request.getParameter("address"));
+		request.setAttribute("city", request.getParameter("city"));
+		request.setAttribute("province", province);
 		request.setAttribute("country", request.getParameter("country"));
+		request.setAttribute("postalCode", request.getParameter("postalCode"));
 		request.setAttribute("tax_rate", request.getParameter("tax_rate"));
 		request.setAttribute("csid", request.getParameter("csid"));
 
+		
 		if (isMissing(request.getParameter("preference_name"))) {
 			isValid = false;
 			request.setAttribute("errorPreference_Name", true);
@@ -74,7 +93,11 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorTax_Rate", true);
 		}
-			
+		if (!isRightLength(request.getParameter("postalCode"),postalCodeLength)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorPostalCode", true);}
+		
 		return isValid;
 	}
 

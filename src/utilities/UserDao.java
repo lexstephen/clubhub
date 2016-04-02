@@ -486,7 +486,7 @@ public class UserDao {
 	}
 
 	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String userID = (String)request.getAttribute("userID").toString();
+		String userID = request.getParameter("userID");
 		  try {
 			  statement = connect.createStatement();
 			  statement.executeUpdate("delete from ch_user where id =" + userID); 

@@ -67,30 +67,33 @@ public class UserController extends HttpServlet {
 					dao.getUserId(request,option);
 					dao.getName(request,option);
 					dao.isAdmin(request);
-					
+					boolean setCookie = (request.getParameter("setCookie") == null)?false:true;
 					// yes it is! and are they in the database?	    					    				
 					if (session.getAttribute("isAdmin").equals(true)) {
 						// they are admins! send them to AdminController
 						session.setAttribute("isLoggedIn", true);
 						request.setAttribute("errorString", null);
-						Cookie adminCookie = new Cookie("isAdmin", "true");
-						Cookie loggedInCookie = new Cookie("isLoggedIn", "true");
-						adminCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
-						response.addCookie(adminCookie);
-						loggedInCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
-						response.addCookie(loggedInCookie);
-						
+						if (setCookie) {
+							Cookie adminCookie = new Cookie("isAdmin", "true");
+							Cookie loggedInCookie = new Cookie("isLoggedIn", "true");
+							adminCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
+							response.addCookie(adminCookie);
+							loggedInCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year		
+							response.addCookie(loggedInCookie);
+						}
 						address = "/admin/index.jsp";
 					} else if (dao.isInDatabase(request, response)) {
 						// yes they are, let's log them in
 						session.setAttribute("isLoggedIn", true);
 						request.setAttribute("errorString", null);
-						Cookie adminCookie = new Cookie("isAdmin", "false");
-						Cookie loggedInCookie = new Cookie("isLoggedIn", "true");
-						adminCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
-						response.addCookie(adminCookie);
-						loggedInCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
-						response.addCookie(loggedInCookie);
+						if (setCookie) {
+							Cookie adminCookie = new Cookie("isAdmin", "false");
+							Cookie loggedInCookie = new Cookie("isLoggedIn", "true");
+							adminCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
+							response.addCookie(adminCookie);
+							loggedInCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
+							response.addCookie(loggedInCookie);
+						}
 						address = "/admin/index.jsp";
 					} else {
 						// wrong username or password, send back to login form

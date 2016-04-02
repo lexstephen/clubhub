@@ -247,10 +247,7 @@
 		</div>
 		
 	<c:if test="${isAdmin == true}">
-		<div class="row bg-info">
-			<div class="col-xs-12">
-				<h3>Administrator Options</h3>
-			</div>
+		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorUserStatus}">has-error</c:if>">
 			    	<label for="inptUserStatus">User Status</label>
@@ -261,25 +258,30 @@
 					</select>
 			  	</div>
 			</div>
-			<div class="col-xs-6">
-			    	<label>Warning! User deletion cannot be undone. </label>
-			    	<input type="submit" class="btn btn-danger" value="Non-functioning Delete Button">
-
-			</div>
 		</div>
 		</c:if>
 		
 		<div class="row">
-			<div class="col-xs-12">
+			<div class="col-md-2 col-xs-12">
+			<label>&nbsp;</label>
 				<div class="form-group">
 					<input type="hidden" name="userID" value="${user.userid}">
 					<input type="hidden" name="option" value="edit">
-			    	<input type="submit" class="btn btn-default" value="Update Profile">
+			    	<input type="submit" class="btn btn-primary" value="Update Profile">
+					</form>
 			  	</div>
 			</div>
+			<div class="col-md-10 col-xs-12">
+		    	<label>Warning! User deletion cannot be undone. </label>
+				<form action="${pageContext.request.contextPath}/UserController" method="post">
+					<input type="hidden" name="userID" value="${user.userid}">
+					<input type="hidden" name="option" value="delete">
+					<input class="btn btn-danger" type="submit" value="Delete User">
+				</form>
+			</div>
 		</div>
-	</form>
 	
+			
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 			 
 <%@ include file="/WEB-INF/footer_backend.jsp" %>

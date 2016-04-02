@@ -49,9 +49,17 @@
       				$('#inptTelephone').val(Prefs[index].telephone);
       				$('#inptAddress').val(Prefs[index].address);
       				$('#inptCity').val(Prefs[index].city);
-      				$('#inptPostalCode').val(Prefs[index].postal_code);
-      				$('#inptProvince').val(Prefs[index].province);
+      				$('#inptPostalCode').val(Prefs[index].postalcode);
       				$('#inptCountry').val(Prefs[index].country);
+      				if(Prefs[index].country == 'United States of America') {
+      					$('#inptState').show();
+      					$('#inptProvince').hide();
+          				$('#inptState').val(Prefs[index].province);
+      				} else {
+      					$('#inptProvince').show();
+      					$('#inptState').hide();
+          				$('#inptProvince').val(Prefs[index].province);
+      				}
       				$('#tax_rate').val(Prefs[index].tax_rate);
       				$('#inptSchemeID').val(Prefs[index].colour_schemeid);
 					if(Prefs[index].image_logo_exists == "true") {

@@ -164,7 +164,7 @@
 			Telephone
 		</label>
 		<div class="col-sm-9">
-			<input class="form-control" type="text" name="telephone" id="inpt_telephone" value="${telephone }">
+			<input class="form-control" type="text" name="telephone" id="inptTelephone" value="${telephone }">
 		</div>	
 	</div>
 	
@@ -173,7 +173,7 @@
 			Address
 		</label>
 		<div class="col-sm-9">
-			<input class="form-control" type="text" name="address" id="inpt_address" value="${address }">
+			<input class="form-control" type="text" name="address" id="inptAddress" value="${address }">
 		</div>	
 	</div>
 	

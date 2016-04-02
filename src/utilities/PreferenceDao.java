@@ -53,7 +53,17 @@ public class PreferenceDao {
     		statement = connect.createStatement();
     		// id, image_logo, image_small_logo, club_name_long, club_name_short, 
     		// Colour_Schemeid, tax_rate, country
-
+    		
+			String province = null;
+			switch(request.getParameter("country")) {
+			case "Canada":
+				province = request.getParameter("province");
+				break;
+			case "United States of America":
+				province = request.getParameter("state");
+				break;
+			}
+			
     		
 	        InputStream input_image_logo = null; // input stream of the upload file 
 	        // obtains the upload file part in this multipart request
@@ -76,9 +86,10 @@ public class PreferenceDao {
 	        } 
 	        		String qry = "insert into ch_Preferences "
 		    				+ "(`id`, `club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, "
-		    				+ "`telephone`, `address`, `city`, `province`, `postal_code`, country`, "
+		    				+ "`telephone`, `address`, `city`, `province`, `postal_code`, `country`, "
 		    				+ "`status`, `preference_name`, `image_logo`, `image_small_logo`) "
 		    				+ " values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        		System.out.println(qry);
 		    		preparedStatement = connect.prepareStatement(qry);
 		    		preparedStatement.setString(1, request.getParameter("club_name_long")); // club_name_long
 		    		preparedStatement.setString(2, request.getParameter("club_name_short")); // club_name_short 
@@ -87,8 +98,8 @@ public class PreferenceDao {
 		    		preparedStatement.setString(5, request.getParameter("telephone")); // telephone
 		    		preparedStatement.setString(6, request.getParameter("address")); // address
 		    		preparedStatement.setString(7, request.getParameter("city")); // city
-		    		preparedStatement.setString(8, request.getParameter("province")); // province
-		    		preparedStatement.setString(9, request.getParameter("postal_code")); // postalcode
+		    		preparedStatement.setString(8, province); // province
+		    		preparedStatement.setString(9, request.getParameter("postalCode")); // postalcode
 		    		preparedStatement.setString(10, request.getParameter("country")); // country
 		    		preparedStatement.setString(11, "0"); // status
 		    		preparedStatement.setString(12, request.getParameter("preference_name")); // preference_name
@@ -117,7 +128,7 @@ public class PreferenceDao {
 			    	pref.setProvince(resultSet.getString("province"));
 			    	pref.setPostalcode(resultSet.getString("postal_code"));
 			    	pref.setCountry(resultSet.getString("country"));
-					String number = resultSet.getString("telephone");
+					String number = (resultSet.getString("telephone") == null)?"1234567890":resultSet.getString("telephone");
 			    	pref.setTelephone(number);
 					pref.setFormatted_telephone(String.format("(%s) %s-%s", number.substring(0, 3), number.substring(3, 6), number.substring(6, 10)));
 			    	pref.setTax_rate(Float.parseFloat(resultSet.getString("tax_rate")));
@@ -148,6 +159,7 @@ public class PreferenceDao {
 			    	pref.setAddress(resultSet.getString("address"));
 			    	pref.setCity(resultSet.getString("city"));
 			    	pref.setProvince(resultSet.getString("province"));
+			    	pref.setPostalcode(resultSet.getString("postal_code"));
 			    	pref.setCountry(resultSet.getString("country"));
 			    	pref.setTax_rate(Float.parseFloat(resultSet.getString("tax_rate")));
 			    	pref.setColour_schemeid(Integer.parseInt(resultSet.getString("Colour_Schemeid")));
@@ -195,7 +207,16 @@ public class PreferenceDao {
     		// id, image_logo, image_small_logo, club_name_long, club_name_short, 
     		// Colour_Schemeid, tax_rate, country
     		boolean isImageLogo = false, isImageSmallLogo = false;
-    		
+
+			String province = null;
+			switch(request.getParameter("country")) {
+			case "Canada":
+				province = request.getParameter("province");
+				break;
+			case "United States of America":
+				province = request.getParameter("state");
+				break;
+			}
     		String qry = "UPDATE ch_Preferences "
     				+ "SET  preference_name = ?, club_name_long = ?, "
     				+ "club_name_short = ?, Colour_Schemeid = ?, tax_rate = ?, "
@@ -234,10 +255,10 @@ public class PreferenceDao {
 		    		preparedStatement.setString(3, request.getParameter("club_name_short")); // club_name_short 
 		    		preparedStatement.setInt(4, Integer.parseInt(request.getParameter("colour_schemeid"))); // Colour_Schemeid
 		    		preparedStatement.setString(5, request.getParameter("tax_rate")); // tax_rate
-		    		preparedStatement.setInt(6, Integer.parseInt(request.getParameter("telephone"))); // telephone
+		    		preparedStatement.setString(6, request.getParameter("telephone")); // telephone
 		    		preparedStatement.setString(7, request.getParameter("address")); // address
 		    		preparedStatement.setString(8, request.getParameter("city")); // city
-		    		preparedStatement.setString(9, request.getParameter("province")); // province
+		    		preparedStatement.setString(9, province); // province
 		    		preparedStatement.setString(10, request.getParameter("postalCode")); // postal_code
 		    		preparedStatement.setString(11, request.getParameter("country")); // country
 		    		if(isImageLogo) {
