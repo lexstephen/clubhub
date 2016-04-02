@@ -6724,6 +6724,9 @@ button.close {
     display: none !important;
   }
 }
+.content a {
+  text-decoration: underline;
+}
 #sidebar {
   text-align: center;
 }
@@ -6747,8 +6750,8 @@ button.close {
   display: block;
 }
 body.frontend {
-  background-color: #fe0de0;
-  color: #BD8025;
+  background-color: #ffffff;
+  color: #835819;
 }
 .frontend {
   /* the Posted by X at 2pm section */
@@ -6766,9 +6769,10 @@ body.frontend {
   border-top: 1px solid #2A5B84;
 }
 .frontend .btn-primary {
-  background-color: #EBC137;
-  color: #fe0de0;
-  border-color: #EBC137;
+  background-color: #d0a106;
+  color: #ffffff;
+  border-color: #d0a106;
+  text-decoration: none;
 }
 .frontend h1,
 .frontend h2 {
@@ -6778,7 +6782,7 @@ body.frontend {
 }
 .frontend .postMeta {
   display: block;
-  color: #EBC137;
+  color: #d0a106;
   font-size: 12px;
   text-align: center;
 }
@@ -6799,12 +6803,12 @@ body.frontend {
   padding-top: 10px;
 }
 .frontend .navbar-nav > li > a {
-  color: #fe0de0;
+  color: #ffffff;
 }
 .frontend .navbar-nav > li > a:hover,
 .frontend .navbar-nav > li > a:focus {
-  color: #fe0de0;
-  background-color: #EBC137;
+  color: #ffffff;
+  background-color: #d0a106;
 }
 .backend {
   /* the You are now logged in as.. section */

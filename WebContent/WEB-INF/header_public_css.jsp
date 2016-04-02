@@ -80,4 +80,7 @@ body.frontend {
   color: ${colour_scheme.light_colour };
   background-color: ${colour_scheme.med_colour };
 }
+.glyphicon {
+  color: ${colour_scheme.dark_colour };
+}
 </style>

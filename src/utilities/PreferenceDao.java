@@ -45,7 +45,24 @@ public class PreferenceDao {
 	}
 	
 	public boolean isInDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return true;
+		try {
+			String preference_name = request.getParameter("preference_name");
+			// Statements allow to issue SQL queries to the database
+			statement = connect.createStatement();
+	
+			resultSet = statement.executeQuery("select * from ch_Preferences where preference_name = \"" + preference_name + "\""); 
+	
+			// if there result set is before the first item, there are entries
+			// if it is not, there are not
+			if (!resultSet.isBeforeFirst() ) {    
+				return false;
+			} else {
+				request.setAttribute("errorPreference_Name", true);
+				return true;
+			}
+		} catch (Exception e) {
+			throw e;
+		} 
 	}
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -183,13 +200,17 @@ public class PreferenceDao {
 			}
 	} 
 
-	public void deletePreference(HttpServletRequest request, HttpServletResponse response, String PreferenceID) throws Exception {
-		
+	public void deletePreference(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String prefID = request.getParameter("prefID");
+				
+		  try {
+			  statement = connect.createStatement();
+			  statement.executeUpdate("delete from ch_preferences where id ="  + prefID); 
+		  } catch (SQLException e) {
+		      throw e;
+		  }	
 	}
 
-	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception { 
-		
-	}
 	
 	public void setPreference(HttpServletRequest request) throws Exception { 
 		// this function sets status for all all preferences to 0 except the selected one which becomes 1

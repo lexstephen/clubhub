@@ -1,8 +1,14 @@
 package controller;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
+import javax.mail.*;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -130,6 +136,56 @@ public class UserController extends HttpServlet {
 				}
 	    		address = "admin/BatchUsers.jsp";
     		break;
+	    	case "email":
+    	        Properties emailProperties = System.getProperties();
+    	        emailProperties.put("mail.smtp.port", "587");
+    	        emailProperties.put("mail.smtp.auth", "true");
+    	        emailProperties.put("mail.smtp.starttls.enable", "true");
+    	        emailProperties.put("mail.smtp.timeout", 1000);
+    	        Session mailSession = Session.getDefaultInstance(emailProperties, null);
+    	        
+
+	    	    try {
+	    	        /**
+	    	         * Sender's credentials
+	    	         * */
+	    	        String fromUser = "clubhubbing@gmail.com";
+	    	        String fromUserEmailPassword = "lexbatuljordan911";
+
+	    	        String emailHost = "smtp.gmail.com";
+	    	        Transport transport = mailSession.getTransport("smtp");
+	    	        transport.connect(emailHost, fromUser, fromUserEmailPassword);
+	    	        /**
+	    	         * Draft the message
+	    	         * */
+	    	        String[] toEmails = { "imaginaryfilm@gmail.com" };
+	    	        String emailSubject = "Test email subject";
+	    	        String emailBody = "This is an email sent by http://www.computerbuzz.in.";
+	    	        MimeMessage emailMessage = new MimeMessage(mailSession);
+	    	        /**
+	    	         * Set the mail recipients
+	    	         * */
+	    	        for (int i = 0; i < toEmails.length; i++)
+	    	        {
+	    	            emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmails[i]));
+	    	        }
+	    	        emailMessage.setSubject(emailSubject);
+	    	        /**
+	    	         * If sending HTML mail
+	    	         * */
+	    	        emailMessage.setContent(emailBody, "text/html");
+	    	        /**
+	    	         * Send the mail
+	    	         * */
+	    	        transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
+	    	        transport.close();
+	    	        System.out.println("Email sent successfully.");
+	    	        
+	    	    } catch (MessagingException mex) {
+	    	        System.out.println("send failed, exception: " + mex);
+	    	    }
+				address = "/admin/index.jsp";
+	    	    break;
 			default:
 				// something went wrong, display main page
 				address = "/Main.jsp";

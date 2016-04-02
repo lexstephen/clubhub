@@ -133,8 +133,15 @@ public class ColourSchemeDao {
 			}
 	} 
 
-	public void deleteColourScheme(HttpServletRequest request, HttpServletResponse response, String ColourSchemeID) throws Exception {
+	public void deleteColourScheme(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String csID = request.getParameter("csID");
 		
+		  try {
+			  statement = connect.createStatement();
+			  statement.executeUpdate("delete from ch_colour_scheme where id ="  + csID); 
+		  } catch (SQLException e) {
+		      throw e;
+		  }	
 	}
 
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception { 

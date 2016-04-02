@@ -1,12 +1,8 @@
-
-//$(document).ready(function(){
-// getting javaescript conflicts if the document.ready function is called
     $("#loadPref").click(function () {
     	$("select[name='prefid']").val($("#activePrefId").text()).change();
     });
 
     $("select[name='csid']").change(function(){
-    	console.log("CSID changed");
         $(this).find("option:selected").each(function(){
     		for	(index = 0; index < Schemes.length; index++) {
                 if($(this).attr("value")==Schemes[index].csid){
@@ -15,6 +11,7 @@
     				  document.getElementById('schemeMed_colour').value = Schemes[index].med_colour;
     				  document.getElementById('schemeLight_colour').value = Schemes[index].light_colour;
     				  document.getElementById('schemeText_colour').value = Schemes[index].text_colour;
+      				  $('#inpt_delete').val(Schemes[index].csid);
     				  $('#preview_Dark_colour').css({'background-color':Schemes[index].dark_colour});
     				  $('#preview_Med_colour').css({'background-color':Schemes[index].med_colour});
     				  $('#preview_Light_colour').css({'background-color':Schemes[index].light_colour});
@@ -43,6 +40,7 @@
     			var colour_id;
                 if($(this).attr("value")==Prefs[index].prefid){
 	  				var currentImage = (Prefs[index].id);
+    				$('#inpt_delete').val(Prefs[index].prefid);
     				$('#inpt_preference_name').val(Prefs[index].preference_name);
       				$('#inpt_club_name_long').val(Prefs[index].club_name_long);
       				$('#inpt_club_name_short').val(Prefs[index].club_name_short);
@@ -76,11 +74,15 @@
 	      				image_small_logo.src="/clubhub/ImageDao?t=image_small_logo&p=" + Prefs[index].prefid;
 	      				$('#display_image_small_logo').html(image_small_logo);
 					}
-					colour_id = (Prefs[index].colour_schemeid - 1);
-					$('#preview_Dark_colour').css({'background-color':Schemes[(Prefs[index].colour_schemeid-1)].dark_colour});
-	   				$('#preview_Med_colour').css({'background-color':Schemes[colour_id].med_colour});
-	   				$('#preview_Light_colour').css({'background-color':Schemes[colour_id].light_colour});
-	   				$('#preview_Text_colour').css({'background-color':Schemes[colour_id].text_colour}); 
+
+	   	    		for	(idx = 0; idx < Schemes.length; idx++) {
+	   	                if(Prefs[index].colour_schemeid ==Schemes[idx].csid){
+	   	    				  $('#preview_Dark_colour').css({'background-color':Schemes[idx].dark_colour});
+	   	    				  $('#preview_Med_colour').css({'background-color':Schemes[idx].med_colour});
+	   	    				  $('#preview_Light_colour').css({'background-color':Schemes[idx].light_colour});
+	   	    				  $('#preview_Text_colour').css({'background-color':Schemes[idx].text_colour}); 
+	   	    	            }
+	   	                }
     	        }
     		}
         });
@@ -88,10 +90,6 @@
 
 	$(".hex_code").on('input', function () {
 		var self = $(this);
-		// var unitVal = self.next().val();
-		//var unitVal = self.parent().next().val();
 		var hex_colour = self.val();
-		console.log("I am here " + hex_colour);
 		self.closest(".preview_colour").css({'background-color':hex_colour});
 	});
-//});

@@ -85,18 +85,10 @@
 		SchemeObj.text_colour = "${colour_scheme.text_colour}"; 
 		Schemes.push(SchemeObj);
 	</c:forEach> 
-		SchemeObj = new Object();
-		SchemeObj.csid = "000"; 
-		SchemeObj.name = "--Add New--";
-		SchemeObj.dark_colour = "";
-		SchemeObj.med_colour = "";
-		SchemeObj.light_colour = "";
-		SchemeObj.text_colour = ""; 
-		Schemes.push(SchemeObj);
 </script>
 	<div class="row">
 		<div class="col-sm-12">
-			<p>Use this section to customize your ClubHub installation to suit your club.</p>
+			<p>Use this section to customize your ClubHub installation's public frontend to suit your club.</p>
 			<p>Edit a pre-existing Preference by selecting it from the drop down list, or select 'Add New' to enter a new one.</p>
 		
 			<div class="row">
@@ -300,56 +292,73 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<h3>Colour Scheme</h3>
-			<p>Choose from a predefined scheme, or enter your own.</p>
+			<p>Choose from a predefined scheme. Colour Schemes can be <a href="${pageContext.request.contextPath}/admin/ColourSchemes.jsp">edited here</a>.</p>
 			
 			<div class="row">
-				<label class="col-sm-4 control-label">
+				<label class="col-sm-3 control-label">
 					Colour Scheme
 				</label>
-				<div class="col-sm-8">
+				<div class="col-sm-9">
 						<div class="form-group">
-						<select name="colour_schemeid" class="form-control" id="inptSchemeID">
-							<c:forEach items="${colour_schemes}" var="colour_scheme">
-						 		<option value="${colour_scheme.id}" ${csid == colour_scheme.id ? 'selected' : ''}>${colour_scheme.name}</option>
-							</c:forEach>
-						</select>
+							<select name="colour_schemeid" class="form-control" id="inptSchemeID">
+								<c:forEach items="${colour_schemes}" var="colour_scheme">
+							 		<option value="${colour_scheme.id}" ${csid == colour_scheme.id ? 'selected' : ''}>${colour_scheme.name}</option>
+								</c:forEach>
+							</select>
 					  	</div>
 					  	<div class="row">
-					  		<div class="col-xs-3" id="preview_Dark_colour">&nbsp;</div>
-					  		<div class="col-xs-3" id="preview_Med_colour">&nbsp;</div>
-					  		<div class="col-xs-3" id="preview_Light_colour">&nbsp;</div>
-					  		<div class="col-xs-3" id="preview_Text_colour">&nbsp;</div>
+					  		<div class="col-xs-3" id="preview_Dark_colour"><br><br></div>
+					  		<div class="col-xs-3" id="preview_Med_colour"><br><br></div>
+					  		<div class="col-xs-3" id="preview_Light_colour"><br><br></div>
+					  		<div class="col-xs-3" id="preview_Text_colour"><br><br></div>
 					  	</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<div class="row">
+	<div class="row form-group">
 	<h3>Images</h3>
-		<label class="col-sm-4 control-label">
+		<label class="col-sm-3 control-label">
 			Website Logo
 		</label>
-		<div class="col-sm-6">
+		<div class="col-sm-8">
 			<input class="form-control file" type="file" name="image_logo" id="image_logo">
 		</div>	
-		<div class="col-sm-2 prev_image" id="display_image_logo">&nbsp;</div>	
+		<div class="col-sm-1 prev_image" id="display_image_logo">&nbsp;</div>	
 	</div>
 	
-	<div class="row">
-		<label class="col-sm-4 control-label">
+	<div class="row form-group">
+		<label class="col-sm-3 control-label">
 			Small Website Logo
 		</label>
-		<div class="col-sm-6">
+		<div class="col-sm-8">
 			<input class="form-control file" type="file" name="image_small_logo" id="image_small_logo">
 		</div>	
-		<div class="col-sm-2 prev_image" id="display_image_small_logo">&nbsp;</div>	
+		<div class="col-sm-1 prev_image" id="display_image_small_logo">&nbsp;</div>	
 	</div>
 	
+	<br>
 	
-			<!--  	<input type="hidden" name="option" value="add"> -->
+	<div class="row">
+		<div class="col-md-1 col-md-offset-3 col-xs-12 form-group">
+			<input type="hidden" name="option" value="add">
 					<button class="btn btn-info" type="submit">Submit</button>
+			</form>		
+		</div>
+		<div class="col-md-8 col-xs-12 form-group">
+			<form action="${pageContext.request.contextPath}/PreferenceController" method="post">
+				<input id="inpt_delete" type="hidden" name="prefID" value="${preference.id}">
+				<input type="hidden" name="option" value="delete">
+				<input class="btn btn-danger" type="submit" value="Delete">
+				<label>Warning! Deletion cannot be undone.</label>
+			</form>
+		</div>
+	</div>		
+	
+	<br>
+			<!--  	<input type="hidden" name="option" value="add"> -->
 </div>
-</form>		
+
 			 
 <%@ include file="/WEB-INF/footer_backend.jsp" %>

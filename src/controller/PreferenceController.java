@@ -44,7 +44,7 @@ public class PreferenceController extends HttpServlet {
 			switch(option) {
 			case "add":
 				// they want to register.  is the form filled out correctly?
-				if (ValidationUtilities.isValidPreference(request)) {
+				if (ValidationUtilities.isValidPreference(request) && !dao.isInDatabase(request, response)) {
 					// yes it is! but are they already in the database? 
 						// preference was entered successfully and is new!
 						// Add preference to database then redirect to login form
@@ -73,23 +73,15 @@ public class PreferenceController extends HttpServlet {
 					dao.setPreference(request);
 					address = "/admin/SetPreferences.jsp";
 				break;
-				
-/*	    	case "delete":
+		  	case "delete":
 	    		try {
-					dao.deletepreference(request, response);
+					dao.deletePreference(request, response);
+					request.setAttribute("errorString", "Preference successfully deleted.");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-	    		address = "admin/Batchpreferences.jsp";
-    		break;
-	    	case "batchDelete":
-	    		try {
-					dao.batchDelete(request, response);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-	    		address = "admin/BatchPreferences.jsp";
-    		break; */
+				address = "/admin/SetPreferences.jsp";
+    		break;		
 			default:
 				// something went wrong, display main page
 				address = "/index.jsp";
