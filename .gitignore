@@ -10,9 +10,8 @@
 hs_err_pid*
 
 desktop.ini
-*/DatabaseAccess.java
-*/UserController.java
-
+src/utilities/DatabaseAccess.java
+src/utilities/SendEmail.java
 
 
 

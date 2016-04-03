@@ -96,7 +96,7 @@ public class GameController extends HttpServlet {
 		    	break;
 		    	case "players":
 		    		HttpSession session = request.getSession();
-		    		String [] ID =request.getParameterValues("slots");
+		    		String [] ID = request.getParameterValues("slots");
 		    		
 		    		StringBuilder builder = new StringBuilder();
 		    		if (ID.length >= 1) {

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import utilities.ValidationUtilities;
+import utilities.SendEmail;
 import utilities.UserDao;
 
 @WebServlet("/UserController")
@@ -92,13 +93,17 @@ public class UserController extends HttpServlet {
 						// yes they are, let's log them in
 						session.setAttribute("isLoggedIn", true);
 						request.setAttribute("errorString", null);
+						//session.setAttribute("loggedInUserID", resultSet.getString("id")); 
 						if (setCookie) {
 							Cookie adminCookie = new Cookie("isAdmin", "false");
 							Cookie loggedInCookie = new Cookie("isLoggedIn", "true");
+							Cookie loggedInUserIDCookie = new Cookie("loggedInUserID", (String)session.getAttribute("loggedInUserID"));
 							adminCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
 							response.addCookie(adminCookie);
 							loggedInCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
 							response.addCookie(loggedInCookie);
+							loggedInUserIDCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
+							response.addCookie(loggedInUserIDCookie);
 						}
 						address = "/admin/index.jsp";
 					} else {
@@ -137,54 +142,18 @@ public class UserController extends HttpServlet {
 	    		address = "admin/BatchUsers.jsp";
     		break;
 	    	case "email":
-    	        Properties emailProperties = System.getProperties();
-    	        emailProperties.put("mail.smtp.port", "587");
-    	        emailProperties.put("mail.smtp.auth", "true");
-    	        emailProperties.put("mail.smtp.starttls.enable", "true");
-    	        emailProperties.put("mail.smtp.timeout", 1000);
-    	        Session mailSession = Session.getDefaultInstance(emailProperties, null);
-    	        
 
-	    	    try {
-	    	        /**
-	    	         * Sender's credentials
-	    	         * */
-	    	        String fromUser = "clubhubbing@gmail.com";
-	    	        String fromUserEmailPassword = "lexbatuljordan911";
-
-	    	        String emailHost = "smtp.gmail.com";
-	    	        Transport transport = mailSession.getTransport("smtp");
-	    	        transport.connect(emailHost, fromUser, fromUserEmailPassword);
-	    	        /**
-	    	         * Draft the message
-	    	         * */
-	    	        String[] toEmails = { "imaginaryfilm@gmail.com" };
-	    	        String emailSubject = "Test email subject";
-	    	        String emailBody = "This is an email sent by http://www.computerbuzz.in.";
-	    	        MimeMessage emailMessage = new MimeMessage(mailSession);
-	    	        /**
-	    	         * Set the mail recipients
-	    	         * */
-	    	        for (int i = 0; i < toEmails.length; i++)
-	    	        {
-	    	            emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmails[i]));
-	    	        }
-	    	        emailMessage.setSubject(emailSubject);
-	    	        /**
-	    	         * If sending HTML mail
-	    	         * */
-	    	        emailMessage.setContent(emailBody, "text/html");
-	    	        /**
-	    	         * Send the mail
-	    	         * */
-	    	        transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
-	    	        transport.close();
-	    	        System.out.println("Email sent successfully.");
-	    	        
-	    	    } catch (MessagingException mex) {
-	    	        System.out.println("send failed, exception: " + mex);
-	    	    }
-				address = "/admin/index.jsp";
+    	    try {
+    	    		SendEmail email = new SendEmail();
+    	    		//String[] userEmails = {"imaginaryfilm@gmail.com"};
+	    	    	//email.sendEmail(userEmails, "Hey slut", "This actually worked");
+	    	    	String gameID = "42";
+    	    		String[] theseUsers = {"1", "4"};
+	    	    	email.sendConflictEmail(request, response, gameID, theseUsers);
+		    } catch (MessagingException mex) {
+		        System.out.println("send failed, exception: " + mex);
+		    }
+			address = "/admin/index.jsp";
 	    	    break;
 			default:
 				// something went wrong, display main page

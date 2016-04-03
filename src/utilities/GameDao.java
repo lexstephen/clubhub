@@ -266,6 +266,7 @@ public class GameDao {
 	
 	public void findGames(HttpServletRequest request, String gameID) throws Exception {
 		  Game game = new Game();
+		  SeasonDao seasondao = new SeasonDao();
 		  	try{
 			    statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT * FROM ch_game WHERE id= " + gameID );
@@ -276,8 +277,7 @@ public class GameDao {
 			    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
 			    	  game.setSeasonId(resultSet.getString("seasonId"));
 			    	  game.setId(resultSet.getString("id"));
-			    	  
-			    	  
+			    	  seasondao.findSeason(request, resultSet.getString("seasonId"));
 			    	  
 			}} catch (SQLException e) {
 			      throw e;
@@ -300,7 +300,7 @@ public class GameDao {
 						}else {
 							
 							if(availablePlayers != null){
-								String theIDs = availablePlayers +", "+ userID;
+								String theIDs = availablePlayers +", " + userID;
 								System.out.println(userID);
 								PreparedStatement preparedStatement = connect.prepareStatement("UPDATE ch_slot SET availablePlayers = ? WHERE id= " + slotID);
 								preparedStatement.setString(1, theIDs);

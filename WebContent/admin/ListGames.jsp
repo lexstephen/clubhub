@@ -28,8 +28,7 @@ slot.listSeasonWithGames(request, seasonID);
 	<c:forEach items="${slots}" var="slot">
 	<form action="/clubhub/GameController" method="post" class="form" role="form">
 
-
-						${slot.scheduledDate} ${slot.players} The Game Id : ${slot.gameID}
+					${slot.scheduledDate} ${slot.players} The Game Id : ${slot.gameID}
 					<ol>
 						<c:choose>
 							<c:when test="${slot.status == 1}">

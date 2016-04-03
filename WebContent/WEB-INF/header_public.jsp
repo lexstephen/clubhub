@@ -21,6 +21,9 @@
          }         
          if ((cookies[i].getName().equals("isLoggedIn")) && (cookies[i].getValue().equals("true"))) {
         	 session.setAttribute("isLoggedIn", true);
+         } 
+         if ((cookies[i].getName().equals("loggedInUserIDCookie"))) {
+        	 session.setAttribute("loggedInUserID", cookies[i].getValue());
          }
       }   
   }
