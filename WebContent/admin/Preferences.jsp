@@ -42,6 +42,8 @@
 	PrefObj.province = "${province}";
 	PrefObj.country = "<c:choose><c:when test="${empty country}">Canada</c:when><c:otherwise>${country}</c:otherwise></c:choose>"	;
 	PrefObj.postalcode = "${postalcode}";
+	PrefObj.contactName = "${contactName}";
+	PrefObj.emailAddress = "${emailAddress}";
 	PrefObj.tax_rate = "${tax_rate}"; 
 	PrefObj.image_logo_exists = "false";
 	PrefObj.image_small_logo_exists = "false"; 
@@ -64,6 +66,8 @@
 		PrefObj.province = "${preference.province}";
 		PrefObj.country = "${preference.country}";
 		PrefObj.postalcode = "${preference.postalcode}";
+		PrefObj.contactName = "${preference.contactName}";
+		PrefObj.emailAddress = "${preference.emailAddress}";
 		PrefObj.tax_rate = "${preference.tax_rate}"; 
 		PrefObj.status = "${preference.status}";  
 		PrefObj.image_logo_exists = "${preference.image_logo}";  
@@ -131,7 +135,7 @@
 		</div>	
 	</div>
 	
-	<div class="row <c:if test="${!empty errorClub_Name_Long}">has-error</c:if>">
+	<div class="row form-group <c:if test="${!empty errorClub_Name_Long}">has-error</c:if>">
 		<h3>Club Settings</h3>
 		<label class="col-sm-3 control-label">
 			Club Name (Long)
@@ -141,7 +145,7 @@
 		</div>	
 	</div>
 	
-	<div class="row <c:if test="${!empty errorClub_Name_Short}">has-error</c:if>">
+	<div class="row form-group <c:if test="${!empty errorClub_Name_Short}">has-error</c:if>">
 		<label class="col-sm-3 control-label">
 			Club Name (Short)
 		</label>
@@ -151,24 +155,28 @@
 	</div>
 	
 	
-	<div class="row <c:if test="${!empty errorTelephone}">has-error</c:if>">
-		<label class="col-sm-3 control-label">
-			Telephone
-		</label>
-		<div class="col-sm-9">
+	<div class="row">
+		 <div class="form-group col-xs-6 <c:if test="${!empty errorTelephone}">has-error</c:if>">
+			<label for="inptTelephone">Telephone</label>
 			<input class="form-control" type="text" name="telephone" id="inptTelephone" value="${telephone }">
-		</div>	
+		</div>
+		 <div class="form-group col-xs-6 <c:if test="${!empty errorEmailAddress}">has-error</c:if>">
+			<label for="inptEmailAddress">Email Address</label>
+			<input class="form-control" type="text" name="emailAddress" id="inptEmailAddress" value="${emailAddress }">
+		</div>
 	</div>
 	
-	<div class="row <c:if test="${!empty errorAddress}">has-error</c:if>">
-		<label class="col-sm-3 control-label">
-			Address
-		</label>
-		<div class="col-sm-9">
+	
+	<div class="row">
+		 <div class="form-group col-xs-6 <c:if test="${!empty errorContactName}">has-error</c:if>">
+			<label for="inptContactName">Contact Name</label>
+			<input class="form-control" type="text" name="contactName" id="inptContactName" value="${contactName }">
+		</div>
+		 <div class="form-group col-xs-6 <c:if test="${!empty errorAddress}">has-error</c:if>">
+			<label for="inptAddress">Address</label>
 			<input class="form-control" type="text" name="address" id="inptAddress" value="${address }">
-		</div>	
+		</div>
 	</div>
-	
 	
 		<div class="row">
 			<div class="col-xs-6">
@@ -342,7 +350,6 @@
 	
 	<div class="row">
 		<div class="col-md-1 col-md-offset-3 col-xs-12 form-group">
-			<input type="hidden" name="option" value="add">
 					<button class="btn btn-info" type="submit">Submit</button>
 			</form>		
 		</div>

@@ -49,6 +49,8 @@
       				$('#inptCity').val(Prefs[index].city);
       				$('#inptPostalCode').val(Prefs[index].postalcode);
       				$('#inptCountry').val(Prefs[index].country);
+      				$('#inptEmailAddress').val(Prefs[index].emailAddress);
+      				$('#inptContactName').val(Prefs[index].contactName);
       				if(Prefs[index].country == 'United States of America') {
       					$('#inptState').show();
       					$('#inptProvince').hide();

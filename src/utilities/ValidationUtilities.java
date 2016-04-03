@@ -49,7 +49,8 @@ public class ValidationUtilities {
 		boolean isValid = true;
 		String province = null;
 		int postalCodeLength = 0;
-		switch(request.getParameter("country")) {
+		String country = request.getParameter("country");
+		switch(country == null?"Canada":country) {
 		case "Canada":
 			postalCodeLength = 6;
 			province = request.getParameter("province");
@@ -70,6 +71,8 @@ public class ValidationUtilities {
 		request.setAttribute("province", province);
 		request.setAttribute("country", request.getParameter("country"));
 		request.setAttribute("postalCode", request.getParameter("postalCode"));
+		request.setAttribute("contactName", request.getParameter("contactName"));
+		request.setAttribute("emailAddress", request.getParameter("emailAddress"));
 		request.setAttribute("tax_rate", request.getParameter("tax_rate"));
 		request.setAttribute("csid", request.getParameter("csid"));
 
@@ -84,9 +87,73 @@ public class ValidationUtilities {
 			request.setAttribute("errorClub_Name_Long", true);
 		}
 
+
+
 		if (isMissing(request.getParameter("club_name_short"))) {
 			isValid = false;
 			request.setAttribute("errorClub_Name_Short", true);
+		}
+
+
+		if (isMissing(request.getParameter("contactName"))) {
+			isValid = false;
+			request.setAttribute("errorContactName", true);
+		}
+
+/*		request.setAttribute("telephone", request.getParameter("telephone"));
+		request.setAttribute("Colour_Schemeid", request.getParameter("colour_schemeid"));
+		request.setAttribute("address", request.getParameter("address"));
+		request.setAttribute("city", request.getParameter("city"));
+		request.setAttribute("province", province);
+		request.setAttribute("country", request.getParameter("country"));
+		request.setAttribute("postalCode", request.getParameter("postalCode"));
+		request.setAttribute("contactName", request.getParameter("contactName"));
+		request.setAttribute("emailAddress", request.getParameter("emailAddress"));
+		request.setAttribute("tax_rate", request.getParameter("tax_rate"));
+		request.setAttribute("csid", request.getParameter("csid")); */
+		
+		if (isMissing(request.getParameter("telephone"))) {
+			isValid = false;
+			request.setAttribute("errorTelephone", true);
+		}
+		if (!isRightLength(request.getParameter("telephone"),10)) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorTelephone", true);}
+		
+		if (isMissing(request.getParameter("address"))) {
+			isValid = false;
+			request.setAttribute("errorAddress", true);
+		}
+		if (isMissing(request.getParameter("city"))) {
+			isValid = false;
+			request.setAttribute("errorCity", true);
+		}
+		if (isMissing(request.getParameter("province"))) {
+			isValid = false;
+			request.setAttribute("errorProvince", true);
+		}
+		if (isMissing(request.getParameter("country"))) {
+			isValid = false;
+			request.setAttribute("errorCcountry", true);
+		}
+		if (isMissing(request.getParameter("postalCode"))) {
+			isValid = false;
+			request.setAttribute("errorPostalCode", true);
+		}
+		if (isMissing(request.getParameter("contactName"))) {
+			isValid = false;
+			request.setAttribute("errorContactName", true);
+		}
+		if (isMissing(request.getParameter("emailAddress"))) {
+			isValid = false;
+			request.setAttribute("errorEmailAddress", true);
+		}
+
+		if (!isEmail(request.getParameter("emailAddress"))) {
+			isValid = false;
+			request.setAttribute("errorString", "Please check your input");
+			request.setAttribute("errorEmailAddress", true);
 		}
 
 		if (isMissing(request.getParameter("tax_rate")) || !isDouble(request.getParameter("tax_rate"))) {

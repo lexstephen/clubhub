@@ -145,11 +145,10 @@ public class UserController extends HttpServlet {
 
     	    try {
     	    		SendEmail email = new SendEmail();
-    	    		//String[] userEmails = {"imaginaryfilm@gmail.com"};
-	    	    	//email.sendEmail(userEmails, "Hey slut", "This actually worked");
 	    	    	String gameID = "42";
     	    		String[] theseUsers = {"1", "4"};
 	    	    	email.sendConflictEmail(request, response, gameID, theseUsers);
+	    	    	
 		    } catch (MessagingException mex) {
 		        System.out.println("send failed, exception: " + mex);
 		    }

@@ -34,6 +34,7 @@ public class PreferenceController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String prefID = (request.getParameter("prefid")!=null)?request.getParameter("prefid"):"000";
 		String option = request.getParameter("option");
+		System.out.println("Option is " + option);
 		if (option == null) {
 			option = (prefID.equals("000"))?"add":"edit";
 		}
