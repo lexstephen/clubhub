@@ -57,33 +57,46 @@ public class GameController extends HttpServlet {
 		    			
 		    	case "close":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
+		    		
+		    			String slotID = request.getParameter("slotID");
+		    			System.out.println("The Slot ID is: "+ slotID);
+	    				dao.closeSlot(request, slotID);
+	    				Object a = request.getAttribute("seasonID");
+	    				String theSeasonID = a.toString();
+		    			errorChecker = "Game Closed";
 		    			
-	    				dao.closeSlot(request, "1, 2, 3, 4, 6, 7, 8");
-		    			
-		    			errorChecker = "Games Created";
-		    			
-		    			address = "admin/PopulateGames.jsp";
+		    			address = "ListGames.jsp?seasonID= "+theSeasonID;
 		    			
 		    	break;
 		    	
-		    	/*case "switchPlayers":
+		    	case "switchPlayers":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
-	    			String seasonID = request.getParameter("seasonID");
-		    		
-		    		System.out.println("The Id is: "+ seasonID);
-		    		dao.addToDatabase(request, response, seasonID);
+	    			String gameID = request.getParameter("gameID");
+		    		System.out.println("The GameID is: "+gameID);
+	    			
+		    		dao.playersToSwitch(request, gameID);
+		    		address = "admin/EditGame.jsp";
 		    			
+		    	break;
+
+		    	case "switchThem":
+		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
-		    			errorChecker = "Games Created";
+	    			String currentPlayer = request.getParameter("currentPlayer");
+	    			String newPlayer = request.getParameter("newPlayer");
+	    			String theGameID = request.getParameter("gameID");
+	    			
+		    		System.out.println("The Current Player is: "+currentPlayer);
+		    		System.out.println("The New Player is: "+newPlayer);
+		    		System.out.println("The gameID is: "+ theGameID);
+		    		dao.switchThem(request, currentPlayer, newPlayer, theGameID);
+		    		address = "admin/ListGames.jsp";
 		    			
-		    			address = "admin/PopulateGames.jsp";
-		    			
-		    	break;*/
-		    	
+		    	break;
 		    	case "players":
 		    		HttpSession session = request.getSession();
-		    		String [] ID =request.getParameterValues("slots");
+		    		String [] ID = request.getParameterValues("slots");
 		    		
 		    		StringBuilder builder = new StringBuilder();
 		    		if (ID.length >= 1) {

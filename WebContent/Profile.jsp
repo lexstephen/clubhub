@@ -65,6 +65,12 @@
 			 	<span class="expand">
 					<a href="${pageContext.request.contextPath}/admin/EditProfile.jsp?userID=${user.userid}" class="btn btn-info btn-primary">Edit</a>
 				</span>
+				
+				<form action="${pageContext.request.contextPath}/UserController" method="post">
+					<input type="hidden" name="userID" value="${user.userid}">
+					<input type="hidden" name="option" value="email">
+					<input class="btn btn-warning" type="submit" value="Email User">
+				</form>
 			</c:if>
 		</div>
 	</div>

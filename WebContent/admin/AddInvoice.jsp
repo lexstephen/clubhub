@@ -28,9 +28,7 @@
 				<c:if test="${!empty errorLineItems}"><li>${ errorLineItems }</li></c:if>
 		</div>
 	</c:if>
-<ul>
 
-</ul>
 	<form action="${pageContext.request.contextPath}/InvoiceController" method="post" class="form" role="form">
 		<div class="row">
 			<div class="col-xs-3 control-label">

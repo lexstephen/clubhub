@@ -30,6 +30,13 @@
 				<c:if test="${!empty errorString4}"><li>${ errorString4 }</li></c:if>
 		</div>
 	</c:if>
+	<c:if test="${!empty successString}">
+		<div class="alert alert-success" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Success:</span>
+		  ${successString }
+		</div>
+	</c:if>
 
 	<form action="${pageContext.request.contextPath}/UserController" method="post" class="form" role="form" enctype="multipart/form-data">
 		<div class="row">
@@ -81,7 +88,7 @@
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorPassword1}">has-error</c:if>">
 			    	<label for="inptPassword">Password</label>
-			    	<input type="password" name="password1" class="form-control" id="inptPassword">
+			    	<input type="password" name="password" class="form-control" id="inptPassword">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
@@ -97,7 +104,7 @@
 			    <label for="inptGender <c:if test="${!empty errorGender}">has-error</c:if>">Gender</label>
 				<div class="radio">
 			    	<label class="checkbox-inline">
-			      		<input type="radio" name="gender" id="inptGenderF" value="F" checked  ${gender == 'F' ? 'checked' : ''}> Female
+			      		<input type="radio" name="gender" id="inptGenderF" value="F" checked ${gender == 'F' ? 'checked' : ''}> Female
 			      	</label>
 			    	<label class="checkbox-inline">
 			      		<input type="radio" name="gender" id="inptGenderM" value="M"  ${gender == 'M' ? 'checked' : ''}> Male
@@ -138,7 +145,7 @@
 			  	</div>
 			</div>
 		</div>
-		
+		 
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorProvince}">has-error</c:if>">

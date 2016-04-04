@@ -136,7 +136,7 @@ public class SeasonDao {
 			    	  
 			    	  int num = resultSet.getInt("dayOfWeek");
 			    	  int givenTime = resultSet.getInt("startTime");
-			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
+			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
 			    	  String time = utilities.ValidationUtilities.toTime(request,givenTime);
 			    	  
 			    	  season.setYear(resultSet.getString("year"));
@@ -182,13 +182,11 @@ public class SeasonDao {
 		  	request.setAttribute("seasons", seasons);
 	} 
 	
-	
-	public void listSeasonWithGames(HttpServletRequest request) throws Exception {
+	public void listSeasonWithGames(HttpServletRequest request, String seasonID) throws Exception {
 		  List<Slot> slots = new ArrayList<Slot>();
 		  Boolean display = true;
-		  String seasonID = (String) request.getAttribute("seasonID");
 		  
-		  	try{  		
+		  	try{  		 
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT * from ch_season where id=" + seasonID);
 			      
@@ -197,7 +195,7 @@ public class SeasonDao {
 			    	  
 			    	  int num = resultSet.getInt("dayOfWeek");
 			    	  int givenTime = resultSet.getInt("startTime");
-			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
+			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
 			    	  String time = utilities.ValidationUtilities.toTime(request,givenTime);
 			    	  
 			    	  season.setYear(resultSet.getString("year"));
@@ -208,6 +206,7 @@ public class SeasonDao {
 			    	  season.setStartTime(time);
 			    	  season.setDayOfWeek(dayOfWeek);
 			    	  season.setDuration(resultSet.getString("duration"));
+			    	  
 			    	  
 			    	  
 			    	  Statement statement1 = null;
@@ -231,8 +230,12 @@ public class SeasonDao {
 				    	  statement2 = connect.createStatement();
 						  resultSet2 = statement2.executeQuery("SELECT * from ch_slot where gameID= "+ gameID);
 						  
+						  
 						  while(resultSet2.next()){
+							  int status = resultSet2.getInt("status");
+							  
 							  Slot slot = new Slot();
+							  if(status == 1){
 							  String playerIDs = resultSet2.getString("availablePlayers");
 							  String playerNames = utilities.ValidationUtilities.getPlayerNames(request, playerIDs);
 							  System.out.println("Player Names: " +playerNames);
@@ -240,7 +243,34 @@ public class SeasonDao {
 							  slot.setPlayers(playerNames);
 							  slot.setScheduledDate(resultSet2.getString("scheduledDate"));
 							  slot.setStatus(resultSet2.getInt("status"));
-							   
+							  slot.setGameID(resultSet2.getString("gameID"));
+							  slot.setId(resultSet2.getString("id"));
+							  
+							  
+							  }else if (status == 0){
+								  Statement statement3 = null;
+						    	  ResultSet resultSet3 = null;
+						    		
+						    	  slot.setScheduledDate(resultSet2.getString("scheduledDate"));
+						    	  slot.setGameID(resultSet2.getString("gameID"));
+						    	  statement3 = connect.createStatement();
+								  resultSet3 = statement3.executeQuery("SELECT * from ch_user_game where Gameid= "+ gameID);
+								  String playerIDs = null;
+								  while(resultSet3.next()){
+									  if (playerIDs != null){
+										  playerIDs += ", " + resultSet3.getString("Userid");
+										  System.out.println(resultSet3.getString("Userid"));
+									  }else {
+										  playerIDs = resultSet3.getString("Userid");
+									  }
+								  }
+								  System.out.println(playerIDs);
+								  String playerNames = utilities.ValidationUtilities.getPlayerNames(request, playerIDs);
+								  System.out.println("Player Names: " +playerNames);
+								  slot.setPlayers(playerNames);
+								  
+							  }
+							  
 							  slots.add(slot);
 						  }
 						  }

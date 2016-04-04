@@ -18,10 +18,7 @@
 %>
 
 	
-	<div class="col-sm-12">
-		<h3>Club Schedule:</h3>
-	</div>
-
+  	<h3>Club Schedule</h3>
 
 	<table class="table">
 		<% 

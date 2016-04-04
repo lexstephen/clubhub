@@ -16,14 +16,19 @@
 */
 
 /* **************** dark colour ******************* */
+hr {
+  border-top: 1px ${colour_scheme.med_colour } solid;}
 .frontend h1,
 .frontend h2,
 .frontend h3,
 .frontend h4,
 .frontend h5,
 .frontend h6 {
-  text-align: center;
-  color: ${colour_scheme.dark_colour };
+  color: ${colour_scheme.med_colour };
+}
+
+.btn-primary {
+	background-color: ${colour_scheme.med_colour };
 }
 
 .frontend .base {
@@ -33,13 +38,10 @@
 .frontend h1,
 .frontend h2 {
   border-bottom: 1px ${colour_scheme.dark_colour } solid;
-  padding: 5px;
-  margin: 5px;
 }
 
 .frontend .navbar {
   background-color: ${colour_scheme.dark_colour };
-  border: 0;
 }
 
 /* **************** med & text colour ******************* */
@@ -51,8 +53,6 @@
 
 .frontend .postMeta {
   color: ${colour_scheme.med_colour };
-  font-size: 12px;
-  font-style: italic;
 }
 
 .frontend .navbar-nav > li > a:hover,
@@ -79,5 +79,8 @@ body.frontend {
 .frontend .navbar-nav > li > a:focus {
   color: ${colour_scheme.light_colour };
   background-color: ${colour_scheme.med_colour };
+}
+.glyphicon {
+  color: ${colour_scheme.dark_colour };
 }
 </style>

@@ -83,8 +83,8 @@
 </script>
 	<div class="row">
 		<div class="col-sm-12">
-			<p>Use this section to set your site's default preferences.  Preferences can be <a href="Preferences.jsp">edited here</a>.</p>
-		
+			<p>Use this section to set your site's default preferences.  Preferences can be <a href="${pageContext.request.contextPath}/admin/Preferences.jsp">edited here</a>.</p>
+			<c:if test="${prefID == null}"><b>WARNING</b>: you must select a default preference for your site to function correctly!</c:if>
 			<div class="row">
 				<div class="col-sm-7 col-sm-offset-5">
 					<div class="radio">

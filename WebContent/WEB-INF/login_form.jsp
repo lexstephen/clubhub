@@ -12,7 +12,7 @@
 		  </div>
 		  <div class="checkbox">
 		    <label>
-		      <input type="checkbox"> Remember Me?
+		      <input type="checkbox" name="setCookie" checked> Remember Me?
 		    </label>
 		  </div>
 		  <input type="hidden" name="option" value="login">

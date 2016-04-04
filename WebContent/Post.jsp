@@ -20,17 +20,26 @@ request.setAttribute("thisPage", request.getAttribute("postTitle")); %>
 	<div class="row">
 		<div class="col-xs-12">
 			<h1>${post.title}</h1>
-			<span class="postMeta">Post Type: ${post.postType} - Posted in ${post.category} by ${post.username} on ${post.postDate}. Access level: ${post.accessLevel}</span>
-			<p>"${post.content}"</p>
-				<span class="expand">
-				<c:if test="${(isAdmin == true)}">
+			<div class="text-justify">${post.content}</div>
+				<div class="expand postMeta">
+					Posted in [${post.category}] by ${post.username} | 
+						<c:choose>
+							<c:when test="${post.accessLevel == 'Private'}">
+								<span class="glyphicon glyphicon-lock" aria-hidden="true"></span> | 
+							</c:when>
+							<c:when test="${post.accessLevel == 'Members'}">
+								<span class="glyphicon glyphicon-user" aria-hidden="true"></span> | 
+							</c:when>
+						</c:choose>
+					${post.postDate}
+			<c:if test="${(isAdmin == true)}">
 					<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
-				</c:if>
-				</span>
+			</c:if>
+							</div>
 			<hr>
 		</div>
 	</div>
 	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
-
+ 
 <%@ include file="/WEB-INF/footer_public.jsp" %>

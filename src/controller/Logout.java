@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -20,13 +21,33 @@ public class Logout extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String logoutAddress = null;
 		HttpSession session = request.getSession(false);
-		if (session != null) {
+		if (request.isRequestedSessionIdValid() && session != null) {
 			session.invalidate();
 		}
-		Cookie errorString = new Cookie("errorString", userError);
-		response.addCookie(errorString);
-		response.sendRedirect("/clubhub/Main.jsp");
+		//HttpSession newsession = request.getSession();
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals("isAdmin")) {
+				//newsession.setAttribute("isAdmin", false);
+				cookie.setValue("false");
+			} else if (cookie.getName().equals("isLoggedIn")) {
+				//newsession.setAttribute("isLoggedIn", false);
+				cookie.setValue("false");
+			}
+			response.addCookie(cookie);
+			logoutAddress  = "/Main.jsp";
+		}
+		//}
+		//Cookie errorString = new Cookie("errorString", userError);
+		//response.addCookie(errorString);
+		//response.sendRedirect("/clubhub/Main.jsp");
+		
+		// we've done what we needed to do, where should we send them?
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(logoutAddress);
+		// okay then
+		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

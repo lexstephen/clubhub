@@ -9,7 +9,25 @@
 <%	PostDao postHead = new PostDao(); 
 	
 	postHead.listStatic(request); %>
-	 
+<%
+   Cookie cookie = null;
+   Cookie[] cookies = null;
+   cookies = request.getCookies();
+   if( cookies != null ){
+      for (int i = 0; i < cookies.length; i++){
+         cookie = cookies[i];
+         if ((cookies[i].getName().equals("isAdmin")) && (cookies[i].getValue().equals("true"))) {
+        	 session.setAttribute("isAdmin", true);
+         }         
+         if ((cookies[i].getName().equals("isLoggedIn")) && (cookies[i].getValue().equals("true"))) {
+        	 session.setAttribute("isLoggedIn", true);
+         } 
+         if ((cookies[i].getName().equals("loggedInUserIDCookie"))) {
+        	 session.setAttribute("loggedInUserID", cookies[i].getValue());
+         }
+      }   
+  }
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -21,11 +39,17 @@
 
 	</head>
 	<body class="frontend">	
-		<nav class="navbar navbar-static-top sidebar">
+		<nav class="navbar navbar-static-top navbar-inverse sidebar" role="navigation">
 			<div class="container">
-				<div class="row">
 					<div class="navbar-header">
 						<a href="${pageContext.request.contextPath}/Main.jsp" class="pull-left"><img src="${pageContext.request.contextPath}/ImageDao?t=image_logo" id="rcc_circle_logo"></a>
+						
+			            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+			                <span class="sr-only">Toggle navigation</span>
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			            </button>
 					</div>
 					<div class="collapse navbar-collapse navbar-right">
 						<form action="${pageContext.request.contextPath}/PostController" method="post" class="form-inline clearfix pushdown">
@@ -36,21 +60,26 @@
 						</form>
 					</div>
 					<div id="navbar" class="navbar-collapse collapse">
+					
 						<ul class="nav navbar-nav">
-							<li><a href="${pageContext.request.contextPath}/Register.jsp">Register</a></li>
 							<li><a href="${pageContext.request.contextPath}/Updates.jsp">Updates</a></li>
 							<c:forEach items="${posts}" var="post">
 								<li><a href="${pageContext.request.contextPath}/Static.jsp?postID=${post.id}">${post.title}</a></li>					
 							</c:forEach>
-							<c:if test="${isLoggedIn == true}">
-								<li><a href="${pageContext.request.contextPath}/admin/">Dashboard</a></li>
+							<c:choose>
+							<c:when test="${isLoggedIn == true}">
+								<li><a href="${pageContext.request.contextPath}/admin/">Dashboard [${loggedInUserFullName }]</a></li>
 								<li><a href="${pageContext.request.contextPath}/Logout">Log Out</a></li>
-							</c:if>
+							</c:when>
+							<c:otherwise>
+								<li><a href="${pageContext.request.contextPath}/Login.jsp">Login</a></li>
+								<li><a href="${pageContext.request.contextPath}/Register.jsp">Register</a></li>
+							</c:otherwise>
+							</c:choose>
 						</ul>
 					</div>
-				</div>
 			</div>
 		</nav>
 		<div class="container">
 			<div class="row">	
-				<div class="content col-sm-8 col-xs-12">
+				<div class="content col-md-8 col-xs-12">

@@ -32,8 +32,9 @@ public class PreferenceController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String prefID = request.getParameter("prefid");
+		String prefID = (request.getParameter("prefid")!=null)?request.getParameter("prefid"):"000";
 		String option = request.getParameter("option");
+		System.out.println("Option is " + option);
 		if (option == null) {
 			option = (prefID.equals("000"))?"add":"edit";
 		}
@@ -44,7 +45,7 @@ public class PreferenceController extends HttpServlet {
 			switch(option) {
 			case "add":
 				// they want to register.  is the form filled out correctly?
-				if (ValidationUtilities.isValidPreference(request)) {
+				if (ValidationUtilities.isValidPreference(request) && !dao.isInDatabase(request, response)) {
 					// yes it is! but are they already in the database? 
 						// preference was entered successfully and is new!
 						// Add preference to database then redirect to login form
@@ -54,8 +55,8 @@ public class PreferenceController extends HttpServlet {
 					// the form is not filled out correctly. send an error back and send them 
 					// back to the registration form
 				} else {
-					request.setAttribute("errorString", "Error: please correct highlighted fields");
-					address = "Register.jsp";
+					request.setAttribute("errorString", "Please correct highlighted fields");
+					address = "/admin/Preferences.jsp";
 				}
 				break;
 			case "edit":
@@ -65,33 +66,23 @@ public class PreferenceController extends HttpServlet {
 				address = "/admin/SetPreferences.jsp";
 			} else {
 				// unsuccessful edit
-				request.setAttribute("errorString", "Error: please correct highlighted fields");
-				address = "/admin/EditProfile.jsp";
+				request.setAttribute("errorString", "Please correct highlighted fields");
+				address = "/admin/Preferences.jsp";
 			}
 				break;
 			case "setPref":
-
 					dao.setPreference(request);
 					address = "/admin/SetPreferences.jsp";
-
 				break;
-				
-/*	    	case "delete":
+		  	case "delete":
 	    		try {
-					dao.deletepreference(request, response);
+					dao.deletePreference(request, response);
+					request.setAttribute("errorString", "Preference successfully deleted.");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-	    		address = "admin/Batchpreferences.jsp";
-    		break;
-	    	case "batchDelete":
-	    		try {
-					dao.batchDelete(request, response);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-	    		address = "admin/BatchPreferences.jsp";
-    		break; */
+				address = "/admin/SetPreferences.jsp";
+    		break;		
 			default:
 				// something went wrong, display main page
 				address = "/index.jsp";

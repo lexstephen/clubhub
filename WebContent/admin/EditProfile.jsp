@@ -27,6 +27,24 @@
 		user.findUser(request, userID);
 	%>
 	
+	<c:if test="${!empty errorString}">
+		<div class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		  ${errorString }
+				<c:if test="${!empty errorString2}"><li>${ errorString2 }</li></c:if>
+				<c:if test="${!empty errorString3}"><li>${ errorString3 }</li></c:if>
+				<c:if test="${!empty errorString4}"><li>${ errorString4 }</li></c:if>
+		</div>
+	</c:if>
+	<c:if test="${!empty successString}">
+		<div class="alert alert-success" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Success:</span>
+		  ${successString }
+		</div>
+	</c:if>
+	
 	<form action="${pageContext.request.contextPath}/UserController" method="post" class="form" role="form" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-xs-6">
@@ -71,7 +89,7 @@
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorPassword1}">has-error</c:if>">
 			    	<label for="inptPassword">Password</label>
-			    	<input type="password" name="password1" class="form-control" id="inptPassword" value="${user.password}">
+			    	<input type="password" name="password" class="form-control" id="inptPassword" value="${user.password}">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
@@ -247,10 +265,7 @@
 		</div>
 		
 	<c:if test="${isAdmin == true}">
-		<div class="row bg-info">
-			<div class="col-xs-12">
-				<h3>Administrator Options</h3>
-			</div>
+		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorUserStatus}">has-error</c:if>">
 			    	<label for="inptUserStatus">User Status</label>
@@ -261,25 +276,30 @@
 					</select>
 			  	</div>
 			</div>
-			<div class="col-xs-6">
-			    	<label>Warning! User deletion cannot be undone. </label>
-			    	<input type="submit" class="btn btn-danger" value="Non-functioning Delete Button">
-
-			</div>
 		</div>
 		</c:if>
 		
 		<div class="row">
-			<div class="col-xs-12">
+			<div class="col-md-2 col-xs-12">
+			<label>&nbsp;</label>
 				<div class="form-group">
 					<input type="hidden" name="userID" value="${user.userid}">
 					<input type="hidden" name="option" value="edit">
-			    	<input type="submit" class="btn btn-default" value="Update Profile">
+			    	<input type="submit" class="btn btn-primary" value="Update Profile">
+					</form>
 			  	</div>
 			</div>
+			<div class="col-md-10 col-xs-12">
+		    	<label>Warning! User deletion cannot be undone. </label>
+				<form action="${pageContext.request.contextPath}/UserController" method="post">
+					<input type="hidden" name="userID" value="${user.userid}">
+					<input type="hidden" name="option" value="delete">
+					<input class="btn btn-danger" type="submit" value="Delete User">
+				</form>
+			</div>
 		</div>
-	</form>
 	
+			
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 			 
 <%@ include file="/WEB-INF/footer_backend.jsp" %>

@@ -51,7 +51,7 @@ public class UserDao {
 			String option = request.getParameter("option");
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-
+			String passwordHashed = HashPassword.hashPassword(password);
 			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement();
 
@@ -60,7 +60,7 @@ public class UserDao {
 				resultSet = statement.executeQuery("select * from ch_user where username = \"" + username + "\""); 
 				break;
 			case "login":
-				resultSet = statement.executeQuery("select * from ch_user where username = \"" + username + "\" and password = \"" + password + "\""); 
+				resultSet = statement.executeQuery("select * from ch_user where username = \"" + username + "\" and password = \"" + passwordHashed + "\""); 
 				break;
 			default:
 				resultSet = null;
@@ -84,17 +84,14 @@ public class UserDao {
 		switch(option) {
 		case "login":
 			try {
-				System.out.println("in login option");
+				String password = request.getParameter("password");
+				System.out.println("Password here is " + password);
+				String passwordHashed = HashPassword.hashPassword(password);
 				HttpSession session = request.getSession();
 				statement = connect.createStatement();
-				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + request.getParameter("password") + "\"");
-				System.out.println("username = " + request.getParameter("username"));
-				System.out.println("password = " + request.getParameter("password"));
-				//System.out.println("resultSet = " + resultSet);
+				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + passwordHashed + "\"");
 				while (resultSet.next()) {
 					session.setAttribute("loggedInUserID", resultSet.getString("id")); 
-					System.out.println("result id = " + resultSet.getString("id"));
-					System.out.println("setting UserID = " + session.getAttribute("loggedInUserID"));
 				}
 			} catch (Exception e) {
 				throw e;
@@ -104,7 +101,7 @@ public class UserDao {
 			try {
 				HttpSession session = request.getSession();
 				statement = connect.createStatement();
-				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + request.getParameter("password") + "\"");
+				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\"");
 				while (resultSet.next()) {
 					session.setAttribute("userID", resultSet.getString("id")); 
 				}
@@ -125,8 +122,6 @@ public class UserDao {
 				SimpleDateFormat formatDate = new SimpleDateFormat("MMM yyyy");
 				Date date = (Date) parseDate.parse(MyDate);
 				String DisplayDate = formatDate.format(date);
-				
-				
 				request.setAttribute("dateCreated", DisplayDate);
 			}
 		} catch (Exception e) {
@@ -136,15 +131,12 @@ public class UserDao {
 
 	public void isAdmin(HttpServletRequest request) throws Exception {
 		try {
-			System.out.println("In isAdmin");
 			HttpSession session = request.getSession();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select userStatus from ch_user where id = '" + session.getAttribute("loggedInUserID") + "'");
-			System.out.println("loggedInUserID = " + session.getAttribute("loggedInUserID"));
 			while (resultSet.next()) {
 				session.setAttribute("userStatus", resultSet.getString("userStatus"));
 				session.setAttribute("isAdmin", resultSet.getString("userStatus").equals("admin")?true:false);
-				System.out.println("isAdmin = " + session.getAttribute("isAdmin"));
 			}
 		} catch (Exception e) {
 			throw e;
@@ -181,6 +173,8 @@ public class UserDao {
 	}
 
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String password = request.getParameter("password");
+		String passwordHashed = HashPassword.hashPassword(password);
 		try {
 			// determine whether we should be looking for the province or state variable, based on their country
 			String province = null;
@@ -204,11 +198,10 @@ public class UserDao {
 	            inputStream = filePart.getInputStream();
 	        }
 	         
-
 			statement = connect.createStatement();
 			preparedStatement = connect.prepareStatement("insert into ch_user values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setString(1, request.getParameter("username")); 					// username
-			preparedStatement.setString(2, request.getParameter("password1")); 					// password
+			preparedStatement.setString(2, passwordHashed); 									// password
 			preparedStatement.setString(3, request.getParameter("emailAddress"));				// emailAddress
 			preparedStatement.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())); // dateCreated
 			preparedStatement.setString(5, "unverified");										// userStatus
@@ -365,25 +358,10 @@ public class UserDao {
 
 	public void editUser(HttpServletRequest request, HttpServletResponse response, String _userID) throws Exception {
 		try {			
-
-			/* ********** take care of image uploading *****************/
-
-	        InputStream inputStream = null; // input stream of the upload file
-	         
-	        // obtains the upload file part in this multipart request
-	        Part filePart = request.getPart("profilePhoto");
-	        if (filePart != null) {
-	            // prints out some information for debugging
-	            System.out.println(filePart.getName());
-	            System.out.println(filePart.getSize());
-	            System.out.println(filePart.getContentType());
-	             
-	            // obtains input stream of the upload file
-	            inputStream = filePart.getInputStream();
-	        }
-	         
-	       
 			String userStatus = request.getParameter("userStatus");
+			String password = request.getParameter("password");
+			System.out.println("This userDao password is " + password);
+			String passwordHashed = HashPassword.hashPassword(password);
 
 			String province = null;
 			switch(request.getParameter("country")) {
@@ -394,32 +372,47 @@ public class UserDao {
 				province = request.getParameter("state");
 				break;
 			}
+
+			String qry = "";
 			
 			statement = connect.createStatement();
+			/* ********** take care of image uploading *****************/
+
+	        InputStream inputStream = null; // input stream of the upload file
+	         
+	        // obtains the upload file part in this multipart request
+	        Part filePart = request.getPart("profilePhoto");
+	        if (filePart != null) {
+	            // obtains input stream of the upload file
+	            if (filePart.getSize() != 0) {
+	            	inputStream = filePart.getInputStream();
+	            }
+	        }
+	         
                     
-			String qry = "UPDATE clubhub.ch_user SET username = ?, password = ?, emailAddress = ?" // 1 2 3
+			qry = "UPDATE clubhub.ch_user SET username = ?, password = ?, emailAddress = ?" // 1 2 3
 					+ ", firstName = ?, lastName = ?, gender = ?, phoneNumber = ?"  // 4 5 6 7
 					+ ", streetAddress = ?, city = ?, province = ?, postalCode = ?"  // 8 9 10 11
 					+ ", country = ?, dateOfBirth = ?, emergencyContactName = ?, emergencyContactPhoneNumber = ?";  // 12, 13, 14, 15
                         
                     if (userStatus != null) {
                         // fetches input stream of the upload file for the blob column
-                    	System.out.println("I caught userStatus");
                        qry += ", userStatus = ?"; // 16
                     }
                     
                     if (inputStream != null) {
                         // fetches input stream of the upload file for the blob column
-                    	System.out.println("I caught photo");
-
                        qry += ", photo = ?"; //inputStream // 17 or 16
                     }
                     
                     qry += " WHERE id = ?"; // 18 or 17 or 16
-                    
+
+            		String postalCode = request.getParameter("postalCode");
+            		postalCode = postalCode.replaceAll("\\s+","");
+            		
 			preparedStatement = connect.prepareStatement(qry);
             preparedStatement.setString(1, request.getParameter("username")); 					// username
-			preparedStatement.setString(2, request.getParameter("password1")); 					// password
+			preparedStatement.setString(2, passwordHashed); 									// password
 			preparedStatement.setString(3, request.getParameter("emailAddress"));				// emailAddress
 			preparedStatement.setString(4, request.getParameter("firstName"));					// firstName
 			preparedStatement.setString(5, request.getParameter("lastName")); 					// lastName
@@ -428,51 +421,39 @@ public class UserDao {
 			preparedStatement.setString(8, request.getParameter("streetAddress"));				// streetAddress
 			preparedStatement.setString(9, request.getParameter("city"));						// city
 			preparedStatement.setString(10, province);											// province
-			preparedStatement.setString(11, request.getParameter("postalCode"));				// postalCode
+			preparedStatement.setString(11, postalCode);										// postalCode
 			preparedStatement.setString(12, request.getParameter("country"));					// country
 			preparedStatement.setString(13, request.getParameter("dateOfBirth"));				// dateOfBirth
 			preparedStatement.setString(14, request.getParameter("emergencyContactName"));		// emergencyContactName
 			preparedStatement.setString(15, request.getParameter("emergencyContactPhoneNumber"));	// emergencyContactPhoneNumber
             if (userStatus != null) {
                 // we have a userStatus, set that
-            	System.out.println("16 - We have a " + userStatus);
                 preparedStatement.setString(16, request.getParameter("userStatus"));
                 
                 if (inputStream != null) {
                     // we have an image, set that
-                	System.out.println("17 - We have an image");
                     preparedStatement.setBlob(17, inputStream);
                     // set the WHERE condition
-                	System.out.println("Setting 18 as where condition");
                     preparedStatement.setString(18, request.getParameter("userID"));
                 } else {
                     // we do not have an image 
                     // set the WHERE condition
-                	System.out.println("Setting 17 as where condition");
                     preparedStatement.setString(17, request.getParameter("userID"));
                 }
             } else {
                 // we do not have a userStatus
                 if (inputStream != null) {
                     // we have an image, set that
-                	System.out.println("16 - We have an image");
                     preparedStatement.setBlob(16, inputStream);
+                    preparedStatement.setString(17, request.getParameter("userID"));
                 } else {
                     // we do not have an image 
                     // set the WHERE condition
-                	System.out.println("Setting 17 as where condition");
-                    preparedStatement.setString(17, request.getParameter("userID"));
-                }
-                    // we do not have an image or a status
-                    // set the WHERE condition
-            	System.out.println("Setting 16 as where condition");
                     preparedStatement.setString(16, request.getParameter("userID"));
+                }
             }
             
 			preparedStatement.executeUpdate();
-                    
-				System.out.println(qry);
-//			 statement.executeUpdate(qry);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -493,8 +474,6 @@ public class UserDao {
 	    
 	    if (!executeString.equals(""))
 	    {
-	    	System.out.println("executeString is not null. Here's userStatus values: " + userStatus);
-	    	System.out.println("And here's executeString: " + executeString);
 			for (String x : markedForEdit) 
 			{
 				userID = x;
@@ -505,26 +484,33 @@ public class UserDao {
 	}
 
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		String [] markedForDeletion = request.getParameterValues("userSelected");
 		for (String userID : markedForDeletion) {
-			request.setAttribute("userID", userID);
-			System.out.println("batchDelete userID: " + request.getAttribute("userID"));
-			deleteUser(request, response);
+			System.out.println("I just set " + userID);
+	//		request.setAttribute("userID", userID);
+			deleteUser(request, response, userID);
 		}		
 	}
 
-	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		String userID = (String)request.getAttribute("userID").toString();
-				
+	public void deleteUser(HttpServletRequest request, HttpServletResponse response, String _userID) throws Exception {
+		String userID = _userID;
 		  try {
 			  statement = connect.createStatement();
+				System.out.println("I am deleting " + userID);
 			  statement.executeUpdate("delete from ch_user where id =" + userID); 
-			  System.out.println("delte userID = " + userID);
 		  } catch (SQLException e) {
 		      throw e;
 		  }
 	}
-
+/*
+	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String userID = request.getParameter("userID");
+		  try {
+			  statement = connect.createStatement();
+				System.out.println("I am deleting " + userID);
+			  statement.executeUpdate("delete from ch_user where id =" + userID); 
+		  } catch (SQLException e) {
+		      throw e;
+		  }
+	} */
 }

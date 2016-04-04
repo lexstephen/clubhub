@@ -52,11 +52,11 @@
 								<option value="unverified">Unverified</option>
 								<option value="user">User</option>
 								<option value="admin">Administrator</option>
+								<option value="inactive">Inactive</option>
 							</select>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-4">	
 							<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
-							<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
 						</div>
 					</div>
 				</c:when>

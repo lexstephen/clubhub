@@ -65,6 +65,12 @@ public class ColourSchemeDao {
 			    		preparedStatement.setString(5, request.getParameter("text_colour")); // text_colour
 			    		preparedStatement.executeUpdate();
 		    
+
+			  	      ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID();");
+			  	      
+			  	      while(rs.next()){
+			  	    	  request.setAttribute("csid", rs.getString("LAST_INSERT_ID()"));
+  			  	      }
 	    		break;
     		default:
 	    	// connect to the database
@@ -127,8 +133,15 @@ public class ColourSchemeDao {
 			}
 	} 
 
-	public void deleteColourScheme(HttpServletRequest request, HttpServletResponse response, String ColourSchemeID) throws Exception {
+	public void deleteColourScheme(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String csID = request.getParameter("csID");
 		
+		  try {
+			  statement = connect.createStatement();
+			  statement.executeUpdate("delete from ch_colour_scheme where id ="  + csID); 
+		  } catch (SQLException e) {
+		      throw e;
+		  }	
 	}
 
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception { 

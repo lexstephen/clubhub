@@ -22,5 +22,5 @@
 	</c:if>
 
 <%@ include file="/WEB-INF/login_form.jsp"%>
-
+ 
 <%@ include file="/WEB-INF/footer_public.jsp" %>
