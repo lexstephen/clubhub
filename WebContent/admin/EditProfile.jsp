@@ -27,6 +27,24 @@
 		user.findUser(request, userID);
 	%>
 	
+	<c:if test="${!empty errorString}">
+		<div class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		  ${errorString }
+				<c:if test="${!empty errorString2}"><li>${ errorString2 }</li></c:if>
+				<c:if test="${!empty errorString3}"><li>${ errorString3 }</li></c:if>
+				<c:if test="${!empty errorString4}"><li>${ errorString4 }</li></c:if>
+		</div>
+	</c:if>
+	<c:if test="${!empty successString}">
+		<div class="alert alert-success" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Success:</span>
+		  ${successString }
+		</div>
+	</c:if>
+	
 	<form action="${pageContext.request.contextPath}/UserController" method="post" class="form" role="form" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-xs-6">
@@ -71,7 +89,7 @@
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorPassword1}">has-error</c:if>">
 			    	<label for="inptPassword">Password</label>
-			    	<input type="password" name="password1" class="form-control" id="inptPassword" value="${user.password}">
+			    	<input type="password" name="password" class="form-control" id="inptPassword" value="${user.password}">
 			  	</div>
 			</div>
 			<div class="col-xs-6">

@@ -32,6 +32,9 @@ public class ValidationUtilities {
 		boolean isValid = true;
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		HashPassword hp = new HashPassword();
+		String passwordHashed = hp.hashPassword(password);
+		System.out.println(passwordHashed); 
 		request.setAttribute("username", username);		
 		request.setAttribute("password", password);
 		if (isMissing(username)) {
@@ -99,23 +102,12 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorContactName", true);
 		}
-
-/*		request.setAttribute("telephone", request.getParameter("telephone"));
-		request.setAttribute("Colour_Schemeid", request.getParameter("colour_schemeid"));
-		request.setAttribute("address", request.getParameter("address"));
-		request.setAttribute("city", request.getParameter("city"));
-		request.setAttribute("province", province);
-		request.setAttribute("country", request.getParameter("country"));
-		request.setAttribute("postalCode", request.getParameter("postalCode"));
-		request.setAttribute("contactName", request.getParameter("contactName"));
-		request.setAttribute("emailAddress", request.getParameter("emailAddress"));
-		request.setAttribute("tax_rate", request.getParameter("tax_rate"));
-		request.setAttribute("csid", request.getParameter("csid")); */
 		
 		if (isMissing(request.getParameter("telephone"))) {
 			isValid = false;
 			request.setAttribute("errorTelephone", true);
 		}
+		
 		if (!isRightLength(request.getParameter("telephone"),10)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
@@ -125,14 +117,17 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorAddress", true);
 		}
+		
 		if (isMissing(request.getParameter("city"))) {
 			isValid = false;
 			request.setAttribute("errorCity", true);
 		}
+		
 		if (isMissing(request.getParameter("province"))) {
 			isValid = false;
 			request.setAttribute("errorProvince", true);
 		}
+		
 		if (isMissing(request.getParameter("country"))) {
 			isValid = false;
 			request.setAttribute("errorCcountry", true);
@@ -536,8 +531,11 @@ public class ValidationUtilities {
 	public static boolean isValidRegistration(HttpServletRequest request) {
 		boolean isValid = true;
 		String username = request.getParameter("username");
-		String password1 = request.getParameter("password1");	
+		System.out.println("Username is " + username);
+		String password = request.getParameter("password");	
+		System.out.println("Password is " + password);
 		String password2 = request.getParameter("password2");	
+		System.out.println("Password is " + password2);
 		String emailAddress = request.getParameter("emailAddress");	
 		String emailAddress2 = request.getParameter("emailAddress2");	
 		String firstName = request.getParameter("firstName");
@@ -567,7 +565,7 @@ public class ValidationUtilities {
 		}
 		
 		request.setAttribute("username", username);
-		request.setAttribute("password1", password1);
+		request.setAttribute("password", password);
 		request.setAttribute("password2", password2);
 		request.setAttribute("emailAddress", emailAddress);
 		request.setAttribute("emailAddress2", emailAddress2);
@@ -591,15 +589,18 @@ public class ValidationUtilities {
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorUsername", true);}
 		
-		if (!isPwd(password1)) {
+		if (isMissing(password)) {
+			System.out.println("I died here");
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPassword1", true);}
-		if (!isPwd(password2)) {
+		if (isMissing(password2)) {
+			System.out.println("I died here");
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPassword2", true);}
-		if (!password1.equals(password2)) {
+		if (!password.equals(password2)) {
+			System.out.println("I died here");
 			isValid = false;
 			request.setAttribute("errorString4", "Passwords do not match");
 			request.setAttribute("errorPassword1", true);
@@ -683,7 +684,7 @@ public class ValidationUtilities {
 	public static boolean isValidUser(HttpServletRequest request) {
 		boolean isValid = true;
 		String username = request.getParameter("username");
-		String password1 = request.getParameter("password1");	
+		String password = request.getParameter("password");	
 		String password2 = request.getParameter("password2");	
 		String emailAddress = request.getParameter("emailAddress");	
 		String firstName = request.getParameter("firstName");
@@ -702,7 +703,7 @@ public class ValidationUtilities {
 		String emergencyContactPhoneNumber = request.getParameter("emergencyContactPhoneNumber");
 
 		request.setAttribute("username", username);
-		request.setAttribute("password1", password1);
+		request.setAttribute("password", password);
 		request.setAttribute("password2", password2);
 		request.setAttribute("emailAddress", emailAddress);
 		request.setAttribute("firstName", firstName);
@@ -725,7 +726,7 @@ public class ValidationUtilities {
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorUsername", true);}
 		
-		if (!isPwd(password1)) {
+		if (!isPwd(password)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPassword1", true);}
@@ -733,11 +734,11 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPassword2", true);}
-		if (!password1.equals(password2)) {
+		/* if (!password.equals(password2)) {
 			isValid = false;
 			request.setAttribute("errorString4", "Passwords do not match");
 			request.setAttribute("errorPassword1", true);
-			request.setAttribute("errorPassword2", true);}
+			request.setAttribute("errorPassword2", true);} */
 		
 		if (!isEmail(emailAddress)) {
 			isValid = false;
@@ -889,7 +890,7 @@ public class ValidationUtilities {
 
 	// check that value is a String
 	public static boolean isString(String theInput) {
-		String alpha = "^[a-zA-Z]*$";
+		String alpha = "^[a-zA-Z- ]*$";
 		return ((!isMissing(theInput)) && (theInput.matches(alpha)));
 	}
 
@@ -907,8 +908,9 @@ public class ValidationUtilities {
 
 	// check that value contains at least one letter and one number
 	public static boolean isPwd(String theInput) {
-		String alpha = "^.*(?=.*[0-9])(?=.*[a-zA-z]).*$";
-		return ((!isMissing(theInput)) && (theInput.matches(alpha)));
+		// String alpha = "^.*(?=.*[0-9])(?=.*[a-zA-z]).*$";
+		// return ((!isMissing(theInput)) && (theInput.matches(alpha)));
+		return true;
 	}
 	
 	public static boolean isDouble(String theInput) {

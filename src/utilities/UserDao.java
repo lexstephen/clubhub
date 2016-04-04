@@ -51,7 +51,7 @@ public class UserDao {
 			String option = request.getParameter("option");
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-
+			String passwordHashed = HashPassword.hashPassword(password);
 			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement();
 
@@ -60,7 +60,7 @@ public class UserDao {
 				resultSet = statement.executeQuery("select * from ch_user where username = \"" + username + "\""); 
 				break;
 			case "login":
-				resultSet = statement.executeQuery("select * from ch_user where username = \"" + username + "\" and password = \"" + password + "\""); 
+				resultSet = statement.executeQuery("select * from ch_user where username = \"" + username + "\" and password = \"" + passwordHashed + "\""); 
 				break;
 			default:
 				resultSet = null;
@@ -84,9 +84,12 @@ public class UserDao {
 		switch(option) {
 		case "login":
 			try {
+				String password = request.getParameter("password");
+				System.out.println("Password here is " + password);
+				String passwordHashed = HashPassword.hashPassword(password);
 				HttpSession session = request.getSession();
 				statement = connect.createStatement();
-				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + request.getParameter("password") + "\"");
+				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + passwordHashed + "\"");
 				while (resultSet.next()) {
 					session.setAttribute("loggedInUserID", resultSet.getString("id")); 
 				}
@@ -98,7 +101,7 @@ public class UserDao {
 			try {
 				HttpSession session = request.getSession();
 				statement = connect.createStatement();
-				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + request.getParameter("password") + "\"");
+				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\"");
 				while (resultSet.next()) {
 					session.setAttribute("userID", resultSet.getString("id")); 
 				}
@@ -170,6 +173,8 @@ public class UserDao {
 	}
 
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String password = request.getParameter("password");
+		String passwordHashed = HashPassword.hashPassword(password);
 		try {
 			// determine whether we should be looking for the province or state variable, based on their country
 			String province = null;
@@ -196,7 +201,7 @@ public class UserDao {
 			statement = connect.createStatement();
 			preparedStatement = connect.prepareStatement("insert into ch_user values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setString(1, request.getParameter("username")); 					// username
-			preparedStatement.setString(2, request.getParameter("password1")); 					// password
+			preparedStatement.setString(2, passwordHashed); 									// password
 			preparedStatement.setString(3, request.getParameter("emailAddress"));				// emailAddress
 			preparedStatement.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())); // dateCreated
 			preparedStatement.setString(5, "unverified");										// userStatus
@@ -354,6 +359,9 @@ public class UserDao {
 	public void editUser(HttpServletRequest request, HttpServletResponse response, String _userID) throws Exception {
 		try {			
 			String userStatus = request.getParameter("userStatus");
+			String password = request.getParameter("password");
+			System.out.println("This userDao password is " + password);
+			String passwordHashed = HashPassword.hashPassword(password);
 
 			String province = null;
 			switch(request.getParameter("country")) {
@@ -404,7 +412,7 @@ public class UserDao {
             		
 			preparedStatement = connect.prepareStatement(qry);
             preparedStatement.setString(1, request.getParameter("username")); 					// username
-			preparedStatement.setString(2, request.getParameter("password1")); 					// password
+			preparedStatement.setString(2, passwordHashed); 									// password
 			preparedStatement.setString(3, request.getParameter("emailAddress"));				// emailAddress
 			preparedStatement.setString(4, request.getParameter("firstName"));					// firstName
 			preparedStatement.setString(5, request.getParameter("lastName")); 					// lastName
@@ -437,14 +445,12 @@ public class UserDao {
                 if (inputStream != null) {
                     // we have an image, set that
                     preparedStatement.setBlob(16, inputStream);
+                    preparedStatement.setString(17, request.getParameter("userID"));
                 } else {
                     // we do not have an image 
                     // set the WHERE condition
-                    preparedStatement.setString(17, request.getParameter("userID"));
-                }
-                    // we do not have an image or a status
-                    // set the WHERE condition
                     preparedStatement.setString(16, request.getParameter("userID"));
+                }
             }
             
 			preparedStatement.executeUpdate();
@@ -480,18 +486,31 @@ public class UserDao {
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String [] markedForDeletion = request.getParameterValues("userSelected");
 		for (String userID : markedForDeletion) {
-			request.setAttribute("userID", userID);
-			deleteUser(request, response);
+			System.out.println("I just set " + userID);
+	//		request.setAttribute("userID", userID);
+			deleteUser(request, response, userID);
 		}		
 	}
 
-	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String userID = request.getParameter("userID");
+	public void deleteUser(HttpServletRequest request, HttpServletResponse response, String _userID) throws Exception {
+		String userID = _userID;
 		  try {
 			  statement = connect.createStatement();
+				System.out.println("I am deleting " + userID);
 			  statement.executeUpdate("delete from ch_user where id =" + userID); 
 		  } catch (SQLException e) {
 		      throw e;
 		  }
 	}
+/*
+	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String userID = request.getParameter("userID");
+		  try {
+			  statement = connect.createStatement();
+				System.out.println("I am deleting " + userID);
+			  statement.executeUpdate("delete from ch_user where id =" + userID); 
+		  } catch (SQLException e) {
+		      throw e;
+		  }
+	} */
 }

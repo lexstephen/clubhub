@@ -61,6 +61,7 @@ public class UserController extends HttpServlet {
 					// successful edit
 					String userID = request.getParameter("userID");
 					dao.editUser(request, response, userID);
+					request.setAttribute("successString", "Profile updated!");
 					address = "/admin/EditProfile.jsp";
 				} else {
 					// unsuccessful edit
@@ -127,7 +128,8 @@ public class UserController extends HttpServlet {
 				break;
 	    	case "delete":
 	    		try {
-					dao.deleteUser(request, response);
+	    			String userID = request.getParameter("userID");
+					dao.deleteUser(request, response, userID);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

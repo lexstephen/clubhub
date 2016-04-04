@@ -6810,6 +6810,9 @@ body.frontend {
   color: #ffffff;
   background-color: #d0a106;
 }
+body.backend {
+  padding-top: 70px;
+}
 .backend {
   /* the You are now logged in as.. section */
 }
@@ -6884,6 +6887,13 @@ body.frontend {
 .backend .navbar-nav > li > a:focus {
   color: #333;
   background-color: #00c0fa;
+}
+.backend .navbar-default .navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+.backend .navbar-default .navbar-toggle:hover,
+.backend .navbar-default .navbar-toggle:focus {
+  background-color: #0098c7;
 }
 .preferences img {
   width: 50px;
