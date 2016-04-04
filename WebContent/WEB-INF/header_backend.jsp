@@ -32,17 +32,11 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav justified">
-						<c:if test="${isLoggedIn == true}">
-							<li><a href="${pageContext.request.contextPath}/Profile.jsp?userID=${loggedInUserID }">Logged in as ${loggedInUserFullName }</a></li>
-							<li><img src="${pageContext.request.contextPath}/ImageDao?t=profile&id=${loggedInUserID }" class="header_photo"></li>
-							<li><a href="${pageContext.request.contextPath}/Logout">Log Out</a></li>
-						</c:if>
-						<li><a href="${pageContext.request.contextPath}/admin/">Dashboard</a></li>
 						<c:if test="${(isAdmin == true)}">
 			              <li class="dropdown">
 			                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Posts <span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="${pageContext.request.contextPath}/admin/BatchPosts.jsp">List All</a></li>
+									<li><a href="${pageContext.request.contextPath}/admin/BatchPosts.jsp">List All Posts</a></li>
 									<li><a href="${pageContext.request.contextPath}/admin/AddPost.jsp">Add New</a></li>
 								</ul>
 			              </li>
@@ -50,30 +44,32 @@
 			              <li class="dropdown">
 			                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="${pageContext.request.contextPath}/admin/BatchUsers.jsp">List All</a></li>
+									<li><a href="${pageContext.request.contextPath}/admin/BatchUsers.jsp">List All Users</a></li>
 									<c:if test="${isLoggedIn == true}">
 										<li><a href="${pageContext.request.contextPath}/admin/EditProfile.jsp?userID=${loggedInUserID }">Edit Profile</a></li>
-										<li><a href="${pageContext.request.contextPath}/admin/Availability.jsp">Availability</a></li>
+										<li><a href="${pageContext.request.contextPath}/admin/Availability.jsp">Game Availability</a></li>
 									</c:if>
 									<c:if test="${(isAdmin == true)}">
-										<li><a href="${pageContext.request.contextPath}/Register.jsp">Add New</a></li>
+										<li><a href="${pageContext.request.contextPath}/Register.jsp">Add New User</a></li>
 									</c:if>
 								</ul>
 			              </li>
 			              <li class="dropdown">
 			                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Invoices <span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="${pageContext.request.contextPath}/admin/BatchInvoices.jsp">List All</a></li>
+									<li><a href="${pageContext.request.contextPath}/admin/BatchInvoices.jsp">List All Invoices</a></li>
 									<c:if test="${(isAdmin == true)}">
 										<li><a href="${pageContext.request.contextPath}/admin/AddInvoice.jsp">Add Invoice</a></li>
-										<li><a href="${pageContext.request.contextPath}/admin/AddLineItems.jsp">Add Item</a></li>
+										<li><a href="${pageContext.request.contextPath}/admin/AddLineItems.jsp">Add Line Item</a></li>
 									</c:if>
 								</ul>
 			              </li>
 			              <li class="dropdown">
-			                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Seasons <span class="caret"></span></a>
+			                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Games <span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="${pageContext.request.contextPath}/admin/DisplayGames.jsp">List All</a></li>
+									<li><a href="${pageContext.request.contextPath}/admin/DisplayGames.jsp">List All Games</a></li>
+									<li><a href="${pageContext.request.contextPath}/admin/Game.jsp">View Game Details</a></li>
+									<li><a href="${pageContext.request.contextPath}/admin/Game.jsp">Edit Game Details</a></li>
 									<c:if test="${(isAdmin == true)}">
 										<li><a href="${pageContext.request.contextPath}/admin/CreateSeason.jsp">Add New</a></li>
 									</c:if>
@@ -90,6 +86,12 @@
 									</c:if>
 								</ul>
 			              </li>
+						<li><a href="${pageContext.request.contextPath}/admin/">Dashboard</a></li>
+						<c:if test="${isLoggedIn == true}">
+							<li><a href="${pageContext.request.contextPath}/Profile.jsp?userID=${loggedInUserID }">Logged in as ${loggedInUserFullName }</a></li>
+							<li><img src="${pageContext.request.contextPath}/ImageDao?t=profile&id=${loggedInUserID }" class="header_photo"></li>
+							<li><a href="${pageContext.request.contextPath}/Logout">Log Out</a></li>
+						</c:if>
 					</ul>
 				</div>
 			</div>

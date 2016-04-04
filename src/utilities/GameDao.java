@@ -334,9 +334,9 @@ public class GameDao {
 			
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("Select * from ch_user_game where Gameid= "+gameID);
-		while (resultSet.next()){
-			currentPlayers.add(resultSet.getString("Userid"));
-		}
+			while (resultSet.next()){
+				currentPlayers.add(resultSet.getString("Userid"));
+			}
 			StringBuilder builder = new StringBuilder();
     		if (currentPlayers.size() >= 1) {
     			builder.append(currentPlayers.get(0));
@@ -361,11 +361,9 @@ public class GameDao {
 					theAvailablePlayers.add(availablePlayers[j]);
 				} 
 			}
-			
-		
-				request.setAttribute("theCurrentPlayers", theCurrentPlayers);
-				request.setAttribute("theAvailablePlayers", theAvailablePlayers);
-				request.setAttribute("gameID", gameID);
+			request.setAttribute("theCurrentPlayers", theCurrentPlayers);
+			request.setAttribute("theAvailablePlayers", theAvailablePlayers);
+			request.setAttribute("gameID", gameID);
 			}
 		}
 	

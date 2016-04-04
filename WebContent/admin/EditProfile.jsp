@@ -273,6 +273,7 @@
 					  <option ${user.userStatus == 'unverified' ? 'selected' : ''}>unverified</option>
 					  <option ${user.userStatus == 'admin' ? 'selected' : ''}>admin</option>
 					  <option ${user.userStatus == 'user' ? 'selected' : ''}>user</option>
+					  <option ${user.userStatus == 'inactive' ? 'selected' : ''}>inactive</option>
 					</select>
 			  	</div>
 			</div>
@@ -288,14 +289,6 @@
 			    	<input type="submit" class="btn btn-primary" value="Update Profile">
 					</form>
 			  	</div>
-			</div>
-			<div class="col-md-10 col-xs-12">
-		    	<label>Warning! User deletion cannot be undone. </label>
-				<form action="${pageContext.request.contextPath}/UserController" method="post">
-					<input type="hidden" name="userID" value="${user.userid}">
-					<input type="hidden" name="option" value="delete">
-					<input class="btn btn-danger" type="submit" value="Delete User">
-				</form>
 			</div>
 		</div>
 	

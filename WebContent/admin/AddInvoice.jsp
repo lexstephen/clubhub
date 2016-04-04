@@ -59,7 +59,8 @@
 		
 		<div class="row">
 			<div class="col-xs-12 control-label">
-		    	<label>Charges</label>
+		    	<label>Charges
+		    	<small>(New line items can be added <a href="AddLineItems.jsp">here</a>.)</small></label>
 			</div>
 		</div>
 		

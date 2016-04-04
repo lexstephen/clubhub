@@ -27,10 +27,10 @@
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
 	<div class="row">
-		<div class="col-xs-2 col-xs-offset-6">
+		<div class="col-md-2 col-md-offset-6 col-xs-6">
 			View another profile:
 		</div>
-		<div class="col-xs-3">
+		<div class="col-md-3 col-xs-6">
 			<% user.listAllUsers(request); %>
 			<noscript>This form requires that you have JavaScript enabled to work properly. Please enable JavaScript in your browser.</noscript>
 			<form action="Profile.jsp" class="form-group"> 
@@ -43,14 +43,11 @@
 		</div>
 	</div>
 	<hr>
-	<div class="row">
-		<div class="col-xs-3 col-xs-offset-1">
-		<!-- 	<img src="${pageContext.request.contextPath}/images/avatar.gif" class="profile_photo"> -->
-		
+	<div class="row jumbotron vertical-center">
+		<div class="col-md-3 col-md-offset-1 col-xs-12">
 	    	<img src="ImageDao?t=profile&id=${userID }" class="profile_photo">
-		  
 		</div>
-		<div class="col-xs-6 col-xs-offset-1 jumbotron vertical-center">
+		<div class="col-md-7 col-md-offset-1 col-xs-12">
 			<p><b>${user.firstName } ${user.lastName }</b> [${user.gender }]</p>
 			<p>${user.city }, ${user.province }</p>
 			<p>Member Since ${dateCreated }</p>
@@ -69,8 +66,24 @@
 				<form action="${pageContext.request.contextPath}/UserController" method="post">
 					<input type="hidden" name="userID" value="${user.userid}">
 					<input type="hidden" name="option" value="email">
-					<input class="btn btn-warning" type="submit" value="Email User">
+					<input type="hidden" name="emailType" value="conflict">
+					<input class="btn btn-warning" type="submit" value="Email Available Users & Admin about a conflict">
 				</form>
+				
+				<form action="${pageContext.request.contextPath}/UserController" method="post">
+					<input type="hidden" name="userID" value="${user.userid}">
+					<input type="hidden" name="option" value="email">
+					<input type="hidden" name="emailType" value="availability">
+					<input class="btn btn-warning" type="submit" value="Email users that game registration is now available">
+				</form>
+				
+				<form action="${pageContext.request.contextPath}/UserController" method="post">
+					<input type="hidden" name="userID" value="${user.userid}">
+					<input type="hidden" name="option" value="email">
+					<input type="hidden" name="emailType" value="registration">
+					<input class="btn btn-warning" type="submit" value="Email admin to inform of new registration">
+				</form>
+				
 			</c:if>
 		</div>
 	</div>
