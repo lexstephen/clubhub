@@ -26,8 +26,9 @@ Object theAvailablePlayers = session.getAttribute("theAvailablePlayers");
 %>
 <form action="/clubhub/GameController" method="post" class="form" role="form">
 	<div class="row">
-		<h2>Season ${game.seasonId}: ${game.gender } ${game.season } ${game.year }</h2>
-		<h3>Game ${game.id}: ${game.dayOfWeek}, ${game.scheduledDateFullYear} at ${game.startTime}</h3>
+		<h2>Game ${game.id}: ${game.dayOfWeek}, ${game.scheduledDateFullYear} at ${game.startTime}
+		<small>Season ${game.seasonId}: ${game.gender } ${game.season } ${game.year }</small>
+		</h2>
 	</div>
 	<div class="row">
 		<div class="col-md-6 col-xs-12">		
