@@ -18,19 +18,28 @@ String str = id.toString();
 int userID = Integer.parseInt(str);
 System.out.println("The current user ID is: " + userID);
 slot.findOpenGameSlots(request, userID);
+slot.findAllOfUsersSlots(request);
 %>
 
 <form action="/clubhub/GameController" method="post" class="form" role="form">
 	<h3>Please select your availability: </h3>
+
+	<c:forEach items="${slots}" var="slt"> <!--  list of slots that the user can sign up for -->
+		
+	</c:forEach>
 	
-		
-		<c:forEach items="${slots}" var="slot">
-			<input type="checkbox" name="slots" value="${slot.id}"> ${slot.dayOfWeek}  ${slot.time} - ${slot.scheduledDate} ---- ${slot.id}<br>
-			
-			
-		
+	<br>
+	<br>
+	<c:forEach items="${slots}" var="slot">
+			<input type="checkbox" name="slots" value="${slot.id}"
+		<c:forEach items="${user.slotid}" var="uslot">
+			<c:choose>
+				<c:when test="${slot.id == uslot }"> checked</c:when>
+			</c:choose>
 		</c:forEach>
-		<button class="btn btn-info" type="submit" value="players" name="option">Submit</button>
+		> ${slot.dayOfWeek}  ${slot.time} - ${slot.scheduledDate} ---- ${slot.id}<br>
+	</c:forEach>
+	<button class="btn btn-info" type="submit" value="players" name="option">Submit</button>
 	</form>
 
 
