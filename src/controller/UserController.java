@@ -144,19 +144,45 @@ public class UserController extends HttpServlet {
 	    		address = "admin/BatchUsers.jsp";
     		break;
 	    	case "email":
+	    		String emailType = request.getParameter("emailType");
+	    		switch(emailType) {
+	    		case "conflict":
 
-    	    try {
-    	    		SendEmail email = new SendEmail();
-    	    		String playerInConflict = "2";
-	    	    	String gameInConflict = "42";
-    	    		String[] theseUsers = {"1", "4"};
-	    	    	email.sendConflictEmail(request, response, playerInConflict, gameInConflict, theseUsers);
-	    	    	
-		    } catch (MessagingException mex) {
-		        System.out.println("send failed, exception: " + mex);
-		    }
-			address = "/admin/index.jsp";
+		    	    try {
+		    	    		SendEmail email = new SendEmail();
+		    	    		String playerInConflict = "2";
+			    	    	String gameInConflict = "42";
+		    	    		String[] theseUsers = {"1", "2", "3", "4"};
+			    	    	email.sendConflictEmail(request, response, playerInConflict, gameInConflict, theseUsers);
+			    	    	
+				    } catch (MessagingException mex) {
+				        System.out.println("send failed, exception: " + mex);
+				    }
+					address = "/admin/index.jsp";
 	    	    break;
+	    		case "availability":
+		    	    try {
+		    	    		SendEmail email = new SendEmail();
+		    	    		String seasonID = "4";
+			    	    	email.sendAvailabiltyOpenEmail(request, response, seasonID);
+			    	    	
+				    } catch (MessagingException mex) {
+				        System.out.println("send failed, exception: " + mex);
+				    }
+					address = "/admin/index.jsp";
+	    	    break;
+	    		case "registration":
+		    	    try {
+		    	    		SendEmail email = new SendEmail();
+		    	    		String userID = "4";
+			    	    	email.sendNewRegistrationEmail(request, response, userID);
+			    	    	
+				    } catch (MessagingException mex) {
+				        System.out.println("send failed, exception: " + mex);
+				    }
+					address = "/admin/index.jsp";
+	    	    break;
+	    		}
 			default:
 				// something went wrong, display main page
 				address = "/Main.jsp";

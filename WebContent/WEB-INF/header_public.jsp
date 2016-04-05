@@ -36,7 +36,7 @@
 		<link href="${pageContext.request.contextPath}/css/custom.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 		<%@ include file="/WEB-INF/header_public_css.jsp" %>
-
+		<meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
 	</head>
 	<body class="frontend">	
 		<nav class="navbar navbar-static-top navbar-inverse sidebar" role="navigation">

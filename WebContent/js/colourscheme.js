@@ -50,6 +50,7 @@
       				$('#inptPostalCode').val(Prefs[index].postalcode);
       				$('#inptCountry').val(Prefs[index].country);
       				$('#inptEmailAddress').val(Prefs[index].emailAddress);
+      				$('#inptClubURL').val(Prefs[index].clubURL);
       				$('#inptContactName').val(Prefs[index].contactName);
       				if(Prefs[index].country == 'United States of America') {
       					$('#inptState').show();

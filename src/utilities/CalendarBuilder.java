@@ -127,10 +127,10 @@ public class CalendarBuilder {
 	        		
 	        		
 	        		if (i == currentDay) {
-		        		output += "<td><strong><a href=\"#calendar\" data-toggle=\"popover\" title=\"" + ValidationUtilities.numberToDay(request,dayOfWeek)  + " " + i + "\" data-content=\"" 
+		        		output += "<td><strong><a href=\"#calendar\" data-toggle=\"popover\" title=\"" + ValidationUtilities.numberToDay(dayOfWeek)  + " " + i + "\" data-content=\"" 
 		        				+ request.getAttribute("output") + "\"><u>" + String.format("%2d ", i) + "</u></a></strong></td>";
 		        	} else {
-		        		output += "<td><a href=\"#calendar\" data-toggle=\"popover\" title=\"" + ValidationUtilities.numberToDay(request,dayOfWeek)  + " " + i + "\" data-content=\"" 
+		        		output += "<td><a href=\"#calendar\" data-toggle=\"popover\" title=\"" + ValidationUtilities.numberToDay(dayOfWeek)  + " " + i + "\" data-content=\"" 
 		        				+ request.getAttribute("output") + "\"><u>" + String.format("%2d ", i) + "</u></a></td>";
 		        	}
 	        	} else {

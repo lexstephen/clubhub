@@ -8,10 +8,17 @@ package model;
 ****************************************************************************************************/
 public class Preference {
 	private int colour_schemeid;
-	private String id, preference_name, club_name_long, club_name_short, status;
+	private String id, preference_name, club_name_long, club_name_short, clubURL, status;
 	private String image_logo, image_small_logo;
 	private float tax_rate;
 	private String telephone, formatted_telephone, address, city, country, province, postalcode, contactName, emailAddress;
+
+	public String getClubURL() {
+		return clubURL;
+	}
+	public void setClubURL(String clubURL) {
+		this.clubURL = clubURL;
+	}
 	public String getContactName() {
 		return contactName;
 	}

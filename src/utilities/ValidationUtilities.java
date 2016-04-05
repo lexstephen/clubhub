@@ -76,6 +76,7 @@ public class ValidationUtilities {
 		request.setAttribute("postalCode", request.getParameter("postalCode"));
 		request.setAttribute("contactName", request.getParameter("contactName"));
 		request.setAttribute("emailAddress", request.getParameter("emailAddress"));
+		request.setAttribute("clubURL", request.getParameter("clubURL"));
 		request.setAttribute("tax_rate", request.getParameter("tax_rate"));
 		request.setAttribute("csid", request.getParameter("csid"));
 
@@ -95,6 +96,11 @@ public class ValidationUtilities {
 		if (isMissing(request.getParameter("club_name_short"))) {
 			isValid = false;
 			request.setAttribute("errorClub_Name_Short", true);
+		}
+
+		if (isMissing(request.getParameter("clubURL"))) {
+			isValid = false;
+			request.setAttribute("errorClubURL", true);
 		}
 
 
@@ -293,13 +299,20 @@ public class ValidationUtilities {
 	}
 
 	public static String toTime (HttpServletRequest request, int givenTime){
-		String time = null;
+		String response = null;
+		if(givenTime > 1200) {
+			givenTime = givenTime - 1200;
+			response = givenTime + "PM";
+		} else {
+			response = givenTime + "AM";
+		} 
+		/* String time = null;
 		String input = Integer.toString(givenTime);
-		time = input.replaceAll("..(?!$)", "$0:");
-		return time;
+		time = input.replaceAll("..(?!$)", "$0:"); */
+		return response;
 	}
-		
-	public static String numberToDay (HttpServletRequest request, int num){
+			
+	public static String numberToDay (int num){
 		String dayOfWeek = null;
 		if (num == 1){
 			 dayOfWeek = "Sunday";
@@ -317,6 +330,68 @@ public class ValidationUtilities {
 			dayOfWeek = "Saturday";
 		}
 		return dayOfWeek;
+	}
+
+	public static String dateWithoutYear(String scheduledDate) throws Exception{
+		int month = monthOfDate(scheduledDate);
+		int day = numberOfDate(scheduledDate);
+		return month + "/" + day;
+	}
+
+	public static String dateFullYear(String scheduledDate) throws Exception{
+
+		String MyDate = scheduledDate;
+		SimpleDateFormat parseDate = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatDate = new SimpleDateFormat("MMM dd, yyyy");
+		Date date = (Date) parseDate.parse(MyDate);
+		String displayDate = formatDate.format(date);
+		
+		return displayDate;
+	}
+
+	public static String dateNamesWithoutYear(String scheduledDate) throws Exception{
+		int month = monthOfDate(scheduledDate);
+		String monthName = null;
+		switch(month) {
+		case 1: 
+			monthName = "January";
+			break;
+		case 2: 
+			monthName = "February";
+			break;
+		case 3: 
+			monthName = "March";
+			break;
+		case 4: 
+			monthName = "April";
+			break;
+		case 5: 
+			monthName = "May";
+			break;
+		case 6: 
+			monthName = "June";
+			break;
+		case 7: 
+			monthName = "July";
+			break;
+		case 8: 
+			monthName = "August";
+			break;
+		case 9: 
+			monthName = "September";
+			break;
+		case 10: 
+			monthName = "October";
+			break;
+		case 11: 
+			monthName = "November";
+			break;
+		case 12: 
+			monthName = "December";
+			break;
+		}
+		int day = numberOfDate(scheduledDate);
+		return monthName + " " + day;
 	}
 	
 	public static int monthOfDate (String scheduledDate) throws Exception{
@@ -337,6 +412,32 @@ public class ValidationUtilities {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);					
 		return cal.get(Calendar.YEAR);
+	}
+
+	public static String seasonName(String ssn) {
+		switch(ssn) {
+		case "S":
+			return "Spring";
+		case "SM":
+			return "Summer";
+		case "F":
+			return "Fall";
+		case "W":
+			return "Winter";
+		default:
+			return "";
+		}
+	}
+
+	public static String genderName(String gender) {
+		switch(gender) {
+		case "M":
+			return "Mens'";
+		case "F":
+			return "Womens'";
+		default:
+			return "Mixed";
+		}
 	}
 	
 	public static int numberOfDate (String scheduledDate) throws Exception{
@@ -866,17 +967,6 @@ public class ValidationUtilities {
 		return isValid;
 	}
 	
-	
-	public static boolean isValidComment(HttpServletRequest request) {
-		boolean isValid = true;
-		String content = request.getParameter("content");
-		request.setAttribute("content", content);
-		if (isMissing(content)) {
-			isValid = false;
-			request.setAttribute("errorString", "Please check your input");
-			request.setAttribute("errorNewPostContent", true);} 
-		return isValid;
-	}
 
 	// check that an input field was filled out
 	public static boolean isMissing(String theInput) {

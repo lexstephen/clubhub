@@ -19,8 +19,18 @@ public class User {
 			emergencyContactPhoneNumber = "", 
 			formattedTelephone = "", 
 			formattedEmergencyContactPhoneNumber = "",
-			formattedDateOfBirth = "";
-    public String getFormattedDateOfBirth() {
+			formattedDateOfBirth = "",
+			score = "";
+	
+    public String getScore() {
+		return score;
+	}
+
+	public void setScore(String score) {
+		this.score = score;
+	}
+
+	public String getFormattedDateOfBirth() {
 		return formattedDateOfBirth;
 	}
 

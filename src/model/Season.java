@@ -8,9 +8,16 @@ package model;
 ****************************************************************************************************/
 public class Season {
 	private String id, year, season, gender, startDate, startTime, dayOfWeek, duration;
+	private String startDateFullYear;
 
-		
-	
+	public String getStartDateFullYear() {
+		return startDateFullYear;
+	}
+
+	public void setStartDateFullYear(String startDateFullYear) {
+		this.startDateFullYear = startDateFullYear;
+	}
+
 	public String getYear() {
 		return year;
 	}

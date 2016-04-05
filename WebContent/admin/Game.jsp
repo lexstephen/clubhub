@@ -12,30 +12,75 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <% GameDao game = new GameDao();
-String gameID = "33";//(String)request.getAttribute("gameID");
+String gameID = request.getParameter("gameID");
 game.findGames(request, gameID);
+game.findTeamsForGames(request);
 request.setAttribute("thisPage", "Game Details"); %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
-	<div style="padding-left:150px;">
-			<div class="row">
-				<h2 class="hang_left">Season ${game.seasonId}</h2>
-				<h3 class="hang_left">Game ${game.id}</h3>
-				
-				<span class="postMeta">${game.scheduledDate}</span>
-				<strong>Winner: TBD</strong>
-			</div>
-			<div class="row">
-				<div class="pull-left col-sm-3">
-					<h3 class="hang_left">Team A</h3>
-					<%@ include file="/WEB-INF/displayGameTeam.jsp" %>			
-				</div>
-				<div class="pull-left col-sm-9">
-					<h3 class="hang_left">Team B</h3>
-					<%@ include file="/WEB-INF/displayGameTeam.jsp" %>
-				</div>
-				
-			</div>
+	<div class="row">
+		<h2>Season ${game.seasonId}: ${game.gender } ${game.season } ${game.year }</h2>
+		<h3>Game ${game.id}: ${game.dayOfWeek}, ${game.scheduledDateFullYear} at ${game.startTime}</h3>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-xs-12">
+			<h3>
+					Team A
+					<c:if test="${winner == 'Team A' }"><strong> - Winners</strong></c:if>
+					<c:if test="${winner == 'Tie' }"><strong> - Tie</strong></c:if>
+			</h3>
+			<table class="table table-hover sortable">
+				<thead>
+					<tr>
+						<th class="col-md-4 col-xs-12 sorttable_nosort"></th>
+						<th class="col-md-4 col-xs-12">Member</th>
+						<th class="col-md-4 col-xs-12">Score</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${teamA}" var="tm">
+						<%@ include file="/WEB-INF/displayGameTeam.jsp" %>	
+					</c:forEach>						
+				</tbody>
+				<tfoot>
+					<tr>
+						<th class="col-md-4 col-xs-12 sorttable_nosort">-</th>
+						<th class="col-md-4 col-xs-12 sorttable_nosort">-</th>
+						<th class="col-md-4 col-xs-12 sorttable_nosort">${teamAscore }</th>
+					</tr>
+				</tfoot>
+		</table>	
+		</div>
+		
+		<div class="col-md-6 col-xs-12">
+			<h3>
+				Team B
+				<c:if test="${winner == 'Team B' }"><strong> - Winners</strong></c:if>
+				<c:if test="${winner == 'Tie' }"><strong> - Tie</strong></c:if>
+			</h3>
+			<table class="table table-hover sortable">
+				<thead>
+					<tr>
+						<th class="col-md-4 col-xs-12 sorttable_nosort"></th>
+						<th class="col-md-4 col-xs-12">Member</th>
+						<th class="col-md-4 col-xs-12">Score</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${teamB}" var="tm">
+						<%@ include file="/WEB-INF/displayGameTeam.jsp" %>	
+					</c:forEach>										
+				</tbody>
+				<tfoot>
+					<tr>
+						<th class="col-md-4 col-xs-12 sorttable_nosort">-</th>
+						<th class="col-md-4 col-xs-12 sorttable_nosort">-</th>
+						<th class="col-md-4 col-xs-12 sorttable_nosort">${teamBscore }</th>
+					</tr>
+				</tfoot>
+		</table>	
+		</div>
+		
 	</div>
 	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
