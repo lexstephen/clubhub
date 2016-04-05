@@ -117,9 +117,13 @@ public class GameController extends HttpServlet {
 		    		
 		    		//String slots = ID.toString();
 		    		System.out.println(slotIDs);
-		    		
-		    		dao.playersAvailable(request, userID, slotIDs);
-		    		
+
+		    		request.setAttribute("desiredSlotIDs", slotIDs);
+		    		request.setAttribute("playerToAdd", userID);
+		    		dao.addUserSlot(request);
+		    		// dao.playersAvailable(request, userID, slotIDs);
+
+	    			address = "admin/Availability.jsp";
 		    		errorChecker = "Dun";
 	    		break;
 		    	case "displayGames":

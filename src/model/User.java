@@ -1,4 +1,8 @@
 package model;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /****************************************************************************************************
 * Project: Hackers 1995
 * Assignment: COMP 3095 Assignment 2
@@ -21,8 +25,19 @@ public class User {
 			formattedEmergencyContactPhoneNumber = "",
 			formattedDateOfBirth = "",
 			score = "";
+	private List<String> slotid = new ArrayList<String>();
 	
-    public String getScore() {
+    
+
+	public List<String> getSlotid() {
+		return slotid;
+	}
+
+	public void setSlotid(List<String> slotid) {
+		this.slotid = slotid;
+	}
+
+	public String getScore() {
 		return score;
 	}
 

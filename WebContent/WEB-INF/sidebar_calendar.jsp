@@ -8,15 +8,8 @@
  
 
 <!-- this is the calendar public visitors would see i.e. no private information displayed -->
-<%@ page import="utilities.CalendarBuilder"%>
-<%
-
-
-%>
-
-	
+<%@ page import="utilities.CalendarBuilder" %>
   	<h3 id="calendar">Club Schedule</h3>
-
 	<table class="table">
 		<% 
 		CalendarBuilder cal = new CalendarBuilder(request);
