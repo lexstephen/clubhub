@@ -248,7 +248,9 @@ public class PostDao {
 	}
 	
 	public void findPost(HttpServletRequest request, String postID) throws Exception {
-		  Post post = new Post();
+		  
+		HttpSession session = request.getSession();
+		Post post = new Post();
 		  
 		  	try{
 			    statement = connect.createStatement();
@@ -274,6 +276,7 @@ public class PostDao {
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("category.type"));
 			    	  post.setPostDate(resultSet.getString("Postdate"));
+			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));
 			    	  
 			    	  System.out.println("PostDate = " + post.getPostDate());
 			    }

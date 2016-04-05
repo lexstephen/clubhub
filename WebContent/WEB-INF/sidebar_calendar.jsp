@@ -10,19 +10,16 @@
 <!-- this is the calendar public visitors would see i.e. no private information displayed -->
 <%@ page import="utilities.CalendarBuilder"%>
 <%
-	int selectedMonth = (session.getAttribute("selectedMonth") == null ? 0 : Integer.parseInt(session.getAttribute("selectedMonth").toString()));
-	int selectedYear = (session.getAttribute("selectedYear") == null ? 0 : Integer.parseInt(session.getAttribute("selectedYear").toString()));
-	System.out.println("month: " + selectedMonth);
-	System.out.println("year: " + selectedYear);
+
 
 %>
 
 	
-  	<h3>Club Schedule</h3>
+  	<h3 id="calendar">Club Schedule</h3>
 
 	<table class="table">
 		<% 
-		CalendarBuilder cal = new CalendarBuilder(request, selectedMonth, selectedYear);
+		CalendarBuilder cal = new CalendarBuilder(request);
 		out.println(cal.toString());
 
 		%>				

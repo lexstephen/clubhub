@@ -168,14 +168,25 @@ public class GameDao {
 	
 	public boolean gameOnDate(HttpServletRequest request, String calendarDate) throws Exception {
 		
+		HttpSession session = request.getSession();
+		
 		boolean isMatched = false;
-		String output = "";
+		boolean isLoggedIn = session.getAttribute("isLoggedIn") == null ? false : (boolean) session.getAttribute("isLoggedIn");
+		String output = "", gender = "", gameDate = "";
 	  	try{  		
 	  		statement = connect.createStatement();
-		    resultSet = statement.executeQuery("SELECT * FROM ch_game WHERE scheduledDate LIKE '" + calendarDate + "'");
+		    resultSet = statement.executeQuery("SELECT game.id, game.Seasonid, season.gender, season.startTime FROM clubhub.ch_game game JOIN clubhub.ch_season season "
+		    		+ "ON game.Seasonid = season.id "
+		    		+ "WHERE game.scheduledDate LIKE '" + calendarDate + "'");
 		      
 		    while (resultSet.next()) {
-		    	output += "Season " + resultSet.getString("Seasonid") + " GameID " + resultSet.getString("id") + "<br>";
+		    	gender = ValidationUtilities.genderName(resultSet.getString("season.gender"));
+		    	gameDate = ValidationUtilities.toTime(request, Integer.parseInt(resultSet.getString("season.startTime")));
+		    	if (isLoggedIn) {
+		    		output += "<a href=\'admin/Game.jsp?gameID=" + resultSet.getString("game.id") + "\'>" + gender + " " + gameDate + "</a><br>";
+		    	} else {
+		    		output += gender + " " + gameDate + "<br>";
+		    	}
 		    }
 	    } catch (SQLException e) {
 		      throw e;
