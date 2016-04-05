@@ -5,18 +5,40 @@
 	Date: January 24, 2016
 	Description: Main.jsp
  --%>
- 
-<% request.setAttribute("thisPage", "Join the Rivendell Curling Club"); %>
 
- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%	
+	PreferenceDao prefTitle = new PreferenceDao();
+	prefTitle.showPrefs(request);
+	String thisPage = "Register for the " + (String)request.getAttribute("clubName") + " club";
+	request.setAttribute("thisPage", thisPage);
+%>
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
+	<h1>${thisPage }</h1>
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
-	${errorString }
+	<c:if test="${!empty errorString}">
+		<div class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		  ${errorString }
+				<c:if test="${!empty errorString2}"><li>${ errorString2 }</li></c:if>
+				<c:if test="${!empty errorString3}"><li>${ errorString3 }</li></c:if>
+				<c:if test="${!empty errorString4}"><li>${ errorString4 }</li></c:if>
+		</div>
+	</c:if>
+	<c:if test="${!empty successString}">
+		<div class="alert alert-success" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Success:</span>
+		  ${successString }
+		</div>
+	</c:if>
 
-	<form action="/clubhub/UserController" method="post" class="form" role="form" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath}/UserController" method="post" class="form" role="form" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorFirstName}">has-error</c:if>">
@@ -66,7 +88,7 @@
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorPassword1}">has-error</c:if>">
 			    	<label for="inptPassword">Password</label>
-			    	<input type="password" name="password1" class="form-control" id="inptPassword">
+			    	<input type="password" name="password" class="form-control" id="inptPassword">
 			  	</div>
 			</div>
 			<div class="col-xs-6">
@@ -82,7 +104,7 @@
 			    <label for="inptGender <c:if test="${!empty errorGender}">has-error</c:if>">Gender</label>
 				<div class="radio">
 			    	<label class="checkbox-inline">
-			      		<input type="radio" name="gender" id="inptGenderF" value="F" checked  ${gender == 'F' ? 'checked' : ''}> Female
+			      		<input type="radio" name="gender" id="inptGenderF" value="F" checked ${gender == 'F' ? 'checked' : ''}> Female
 			      	</label>
 			    	<label class="checkbox-inline">
 			      		<input type="radio" name="gender" id="inptGenderM" value="M"  ${gender == 'M' ? 'checked' : ''}> Male
@@ -123,7 +145,7 @@
 			  	</div>
 			</div>
 		</div>
-		
+		 
 		<div class="row">
 			<div class="col-xs-6">
 				<div class="form-group <c:if test="${!empty errorProvince}">has-error</c:if>">
@@ -220,7 +242,7 @@
 			<div class="col-xs-12">
 				<div class="form-group <c:if test="${!empty errorProfilePhoto}">has-error</c:if>">
 			    	<label for="inptProfilePhoto">Profile Photo</label>
-			    	<input type="file" name="profilePhoto" class="form-control" id="inptProfilePhoto">
+			    	<input type="file" name="profilePhoto" class="form-control file" id="inptProfilePhoto">
 	    			<p class="help-block">Upload a square jpg.</p>
 			  	</div>
 			</div>

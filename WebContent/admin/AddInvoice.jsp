@@ -19,13 +19,17 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
-${errorString }
-<ul>
-<c:if test="${!empty errorInvDate}"><li>${ errorInvDate }</li></c:if>
-<c:if test="${!empty errorLineItems}"><li>${ errorLineItems }</li></c:if>
+	<c:if test="${!empty errorString}">
+		<div class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		  ${errorString }
+				<c:if test="${!empty errorInvDate}"><li>${ errorInvDate }</li></c:if>
+				<c:if test="${!empty errorLineItems}"><li>${ errorLineItems }</li></c:if>
+		</div>
+	</c:if>
 
-</ul>
-	<form action="/clubhub/InvoiceController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/InvoiceController" method="post" class="form" role="form">
 		<div class="row">
 			<div class="col-xs-3 control-label">
 		    	<label for="inptUserID">Member</label>
@@ -55,7 +59,8 @@ ${errorString }
 		
 		<div class="row">
 			<div class="col-xs-12 control-label">
-		    	<label>Charges</label>
+		    	<label>Charges
+		    	<small>(New line items can be added <a href="AddLineItems.jsp">here</a>.)</small></label>
 			</div>
 		</div>
 		
@@ -225,7 +230,7 @@ ${errorString }
 			<div class="col-xs-9">
 				<div class="radio">
 			    	<label class="checkbox-inline">
-			      		<input type="radio" name="status" id="inptStatusU" value="unpaid" ${status == 'unpaid' ? 'checked' : ''}> Unpaid
+			      		<input type="radio" name="status" id="inptStatusU" value="unpaid" ${status != 'paid' ? 'checked' : ''}> Unpaid
 			      	</label>
 			    	<label class="checkbox-inline">
 			      		<input type="radio" name="status" id="inptStatusP" value="paid"  ${status == 'paid' ? 'checked' : ''}> Paid

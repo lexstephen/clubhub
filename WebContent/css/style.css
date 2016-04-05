@@ -6724,6 +6724,9 @@ button.close {
     display: none !important;
   }
 }
+.content a {
+  text-decoration: underline;
+}
 #sidebar {
   text-align: center;
 }
@@ -6746,6 +6749,10 @@ button.close {
   text-align: center;
   display: block;
 }
+body.frontend {
+  background-color: #ffffff;
+  color: #835819;
+}
 .frontend {
   /* the Posted by X at 2pm section */
 }
@@ -6756,20 +6763,28 @@ button.close {
 .frontend h5,
 .frontend h6 {
   text-align: center;
-  color: #92c47d;
+  color: #2A5B84;
 }
 .frontend .base {
-  border-top: 1px solid #92c47d;
+  border-top: 1px solid #2A5B84;
+}
+.frontend .btn-primary {
+  background-color: #d0a106;
+  color: #ffffff;
+  border-color: #d0a106;
+  text-decoration: none;
 }
 .frontend h1,
 .frontend h2 {
-  border-bottom: 1px #92c47d solid;
+  border-bottom: 1px #2A5B84 solid;
   padding: 5px;
   margin: 5px;
 }
 .frontend .postMeta {
+  display: block;
+  color: #d0a106;
   font-size: 12px;
-  font-style: italic;
+  text-align: center;
 }
 .frontend .expand,
 .frontend .pagination {
@@ -6778,20 +6793,25 @@ button.close {
   text-align: right;
 }
 .frontend .navbar {
-  background: url(/clubhub/images/greenfade.png) repeat-x;
+  background-color: #2A5B84;
   border: 0;
-  padding-top: 10px;
 }
 .frontend .navbar img {
-  height: 100px;
+  height: 50px;
+}
+.frontend .pushdown {
+  padding-top: 10px;
 }
 .frontend .navbar-nav > li > a {
-  color: #eaf4e6;
+  color: #ffffff;
 }
 .frontend .navbar-nav > li > a:hover,
 .frontend .navbar-nav > li > a:focus {
-  color: #333;
-  background-color: #a1cc8f;
+  color: #ffffff;
+  background-color: #d0a106;
+}
+body.backend {
+  padding-top: 70px;
 }
 .backend {
   /* the You are now logged in as.. section */
@@ -6805,6 +6825,9 @@ button.close {
   color: #00ace0;
   text-align: center;
 }
+.backend .btn-primary {
+  background-color: #00ace0;
+}
 .backend .memberMeta {
   font-size: 12px;
   font-style: italic;
@@ -6816,6 +6839,10 @@ button.close {
 .backend .profile_photo {
   width: 240px;
   border-radius: 6px;
+}
+.backend .game_photo {
+  width: 40px;
+  border-radius: 1px;
 }
 .backend .sidebar fieldset {
   padding: 5px;
@@ -6865,6 +6892,14 @@ button.close {
   color: #333;
   background-color: #00c0fa;
 }
+.backend .navbar-default .navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+.backend .navbar-default .navbar-toggle:hover,
+.backend .navbar-default .navbar-toggle:focus {
+  background-color: #0098c7;
+}
 .preferences img {
   width: 50px;
+  margin: 10px;
 }

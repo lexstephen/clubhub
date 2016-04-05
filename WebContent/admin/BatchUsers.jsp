@@ -21,7 +21,7 @@
 	
 	<!-- This form wont work because there are embedded forms in the included file. I dont know how to work around this.  --> 
 		
-	<form action="/clubhub/UserController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/UserController" method="post" class="form" role="form">
 
 		<table class="table table-hover sortable">
 			<thead>
@@ -52,11 +52,11 @@
 								<option value="unverified">Unverified</option>
 								<option value="user">User</option>
 								<option value="admin">Administrator</option>
+								<option value="inactive">Inactive</option>
 							</select>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-4">	
 							<button class="btn btn-warning" type="submit" name="option" value="batchEdit">Edit Marked</button>
-							<button class="btn btn-danger" type="submit" name="option" value="batchDelete">Delete Marked</button>
 						</div>
 					</div>
 				</c:when>

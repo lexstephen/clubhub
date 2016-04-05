@@ -7,8 +7,9 @@ package model;
 * Description: Slot model
 ****************************************************************************************************/
 public class Slot {
-	private String id, dayOfWeek, week, gender, players, scheduledDate;
-	private int time, status;
+	private String id, dayOfWeek, week, gender, players, scheduledDate, gameID;
+	String time;
+	private int status;
 	
 	public String getPlayers(){
 		return players;
@@ -50,11 +51,11 @@ public class Slot {
 		this.gender = gender;
 	}
 	
-	public int getTime() {
+	public String getTime() {
 		return time;
 	}
 	
-	public void setTime(int time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 	
@@ -72,6 +73,14 @@ public class Slot {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getGameID() {
+		return gameID;
+	}
+
+	public void setGameID(String gameID) {
+		this.gameID = gameID;
 	}
 
 }

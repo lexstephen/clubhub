@@ -141,7 +141,7 @@ public class PostDao {
 				+ "ON post.Accessid = access.id "
 				+ "JOIN clubhub.ch_category category "
 				+ "ON post.Categoryid = category.id "
-				+ "WHERE posttype.id = 1");			// Where post is blog
+				+ "WHERE posttype.id = 1 ORDER BY Postdate");			// Where post is blog
 			      
 			    while (resultSet.next()) {
 			    	  Post post = new Post();
@@ -159,10 +159,10 @@ public class PostDao {
 			    	  
 			    	  if (post.getAccessLevel().equals("Public")) {
 			    		  posts.add(post);		
-			    	  } else if(post.getAccessLevel().equals("Members") && ((isLoggedIn == true))){
+			    	  } else if (post.getAccessLevel().equals("Members") && ((isLoggedIn == true))){
 			    		  posts.add(post);	
-			    	  } else if(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == true) {
-			    			posts.add(post);		
+			    	  } else if (post.getAccessLevel().equals("Private") && post.isPostMatchUser() == true) {
+			    		  posts.add(post);		
 			    	  }
 			    	  			    	  
 			    }
@@ -364,7 +364,7 @@ public class PostDao {
 		int numOfPages = 0, ppp = 3;   // Posts Per Page. this can be changed, maybe in preferences even?
 		double numOfRows = 0;
 		String pageNav = (request.getAttribute("pageNav") == null ? "first" : request.getAttribute("pageNav").toString()) ;
-		
+		System.out.println(pageNav);
 		List<Post> posts = new ArrayList<Post>();	
 		@SuppressWarnings("unchecked")
 		List<Post> allBlogs = (List<Post>) request.getAttribute("blogs");

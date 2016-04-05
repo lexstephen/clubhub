@@ -7,118 +7,125 @@ package model;
 * Description: Preference model
 ****************************************************************************************************/
 public class Preference {
-	private String id, image_logo, image_small_logo, club_name_long, club_name_short, country;
-	private String featured_image_01, featured_image_02, featured_image_03, featured_image_04, featured_image_05;
-	private String featured_image_06, featured_image_07, featured_image_08, featured_image_09, featured_image_10;
 	private int colour_schemeid;
+	private String id, preference_name, club_name_long, club_name_short, clubURL, status;
+	private String image_logo, image_small_logo;
 	private float tax_rate;
-	
-	public String getId() {
-		return id;
+	private String telephone, formatted_telephone, address, city, country, province, postalcode, contactName, emailAddress;
+
+	public String getClubURL() {
+		return clubURL;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setClubURL(String clubURL) {
+		this.clubURL = clubURL;
 	}
-	public String getImage_logo() {
-		return image_logo;
+	public String getContactName() {
+		return contactName;
 	}
-	public void setImage_logo(String image_logo) {
-		this.image_logo = image_logo;
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
 	}
-	public String getImage_small_logo() {
-		return image_small_logo;
+	public String getEmailAddress() {
+		return emailAddress;
 	}
-	public void setImage_small_logo(String image_small_logo) {
-		this.image_small_logo = image_small_logo;
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+	public String getFormatted_telephone() {
+		return formatted_telephone;
+	}
+	public void setFormatted_telephone(String formatted_telephone) {
+		this.formatted_telephone = formatted_telephone;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public String getCity() {
+		return city;
 	}
 	public String getClub_name_long() {
 		return club_name_long;
 	}
-	public void setClub_name_long(String club_name_long) {
-		this.club_name_long = club_name_long;
-	}
 	public String getClub_name_short() {
 		return club_name_short;
-	}
-	public void setClub_name_short(String club_name_short) {
-		this.club_name_short = club_name_short;
-	}
-	public String getCountry() {
-		return country;
-	}
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	public String getFeatured_image_01() {
-		return featured_image_01;
-	}
-	public void setFeatured_image_01(String featured_image_01) {
-		this.featured_image_01 = featured_image_01;
-	}
-	public String getFeatured_image_02() {
-		return featured_image_02;
-	}
-	public void setFeatured_image_02(String featured_image_02) {
-		this.featured_image_02 = featured_image_02;
-	}
-	public String getFeatured_image_03() {
-		return featured_image_03;
-	}
-	public void setFeatured_image_03(String featured_image_03) {
-		this.featured_image_03 = featured_image_03;
-	}
-	public String getFeatured_image_04() {
-		return featured_image_04;
-	}
-	public void setFeatured_image_04(String featured_image_04) {
-		this.featured_image_04 = featured_image_04;
-	}
-	public String getFeatured_image_05() {
-		return featured_image_05;
-	}
-	public void setFeatured_image_05(String featured_image_05) {
-		this.featured_image_05 = featured_image_05;
-	}
-	public String getFeatured_image_06() {
-		return featured_image_06;
-	}
-	public void setFeatured_image_06(String featured_image_06) {
-		this.featured_image_06 = featured_image_06;
-	}
-	public String getFeatured_image_07() {
-		return featured_image_07;
-	}
-	public void setFeatured_image_07(String featured_image_07) {
-		this.featured_image_07 = featured_image_07;
-	}
-	public String getFeatured_image_08() {
-		return featured_image_08;
-	}
-	public void setFeatured_image_08(String featured_image_08) {
-		this.featured_image_08 = featured_image_08;
-	}
-	public String getFeatured_image_09() {
-		return featured_image_09;
-	}
-	public void setFeatured_image_09(String featured_image_09) {
-		this.featured_image_09 = featured_image_09;
-	}
-	public String getFeatured_image_10() {
-		return featured_image_10;
-	}
-	public void setFeatured_image_10(String featured_image_10) {
-		this.featured_image_10 = featured_image_10;
 	}
 	public int getColour_schemeid() {
 		return colour_schemeid;
 	}
-	public void setColour_schemeid(int colour_schemeid) {
-		this.colour_schemeid = colour_schemeid;
+	public String getCountry() {
+		return country;
+	}
+	public String getId() {
+		return id;
+	}
+	public String getImage_logo() {
+		return image_logo;
+	}
+	public String getImage_small_logo() {
+		return image_small_logo;
+	}
+	public String getPostalcode() {
+		return postalcode;
+	}
+	public String getPreference_name() {
+		return preference_name;
+	}
+	public String getProvince() {
+		return province;
+	}
+	public String getStatus() {
+		return status;
 	}
 	public float getTax_rate() {
 		return tax_rate;
 	}
+	
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public void setClub_name_long(String club_name_long) {
+		this.club_name_long = club_name_long;
+	}
+	public void setClub_name_short(String club_name_short) {
+		this.club_name_short = club_name_short;
+	}
+	public void setColour_schemeid(int colour_schemeid) {
+		this.colour_schemeid = colour_schemeid;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public void setImage_logo(String image_logo) {
+		this.image_logo = image_logo;
+	}
+	public void setImage_small_logo(String image_small_logo) {
+		this.image_small_logo = image_small_logo;
+	}
+	public void setPostalcode(String postalcode) {
+		this.postalcode = postalcode;
+	}
+	public void setPreference_name(String preference_name) {
+		this.preference_name = preference_name;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public void setTax_rate(float tax_rate) {
 		this.tax_rate = tax_rate;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 }

@@ -10,20 +10,29 @@
      
 	<div class="row">
 		<div class="col-xs-12">
-			<h2>${blog.title}</h2>
-			<span class="postMeta">Posted in ${blog.category} by ${blog.username} on ${blog.postDate}. Access level: ${blog.accessLevel}</span>
-			<p>"${blog.content_short}"</p>
-				<span class="expand">
+			<h2> ${blog.title}</h2>
+			<div class="text-justify">${blog.content_short}</div>
+				<div class="expand postMeta">
+					Posted in [${blog.category}] by ${blog.username} | 
+						<c:choose>
+							<c:when test="${blog.accessLevel == 'Private'}">
+								<span class="glyphicon glyphicon-lock" aria-hidden="true"></span> | 
+							</c:when>
+							<c:when test="${blog.accessLevel == 'Members'}">
+								<span class="glyphicon glyphicon-user" aria-hidden="true"></span> | 
+							</c:when>
+						</c:choose>
+					${blog.postDate}
 					<c:choose>
 						<c:when test="${(isAdmin == true) && (blog.accessLevel != 'Private')}">
-							<a href="/clubhub/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
+							<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
 						</c:when>
 						<c:when test="${(postMatchesUser == true) && (blog.accessLevel == 'Private')}">
-							<a href="/clubhub/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
+							<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
 						</c:when>
 					</c:choose>
-					<a href="/clubhub/Post.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">More</a>
-				</span>
+					<a href="${pageContext.request.contextPath}/Post.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">More</a>
+				</div>
 			<hr>
 		</div>
 	</div>

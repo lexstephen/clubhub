@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,8 +55,17 @@ public class InvoiceDao {
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {	    	
+	        
+	    	// if editing an invoice, Parameter will be set and we will use that in the new insert
+	    	// if adding new, Parameter does not exist and we will use 'default'
+	    	String sqlDefault = (request.getParameter("invoiceID")) == null ? "default" : request.getParameter("invoiceID");
+	    	String last_id = sqlDefault;
+	    	
+	    	System.out.println("default string = " + sqlDefault);
+	    	
+	    	
 			  statement = connect.createStatement();
-			  preparedStatement = connect.prepareStatement("insert into ch_invoice values (default, ?, ?, ?)");
+			  preparedStatement = connect.prepareStatement("insert into ch_invoice values (" + sqlDefault + ", ?, ?, ?)");
 			  // columns are id, invDate, status, Userid
 			  preparedStatement.setString(1, request.getParameter("invDate")); // invDate
 			  preparedStatement.setString(2, request.getParameter("status")); // status
@@ -70,14 +81,18 @@ public class InvoiceDao {
 				   preparedStatement.executeUpdate();
 			  }
 			  
+			  // if we're using 'default', find that number
 			  // get the ID of the freshly created invoice, to use in invoice_lineitems_invoice table
-			  ResultSet insertedId = statement.executeQuery("SELECT LAST_INSERT_ID();");
-			
-			  String last_id = null;
-			    while (insertedId.next()) {
-			    	last_id = insertedId.getString("LAST_INSERT_ID()");
-			    	System.out.println("Inserted ID is " + last_id);
-			    }
+			  // otherwise, we're using the Parameter
+			  if (sqlDefault.equals("default")) {
+				  ResultSet insertedId = statement.executeQuery("SELECT LAST_INSERT_ID();");
+				
+				 
+				    while (insertedId.next()) {
+				    	last_id = insertedId.getString("LAST_INSERT_ID()");
+				    	System.out.println("Inserted ID is " + last_id);
+				    }
+			  }
 
 			    if (request.getParameter("charge01") != null && ValidationUtilities.isInt(request.getParameter("charge01")))	{
 					  preparedStatement = connect.prepareStatement("insert into ch_invoice_line_items_invoice values (default, ?, ?)");
@@ -227,12 +242,59 @@ public class InvoiceDao {
 		  	request.setAttribute("invoices", invoices);
 
 	}
-	public void deleteInvoice(HttpServletRequest request, HttpServletResponse response, String invoiceID) throws Exception {
+	
+	public void listAllForUser(HttpServletRequest request) throws Exception { 
+		  
+		List<Invoice> invoices = new ArrayList<Invoice>();
+		String userID = request.getParameter("userID");
+				
+		  	try{
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT id, invDate, status"
+		    				+ " FROM clubhub.ch_invoice WHERE Userid = " + userID);
+			      
+			    while (resultSet.next()) {
+			    	  Invoice invoice = new Invoice();
+			    	  invoice.setId(resultSet.getString("id"));
+			    	  invoice.setInvDate(resultSet.getString("invDate"));
+			    	  invoice.setStatus(resultSet.getString("status"));
+			    	  request.setAttribute("invoiceID", invoice.getId());
+			    	  invoices.add(invoice);
+			    }
+		    } catch (SQLException e) {
+			      throw e;
+			}
+		  	request.setAttribute("invoices", invoices);
+		  	System.out.println("invoices = " + invoices);
+
+	}
+	
+	public void deleteInvoice(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		// if coming from batchDelte, attribute will be set. otherwise, parameter will be set
+		String invoiceID = (request.getAttribute("invoiceID")) == null ? request.getParameter("invoiceID") : (String) request.getAttribute("invoiceID");
+		
+		System.out.println("invoiceID to be deleted = " + invoiceID);
+		
+		try {	    	
+			  statement = connect.createStatement();
+			  
+			  statement.executeUpdate("delete FROM ch_invoice_line_items_invoice where Invoiceid = + " + invoiceID + ";");
+			  statement.executeUpdate("delete FROM ch_invoice where id = + " + invoiceID + ";");
+			  		  
+	    } catch (Exception e) {
+	      throw e;
+	    }
 	}
 
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception { 
 		
+		String [] markedForDeletion = request.getParameterValues("invoiceSelected");
+		for (String invoiceID : markedForDeletion) {
+			request.setAttribute("invoiceID", invoiceID);
+			System.out.println("batchDelete invoiceID: " + request.getAttribute("invoiceID"));
+			deleteInvoice(request, response);
+		}	
 	}
 	
 	public void countLineItemsForInvoice(HttpServletRequest request, HttpServletResponse response) throws Exception { 
@@ -252,6 +314,7 @@ public class InvoiceDao {
 	}
 		
 	public void findInvoice(HttpServletRequest request, String invoiceID) throws Exception { 
+		
 		  // create an invoice object to store values into
 		  Invoice invoice = new Invoice();	
 		  PreferenceDao pDao = new PreferenceDao();
@@ -332,12 +395,12 @@ public class InvoiceDao {
 			    System.out.println(qry);
 			    resultSet = statement.executeQuery(qry);
 			    while (resultSet.next()) {
-			    	  invoice.setId(resultSet.getString("id"));
 			    	  invoice.setInvDate(resultSet.getString("invDate"));
 			    	  invoice.setStatus(resultSet.getString("status"));
 			    	  invoice.setUserID(resultSet.getString("Userid"));
 			    	  System.out.println("Invoice is " + resultSet.getString("id") + " and count is " + resultSet.getString("numItems") + " from user number " + resultSet.getString("Userid"));
 			    }
+		    	invoice.setId(invoiceID);
 			    
 
 			  	String[] thisItem;
@@ -387,12 +450,37 @@ public class InvoiceDao {
 		  	request.setAttribute("invoice", invoice);
 	} 
 	
-	public void editInvoice(HttpServletRequest request, HttpServletResponse response, String _invoiceID) throws Exception {
+	public void editInvoice(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		String invoiceID = request.getParameter("invoiceID");
+		
+		System.out.println("invoiceID to be edited = " + invoiceID);
+		
+		try {	    	
+			  statement = connect.createStatement();
+			  
+			  statement.executeUpdate("delete FROM ch_invoice_line_items_invoice where Invoiceid = " + invoiceID + ";");
+			  statement.executeUpdate("delete FROM ch_invoice where id = " + invoiceID + ";");
+			  
+			  addToDatabase(request,response);
+			  		  
+	    } catch (Exception e) {
+	      throw e;
+	    }
 	}
 
 	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		// this method edits the postType, accessLevel, and/or category in ch_post
+		
+		String [] markedForEdit = request.getParameterValues("invoiceSelected");
+		
+		String status = request.getParameter("status"); // invoice statuses		
+		
+		for (String invoiceID : markedForEdit) 
+		{
+		    statement = connect.createStatement();
+			statement.executeUpdate("UPDATE ch_invoice SET status = '" + status + "' WHERE id='" + invoiceID + "'");
+		}
 	}
 }
 

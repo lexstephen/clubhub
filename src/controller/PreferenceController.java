@@ -32,7 +32,12 @@ public class PreferenceController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String prefID = (request.getParameter("prefid")!=null)?request.getParameter("prefid"):"000";
 		String option = request.getParameter("option");
+		System.out.println("Option is " + option);
+		if (option == null) {
+			option = (prefID.equals("000"))?"add":"edit";
+		}
 		PreferenceDao dao = new PreferenceDao();
 		String address = null;
 		HttpSession session = request.getSession();
@@ -40,84 +45,44 @@ public class PreferenceController extends HttpServlet {
 			switch(option) {
 			case "add":
 				// they want to register.  is the form filled out correctly?
-				if (ValidationUtilities.isValidPreference(request)) {
+				if (ValidationUtilities.isValidPreference(request) && !dao.isInDatabase(request, response)) {
 					// yes it is! but are they already in the database? 
 						// preference was entered successfully and is new!
 						// Add preference to database then redirect to login form
 						request.setAttribute("errorString", "Preference added!");
 						dao.addToDatabase(request, response);
-						address = "/admin/Preferences.jsp";
+						address = "/admin/SetPreferences.jsp";
 					// the form is not filled out correctly. send an error back and send them 
 					// back to the registration form
 				} else {
-					request.setAttribute("errorString", "Error: please correct highlighted fields");
-					address = "Register.jsp";
+					request.setAttribute("errorString", "Please correct highlighted fields");
+					address = "/admin/Preferences.jsp";
 				}
 				break;
-				/*case "edit":
-				if (ValidationUtilities.isValidpreference(request)) {
-					// successful edit
-					String preferenceID = request.getParameter("preferenceID");
-					dao.editpreference(request, response, preferenceID);
-					address = "/admin/EditProfile.jsp";
-				} else {
-					// unsuccessful edit
-					request.setAttribute("errorString", "Error: please correct highlighted fields");
-					address = "/admin/EditProfile.jsp";
-				}
+			case "edit":
+			if (ValidationUtilities.isValidPreference(request)) {
+				// successful edit
+				dao.editPreference(request, response, prefID);
+				address = "/admin/SetPreferences.jsp";
+			} else {
+				// unsuccessful edit
+				request.setAttribute("errorString", "Please correct highlighted fields");
+				address = "/admin/Preferences.jsp";
+			}
 				break;
-			case "login":
-				// valid input?
-				if (ValidationUtilities.isValidLogin(request)) {
-					dao.getpreferenceId(request,option);
-					dao.getName(request,option);
-					dao.isAdmin(request);
-					// yes it is! and are they in the database?	    					    				
-					if (session.getAttribute("isAdmin").equals(true)) {
-						// they are admins! send them to AdminController
-						session.setAttribute("isLoggedIn", true);
-						request.setAttribute("errorString", null);
-						address = "/admin/index.jsp";
-					} else if (dao.isInDatabase(request, response)) {
-						// yes they are, let's log them in
-						session.setAttribute("isLoggedIn", true);
-						request.setAttribute("errorString", null);
-						address = "/admin/index.jsp";
-					} else {
-						// wrong preferencename or password, send back to login form
-						request.setAttribute("errorString", "Wrong preferencename or password.");
-						address = "/Login.jsp";
-					}
-				} else {
-					// the form was not filled in correctly, send them back
-					request.setAttribute("errorString", "Wrong preferencename or password.");
-					address = "/Login.jsp";
-				}
+			case "setPref":
+					dao.setPreference(request);
+					address = "/admin/SetPreferences.jsp";
 				break;
-			case "batchEdit":
+		  	case "delete":
 	    		try {
-	    			dao.batchEdit(request, response);
-	    		} catch (Exception e){
-	    			e.printStackTrace();
-	    		}
-	    		address = "admin/Batchpreferences.jsp";
-				break;
-	    	case "delete":
-	    		try {
-					dao.deletepreference(request, response);
+					dao.deletePreference(request, response);
+					request.setAttribute("errorString", "Preference successfully deleted.");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-	    		address = "admin/Batchpreferences.jsp";
-    		break;
-	    	case "batchDelete":
-	    		try {
-					dao.batchDelete(request, response);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-	    		address = "admin/BatchPreferences.jsp";
-    		break; */
+				address = "/admin/SetPreferences.jsp";
+    		break;		
 			default:
 				// something went wrong, display main page
 				address = "/index.jsp";

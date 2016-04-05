@@ -14,7 +14,7 @@
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
 	<!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
-	
+	 
 	<!---- use these attributes to test access level functionality -->
 <%-- 	<% session.setAttribute("isAdmin", true); %>
 	<% session.setAttribute("isLoggedIn", true); %> --%>

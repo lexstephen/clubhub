@@ -20,7 +20,7 @@
 	<% invoice.listAll(request); %>
 	
 
-	<form action="/clubhub/InvoiceController" method="post" class="form" role="form">
+	<form action="${pageContext.request.contextPath}/InvoiceController" method="post" class="form" role="form">
 	<div class="row">
 		<div class="col-xs-12">
 			<table class="table table-hover sortable">
@@ -63,9 +63,9 @@
 	</div>
 	</c:if>
 	
-	<span class="pagination">
+<!-- 	<span class="pagination">
 		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>
-	</span>
+	</span> -->
 	
 	</form>
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->

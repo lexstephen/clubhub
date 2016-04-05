@@ -7,6 +7,7 @@ package controller;
 * Description: GameController - routes requests to proper view
 ****************************************************************************************************/
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,7 +32,7 @@ public class GameController extends HttpServlet {
 		
 		String option = request.getParameter("option");
 		GameDao dao = new GameDao();
-		String address = "";
+		String address = "", seasonID, gameMonth;
 		//
 		String errorChecker = "n/a";
 		
@@ -42,7 +43,7 @@ public class GameController extends HttpServlet {
 		    	case "add":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
-	    			String seasonID = request.getParameter("seasonID");
+	    			seasonID = request.getParameter("seasonID");
 		    		
 		    		System.out.println("The Id is: "+ seasonID);
 		    		dao.addToDatabase(request, response, seasonID);
@@ -51,26 +52,91 @@ public class GameController extends HttpServlet {
 		    			errorChecker = "Games Created";
 		    			
 		    			address = "admin/PopulateGames.jsp";
-		    		
 		    			
-		    	/*case "playGame":
+		    	break;
+		    			
+		    	case "close":
+		    		//if (ValidationUtilities.isValidSeason(request)) {
+		    		
+		    			String slotID = request.getParameter("slotID");
+		    			System.out.println("The Slot ID is: "+ slotID);
+	    				dao.closeSlot(request, slotID);
+	    				Object a = request.getAttribute("seasonID");
+	    				String theSeasonID = a.toString();
+		    			errorChecker = "Game Closed";
+		    			
+		    			address = "ListGames.jsp?seasonID= "+theSeasonID;
+		    			
+		    	break;
+		    	
+		    	case "switchPlayers":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
-	    			String UserID = request.getParameter(arg0)
+	    			String gameID = request.getParameter("gameID");
+		    		System.out.println("The GameID is: "+gameID);
+	    			
+		    		dao.playersToSwitch(request, gameID);
+		    		address = "admin/EditGame.jsp";
+		    			
+		    	break;
+
+		    	case "switchThem":
+		    		//if (ValidationUtilities.isValidSeason(request)) {
+		    			
+	    			String currentPlayer = request.getParameter("currentPlayer");
+	    			String newPlayer = request.getParameter("newPlayer");
+	    			String theGameID = request.getParameter("gameID");
+	    			
+		    		System.out.println("The Current Player is: "+currentPlayer);
+		    		System.out.println("The New Player is: "+newPlayer);
+		    		System.out.println("The gameID is: "+ theGameID);
+		    		dao.switchThem(request, currentPlayer, newPlayer, theGameID);
+		    		address = "admin/ListGames.jsp";
+		    			
+		    	break;
+		    	case "players":
+		    		HttpSession session = request.getSession();
+		    		String [] ID = request.getParameterValues("slots");
+		    		
+		    		StringBuilder builder = new StringBuilder();
+		    		if (ID.length >= 1) {
+		    			builder.append(ID[0]);
+		    		}
+
+		    		for (int i = 1; i < ID.length; i++) { 
+		    			builder.append(", ");
+		    			builder.append(ID[i]);
+		    		}
+		    		
+		    		
+		    		String slotIDs = builder.toString();
+		    		Object id = session.getAttribute("loggedInUserID");
+		    		String userID = id.toString();
+
+		    		System.out.println("The current user ID is: " + userID);
+		    		
+		    		//String slots = ID.toString();
+		    		System.out.println(slotIDs);
+		    		
+		    		dao.playersAvailable(request, userID, slotIDs);
+		    		
+		    		errorChecker = "Dun";
+	    		break;
+		    	case "displayGames":
+	    			
+	    			seasonID = request.getParameter("seasonID");
+	    			gameMonth = request.getParameter("gameMonth");  			
+		    		request.setAttribute("seasonID", seasonID);
+		    		request.setAttribute("gameMonth", gameMonth);
 		    		
 		    		System.out.println("The Id is: "+ seasonID);
-		    		dao.addToDatabase(request, response, seasonID);
-		    			
-		    			
-		    			errorChecker = "Games Created";
-		    			
-		    			address = "admin/PopulateGames.jsp";
+		    		System.out.println("The month is: " + gameMonth);
 		    		
-		    			*/
-			    		/*errorChecker = "Season Not Created!!";
-		    			address = "/CreateSeason.jsp";*/
-		    		
-	    		break;
+	    			errorChecker = "Redirect to listgames";
+	    			
+	    			address = "admin/ListGames.jsp";
+		    			
+		    	break;
 		    	
 		    	default:
 	    		errorChecker = "Something has gone horribly wrong";

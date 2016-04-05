@@ -1,3 +1,4 @@
+
 table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
     content: " \25B4\25BE" 
 }
@@ -7,4 +8,8 @@ table.sortable tr td {
 
 textarea {
     resize: none;
+}
+
+.hang_left {
+	text-align:left !important;
 }

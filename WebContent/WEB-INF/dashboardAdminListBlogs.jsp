@@ -2,8 +2,7 @@
 
 <%@ page import="utilities.PostDao"%>
 
-	<%	PostDao post = new PostDao(); %>
-	
+	<% PostDao post = new PostDao(); %>
 	<% post.getLastBlogs(request, response); %> 
 			<table class="table table-hover sortable jumbotron">
 			<thead>
@@ -13,10 +12,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${posts}" var="post">
+				<c:forEach items="${blogs}" var="blog">
 				<tr>
-					<td class="col-xs-12 col-md-3 control-label"><a href="/clubhub/admin/EditPost.jsp?postID=${post.id}">${post.title}</a></td>
-					<td class="col-xs-12 col-md-2">${post.username}</td>
+					<td class="col-xs-12 col-md-3 control-label"><a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${blog.id}">${blog.title}</a></td>
+					<td class="col-xs-12 col-md-2">${blog.username}</td>
 				</tr>
 				</c:forEach>
 			</tbody>

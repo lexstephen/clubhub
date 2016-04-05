@@ -22,12 +22,7 @@
 	<td class="col-xs-12 col-md-2">${user.lastName}</td>
 	<td class="col-xs-12 col-md-2">
 		<span class="expand">
-			<c:choose>
-				<c:when test="${(isAdmin == true) || (user.userid == loggedInUserID)}">
-					<a href="/clubhub/admin/EditProfile.jsp?userID=${user.userid}" class="btn btn-primary btn-xs">Edit</a>
-				</c:when>
-			</c:choose>
-			<a href="/clubhub/Profile.jsp?userID=${user.userid}" class="btn btn-primary btn-xs">More</a>
+			<a href="${pageContext.request.contextPath}/Profile.jsp?userID=${user.userid}" class="btn btn-primary btn-xs">View</a>
 		</span>
 	</td>
 </tr>
