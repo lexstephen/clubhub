@@ -94,7 +94,8 @@ public class PostDao {
 				+ "JOIN clubhub.ch_access access "
 				+ "ON post.Accessid = access.id "
 				+ "JOIN clubhub.ch_category category "
-				+ "ON post.Categoryid = category.id ");
+				+ "ON post.Categoryid = category.id "
+				+ "ORDER BY Postdate DESC");
 			      
 			    while (resultSet.next()) {
 			    	  Post post = new Post();
@@ -107,6 +108,7 @@ public class PostDao {
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("posttype.type").equals("Static") ? "--" : resultSet.getString("category.type"));			    	  
+			    	  post.setDateFormatted(ValidationUtilities.dateFullYear(resultSet.getString("Postdate")));
 			    	  post.setPostDate(resultSet.getString("Postdate"));
 			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));    
 			    	  
@@ -141,7 +143,8 @@ public class PostDao {
 				+ "ON post.Accessid = access.id "
 				+ "JOIN clubhub.ch_category category "
 				+ "ON post.Categoryid = category.id "
-				+ "WHERE posttype.id = 1 ORDER BY Postdate");			// Where post is blog
+				+ "WHERE posttype.id = 1 "
+				+ "ORDER BY Postdate DESC");			// Where post is blog
 			      
 			    while (resultSet.next()) {
 			    	  Post post = new Post();
@@ -155,6 +158,7 @@ public class PostDao {
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("category.type"));
 			    	  post.setPostDate(resultSet.getString("Postdate"));
+			    	  post.setDateFormatted(ValidationUtilities.dateFullYear(resultSet.getString("Postdate")));  
 			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));
 			    	  
 			    	  if (post.getAccessLevel().equals("Public")) {
@@ -373,7 +377,7 @@ public class PostDao {
 		List<Post> posts = new ArrayList<Post>();	
 		@SuppressWarnings("unchecked")
 		List<Post> allBlogs = (List<Post>) request.getAttribute("blogs");
-		Collections.reverse(allBlogs);  // after this line, we have all our blogs in reverse order as list items
+		//Collections.reverse(allBlogs);  // after this line, we have all our blogs in reverse order as list items
 
 		numOfRows = allBlogs.size();
 		numOfPages = (int)Math.ceil(numOfRows/ppp); // number of pages needed is rounded up to the nearest whole number

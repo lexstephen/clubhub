@@ -15,9 +15,10 @@
 			<input type="checkbox" name="postSelected" value="${post.id}">
 		</c:if>
 	</td>
-	<td class="col-xs-12 col-md-3 control-label">${post.title}</td>
+	<td class="col-xs-12 col-md-2 control-label">${post.title}</td>
 	<td class="col-xs-12 col-md-2">${post.category}</td>
-	<td class="col-xs-12 col-md-2">${post.username}</td>
+	<td class="col-xs-12 col-md-1">${post.userFirstName}</td>
+	<td class="col-xs-12 col-md-2" style="padding-left:20px;" sorttable_customkey="${post.postDate}">${post.dateFormatted}</td>
 	<td class="col-xs-12 col-md-1">${post.postType}</td>
 	<td class="col-xs-12 col-md-1">
 		<c:choose>
