@@ -189,26 +189,23 @@ public class GameDao {
 	}
 	
 	 public void listAll(HttpServletRequest request) throws Exception {
-
 		List<Game> games = new ArrayList<Game>();
 	  	try{  		
 	  		statement = connect.createStatement();
 		    resultSet = statement.executeQuery("SELECT * FROM ch_game");
-		      
 		    while (resultSet.next()) {
 		    	  Game game = new Game();
 		    	  game.setId(resultSet.getString("id"));
 		    	  game.setScheduledDate(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
 		    	  game.setWeek(resultSet.getString("week"));
 		    	  game.setSeasonId(resultSet.getString("seasonId"));
-
 			  	  try{  		
 			  	  	statement = connect.createStatement();
 			  		resultSet2 = statement.executeQuery("SELECT * FROM ch_season WHERE id = " + game.getSeasonId());
 			  		while (resultSet2.next()) {
 			  			game.setYear(resultSet2.getString("year"));
 			  			game.setSeason(ValidationUtilities.seasonName(resultSet2.getString("season")));
-			  			game.setGender(resultSet2.getString("gender"));
+			  			game.setGender(ValidationUtilities.genderName(resultSet2.getString("gender")));
 			  			game.setStartDate(resultSet2.getString("startDate"));
 			  			game.setStartTime(ValidationUtilities.toTime(request, Integer.parseInt(resultSet2.getString("startTime"))));
 			  			game.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet2.getString("dayOfWeek"))));
@@ -218,7 +215,7 @@ public class GameDao {
 			  	  catch (SQLException e) {
 		  		   	throw e;
 			  	  }
-		    	games.add(game);
+			  	  games.add(game);
 		    }
 	    } catch (SQLException e) {
 		      throw e;
@@ -261,18 +258,41 @@ public class GameDao {
 		 List<Game> games = new ArrayList<Game>();
 		  	try{  		
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT week, scheduledDate, seasonID "
-				+ "FROM ch_game WHERE seasonID= " + seasonID);
+			    resultSet = statement.executeQuery("SELECT * "
+				+ "FROM ch_game JOIN ch_season ON ch_game.seasonID = ch_season.id AND seasonID= " + seasonID);
 			      
 			    while (resultSet.next()) {
 			    	
+			    	/*
 			    	  Game game = new Game();
 			    	  game.setWeek(resultSet.getString("week"));
 			    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
 			    	  game.setSeasonId(resultSet.getString("seasonID"));
 			    	  
 			    	  request.setAttribute("gameID", game.getId());
-			    	  games.add(game);
+			    	  games.add(game); */
+			    	  Game game = new Game();
+			    	  game.setId(resultSet.getString("id"));
+			    	  game.setScheduledDate(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
+			    	  game.setWeek(resultSet.getString("week"));
+			    	  game.setSeasonId(resultSet.getString("seasonId"));
+				  	  try{  		
+				  	  	statement = connect.createStatement();
+				  		resultSet2 = statement.executeQuery("SELECT * FROM ch_season WHERE id = " + game.getSeasonId());
+				  		while (resultSet2.next()) {
+				  			game.setYear(resultSet2.getString("year"));
+				  			game.setSeason(ValidationUtilities.seasonName(resultSet2.getString("season")));
+				  			game.setGender(ValidationUtilities.genderName(resultSet2.getString("gender")));
+				  			game.setStartDate(resultSet2.getString("startDate"));
+				  			game.setStartTime(ValidationUtilities.toTime(request, Integer.parseInt(resultSet2.getString("startTime"))));
+				  			game.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet2.getString("dayOfWeek"))));
+				  			game.setDuration(resultSet2.getString("duration"));
+				  		}
+				  	  }
+				  	  catch (SQLException e) {
+			  		   	throw e;
+				  	  }
+				  	  games.add(game);
 			    }
 		    } catch (SQLException e) {
 			      throw e;
@@ -280,6 +300,87 @@ public class GameDao {
 		  	request.setAttribute("games", games);
 	}
 	
+	public void findTeamsForGames(HttpServletRequest request) throws SQLException {
+		List<User> teamA = new ArrayList<User>();
+		List<User> teamB = new ArrayList<User>();
+		String gameID = request.getParameter("gameID");
+		int teamAscore = 0, teamBscore = 0;
+		
+	  	try{
+		    statement = connect.createStatement();
+		    resultSet = statement.executeQuery("SELECT * FROM ch_user_game JOIN ch_user ON ch_user_game.Userid = ch_user.id WHERE Gameid= " + gameID);
+		    while (resultSet.next()) {
+		    	if(resultSet.getString("team").equals("1")) {
+					User user = new User();
+					user.setUserid(resultSet.getString("id"));
+					user.setScore(resultSet.getString("score"));
+					user.setUsername(resultSet.getString("username"));
+					user.setEmailAddress(resultSet.getString("emailAddress"));
+					user.setUserStatus(resultSet.getString("userStatus"));
+					user.setFirstName(resultSet.getString("firstName"));
+					user.setLastName(resultSet.getString("lastName"));
+					user.setGender(resultSet.getString("gender"));
+					user.setStreetAddress(resultSet.getString("streetAddress"));
+					user.setTelephone(resultSet.getString("phoneNumber"));
+					user.setCity(resultSet.getString("city"));
+					user.setProvince(resultSet.getString("province"));
+					user.setPostalCode(resultSet.getString("postalCode"));
+					user.setCountry(resultSet.getString("country"));
+					user.setDateOfBirth(resultSet.getString("dateOfBirth"));
+					user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
+					user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
+					String score = resultSet.getString("score") != null?resultSet.getString("score"):"0";
+		    		teamAscore += Integer.parseInt(score);
+					teamA.add(user);
+		    	}
+		    	if(resultSet.getString("team").equals("2")) {
+					User user = new User();
+					user.setUserid(resultSet.getString("id"));
+					user.setScore(resultSet.getString("score"));
+					user.setUsername(resultSet.getString("username"));
+					user.setEmailAddress(resultSet.getString("emailAddress"));
+					user.setUserStatus(resultSet.getString("userStatus"));
+					user.setFirstName(resultSet.getString("firstName"));
+					user.setLastName(resultSet.getString("lastName"));
+					user.setGender(resultSet.getString("gender"));
+					user.setStreetAddress(resultSet.getString("streetAddress"));
+					user.setTelephone(resultSet.getString("phoneNumber"));
+					user.setCity(resultSet.getString("city"));
+					user.setProvince(resultSet.getString("province"));
+					user.setPostalCode(resultSet.getString("postalCode"));
+					user.setCountry(resultSet.getString("country"));
+					user.setDateOfBirth(resultSet.getString("dateOfBirth"));
+					user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
+					user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
+					String score = resultSet.getString("score") != null?resultSet.getString("score"):"0";
+		    		teamBscore += Integer.parseInt(score);
+					teamB.add(user);
+		    	}
+		    }
+	  	}
+	  	  catch (SQLException e) {
+	  		   	throw e;
+  	  }
+	  	
+	  	String winner = null;
+	  	
+	  	if ((teamAscore == 0) && (teamBscore == 0)) 
+	  		{ winner = "TBD"; }
+	  	
+	  	if (teamAscore > teamBscore) {
+	  		winner = "Team A";
+	  	} else if (teamBscore > teamAscore) {
+	  		winner = "Team B";
+	  	} else {
+	  		winner = "Tie";
+	  	}
+	  	
+	  	request.setAttribute("teamA", teamA);
+	  	request.setAttribute("teamB", teamB);
+	  	request.setAttribute("teamAscore", teamAscore);
+	  	request.setAttribute("teamBscore", teamBscore);
+	  	request.setAttribute("winner", winner);
+	}
 	
 	public void findGames(HttpServletRequest request, String gameID) throws Exception {
 		  Game game = new Game();
@@ -303,19 +404,7 @@ public class GameDao {
 				  		while (resultSet2.next()) {
 				  			game.setYear(resultSet2.getString("year"));
 				  			game.setSeason(ValidationUtilities.seasonName(resultSet2.getString("season")));
-				  			String genderName = null;
-				  			switch(resultSet2.getString("gender")) {
-				  			case "M":
-				  				genderName = "Mens'";
-				  				break;
-				  			case "F":
-				  				genderName = "Womens'";
-				  				break;
-				  			case "X":
-				  				genderName = "Mixed";
-				  				break;
-				  			}
-				  			game.setGender(genderName);
+				  			game.setGender(ValidationUtilities.genderName(resultSet2.getString("gender")));
 				  			game.setStartDate(resultSet2.getString("startDate"));
 				  			game.setStartTime(ValidationUtilities.toTime(request, Integer.parseInt(resultSet2.getString("startTime"))));
 				  			game.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet2.getString("dayOfWeek"))));

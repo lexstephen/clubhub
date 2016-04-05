@@ -22,15 +22,16 @@
 		<table class="table table-hover sortable">
 			<thead>
 				<tr>
-					<th class="sorttable_nosort col-md-1"></th>
-					<th class="col-md-1 col-xs-12 control-label">SSN ID</th>
-					<th class="col-md-1 col-xs-12">Gender</th>
-					<th class="col-md-1 col-xs-12">Season</th>
-					<th class="col-md-1 col-xs-12">Year</th>
-					<th class="col-md-1 col-xs-12">Week</th>
-					<th class="col-md-1 col-xs-12">Day</th>
-					<th class="col-md-1 col-xs-12">Date</th>
-					<th class="sorttable_nosort col-md-1"></th>
+					<th class="col-md-1 sorttable_nosort"></th>
+					<th class="col-md-1">Season ID</th>
+					<th class="col-md-1">Game ID</th>
+					<th class="col-md-1">Gender</th>
+					<th class="col-md-1">Season</th>
+					<th class="col-md-1">Year</th>
+					<th class="col-md-1">Week</th>
+					<th class="col-md-1">Day</th>
+					<th class="col-md-1">Date</th>
+					<th class="col-md-1 sorttable_nosort"></th>
 				</tr>
 			</thead>
 			<tbody>

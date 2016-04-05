@@ -209,29 +209,20 @@ public class SeasonDao {
 	public void listSeasonWithGames(HttpServletRequest request, String seasonID) throws Exception {
 		  List<Slot> slots = new ArrayList<Slot>();
 		  Boolean display = true;
-		  
 		  	try{  		 
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT * from ch_season where id=" + seasonID);
 			      
 			    while (resultSet.next()) {
 			    	  Season season = new Season();
-			    	  
-			    	  int num = resultSet.getInt("dayOfWeek");
-			    	  int givenTime = resultSet.getInt("startTime");
-			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
-			    	  String time = utilities.ValidationUtilities.toTime(request,givenTime);
-			    	  
 			    	  season.setYear(resultSet.getString("year"));
 			    	  season.setSeason(resultSet.getString("season"));
 			    	  season.setId(resultSet.getString("id"));
 			    	  season.setGender(resultSet.getString("gender"));
 			    	  season.setStartDate(resultSet.getString("startDate"));
-			    	  season.setStartTime(time);
-			    	  season.setDayOfWeek(dayOfWeek);
+			    	  season.setStartTime(utilities.ValidationUtilities.toTime(request,resultSet.getInt("startTime")));
+			    	  season.setDayOfWeek(utilities.ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
 			    	  season.setDuration(resultSet.getString("duration"));
-			    	  
-			    	  
 			    	  
 			    	  Statement statement1 = null;
 			    	  ResultSet resultSet1 = null;
@@ -241,12 +232,8 @@ public class SeasonDao {
 					  
 					  while(resultSet1.next()){
 						  Game game = new Game();
-						  
-						  
-						  
-						  
 						  String gameID = resultSet1.getString("id");
-						  System.out.println("Game id is: " +gameID);
+						  System.out.println("Game id is: " + gameID);
 						  
 						  Statement statement2 = null;
 				    	  ResultSet resultSet2 = null;
@@ -254,12 +241,11 @@ public class SeasonDao {
 				    	  statement2 = connect.createStatement();
 						  resultSet2 = statement2.executeQuery("SELECT * from ch_slot where gameID= "+ gameID);
 						  
-						  
 						  while(resultSet2.next()){
 							  int status = resultSet2.getInt("status");
 							  
 							  Slot slot = new Slot();
-							  if(status == 1){
+							  if (status == 1){
 							  String playerIDs = resultSet2.getString("availablePlayers");
 							  String playerNames = utilities.ValidationUtilities.getPlayerNames(request, playerIDs);
 							  System.out.println("Player Names: " +playerNames);
@@ -270,8 +256,7 @@ public class SeasonDao {
 							  slot.setGameID(resultSet2.getString("gameID"));
 							  slot.setId(resultSet2.getString("id"));
 							  
-							  
-							  }else if (status == 0){
+							  } else if (status == 0) {
 								  Statement statement3 = null;
 						    	  ResultSet resultSet3 = null;
 						    		
@@ -292,14 +277,12 @@ public class SeasonDao {
 								  String playerNames = utilities.ValidationUtilities.getPlayerNames(request, playerIDs);
 								  System.out.println("Player Names: " +playerNames);
 								  slot.setPlayers(playerNames);
-								  
 							  }
-							  
 							  slots.add(slot);
 						  }
 						  }
-					  request.setAttribute("dayOfWeek", dayOfWeek);
-					  request.setAttribute("time", time);
+					  request.setAttribute("dayOfWeek", utilities.ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
+					  request.setAttribute("time", utilities.ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
 					  }
 
 		    } catch (SQLException e) {
@@ -310,7 +293,6 @@ public class SeasonDao {
 	} 
 	
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
-
 		  try {
 			  statement = connect.createStatement();
 			  statement.executeUpdate("delete from ch_season where id =" + seasonID); 
@@ -330,19 +312,18 @@ public class SeasonDao {
 	
 	public void findSeason(HttpServletRequest request, String seasonID) throws Exception {
 		  Season season = new Season();
-		  
 		  	try{
 			    statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT * FROM ch_season WHERE id= " + seasonID);
 			    
 			    while (resultSet.next()) {
 			    	  season.setYear(resultSet.getString("year"));
-			    	  season.setSeason(resultSet.getString("season"));
+			    	  season.setSeason(ValidationUtilities.seasonName(resultSet.getString("season")));
 			    	  season.setId(resultSet.getString("id"));
-			    	  season.setGender(resultSet.getString("gender"));
+			  		  season.setGender(ValidationUtilities.genderName(resultSet.getString("gender")));
 			    	  season.setStartDate(resultSet.getString("startDate"));
-			    	  season.setStartTime(resultSet.getString("startTime"));
-			    	  season.setDayOfWeek(resultSet.getString("dayOfWeek"));
+			    	  season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));season.setStartTime(ValidationUtilities.toTime(request, Integer.parseInt(resultSet.getString("startTime"))));
+			    	  season.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet.getString("dayOfWeek"))));
 			    	  season.setDuration(resultSet.getString("duration"));
 			    }
 			} catch (SQLException e) {

@@ -6,7 +6,6 @@
 	Description: CreateGames.jsp
  --%>
  
-<% request.setAttribute("thisPage", "Create Games"); %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
@@ -18,27 +17,38 @@ Object id = session.getAttribute("seasonID");
 String seasonID = id.toString();
 System.out.println("The current season ID is: " + seasonID);
 season.findSeason(request, seasonID);%>
+<% request.setAttribute("thisPage", "Confirm New Season"); %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
 	<form action="${pageContext.request.contextPath}/SeasonController" method="post" class="form" role="form">
 		
-		<div class="col-sm-9">
-			Please review the following information: (clicking continue will make this final!)
-
-		<h1>Season Information:</h1>
-			<br>
-			
-			<b>Year:</b> ${season.year}<br>
-			<b>Season:</b> ${season.season}<br>
-			<b>Gender:</b> ${season.gender}<br>
-			<b>Start Date:</b> ${season.startDate}<br>
-			<b>Start Time:</b> ${season.startTime}<br>
-			<b>Day Of Week:</b> ${season.dayOfWeek}<br>
-			<b>Duration:</b> ${season.duration}<br>
-			<br>
-			<button class="btn btn-info" type="submit" value="delete" name="option">Cancel</button>
+		<div class="col-md-6 col-md-offset-3">
+			<p>Please review the following information:</p>
+			<div class="row">
+				<label class="col-md-3">Year</label> ${season.year}
+			</div>
+			<div class="row">
+				<label class="col-md-3">Season</label> ${season.season}
+			</div>
+			<div class="row">
+				<label class="col-md-3">Gender</label> ${season.gender}
+			</div>
+			<div class="row">
+				<label class="col-md-3">Start Date</label> ${season.startDateFullYear}
+			</div>
+			<div class="row">
+				<label class="col-md-3">Start Time</label> ${season.startTime}
+			</div>
+			<div class="row">
+				<label class="col-md-3">Day Of Week</label> ${season.dayOfWeek}
+			</div>
+			<div class="row">
+				<label class="col-md-3">Duration</label> ${season.duration} weeks
+			</div>
+			<p>Click Confirm to create games, or Cancel to return to the season creation screen.</p>
 			<button class="btn btn-info" type="submit" value="confirm" name="option"> Confirm</button>
+			<button class="btn btn-danger" type="submit" value="delete" name="option">Cancel</button>
 		</div>
 	</form>
 		

@@ -6840,6 +6840,10 @@ body.backend {
   width: 240px;
   border-radius: 6px;
 }
+.backend .game_photo {
+  width: 40px;
+  border-radius: 1px;
+}
 .backend .sidebar fieldset {
   padding: 5px;
   border: 1px #000 solid;

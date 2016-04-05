@@ -68,10 +68,9 @@
 			                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Games <span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li><a href="${pageContext.request.contextPath}/admin/DisplayGames.jsp">List All Games</a></li>
-									<li><a href="${pageContext.request.contextPath}/admin/Game.jsp">View Game Details</a></li>
-									<li><a href="${pageContext.request.contextPath}/admin/Game.jsp">Edit Game Details</a></li>
 									<c:if test="${(isAdmin == true)}">
-										<li><a href="${pageContext.request.contextPath}/admin/CreateSeason.jsp">Add New</a></li>
+										<li><a href="${pageContext.request.contextPath}/admin/CreateSeason.jsp">Add New Season</a></li>
+										<li><a href="${pageContext.request.contextPath}/admin/Conflicts.jsp">View Outstanding Conflicts</a></li>
 									</c:if>
 								</ul>
 			              </li>

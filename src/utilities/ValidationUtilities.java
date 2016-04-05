@@ -342,7 +342,7 @@ public class ValidationUtilities {
 
 		String MyDate = scheduledDate;
 		SimpleDateFormat parseDate = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat formatDate = new SimpleDateFormat("MMM yyyy");
+		SimpleDateFormat formatDate = new SimpleDateFormat("MMM dd, yyyy");
 		Date date = (Date) parseDate.parse(MyDate);
 		String displayDate = formatDate.format(date);
 		
@@ -413,24 +413,31 @@ public class ValidationUtilities {
 		cal.setTime(date);					
 		return cal.get(Calendar.YEAR);
 	}
-	
-	public static String seasonName(String seasonInitial) {
-		String theResult = null;
-		switch (seasonInitial) {
-		case "F":
-			theResult = "Fall";
-			break;
+
+	public static String seasonName(String ssn) {
+		switch(ssn) {
 		case "S":
-			theResult = "Spring";
-			break;
+			return "Spring";
 		case "SM":
-			theResult = "Summer";
-			break;
+			return "Summer";
+		case "F":
+			return "Fall";
 		case "W":
-			theResult = "Winter";
-			break;
+			return "Winter";
+		default:
+			return "";
 		}
-		return theResult;
+	}
+
+	public static String genderName(String gender) {
+		switch(gender) {
+		case "M":
+			return "Mens'";
+		case "F":
+			return "Womens'";
+		default:
+			return "Mixed";
+		}
 	}
 	
 	public static int numberOfDate (String scheduledDate) throws Exception{
