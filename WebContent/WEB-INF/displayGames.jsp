@@ -22,7 +22,7 @@
 	<td class="col-md-1">${game.year}</td>
 	<td class="col-md-1">${game.week}</td>
 	<td class="col-md-1">${game.dayOfWeek}</td>
-	<td class="col-md-1">${game.scheduledDate}</td>
+	<td class="col-md-1" sorttable_customkey="${game.scheduledDate}">${game.dateFormatted}</td>
 	<td class="col-md-1">
 		<span class="expand">
 		<c:if test="${(isAdmin == true) || (game.userid == loggedInUserID)}">

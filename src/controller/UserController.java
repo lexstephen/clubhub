@@ -84,10 +84,13 @@ public class UserController extends HttpServlet {
 						if (setCookie) {
 							Cookie adminCookie = new Cookie("isAdmin", "true");
 							Cookie loggedInCookie = new Cookie("isLoggedIn", "true");
+							Cookie loggedInUserIDCookie = new Cookie("loggedInUserID", (String)session.getAttribute("loggedInUserID"));
 							adminCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
 							response.addCookie(adminCookie);
 							loggedInCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year		
 							response.addCookie(loggedInCookie);
+							loggedInUserIDCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
+							response.addCookie(loggedInUserIDCookie);
 						}
 						address = "/admin/index.jsp";
 					} else if (dao.isInDatabase(request, response)) {

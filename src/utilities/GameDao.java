@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -169,12 +170,13 @@ public class GameDao {
 		List<Game> games = new ArrayList<Game>();
 	  	try{  		
 	  		statement = connect.createStatement();
-		    resultSet = statement.executeQuery("SELECT * FROM ch_game");
+		    resultSet = statement.executeQuery("SELECT * FROM ch_game ORDER BY scheduledDate DESC");
 		    while (resultSet.next()) {
 		    	  // save game details to game object
 		    	  Game game = new Game();
 		    	  game.setId(resultSet.getString("id"));
-		    	  game.setScheduledDate(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
+		    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
+		    	  game.setDateFormatted(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
 		    	  game.setWeek(resultSet.getString("week"));
 		    	  game.setSeasonId(resultSet.getString("seasonId"));
 			  	  try {  
@@ -226,6 +228,8 @@ public class GameDao {
 		}
 	  	request.setAttribute("games", games);
 	}
+	 
+	 
 	
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
 		  try {
@@ -301,6 +305,38 @@ public class GameDao {
 		    } catch (SQLException e) {
 			      throw e;
 			}
+		  	request.setAttribute("games", games);
+	}
+	
+	public void findRecentGames(HttpServletRequest request) throws Exception{
+		 List<Game> games = new ArrayList<Game>();
+		 
+		 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		 Date date1 = format.parse(new SimpleDateFormat("yyyy-MM-dd").format((new Date())));
+		 
+		  	try{  		
+		  		statement = connect.createStatement();
+			    resultSet = statement.executeQuery("SELECT * "
+				+ "FROM ch_game game JOIN ch_season season ON game.seasonID = season.id "
+				+ "ORDER BY scheduledDate DESC");
+			      
+			    while (resultSet.next() && games.size() < 3) {
+			    	
+		    	  Game game = new Game();
+		    	  game.setId(resultSet.getString("id"));
+		    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
+		    	  game.setGender(ValidationUtilities.genderName(resultSet.getString("season.gender")));
+		  			
+		    	  if (format.parse(game.getScheduledDate()).equals(date1) || format.parse(game.getScheduledDate()).before(date1)){
+		    		  game.setScheduledDate(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
+		    		  games.add(game);
+		    	  }
+			    }
+		    } catch (SQLException e) {
+			      throw e;
+			}
+		  	
+		  	
 		  	request.setAttribute("games", games);
 	}
 	

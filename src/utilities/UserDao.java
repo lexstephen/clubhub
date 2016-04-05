@@ -241,7 +241,7 @@ public class UserDao {
 		List<User> users = new ArrayList<User>();
 		try{
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("select * from ch_user");
+			resultSet = statement.executeQuery("select * from ch_user ORDER BY username");
 
 			while (resultSet.next()) {
 				User user = new User();

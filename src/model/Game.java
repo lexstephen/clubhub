@@ -7,12 +7,19 @@ package model;
 * Description: Game model
 ****************************************************************************************************/
 public class Game {
-	private String id, gameid, scheduledDate, week, seasonId; 
+	private String id, gameid, scheduledDate, week, seasonId, dateFormatted; 
 	private int schedMonth;
 	private String year, season, gender, startDate, startTime, dayOfWeek, duration;
 	private String scheduledDateFullYear;
 	private String slotid, slotStatus, slotAvailablePlayers; 
 	
+	public String getDateFormatted() {
+		return dateFormatted;
+	}
+
+	public void setDateFormatted(String dateFormatted) {
+		this.dateFormatted = dateFormatted;
+	}
 
 	public String getSlotid() {
 		return slotid;

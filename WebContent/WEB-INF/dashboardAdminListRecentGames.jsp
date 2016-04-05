@@ -1,5 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%@ page import="utilities.GameDao"%>
+<% 
+GameDao game = new GameDao();
+game.findRecentGames(request);	
+%>
 
 			<table class="table table-hover sortable jumbotron">
 			<thead>
@@ -10,24 +15,12 @@
 				</tr>
 			</thead>
 			<tbody>
-
+			<c:forEach items="${games}" var="game">
 				<tr>
-					<td class="col-xs-12 col-md-3 control-label"><a href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.gameid}">4</a></td>
-					<td class="col-xs-12 col-md-2">2016-02-04</td>
-					<td class="col-xs-12 col-md-2">F</td>
+					<td class="col-xs-12 col-md-3 control-label"><a href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.id}">${game.id}</a></td>
+					<td class="col-xs-12 col-md-2">${game.scheduledDate}</td>
+					<td class="col-xs-12 col-md-2">${game.gender}</td>
 				</tr>
-
-				<tr>
-					<td class="col-xs-12 col-md-3 control-label"><a href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.gameid}">3</a></td>
-					<td class="col-xs-12 col-md-2">2016-02-03</td>
-					<td class="col-xs-12 col-md-2">M</td>
-				</tr>
-
-				<tr>
-					<td class="col-xs-12 col-md-3 control-label"><a href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.gameid}">2</a></td>
-					<td class="col-xs-12 col-md-2">2016-02-02</td>
-					<td class="col-xs-12 col-md-2">F</td>
-				</tr>
-
+			</c:forEach>
 			</tbody>
 		</table>
