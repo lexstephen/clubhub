@@ -23,14 +23,6 @@
 							</c:when>
 						</c:choose>
 					${blog.postDate}
-					<c:choose>
-						<c:when test="${(isAdmin == true) && (blog.accessLevel != 'Private')}">
-							<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
-						</c:when>
-						<c:when test="${(postMatchesUser == true) && (blog.accessLevel == 'Private')}">
-							<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
-						</c:when>
-					</c:choose>
 					<a href="${pageContext.request.contextPath}/Post.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">More</a>
 				</div>
 			<hr>

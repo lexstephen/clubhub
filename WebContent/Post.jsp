@@ -57,11 +57,11 @@ request.setAttribute("thisPage", request.getAttribute("postTitle")); %>
 								<span class="glyphicon glyphicon-user" aria-hidden="true"></span> | 
 							</c:when>
 						</c:choose>
-					${post.postDate}
-			<c:if test="${(isAdmin == true)}">
-					<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
-			</c:if>
-							</div>
+						${post.postDate}
+						<c:if test="${(isAdmin == true)}">
+								<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+						</c:if>
+				</div>
 			<hr>
 		</div>
 	</div>
