@@ -8,14 +8,10 @@
  
 package utilities;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import model.Game;
 
 
 public class CalendarBuilder { 
@@ -55,9 +51,11 @@ public class CalendarBuilder {
 	        return false;
 	    }
 
-	    public CalendarBuilder(HttpServletRequest request, int m, int y) throws Exception {
+	    public CalendarBuilder(HttpServletRequest request) throws Exception {
 	    	
-	    	HttpSession session = request.getSession();
+	    	HttpSession session = request.getSession();	    	
+	    	int m = (session.getAttribute("selectedMonth") == null ? 0 : Integer.parseInt(session.getAttribute("selectedMonth").toString()));
+	    	int y = (session.getAttribute("selectedYear") == null ? 0 : Integer.parseInt(session.getAttribute("selectedYear").toString()));	    	
 			GameDao dao = new GameDao();
 	    	int M, Y, currentDay, dayOfWeek;
 			String calendarDate;
@@ -130,7 +128,8 @@ public class CalendarBuilder {
 		        		output += "<td><strong><a href=\"#calendar\" data-toggle=\"popover\" title=\"" + ValidationUtilities.numberToDay(dayOfWeek)  + " " + i + "\" data-content=\"" 
 		        				+ request.getAttribute("output") + "\"><u>" + String.format("%2d ", i) + "</u></a></strong></td>";
 		        	} else {
-		        		output += "<td><a href=\"#calendar\" data-toggle=\"popover\" title=\"" + ValidationUtilities.numberToDay(dayOfWeek)  + " " + i + "\" data-content=\"" 
+		        		output += "<td><a href=\"#calendar\" data-toggle=\"popover\" title=\"" + ValidationUtilities.numberToDay(dayOfWeek)  + " " 
+		        	+ months[M] + " "+ i + "\" data-content=\"" 
 		        				+ request.getAttribute("output") + "\"><u>" + String.format("%2d ", i) + "</u></a></td>";
 		        	}
 	        	} else {
