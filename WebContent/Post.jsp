@@ -15,6 +15,10 @@
 post.findPost(request, request.getParameter("postID"));
 request.setAttribute("thisPage", request.getAttribute("postTitle")); %>
 
+<c:if test="${isLoggedIn == false || isLoggedIn == null}">
+	<c:redirect url="/Main.jsp"/>
+</c:if>
+
 <%@ include file="/WEB-INF/header_public.jsp"%>
 	<c:if test="${!empty errorString}">
 		<div class="alert alert-danger" role="alert">
