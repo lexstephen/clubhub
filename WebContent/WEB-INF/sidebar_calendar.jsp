@@ -18,7 +18,7 @@
 %>
 
 	
-  	<h3>Club Schedule</h3>
+  	<h3 id="calendar">Club Schedule</h3>
 
 	<table class="table">
 		<% 
