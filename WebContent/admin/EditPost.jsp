@@ -40,7 +40,7 @@ post.findPost(request, postID);
 			</label>
 		</div>
 		<div class="col-xs-3">
-			<select class="form-control" name="accessLevel" id="editAccess" ${post.postType == 'Static' ? 'disabled' : ''}>
+			<select class="form-control" name="accessLevel" id="editAccess">
 				<option value="1" ${post.accessLevel == 'Public' ? 'selected' : ''}>Public</option>
 				<option value="2" ${post.accessLevel == 'Members' ? 'selected' : ''}>Members Only</option>
 				<option value="3" ${post.accessLevel == 'Private' ? 'selected' : ''}>Draft</option>

@@ -106,7 +106,7 @@ public class PostDao {
 			    	  post.setUserLastName(resultSet.getString("user.lastName"));
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
-			    	  post.setCategory(resultSet.getString("category.type"));			    	  
+			    	  post.setCategory(resultSet.getString("posttype.type").equals("Static") ? "--" : resultSet.getString("category.type"));			    	  
 			    	  post.setPostDate(resultSet.getString("Postdate"));
 			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));    
 			    	  
@@ -193,7 +193,7 @@ public class PostDao {
 				+ "ON post.Accessid = access.id "
 				+ "JOIN clubhub.ch_category category "
 				+ "ON post.Categoryid = category.id "
-				+ "WHERE posttype.id = 2 AND NOT access.id = 3");			// Where post is Static Content, and not private
+				+ "WHERE posttype.id = 2");			// Where post is Static Content
 			      
 			    while (resultSet.next()) {
 			    	  Post post = new Post();
@@ -201,17 +201,17 @@ public class PostDao {
 			    	  post.setContent(resultSet.getString("content"));
 			    	  post.setId(resultSet.getString("id"));
 			    	  post.setUserid(resultSet.getString("Userid"));
-			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
+			    	  /*post.setUserFirstName(resultSet.getString("user.firstName"));
 			    	  post.setUserLastName(resultSet.getString("user.lastName"));
-			    	  post.setPostType(resultSet.getString("posttype.type"));
+			    	  post.setPostType(resultSet.getString("posttype.type"));*/
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
-			    	  post.setCategory(resultSet.getString("category.type"));
+			    	  /*post.setCategory(resultSet.getString("category.type"));*/
 			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));
 			    	  
 			    	  if (post.getAccessLevel().equals("Public")) {
 			    		  posts.add(post);		
 			    	  } else if(post.getAccessLevel().equals("Members") && ((isLoggedIn == true))){
-			    		  posts.add(post);	
+			    		  posts.add(post);
 			    	  } else if(post.getAccessLevel().equals("Private") && post.isPostMatchUser() == true) {
 			    			posts.add(post);		
 			    	  }
@@ -296,7 +296,7 @@ public class PostDao {
 		    String title = request.getParameter("blogTitle");	// title
 		    String content = request.getParameter("blogContent"); // content
 		    String pageType = request.getParameter("pageType"); // Posttypeid
-		    String accessLevel = (request.getParameter("accessLevel")!= null) ? request.getParameter("accessLevel"): "1"; // Accessid
+		    String accessLevel = request.getParameter("accessLevel"); // Accessid
 		    String category = (request.getParameter("pageCategory") != null) ? request.getParameter("pageCategory"): "1"; // Categoryid
 	      
 		    statement = connect.createStatement();
