@@ -28,9 +28,13 @@
 		
 	<table class="table table-hover sortable">
 		<thead>
-			<tr><th class="col-xs-12 col-md-3 control-label">Title</th>
-			<th class="col-xs-12 col-md-2">Category</th>
-			<th class="col-xs-12 col-md-2">Author</th><th class="col-xs-12 col-md-3">Access Level</th><th class="sorttable_nosort"></th></tr>
+			<tr>
+				<th class="sorttable_nosort col-xs-12 col-md-1"></th>
+				<th class="col-xs-12 col-md-3 control-label">Title</th>
+				<th class="col-xs-12 col-md-2">Category</th>
+				<th class="col-xs-12 col-md-2">Author</th><th class="col-xs-12 col-md-2">Date Posted</th>
+				<th class="sorttable_nosort col-xs-12 col-md-2"></th>
+			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${blogs}" var="blog">

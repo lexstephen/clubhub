@@ -11,6 +11,11 @@
 <%@ page import="utilities.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<c:if test="${(isLoggedIn == false || isLoggedIn == null)}">
+	<c:redirect url="/Main.jsp"/>
+	redirect 1
+</c:if>
+
 <%	
 	UserDao user = new UserDao();
 	user.findUser(request, request.getParameter("userID"));

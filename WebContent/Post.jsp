@@ -15,8 +15,14 @@
 post.findPost(request, request.getParameter("postID"));
 request.setAttribute("thisPage", request.getAttribute("postTitle")); %>
 
-<c:if test="${isLoggedIn == false || isLoggedIn == null}">
+
+<c:if test="${(post.accessLevel == 'Private' || post.accessLevel == 'Members') && (isLoggedIn == false || isLoggedIn == null)}">
 	<c:redirect url="/Main.jsp"/>
+	redirect 1
+</c:if>
+<c:if test="${(post.accessLevel == 'Private') && !(post.postMatchUser)}">
+	<c:redirect url="/Main.jsp"/>
+	redirect 2
 </c:if>
 
 <%@ include file="/WEB-INF/header_public.jsp"%>
@@ -51,11 +57,11 @@ request.setAttribute("thisPage", request.getAttribute("postTitle")); %>
 								<span class="glyphicon glyphicon-user" aria-hidden="true"></span> | 
 							</c:when>
 						</c:choose>
-					${post.postDate}
-			<c:if test="${(isAdmin == true)}">
-					<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
-			</c:if>
-							</div>
+						${post.postDate}
+						<c:if test="${(isAdmin == true)}">
+								<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${post.id}" class="btn btn-primary btn-xs">Edit</a>
+						</c:if>
+				</div>
 			<hr>
 		</div>
 	</div>

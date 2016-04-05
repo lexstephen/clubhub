@@ -24,9 +24,10 @@
 			<thead>
 				<tr>
 					<th class="sorttable_nosort col-md-1"></th>
-					<th class="col-xs-12 col-md-3 control-label">Title</th>
+					<th class="col-xs-12 col-md-2 control-label">Title</th>
 					<th class="col-xs-12 col-md-2">Category</th>
-					<th class="col-xs-12 col-md-2">Author</th>
+					<th class="col-xs-12 col-md-1">Author</th>
+					<th class="col-xs-12 col-md-2" style="padding-left:20px;">Date Posted</th>
 					<th class="col-xs-12 col-md-1">Type</th>
 					<th class="col-xs-12 col-md-1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></th>
 					<th class="sorttable_nosort col-md-2"></th>
