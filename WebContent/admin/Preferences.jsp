@@ -44,6 +44,7 @@
 	PrefObj.postalcode = "${postalcode}";
 	PrefObj.contactName = "${contactName}";
 	PrefObj.emailAddress = "${emailAddress}";
+	PrefObj.clubURL = "${clubURL}";
 	PrefObj.tax_rate = "${tax_rate}"; 
 	PrefObj.image_logo_exists = "false";
 	PrefObj.image_small_logo_exists = "false"; 
@@ -68,6 +69,7 @@
 		PrefObj.postalcode = "${preference.postalcode}";
 		PrefObj.contactName = "${preference.contactName}";
 		PrefObj.emailAddress = "${preference.emailAddress}";
+		PrefObj.clubURL = "${preference.clubURL}";
 		PrefObj.tax_rate = "${preference.tax_rate}"; 
 		PrefObj.status = "${preference.status}";  
 		PrefObj.image_logo_exists = "${preference.image_logo}";  
@@ -151,6 +153,15 @@
 		</label>
 		<div class="col-sm-9">
 			<input class="form-control" type="text" name="club_name_short" id="inpt_club_name_short" value="${club_name_short }">
+		</div>	
+	</div>
+	
+	<div class="row form-group <c:if test="${!empty errorClubURL}">has-error</c:if>">
+		<label class="col-sm-3 control-label">
+			Club URL (include http://)
+		</label>
+		<div class="col-sm-9">
+			<input class="form-control" type="text" name="clubURL" id="inptClubURL" value="${clubURL }">
 		</div>	
 	</div>
 	

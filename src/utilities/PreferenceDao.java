@@ -104,7 +104,7 @@ public class PreferenceDao {
 	        		String qry = "insert into ch_Preferences "
 		    				+ "(`id`, `club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, "
 		    				+ "`telephone`, `address`, `city`, `province`, `postal_code`, `country`, "
-		    				+ "`status`, `preference_name`, `contactName`, `emailAddress`, `image_logo`, `image_small_logo`) "
+		    				+ "`status`, `preference_name`, `contactName`, `emailAddress`, `clubURL`, `image_logo`, `image_small_logo`) "
 		    				+ " values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	        		System.out.println(qry);
 		    		preparedStatement = connect.prepareStatement(qry);
@@ -122,8 +122,9 @@ public class PreferenceDao {
 		    		preparedStatement.setString(12, request.getParameter("preference_name")); // preference_name
 		    		preparedStatement.setString(13, request.getParameter("contactName")); // preference_name
 		    		preparedStatement.setString(14, request.getParameter("emailAddress")); // preference_name
-		    		preparedStatement.setBlob(15, input_image_logo); // image_logo
-		    		preparedStatement.setBlob(16, input_image_small_logo); // image_small_logo
+		    		preparedStatement.setString(15, request.getParameter("clubURL")); // preference_name
+		    		preparedStatement.setBlob(16, input_image_logo); // image_logo
+		    		preparedStatement.setBlob(17, input_image_small_logo); // image_small_logo
 
 		    		preparedStatement.executeUpdate(); 
 
@@ -153,6 +154,7 @@ public class PreferenceDao {
 			    	pref.setTax_rate(Float.parseFloat(resultSet.getString("tax_rate")));
 			    	pref.setContactName(resultSet.getString("contactName"));
 			    	pref.setEmailAddress(resultSet.getString("emailAddress"));
+			    	pref.setClubURL(resultSet.getString("clubURL"));
 
 			    	pref.setPreference_name(resultSet.getString("preference_name"));
 				  	session.setAttribute("preference", pref);
@@ -187,6 +189,7 @@ public class PreferenceDao {
 			    	pref.setStatus(resultSet.getString("status"));
 			    	pref.setContactName(resultSet.getString("contactName"));
 			    	pref.setEmailAddress(resultSet.getString("emailAddress"));
+			    	pref.setClubURL(resultSet.getString("clubURL"));
 				  	request.setAttribute("clubName", pref.getClub_name_long());
 				  	if(resultSet.getBlob("image_logo")!=null) {
 				  		pref.setImage_logo("true");				  		
@@ -266,7 +269,7 @@ public class PreferenceDao {
     		String qry = "UPDATE ch_Preferences "
     				+ "SET  preference_name = ?, club_name_long = ?, "
     				+ "club_name_short = ?, Colour_Schemeid = ?, tax_rate = ?, "
-    				+ "telephone = ?, address = ?, city = ?, province = ?, postal_code = ?, country = ?, contactName = ?, emailAddress = ?";
+    				+ "telephone = ?, address = ?, city = ?, province = ?, postal_code = ?, country = ?, contactName = ?, emailAddress = ?, clubURL = ?";
     		
 	        InputStream input_image_logo = null; // input stream of the upload file 
 	        // obtains the upload file part in this multipart request
@@ -309,13 +312,14 @@ public class PreferenceDao {
 		    		preparedStatement.setString(11, request.getParameter("country")); // country
 		    		preparedStatement.setString(12, request.getParameter("contactName")); // country
 		    		preparedStatement.setString(13, request.getParameter("emailAddress")); // country
+		    		preparedStatement.setString(14, request.getParameter("clubURL")); // country
 		    		if(isImageLogo) {
-		    			preparedStatement.setBlob(14, input_image_logo);// image_logo
+		    			preparedStatement.setBlob(15, input_image_logo);// image_logo
 			    		if(isImageSmallLogo) {
-			    			preparedStatement.setBlob(15, input_image_small_logo); // image_small_logo
+			    			preparedStatement.setBlob(16, input_image_small_logo); // image_small_logo
 		    			} 
 	    			} else if(isImageSmallLogo) {
-			    			preparedStatement.setBlob(14, input_image_small_logo); // image_small_logo
+			    			preparedStatement.setBlob(17, input_image_small_logo); // image_small_logo
 	    			} 
 		    		preparedStatement.executeUpdate(); 
 		    		

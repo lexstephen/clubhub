@@ -12,17 +12,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <% GameDao game = new GameDao();
-String gameID = "33";//(String)request.getAttribute("gameID");
+String gameID = request.getParameter("gameID");
 game.findGames(request, gameID);
 request.setAttribute("thisPage", "Game Details"); %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 	<div style="padding-left:150px;">
 			<div class="row">
-				<h2 class="hang_left">Season ${game.seasonId}</h2>
-				<h3 class="hang_left">Game ${game.id}</h3>
+				<h2 class="hang_left">Season ${game.seasonId}: ${game.gender } ${game.season } ${game.year }</h2>
+				<h3 class="hang_left">Game ${game.id}: ${game.dayOfWeek} ${game.scheduledDateFullYear} ${game.startTime}</h3>
 				
-				<span class="postMeta">${game.scheduledDate}</span>
+				<span class="postMeta"></span>
 				<strong>Winner: TBD</strong>
 			</div>
 			<div class="row">

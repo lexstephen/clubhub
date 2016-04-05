@@ -9,8 +9,6 @@ package model;
 public class Season {
 	private String id, year, season, gender, startDate, startTime, dayOfWeek, duration;
 
-		
-	
 	public String getYear() {
 		return year;
 	}

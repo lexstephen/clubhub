@@ -12,7 +12,7 @@
 		<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/css/custom.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
-		
+		<meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
 	</head>
 	<body class="backend">
 		<c:if test="${isLoggedIn == false || isLoggedIn == null}">

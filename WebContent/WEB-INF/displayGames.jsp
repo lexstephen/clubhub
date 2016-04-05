@@ -5,12 +5,31 @@
 	Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
 	Student Number: 100563954, 100911472, 100898311
 	Date: Feb 03, 2016
-	Description: displayGames.jsp - HTML formatting for BatchPosts.jsp
+	Description: displayGames.jsp - HTML formatting for DisplayGames.jsp
  --%>
  
 
  <tr>
-	<td class="col-xs-12 col-md-3 control-label"><b>Week: ${game.week}</b>, ${game.scheduledDate}</td>
-</tr><br>
+ 	<td class="col-md-1 col-xs-12">
+	 	<c:if test="${(isAdmin == true)}">
+			<input type="checkbox" name="gameSelected" value="${game.id}">
+		</c:if>
+	</td>
+	<td class="col-md-1 col-xs-12 control-label">${game.seasonId}</td>
+	<td class="col-md-1 col-xs-12">${game.gender}</td>
+	<td class="col-md-1 col-xs-12">${game.season}</td>
+	<td class="col-md-1 col-xs-12">${game.year}</td>
+	<td class="col-md-1 col-xs-12">${game.week}</td>
+	<td class="col-md-1 col-xs-12">${game.dayOfWeek}</td>
+	<td class="col-md-1 col-xs-12">${game.scheduledDate}</td>
+	<td class="col-md-1 col-xs-12">
+		<span class="expand">
+		<c:if test="${(isAdmin == true) || (game.userid == loggedInUserID)}">
+			<a href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.id}" class="btn btn-primary btn-xs">Edit</a>
+		</c:if>
+			<a href="${pageContext.request.contextPath}/admin/Game.jsp?gameID=${game.id}" class="btn btn-primary btn-xs">More</a>
+		</span>
+	</td>
+</tr>
 
      

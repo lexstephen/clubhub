@@ -136,7 +136,7 @@ public class SeasonDao {
 			    	  
 			    	  int num = resultSet.getInt("dayOfWeek");
 			    	  int givenTime = resultSet.getInt("startTime");
-			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
+			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
 			    	  String time = utilities.ValidationUtilities.toTime(request,givenTime);
 			    	  
 			    	  season.setYear(resultSet.getString("year"));
@@ -181,7 +181,31 @@ public class SeasonDao {
 			}
 		  	request.setAttribute("seasons", seasons);
 	} 
+
 	
+	 public void listAll(HttpServletRequest request) throws Exception {
+
+		List<Season> seasons = new ArrayList<Season>();
+	  	try{  		
+	  		statement = connect.createStatement();
+		    resultSet = statement.executeQuery("SELECT * FROM ch_season");
+		    while (resultSet.next()) {
+		    	Season ssn = new Season();
+		    	ssn.setId(resultSet.getString("id"));
+		    	ssn.setDayOfWeek(resultSet.getString("dayOfWeek"));
+		    	ssn.setDuration(resultSet.getString("duration"));
+		    	ssn.setGender(resultSet.getString("gender"));
+		    	ssn.setSeason(resultSet.getString("season"));
+		    	ssn.setStartDate(resultSet.getString("startDate"));
+		    	ssn.setStartTime(resultSet.getString("startTime"));
+		    	ssn.setYear(resultSet.getString("year"));
+		    	seasons.add(ssn);
+		    }
+	    } catch (SQLException e) {
+		      throw e;
+		}
+	  	request.setAttribute("seasons", seasons);
+	}
 	public void listSeasonWithGames(HttpServletRequest request, String seasonID) throws Exception {
 		  List<Slot> slots = new ArrayList<Slot>();
 		  Boolean display = true;
@@ -195,7 +219,7 @@ public class SeasonDao {
 			    	  
 			    	  int num = resultSet.getInt("dayOfWeek");
 			    	  int givenTime = resultSet.getInt("startTime");
-			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
+			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
 			    	  String time = utilities.ValidationUtilities.toTime(request,givenTime);
 			    	  
 			    	  season.setYear(resultSet.getString("year"));

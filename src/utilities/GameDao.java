@@ -40,6 +40,7 @@ public class GameDao {
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
+	private ResultSet resultSet2 = null;
 	
 	
 	
@@ -187,7 +188,6 @@ public class GameDao {
 	  	return isMatched;
 	}
 	
-	/*
 	 public void listAll(HttpServletRequest request) throws Exception {
 
 		List<Game> games = new ArrayList<Game>();
@@ -198,9 +198,27 @@ public class GameDao {
 		    while (resultSet.next()) {
 		    	  Game game = new Game();
 		    	  game.setId(resultSet.getString("id"));
-		    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
-		    	  
-		    	  games.add(game);
+		    	  game.setScheduledDate(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
+		    	  game.setWeek(resultSet.getString("week"));
+		    	  game.setSeasonId(resultSet.getString("seasonId"));
+
+			  	  try{  		
+			  	  	statement = connect.createStatement();
+			  		resultSet2 = statement.executeQuery("SELECT * FROM ch_season WHERE id = " + game.getSeasonId());
+			  		while (resultSet2.next()) {
+			  			game.setYear(resultSet2.getString("year"));
+			  			game.setSeason(ValidationUtilities.seasonName(resultSet2.getString("season")));
+			  			game.setGender(resultSet2.getString("gender"));
+			  			game.setStartDate(resultSet2.getString("startDate"));
+			  			game.setStartTime(ValidationUtilities.toTime(request, Integer.parseInt(resultSet2.getString("startTime"))));
+			  			game.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet2.getString("dayOfWeek"))));
+			  			game.setDuration(resultSet2.getString("duration"));
+			  		}
+			  	  }
+			  	  catch (SQLException e) {
+		  		   	throw e;
+			  	  }
+		    	games.add(game);
 		    }
 	    } catch (SQLException e) {
 		      throw e;
@@ -225,7 +243,6 @@ public class GameDao {
 			deleteSeason(request, response, x);
 		}		
 	}
-	*/
 	
 	public int getDuration(HttpServletRequest request, String seasonID) throws Exception {
 		statement = connect.createStatement();
@@ -273,11 +290,41 @@ public class GameDao {
 			    
 			    
 			    while (resultSet.next()) {
-			    	  game.setWeek(resultSet.getString("week"));
-			    	  game.setScheduledDate(resultSet.getString("scheduledDate"));
-			    	  game.setSeasonId(resultSet.getString("seasonId"));
-			    	  game.setId(resultSet.getString("id"));
 			    	  seasondao.findSeason(request, resultSet.getString("seasonId"));
+			    	  game.setId(resultSet.getString("id"));
+			    	  game.setScheduledDate(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
+			    	  game.setScheduledDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("scheduledDate")));
+			    	  game.setWeek(resultSet.getString("week"));
+			    	  game.setSeasonId(resultSet.getString("seasonId"));
+
+				  	  try{  		
+				  	  	statement = connect.createStatement();
+				  		resultSet2 = statement.executeQuery("SELECT * FROM ch_season WHERE id = " + game.getSeasonId());
+				  		while (resultSet2.next()) {
+				  			game.setYear(resultSet2.getString("year"));
+				  			game.setSeason(ValidationUtilities.seasonName(resultSet2.getString("season")));
+				  			String genderName = null;
+				  			switch(resultSet2.getString("gender")) {
+				  			case "M":
+				  				genderName = "Mens'";
+				  				break;
+				  			case "F":
+				  				genderName = "Womens'";
+				  				break;
+				  			case "X":
+				  				genderName = "Mixed";
+				  				break;
+				  			}
+				  			game.setGender(genderName);
+				  			game.setStartDate(resultSet2.getString("startDate"));
+				  			game.setStartTime(ValidationUtilities.toTime(request, Integer.parseInt(resultSet2.getString("startTime"))));
+				  			game.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet2.getString("dayOfWeek"))));
+				  			game.setDuration(resultSet2.getString("duration"));
+				  		}
+				  	  }
+				  	  catch (SQLException e) {
+			  		   	throw e;
+				  	  }
 			    	  
 			}} catch (SQLException e) {
 			      throw e;
@@ -490,7 +537,7 @@ public class GameDao {
 				    while (resultSet2.next()) {
 				    	int num = resultSet2.getInt("dayOfWeek");
 				    	int givenTime = resultSet2.getInt("time");
-				    	String dayOfWeek = utilities.ValidationUtilities.numberToDay(request,num);
+				    	String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
 				    	String time = utilities.ValidationUtilities.toTime(request,givenTime);
 				    	
 				    	
