@@ -15,8 +15,14 @@
 post.findPost(request, request.getParameter("postID"));
 request.setAttribute("thisPage", request.getAttribute("postTitle")); %>
 
-<c:if test="${isLoggedIn == false || isLoggedIn == null}">
+
+<c:if test="${(post.accessLevel == 'Private' || post.accessLevel == 'Members') && (isLoggedIn == false || isLoggedIn == null)}">
 	<c:redirect url="/Main.jsp"/>
+	redirect 1
+</c:if>
+<c:if test="${(post.accessLevel == 'Private') && !(post.postMatchUser)}">
+	<c:redirect url="/Main.jsp"/>
+	redirect 2
 </c:if>
 
 <%@ include file="/WEB-INF/header_public.jsp"%>

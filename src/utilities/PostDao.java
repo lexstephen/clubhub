@@ -251,10 +251,11 @@ public class PostDao {
 		  
 		HttpSession session = request.getSession();
 		Post post = new Post();
+		String loggedInUserID = session.getAttribute("loggedInUserID") == null ? "nil" : (String)session.getAttribute("loggedInUserID");
 		  
 		  	try{
 			    statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, post.Postdate, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
+			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, post.Postdate, post.Userid, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_post post "
 				+ "JOIN clubhub.ch_posttype posttype "
 				+ "ON post.Posttypeid = posttype.id "
@@ -270,13 +271,14 @@ public class PostDao {
 			    	  post.setTitle(resultSet.getString("title"));
 			    	  post.setContent(resultSet.getString("content"));
 			    	  post.setId(resultSet.getString("id"));
+			    	  post.setUserid(resultSet.getString("Userid"));
 			    	  post.setUserFirstName(resultSet.getString("user.firstName"));
 			    	  post.setUserLastName(resultSet.getString("user.lastName"));
 			    	  post.setPostType(resultSet.getString("posttype.type"));
 			    	  post.setAccessLevel(resultSet.getString("access.type"));
 			    	  post.setCategory(resultSet.getString("category.type"));
 			    	  post.setPostDate(resultSet.getString("Postdate"));
-			    	  post.setPostMatchUser(post.getUserid().equals((String)session.getAttribute("loggedInUserID")));
+			    	  post.setPostMatchUser(post.getUserid().equals(loggedInUserID));
 			    	  
 			    	  System.out.println("PostDate = " + post.getPostDate());
 			    }
