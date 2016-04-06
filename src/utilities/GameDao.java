@@ -44,8 +44,6 @@ public class GameDao {
 	private ResultSet resultSet2 = null;
 	private ResultSet resultSet3 = null;
 	
-	
-	
 	public GameDao() {
 		try {
 			connect = DatabaseAccess.connectDataBase();
@@ -431,32 +429,48 @@ public class GameDao {
 		String playerToAdd = (String) request.getAttribute("playerToAdd");
 		// take the CSV of slots that the player will play and split them out into an array
 		@SuppressWarnings("unchecked")
-		List<String> desiredSlots = (ArrayList<String>) request.getAttribute("desiredSlotIDs"); // their new availability
-//		Slot desiredSlot
-		List<String> existantSlots = new ArrayList<String>(); // their old availability
+		List<String> slotList = (ArrayList<String>) request.getAttribute("desiredSlotIDs"); // their new availability
+		List<Slot> desiredSlots = new ArrayList<Slot>(); // their old availability
+		List<Slot> existantSlots = new ArrayList<Slot>(); // their old availability
+		for (String slot : slotList) {
+			Slot slt = new Slot();
+			slt.setId(slot);
+			slt.setConflict(0);
+			desiredSlots.add(slt);
+		}
 		List<String> slots = new ArrayList<String>(); // where we'll store the new user slots
 		List<String> conflictSlots = new ArrayList<String>(); // where we'll track any conflicts
 		try{
 			// first check if this slot has already been assigned
 			try{
 				statement = connect.createStatement();
-				ResultSet results = statement.executeQuery("select Slotid from ch_user_slot where Userid = " + playerToAdd); 
+				ResultSet results = statement.executeQuery("select * from ch_user_slot where Userid = " + playerToAdd); 
+				Slot existantSlot = new Slot();
 				while(results.next()){
-					existantSlots.add(results.getString("Slotid"));
-					System.out.println("User already assigned to " + results.getString("Slotid"));
+					existantSlot.setId(results.getString("Slotid"));
+					existantSlot.setConflict(Integer.parseInt(results.getString("conflict")));
+//					
+					existantSlots.add(existantSlot);
 				}
 				
-				for (String a : desiredSlots) {
+				for (Slot a : desiredSlots) {
 					if(!existantSlots.contains(a)) {
-						System.out.println("Adding " + a);
-						slots.add(a);
-					} 
+
+						System.out.println("User already assigned to " + a.getId() + " and has " + a.getConflict());
+					} else {
+						if (existantSlot.sameSlotDifferentConflict(a)) {
+							System.out.println("User already assigned to " + a.getId() + " and has " + a.getConflict());
+						} else {
+							System.out.println("Adding " + a.getId());
+							slots.add(a.getId());
+						}
+					}
 			    }
 				
-				for (String a : existantSlots) {
+				for (Slot a : existantSlots) {
 					if(!desiredSlots.contains(a)) {
 						System.out.println("They did not want " + a);
-						conflictSlots.add(a);
+						conflictSlots.add(a.getId());
 					} 
 			    }
 			} catch(SQLException e) {
@@ -713,7 +727,7 @@ public class GameDao {
 				    		+ "on ch_game.id = ch_slot.gameID "
 				    		+ "join ch_season "
 				    		+ "on ch_game.seasonid = ch_season.id "
-				    		+ "where ch_slot.gender= \""+ userGender +"\" and ch_slot.status = 1");
+				    		+ "where ch_slot.gender IN (\""+ userGender +"\", \"X\") and ch_slot.status = 1");
 				    
 				    while (resultSet2.next()) {
 				    	Slot slot = new Slot();
@@ -726,14 +740,11 @@ public class GameDao {
 				    	slot.setTime(time);
 				    	slot.setSeasonName(ValidationUtilities.seasonName(resultSet2.getString("season")));
 				    	slot.setYear(resultSet2.getString("year"));
-				    	slot.setGender(ValidationUtilities.genderName(userGender));
+				    	slot.setGender(ValidationUtilities.genderName(resultSet2.getString("gender")));
 				    	slot.setScheduledDate(ValidationUtilities.dateFullYear(resultSet2.getString("scheduledDate")));
 				    	slot.setId(slotID);    
 				    	request.setAttribute("slotID", slot.getId());
-
-						System.out.println("I get before the third one");
 				    	slot.setConflict(checkSlotConflict(userID,slotID));
-		System.out.println("I get past the third one");
 				    	slots.add(slot);
 					}
 			    } catch (SQLException e) {

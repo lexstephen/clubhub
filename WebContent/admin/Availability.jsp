@@ -21,16 +21,31 @@ slot.findOpenGameSlots(request, str);
 slot.findAllOfUsersSlots(request);
 %>
 
-<form action="/clubhub/GameController" method="post" class="form" role="form">
-	<h3>Please select your availability: </h3>
 
+<form action="/clubhub/GameController" method="post" class="form" role="form">
+	<c:if test="${!empty errorString}">
+		<div class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		  ${errorString }
+		</div>
+	</c:if>
+	<c:if test="${!empty successString}">
+		<div class="alert alert-success" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Success:</span>
+		  ${successString }
+		</div>
+	</c:if>
+	<p>Select the games you are available to play.  This information will be used by the league administrator to schedule games.  If a conflict arises, deselect the checkbox in question and this information will be provided to the administrator.</p>
+	
 				<!--   -->
 	<c:forEach items="${slots}" var="slot">
 			<input type="checkbox" name="slots" value="${slot.id}"<c:forEach items="${user.slotid}" var="uslot">
 				<c:if test="${(slot.id == uslot) && (slot.conflict == 0) }"> checked</c:if>
 			</c:forEach>>  ${slot.gender} ${slot.seasonName } ${slot.year} ${slot.dayOfWeek} ${slot.scheduledDate} at ${slot.time}  <br>
 	</c:forEach>
-	<button class="btn btn-info" type="submit" value="players" name="option">Submit</button>
+	<button class="btn btn-info" type="submit" value="availability" name="option">Submit</button>
 </form>
 
 

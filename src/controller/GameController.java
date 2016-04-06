@@ -96,40 +96,19 @@ public class GameController extends HttpServlet {
 		    		address = "admin/ListGames.jsp";
 		    			
 		    	break;
-		    	case "players":
+		    	case "availability":
 		    		HttpSession session = request.getSession();
 		    		String [] ID = request.getParameterValues("slots");
-		    		/*
-		    		StringBuilder builder = new StringBuilder();
-		    		if (ID.length >= 1) {
-		    			builder.append(ID[0]);
-		    		}
-
-		    		for (int i = 1; i < ID.length; i++) { 
-		    			builder.append(", ");
-		    			builder.append(ID[i]);
-		    		}
-		    		*/
 		    		List<String> desiredSlots = new ArrayList<String>();
 		    		for (String i : ID) {
 		    			desiredSlots.add(i);
 		    		}
-		    		/* String slotIDs = builder.toString();
-
-		    		System.out.println("The current user ID is: " + userID);
-		    		
-		    		//String slots = ID.toString();
-		    		System.out.println(slotIDs);
-
-		    		Object id = session.getAttribute("loggedInUserID");
-		    		String userID = id.toString(); */
 		    		request.setAttribute("desiredSlotIDs", desiredSlots);
 		    		request.setAttribute("playerToAdd", session.getAttribute("loggedInUserID"));
 		    		dao.addUserSlot(request);
-		    		// dao.playersAvailable(request, userID, slotIDs);
-
+					request.setAttribute("successString", "You are now registered! Please log in.");
 	    			address = "admin/Availability.jsp";
-		    		errorChecker = "Dun";
+					request.setAttribute("errorString", "You are now registered! Please log in.");
 	    		break;
 		    	case "displayGames":
 	    			
@@ -137,18 +116,14 @@ public class GameController extends HttpServlet {
 	    			gameMonth = request.getParameter("gameMonth");  			
 		    		request.setAttribute("seasonID", seasonID);
 		    		request.setAttribute("gameMonth", gameMonth);
-		    		
-		    		System.out.println("The Id is: "+ seasonID);
-		    		System.out.println("The month is: " + gameMonth);
-		    		
 	    			errorChecker = "Redirect to listgames";
-	    			
 	    			address = "admin/ListGames.jsp";
 		    			
 		    	break;
 		    	
 		    	default:
-	    		errorChecker = "Something has gone horribly wrong";
+		    		errorChecker = "Something has gone horribly wrong";
+	    		break;
 	    	}
 	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);

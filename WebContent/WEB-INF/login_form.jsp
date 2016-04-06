@@ -10,11 +10,13 @@
 		    <label for="inptPassword" class="hidden">Password</label>
 		    <input type="password" class="form-control" name="password" id="inptPassword" value="${password}" placeholder="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'">
 		  </div>
+		  <!--  
 		  <div class="checkbox">
 		    <label>
 		      <input type="checkbox" name="setCookie" checked> Remember Me?
 		    </label>
 		  </div>
+		   -->
 		  <input type="hidden" name="option" value="login">
 		  <input type="submit" class="btn btn-default" value="Login">
 		</form>

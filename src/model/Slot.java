@@ -110,5 +110,13 @@ public class Slot {
 	public void setGameID(String gameID) {
 		this.gameID = gameID;
 	}
+	
+	public boolean sameSlotDifferentConflict(Slot other) {
+        /* if(!this.id.equals(other.id))
+            return false; */
+		System.out.println("I compare the slots and find id " + this.id + "|" + other.id + " and conflict " + this.conflict + "|" + other.conflict);
+		System.out.println("That's a " + this.id.equals(other.id) + " and " + (this.conflict != other.conflict));
+        return (this.id.equals(other.id) && (this.conflict != other.conflict));
+    }
 
 }
