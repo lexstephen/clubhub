@@ -28,6 +28,8 @@ import javax.swing.JOptionPane;
 import model.Game;
 import model.Season;
 import model.Slot;
+import model.UserGame;
+import model.UserSeason;
 import utilities.DatabaseAccess;
 
 public class SeasonDao {
@@ -104,6 +106,55 @@ public class SeasonDao {
 		}
 	    
 	    return season_id;
+	}
+	
+	public void getUserSeasons(HttpServletRequest request) throws Exception {
+		
+		List<UserSeason> seasons = new ArrayList<UserSeason>();
+		List<String> seasonIDs = new ArrayList<String>();
+		String userID = (String) request.getAttribute("userID");
+		
+		try {
+			
+			statement = connect.createStatement();
+
+			ResultSet results = statement.executeQuery("SELECT DISTINCT Seasonid FROM clubhub.ch_user_game ug "
+					+ "JOIN ch_game game ON ug.Gameid = game.id WHERE Userid = " + userID);
+			
+			while(results.next()) {				
+				seasonIDs.add(results.getString("Seasonid"));				
+			}
+			
+			for (String i : seasonIDs) {
+				
+				UserSeason season = new UserSeason();
+				season.setSeasonID(i);
+					
+				results = statement.executeQuery("SELECT outcome, COUNT(*) wins FROM ch_user_game ug JOIN ch_game game ON game.id = ug.Gameid "
+						+ "WHERE ug.outcome = 'W' AND game.Seasonid = " + i + " AND ug.Userid = " + userID);
+				
+				while(results.next()) {
+					season.setWins(results.getInt("wins"));					
+				}
+				
+				results = statement.executeQuery("SELECT outcome, COUNT(*) losses FROM ch_user_game ug JOIN ch_game game ON game.id = ug.Gameid "
+						+ "WHERE ug.outcome = 'L' AND game.Seasonid = " + i + " AND ug.Userid = " + userID);
+				
+				while(results.next()) {
+					season.setLosses(results.getInt("losses"));					
+				}
+				
+				season.setGames(season.getWins() + season.getLosses());
+				
+				seasons.add(season);
+			}
+			
+		} catch (Exception e) {
+		      throw e;
+	    }
+		
+		request.setAttribute("seasons", seasons);
+		
 	}
 	
 	public void listSeasonIDs(HttpServletRequest request) throws Exception {

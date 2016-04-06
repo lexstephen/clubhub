@@ -33,6 +33,7 @@ import model.Post;
 import model.Season;
 import model.Slot;
 import model.User;
+import model.UserGame;
 import utilities.DatabaseAccess;
 import utilities.ValidationUtilities;
 
@@ -69,6 +70,37 @@ public class GameDao {
 	    } catch (Exception e) {
 	    	throw e;
 	    } 
+	}
+	
+	public void getUserGames(HttpServletRequest request) throws Exception {
+		
+		List<UserGame> games = new ArrayList<UserGame>();
+		
+		try {
+			
+			statement = connect.createStatement();
+			ResultSet results = statement.executeQuery("SELECT * FROM ch_user_game ug JOIN ch_game game ON ug.Gameid = game.id "
+					+ "WHERE Userid = " + request.getAttribute("userID"));
+			
+			while(results.next()) {
+				UserGame game = new UserGame();
+				
+				game.setGameID(results.getString("Gameid"));
+				game.setUserID(results.getString("Userid"));
+				game.setTeam(results.getString("team"));
+				game.setScore(results.getString("score"));
+				game.setSeasonID(results.getString("Seasonid"));
+				game.setOutcome(results.getString("outcome"));
+				
+				games.add(game);
+			}
+			
+		} catch (Exception e) {
+		      throw e;
+	    }
+		
+		request.setAttribute("games", games);
+		
 	}
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {

@@ -25,8 +25,15 @@
 	user.getUserId(request,"viewprofile");
 	String thisTitle = "View Profile: " + session.getAttribute("userFullName");
 	request.setAttribute("thisPage", thisTitle); 
+	
+	GameDao game = new GameDao();
+	game.getUserGames(request);
+	
 	InvoiceDao invoice = new InvoiceDao();
 	invoice.listAllForUser(request);
+	
+	SeasonDao season = new SeasonDao();
+	season.getUserSeasons(request);
 %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
@@ -95,130 +102,58 @@
 	
 	<!--  dummy data to hold eventual season stats -->
 	<div class="row">
-	<h3>Season Stats</h3>
-		<div class="col-xs-10 col-xs-offset-1">
-			  	<table class="table table-striped">
-			    <thead>
-			      <tr>
-			        <th>Season</th>
-			        <th>Games</th>
-			        <th>Wins</th>
-			        <th>Losses</th>
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr>
-					<td>2014-Fall-${user.teamGender }</td>
-					<td>13</td>
-					<td>2</td>
-					<td>11</td>
-			      </tr>
-			      <tr>
-					<td>2014-Spring-${user.teamGender }</td>
-					<td>14</td>
-					<td>1</td>
-					<td>13</td>
-			      </tr>
-			      <tr>
-					<td>2013-Fall-${user.teamGender }</td>
-					<td>14</td>
-					<td>8</td>
-					<td>6</td>
-			      </tr>
-			      <tr>
-					<td>2013-Spring-${user.teamGender }</td>
-					<td>14</td>
-					<td>5</td>
-					<td>9</td>
-			      </tr>
-			     </tbody>
-			     </table>
-		</div>
-	</div>
-	
-	
-	<!--  dummy data to hold eventual individual season stats -->
+		<h3>Season Stats</h3>
+	    <div class="col-xs-10 col-xs-offset-1">
+			<c:choose>
+				<c:when test = "${not empty seasons}">
+				  	<table class="table table-striped">
+					    <thead>
+					      <tr>
+					        <th class="col-xs-12 col-md-3 control-label">Season</th>
+					        <th class="col-xs-12 col-md-2">Games</th>
+					        <th class="col-xs-12 col-md-2">Wins</th>
+					        <th class="col-xs-12 col-md-2">Losses</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+						      <c:forEach items="${seasons}" var="season">
+									<%@ include file="/WEB-INF/displayUserSeasons.jsp" %>			
+							  </c:forEach>		
+					     </tbody>
+				     </table>
+				</c:when>
+				<c:otherwise><span class="text-center">No seasons found</span></c:otherwise>
+			</c:choose>
+		</div>		
+	</div>			    
+			    
 	<div class="row">
-	<h3>Game Stats</h3>
-		<div class="col-xs-10 col-xs-offset-1">
-			  	<table class="table table-striped">
-			    <thead>
-			      <tr>
-			        <th>Season</th>
-			        <th>Game</th>
-			        <th>${user.firstName }'s Points</th>
-			        <th>Team Points</th>
-			        <th>Outcome</th>
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr>
-					<td>2014-Fall-${user.teamGender }</td>
-					<td>9</td>
-					<td>2</td>
-					<td>2</td>
-					<td>L</td>
-			      </tr>
-			      <tr>
-					<td>2014-Fall-${user.teamGender }</td>
-					<td>8</td>
-					<td>7</td>
-					<td>14</td>
-					<td>W</td>
-			      </tr>
-			      <tr>
-					<td>2014-Fall-${user.teamGender }</td>
-					<td>7</td>
-					<td>3</td>
-					<td>4</td>
-					<td>L</td>
-			      </tr>
-			      <tr>
-					<td>2014-Fall-${user.teamGender }</td>
-					<td>6</td>
-					<td>6</td>
-					<td>8</td>
-					<td>L</td>
-			      </tr>
-			      <tr>
-					<td>2014-Fall-${user.teamGender }</td>
-					<td>5</td>
-					<td>2</td>
-					<td>7</td>
-					<td>W</td>
-			      </tr>
-			      <tr>
-					<td>2014-Fall-${user.teamGender }</td>
-					<td>4</td>
-					<td>1</td>
-					<td>5</td>
-					<td>W</td>
-			      </tr>
-			      <tr>
-					<td>2014-Fall-${user.teamGender }</td>
-					<td>3</td>
-					<td>7</td>
-					<td>13</td>
-					<td>W</td>
-			      </tr>
-			      <tr>
-					<td>2014-Fall-${user.teamGender }</td>
-					<td>2</td>
-					<td>1</td>
-					<td>3</td>
-					<td>L</td>
-			      </tr>
-			      <tr>
-					<td>2014-Fall-${user.teamGender }</td>
-					<td>1</td>
-					<td>5</td>
-					<td>12</td>
-					<td>W</td>
-			      </tr>
-			     </tbody>
-			     </table>
+			<h3>Game Stats</h3>
+			<div class="col-xs-10 col-xs-offset-1">
+				<c:choose>
+					<c:when test = "${not empty games}">
+					  	<table class="table table-striped">
+						    <thead>
+						      <tr>
+						        <th class="col-xs-12 col-md-3 control-label">Season</th>
+						        <th class="col-xs-12 col-md-2">Game</th>
+						        <th class="col-xs-12 col-md-2">${user.firstName }'s Points</th>
+						        <th class="col-xs-12 col-md-2">Team Points</th>
+						        <th class="col-xs-12 col-md-2">Outcome</th>
+						        
+						      </tr>
+						    </thead>
+						    <tbody>
+							      <c:forEach items="${games}" var="game">
+										<%@ include file="/WEB-INF/displayUserGames.jsp" %>			
+								  </c:forEach>		
+						     </tbody>
+					     </table>
+					</c:when>
+					<c:otherwise><span class="text-center">No games found</span></c:otherwise>
+				</c:choose>
+			</div>		
 		</div>
-	</div>
 	
 	<c:if test="${(isAdmin == true) || (invoice.userID == loggedInUserID)}">
 		<div class="row">
