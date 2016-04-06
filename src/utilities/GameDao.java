@@ -40,12 +40,11 @@ import utilities.ValidationUtilities;
 public class GameDao {
 	private Connection connect = null;
 	private Statement statement = null;
+	private Statement statement2 = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	private ResultSet resultSet2 = null;
 	private ResultSet resultSet3 = null;
-	
-	
 	
 	public GameDao() {
 		try {
@@ -497,38 +496,70 @@ public class GameDao {
 		// figure out who is updating their availability
 		String playerToAdd = (String) request.getAttribute("playerToAdd");
 		// take the CSV of slots that the player will play and split them out into an array
-		String [] desiredSlots = ((String) request.getAttribute("desiredSlotIDs")).split(",");
+		@SuppressWarnings("unchecked")
+		List<String> slotList = (ArrayList<String>) request.getAttribute("desiredSlotIDs"); // their new availability
+		List<Slot> desiredSlots = new ArrayList<Slot>(); // their old availability
+		List<Slot> existantSlots = new ArrayList<Slot>(); // their old availability
+		for (String slot : slotList) {
+			Slot slt = new Slot();
+			slt.setId(slot);
+			slt.setConflict(0);
+			desiredSlots.add(slt);
+		}
 		List<String> slots = new ArrayList<String>(); // where we'll store the new user slots
-		List<String> existantSlots = new ArrayList<String>(); // where we'll store the new user slots
+		List<String> conflictSlots = new ArrayList<String>(); // where we'll track any conflicts
 		try{
 			// first check if this slot has already been assigned
 			try{
 				statement = connect.createStatement();
-				ResultSet results = statement.executeQuery("select Slotid from ch_user_slot where Userid = " + playerToAdd); 
+				ResultSet results = statement.executeQuery("select * from ch_user_slot where Userid = " + playerToAdd); 
+				Slot existantSlot = new Slot();
 				while(results.next()){
-					existantSlots.add(results.getString("Slotid"));
-					System.out.println("User already assigned to " + results.getString("Slotid"));
+					existantSlot.setId(results.getString("Slotid"));
+					existantSlot.setConflict(Integer.parseInt(results.getString("conflict")));
+//					
+					existantSlots.add(existantSlot);
 				}
 				
-				for (String existantSlot: existantSlots) {
-					for (int x = 0; x < desiredSlots.length; x++) {
-						if(existantSlot.equals(desiredSlots[x])) {
-							System.out.println("I matched " + desiredSlots[x] + " and " + existantSlot);
+				for (Slot a : desiredSlots) {
+					if(!existantSlots.contains(a)) {
+
+						System.out.println("User already assigned to " + a.getId() + " and has " + a.getConflict());
+					} else {
+						if (existantSlot.sameSlotDifferentConflict(a)) {
+							System.out.println("User already assigned to " + a.getId() + " and has " + a.getConflict());
 						} else {
-							System.out.println("I want to add " + desiredSlots[x] + " because it is not " + existantSlot);
-							slots.add(desiredSlots[x]);
+							System.out.println("Adding " + a.getId());
+							slots.add(a.getId());
 						}
 					}
-				}
+			    }
+				
+				for (Slot a : existantSlots) {
+					if(!desiredSlots.contains(a)) {
+						System.out.println("They did not want " + a);
+						conflictSlots.add(a.getId());
+					} 
+			    }
 			} catch(SQLException e) {
 			      throw e;
 			}
-			// if it has not, add it
+
+			// add the new user_slots
 			statement = connect.createStatement();
 			for (String slot : slots) { 
-					PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_slot values (?, ?)");
+					PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_slot values (?, ?, ?)");
 					preparedStatement.setString(1, playerToAdd); // Userid
 					preparedStatement.setString(2, slot); // Slotid
+					preparedStatement.setBoolean(3, false); // no conflict
+					preparedStatement.executeUpdate();
+			}
+			
+			// set the conflict to true for slots they changed availability on
+			statement = connect.createStatement();
+			for (String slot : conflictSlots) { 
+				System.out.println("UPDATE ch_user_slot SET conflict = 1 WHERE Userid = " + playerToAdd + " AND Slotid= " + slot);
+					PreparedStatement preparedStatement = connect.prepareStatement("UPDATE ch_user_slot SET conflict = 1 WHERE Userid = " + playerToAdd + " AND Slotid= " + slot);
 					preparedStatement.executeUpdate();
 			}
 		} catch(SQLException e) {
@@ -748,39 +779,63 @@ public class GameDao {
 		}
 			
 		
-		public void findOpenGameSlots(HttpServletRequest request, int userID) throws Exception {
+		public void findOpenGameSlots(HttpServletRequest request, String userID) throws Exception {
 			  //Game game = new Game();
 			List<Slot> slots = new ArrayList<Slot>();
-			  	try{
-			  		
-				    statement = connect.createStatement();
+		  	try {
+			  		statement = connect.createStatement();
 				    resultSet = statement.executeQuery("SELECT * FROM ch_user WHERE id= " + userID );
 				    //String userGender = null;
 				    resultSet.next();
 				    String userGender = resultSet.getString("gender");
 				    
 				    ResultSet resultSet2;
-				    resultSet2 = statement.executeQuery("Select * from ch_slot where gender= \""+ userGender +"\" and status = 1");
+				    resultSet2 = statement.executeQuery("Select * from ch_slot "
+				    		+ "join ch_game "
+				    		+ "on ch_game.id = ch_slot.gameID "
+				    		+ "join ch_season "
+				    		+ "on ch_game.seasonid = ch_season.id "
+				    		+ "where ch_slot.gender IN (\""+ userGender +"\", \"X\") and ch_slot.status = 1");
 				    
 				    while (resultSet2.next()) {
+				    	Slot slot = new Slot();
 				    	int num = resultSet2.getInt("dayOfWeek");
 				    	int givenTime = resultSet2.getInt("time");
+				    	String slotID = resultSet2.getString("id");
 				    	String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
 				    	String time = utilities.ValidationUtilities.toTime(request,givenTime);
-				    	
-				    	Slot slot = new Slot();
 				    	slot.setDayOfWeek(dayOfWeek);
 				    	slot.setTime(time);
-				    	slot.setScheduledDate(resultSet2.getString("scheduledDate"));
-				    	slot.setId(resultSet2.getString("id"));    	  
+				    	slot.setSeasonName(ValidationUtilities.seasonName(resultSet2.getString("season")));
+				    	slot.setYear(resultSet2.getString("year"));
+				    	slot.setGender(ValidationUtilities.genderName(resultSet2.getString("gender")));
+				    	slot.setScheduledDate(ValidationUtilities.dateFullYear(resultSet2.getString("scheduledDate")));
+				    	slot.setId(slotID);    
 				    	request.setAttribute("slotID", slot.getId());
-				    	  slots.add(slot);
-				    	
-				}} catch (SQLException e) {
-				      throw e;
-				}
+				    	slot.setConflict(checkSlotConflict(userID,slotID));
+				    	slots.add(slot);
+					}
+			    } catch (SQLException e) {
+			      throw e;
+			}
 			  	request.setAttribute("slots", slots);
 		} 
+		
+
+public int checkSlotConflict(String userID, String slotID) {
+    	try {
+			statement2 = connect.createStatement();
+		    ResultSet resultSet3;
+	    	System.out.println("I get into the third one with user " + userID + " and slot " + slotID);
+		    resultSet3 = statement2.executeQuery("SELECT * from ch_user_slot where Userid = \"" + userID + "\" and Slotid = \"" + slotID + "\"");
+		    while (resultSet3.next()) {
+		    	return resultSet3.getInt("conflict");
+		    }
+	  	} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+}
 		/*
 		public void editSeason(HttpServletRequest request, HttpServletResponse response, String _seasonID) throws Exception {
 		    try {			

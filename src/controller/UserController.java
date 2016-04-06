@@ -45,7 +45,7 @@ public class UserController extends HttpServlet {
 					} else {
 						// User was entered successfully and is new!
 						// Add user to database then redirect to login form
-						request.setAttribute("errorString", "You are now registered! Please log in.");
+						request.setAttribute("successString", "You are now registered! Please log in.");
 						dao.addToDatabase(request, response);
 						address = "Login.jsp";
 					}
@@ -81,7 +81,7 @@ public class UserController extends HttpServlet {
 						// they are admins! send them to AdminController
 						session.setAttribute("isLoggedIn", true);
 						request.setAttribute("errorString", null);
-						if (setCookie) {
+						/* if (setCookie) {
 							Cookie adminCookie = new Cookie("isAdmin", "true");
 							Cookie loggedInCookie = new Cookie("isLoggedIn", "true");
 							Cookie loggedInUserIDCookie = new Cookie("loggedInUserID", (String)session.getAttribute("loggedInUserID"));
@@ -92,13 +92,16 @@ public class UserController extends HttpServlet {
 							loggedInUserIDCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
 							response.addCookie(loggedInUserIDCookie);
 						}
+
+						} */
+
 						address = "/admin/index.jsp";
 					} else if (dao.isInDatabase(request, response)) {
 						// yes they are, let's log them in
 						session.setAttribute("isLoggedIn", true);
 						request.setAttribute("errorString", null);
-						//session.setAttribute("loggedInUserID", resultSet.getString("id")); 
-						if (setCookie) {
+						session.setAttribute("loggedInUserID", request.getAttribute("id")); 
+						/* if (setCookie) {
 							Cookie adminCookie = new Cookie("isAdmin", "false");
 							Cookie loggedInCookie = new Cookie("isLoggedIn", "true");
 							Cookie loggedInUserIDCookie = new Cookie("loggedInUserID", (String)session.getAttribute("loggedInUserID"));
@@ -108,7 +111,7 @@ public class UserController extends HttpServlet {
 							response.addCookie(loggedInCookie);
 							loggedInUserIDCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
 							response.addCookie(loggedInUserIDCookie);
-						}
+						} */
 						address = "/admin/index.jsp";
 					} else {
 						// wrong username or password, send back to login form

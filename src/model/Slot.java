@@ -7,10 +7,38 @@ package model;
 * Description: Slot model
 ****************************************************************************************************/
 public class Slot {
-	private String id, dayOfWeek, week, gender, players, scheduledDate, gameID;
-	String time;
-	private int status;
+	private String id, dayOfWeek, week, gender, players, scheduledDate, gameID, seasonName;
+	String time, year;
+	private int status, conflict;
 	
+	public String  getYear() {
+		return year;
+	}
+
+	public void setYear(String  year) {
+		this.year = year;
+	}
+
+	public String getSeasonName() {
+		return seasonName;
+	}
+
+	public void setSeasonName(String seasonName) {
+		this.seasonName = seasonName;
+	}
+
+	public int getConflict() {
+		return conflict;
+	}
+
+	public void setConflict(int conflict) {
+		this.conflict = conflict;
+	}
+
+	public String getScheduledDate() {
+		return scheduledDate;
+	}
+
 	public String getPlayers(){
 		return players;
 	}
@@ -82,5 +110,13 @@ public class Slot {
 	public void setGameID(String gameID) {
 		this.gameID = gameID;
 	}
+	
+	public boolean sameSlotDifferentConflict(Slot other) {
+        /* if(!this.id.equals(other.id))
+            return false; */
+		System.out.println("I compare the slots and find id " + this.id + "|" + other.id + " and conflict " + this.conflict + "|" + other.conflict);
+		System.out.println("That's a " + this.id.equals(other.id) + " and " + (this.conflict != other.conflict));
+        return (this.id.equals(other.id) && (this.conflict != other.conflict));
+    }
 
 }
