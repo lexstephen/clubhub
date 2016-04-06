@@ -119,7 +119,7 @@ public class SeasonDao {
 			statement = connect.createStatement();
 
 			ResultSet results = statement.executeQuery("SELECT DISTINCT Seasonid FROM clubhub.ch_user_game ug "
-					+ "JOIN ch_game game ON ug.Gameid = game.id WHERE Userid = " + userID);
+					+ "JOIN ch_game game ON ug.Gameid = game.id WHERE Userid = " + userID  + " ORDER BY Seasonid DESC");
 			
 			while(results.next()) {				
 				seasonIDs.add(results.getString("Seasonid"));				

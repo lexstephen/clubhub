@@ -79,7 +79,7 @@ public class GameDao {
 			
 			statement = connect.createStatement();
 			ResultSet results = statement.executeQuery("SELECT * FROM ch_user_game ug JOIN ch_game game ON ug.Gameid = game.id "
-					+ "WHERE Userid = " + request.getAttribute("userID"));
+					+ "WHERE Userid = " + request.getAttribute("userID") + " ORDER BY game.scheduledDate DESC");
 			
 			while(results.next()) {
 				UserGame game = new UserGame();

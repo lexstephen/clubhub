@@ -251,7 +251,7 @@ public class InvoiceDao {
 		  	try{
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT id, invDate, status"
-		    				+ " FROM clubhub.ch_invoice WHERE Userid = " + userID);
+		    				+ " FROM clubhub.ch_invoice WHERE Userid = " + userID + " ORDER BY invDate DESC");
 			      
 			    while (resultSet.next()) {
 			    	  Invoice invoice = new Invoice();
