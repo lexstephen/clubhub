@@ -7,7 +7,9 @@ package controller;
 * Description: GameController - routes requests to proper view
 ****************************************************************************************************/
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -97,7 +99,7 @@ public class GameController extends HttpServlet {
 		    	case "players":
 		    		HttpSession session = request.getSession();
 		    		String [] ID = request.getParameterValues("slots");
-		    		
+		    		/*
 		    		StringBuilder builder = new StringBuilder();
 		    		if (ID.length >= 1) {
 		    			builder.append(ID[0]);
@@ -107,19 +109,22 @@ public class GameController extends HttpServlet {
 		    			builder.append(", ");
 		    			builder.append(ID[i]);
 		    		}
-		    		
-		    		
-		    		String slotIDs = builder.toString();
-		    		Object id = session.getAttribute("loggedInUserID");
-		    		String userID = id.toString();
+		    		*/
+		    		List<String> desiredSlots = new ArrayList<String>();
+		    		for (String i : ID) {
+		    			desiredSlots.add(i);
+		    		}
+		    		/* String slotIDs = builder.toString();
 
 		    		System.out.println("The current user ID is: " + userID);
 		    		
 		    		//String slots = ID.toString();
 		    		System.out.println(slotIDs);
 
-		    		request.setAttribute("desiredSlotIDs", slotIDs);
-		    		request.setAttribute("playerToAdd", userID);
+		    		Object id = session.getAttribute("loggedInUserID");
+		    		String userID = id.toString(); */
+		    		request.setAttribute("desiredSlotIDs", desiredSlots);
+		    		request.setAttribute("playerToAdd", session.getAttribute("loggedInUserID"));
 		    		dao.addUserSlot(request);
 		    		// dao.playersAvailable(request, userID, slotIDs);
 

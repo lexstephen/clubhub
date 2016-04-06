@@ -17,30 +17,21 @@ Object id = session.getAttribute("loggedInUserID");
 String str = id.toString();
 int userID = Integer.parseInt(str);
 System.out.println("The current user ID is: " + userID);
-slot.findOpenGameSlots(request, userID);
+slot.findOpenGameSlots(request, str);
 slot.findAllOfUsersSlots(request);
 %>
 
 <form action="/clubhub/GameController" method="post" class="form" role="form">
 	<h3>Please select your availability: </h3>
 
-	<c:forEach items="${slots}" var="slt"> <!--  list of slots that the user can sign up for -->
-		
-	</c:forEach>
-	
-	<br>
-	<br>
+				<!--   -->
 	<c:forEach items="${slots}" var="slot">
-			<input type="checkbox" name="slots" value="${slot.id}"
-		<c:forEach items="${user.slotid}" var="uslot">
-			<c:choose>
-				<c:when test="${slot.id == uslot }"> checked</c:when>
-			</c:choose>
-		</c:forEach>
-		> ${slot.dayOfWeek}  ${slot.time} - ${slot.scheduledDate} ---- ${slot.id}<br>
+			<input type="checkbox" name="slots" value="${slot.id}"<c:forEach items="${user.slotid}" var="uslot">
+				<c:if test="${(slot.id == uslot) && (slot.conflict == 0) }"> checked</c:if>
+			</c:forEach>>  ${slot.gender} ${slot.seasonName } ${slot.year} ${slot.dayOfWeek} ${slot.scheduledDate} at ${slot.time}  <br>
 	</c:forEach>
 	<button class="btn btn-info" type="submit" value="players" name="option">Submit</button>
-	</form>
+</form>
 
 
 

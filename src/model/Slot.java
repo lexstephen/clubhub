@@ -7,10 +7,38 @@ package model;
 * Description: Slot model
 ****************************************************************************************************/
 public class Slot {
-	private String id, dayOfWeek, week, gender, players, scheduledDate, gameID;
-	String time;
-	private int status;
+	private String id, dayOfWeek, week, gender, players, scheduledDate, gameID, seasonName;
+	String time, year;
+	private int status, conflict;
 	
+	public String  getYear() {
+		return year;
+	}
+
+	public void setYear(String  year) {
+		this.year = year;
+	}
+
+	public String getSeasonName() {
+		return seasonName;
+	}
+
+	public void setSeasonName(String seasonName) {
+		this.seasonName = seasonName;
+	}
+
+	public int getConflict() {
+		return conflict;
+	}
+
+	public void setConflict(int conflict) {
+		this.conflict = conflict;
+	}
+
+	public String getScheduledDate() {
+		return scheduledDate;
+	}
+
 	public String getPlayers(){
 		return players;
 	}
