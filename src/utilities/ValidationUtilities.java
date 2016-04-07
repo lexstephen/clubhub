@@ -457,14 +457,12 @@ public class ValidationUtilities {
 		ResultSet resultSet = null;
 		String playerID = null;
 		
-		
 		connect = DatabaseAccess.connectDataBase();
 		statement = connect.createStatement();
 	    resultSet = statement.executeQuery("SELECT * from ch_user where firstName= '" + PlayerName+"'");
 		
 	    while(resultSet.next()){
 	    	playerID = resultSet.getString("id");
-	    	
 	    }
 	    return playerID;
 	}

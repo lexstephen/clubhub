@@ -100,15 +100,16 @@ public class GameController extends HttpServlet {
 		    		HttpSession session = request.getSession();
 		    		String [] ID = request.getParameterValues("slots");
 		    		List<String> desiredSlots = new ArrayList<String>();
-		    		for (String i : ID) {
-		    			desiredSlots.add(i);
+		    		if (ID != null) {
+			    		for (String i : ID) {
+			    			desiredSlots.add(i);
+			    		}
 		    		}
 		    		request.setAttribute("desiredSlotIDs", desiredSlots);
 		    		request.setAttribute("playerToAdd", session.getAttribute("loggedInUserID"));
 		    		dao.addUserSlot(request);
-					request.setAttribute("successString", "You are now registered! Please log in.");
+					request.setAttribute("successString", "Availability has been updated.");
 	    			address = "admin/Availability.jsp";
-					request.setAttribute("errorString", "You are now registered! Please log in.");
 	    		break;
 		    	case "displayGames":
 	    			

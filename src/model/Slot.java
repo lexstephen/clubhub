@@ -110,7 +110,27 @@ public class Slot {
 	public void setGameID(String gameID) {
 		this.gameID = gameID;
 	}
-	
+
+
+	@Override
+	public boolean equals(Object obj) {
+	Slot other = (Slot) obj;
+	    if(this.id.equals(other.id)){
+	          return true;
+	    }else{
+	        return false;
+	    }
+	}
+
+	public boolean equalsConflict(Object obj) {
+	Slot other = (Slot) obj;
+	    if(this.id.equals(other.id) && (this.conflict == other.conflict)){
+	          return true;
+	    }else{
+	        return false;
+	    }
+	}
+
 	public boolean sameSlotDifferentConflict(Slot other) {
         /* if(!this.id.equals(other.id))
             return false; */
