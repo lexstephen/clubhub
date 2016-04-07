@@ -13,11 +13,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 <% GameDao slot = new GameDao();
-Object id = session.getAttribute("loggedInUserID");
-String str = id.toString();
-int userID = Integer.parseInt(str);
-System.out.println("The current user ID is: " + userID);
-slot.findOpenGameSlots(request, str);
+slot.findOpenGameSlotsForUser(request);
 slot.findAllOfUsersSlots(request);
 %>
 

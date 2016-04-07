@@ -70,6 +70,7 @@
 									<li><a href="${pageContext.request.contextPath}/admin/DisplayGames.jsp">List All Games</a></li>
 									<c:if test="${(isAdmin == true)}">
 										<li><a href="${pageContext.request.contextPath}/admin/CreateSeason.jsp">Add New Season</a></li>
+										<li><a href="${pageContext.request.contextPath}/admin/ManageSeason.jsp">Manage Season</a></li>
 										<li><a href="${pageContext.request.contextPath}/admin/Conflicts.jsp">View Outstanding Conflicts</a></li>
 									</c:if>
 								</ul>

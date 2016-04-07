@@ -6,7 +6,7 @@
 	Description: ListGames.jsp
  --%>
  
-<% request.setAttribute("thisPage", "List of Games"); %>
+<% request.setAttribute("thisPage", "Manage Season"); %>
 <%@ page import="utilities.SeasonDao"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
    pageEncoding="ISO-8859-1"%>
@@ -18,36 +18,23 @@
 //int userID = Integer.parseInt(str);
 String seasonID = request.getParameter("seasonID");
 System.out.println("The current season ID is: " + seasonID);
-slot.listSeasonWithGames(request, seasonID);
+slot.listSeasonWithStatus(request);
 
 %>
 
 
 	<h3><u> ${dayOfWeek} at ${time}</u> </h3>
 	
-	<c:forEach items="${slots}" var="slot">
-	<form action="/clubhub/GameController" method="post" class="form" role="form">
-
-					${slot.scheduledDate} ${slot.players} The Game Id : ${slot.gameID}
-					<ol>
-						<c:choose>
-							<c:when test="${slot.status == 1}">
-								<input type="hidden" name="slotID" value="${slot.id}">
-								<button type="submit" value="close" name="option">Close</button>
-							</c:when>
-							<c:otherwise>
-								<input type="hidden" name="gameID" value="${slot.gameID}">
-								<button type="submit" value="switchPlayers" name="option">Switch Players</button>
-							</c:otherwise>
-						</c:choose>
-						
-						
-					</ol>
-
-
+	<c:forEach items="${seasons}" var="season">
+		<form action="/clubhub/GameController" method="post" class="form" role="form">
+			S ${season.id}: ${season.year }-${season.gender }-${season.season } <b>${season.startDateFullYear	 }</b> ${season.dayOfWeek } ${season.startTime } (${season.duration } weeks) 
+			
+				<input type="hidden" name="seasonID" value="${season.id}">
+				<button type="submit" value="close" name="option">Close</button>
+				<button type="submit" value="assign" name="option">Assign Players</button>
 			
 		</form>
-		</c:forEach>
+	</c:forEach>
 	
 	
 

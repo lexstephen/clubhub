@@ -13,12 +13,12 @@
 
 <% GameDao game = new GameDao();
 String gameID = request.getParameter("gameID");
-game.findGames(request, gameID);
+game.findGame(request, gameID);
 game.findTeamsForGames(request);
 request.setAttribute("thisPage", "Game Details"); %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
-	<div class="row">
+<div class="row">
 		<h2>Season ${game.seasonId}: ${game.gender } ${game.season } ${game.year }</h2>
 		<h3>Game ${game.id}: ${game.dayOfWeek}, ${game.scheduledDateFullYear} at ${game.startTime}</h3>
 	</div>

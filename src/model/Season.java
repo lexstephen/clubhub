@@ -8,7 +8,16 @@ package model;
 ****************************************************************************************************/
 public class Season {
 	private String id, year, season, gender, startDate, startTime, dayOfWeek, duration;
-	private String startDateFullYear;
+	private String startDateFullYear, status;
+
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getStartDateFullYear() {
 		return startDateFullYear;

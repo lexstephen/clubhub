@@ -14,7 +14,7 @@
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 <% GameDao game = new GameDao();
 String gameID = request.getParameter("gameID");
-game.findGames(request, gameID);
+game.findGame(request, gameID);
 game.findTeamsForGames(request);
 SeasonDao slot = new SeasonDao();
 //Object id = session.getAttribute("loggedInUserID");

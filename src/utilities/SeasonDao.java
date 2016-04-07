@@ -35,8 +35,10 @@ import utilities.DatabaseAccess;
 public class SeasonDao {
 	private Connection connect = null;
 	private Statement statement = null;
+	private Statement statement1 = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
+	private ResultSet resultSet1 = null;
 	
 	public SeasonDao() {
 		try {
@@ -177,65 +179,36 @@ public class SeasonDao {
 	}
 
 	public void listSeasonWithStatus(HttpServletRequest request) throws Exception {
-		  List<Season> seasons = new ArrayList<Season>();
-		  	try{  		
-		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * from ch_season");
-			      
-			    while (resultSet.next()) {
-			    	  Season season = new Season();
-			    	  
-			    	  int num = resultSet.getInt("dayOfWeek");
-			    	  int givenTime = resultSet.getInt("startTime");
-			    	  String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
-			    	  String time = utilities.ValidationUtilities.toTime(request,givenTime);
-			    	  
-			    	  season.setYear(resultSet.getString("year"));
-			    	  season.setSeason(resultSet.getString("season"));
-			    	  season.setId(resultSet.getString("id"));
-			    	  season.setGender(resultSet.getString("gender"));
-			    	  season.setStartDate(resultSet.getString("startDate"));
-			    	  season.setStartTime(time);
-			    	  season.setDayOfWeek(dayOfWeek);
-			    	  season.setDuration(resultSet.getString("duration"));
-			    	  
-			    	  request.setAttribute("seasonID", season.getId());
-			    	  String seasonID = resultSet.getString("id");
-			    	  
-			    	  Statement statement1 = null;
-			    	  ResultSet resultSet1 = null;
-			    		
-			    	  statement1 = connect.createStatement();
-					  resultSet1 = statement1.executeQuery("SELECT * from ch_game where seasonID= "+ seasonID);
-					  
-					  while(resultSet1.next()){
-						  String gameID = resultSet1.getString("id");
-						  System.out.println("Game id is: " +gameID);
-						  Statement statement2 = null;
-				    	  ResultSet resultSet2 = null;
-				    		
-				    	  statement2 = connect.createStatement();
-						  resultSet2 = statement2.executeQuery("SELECT * from ch_slot where gameID= "+ gameID);
-						  
-						  while(resultSet2.next()){
-							  String status = resultSet2.getString("status");
-							  System.out.println("Status is :"+ status);
-						  }
-					  }
-					  
-			    	  
-			    	  
+		List<Season> seasons = new ArrayList<Season>();
+	  	try {  		
+	  		statement = connect.createStatement();
+		    resultSet = statement.executeQuery("SELECT * from ch_season");
+		    while (resultSet.next()) {
+		    	  Season season = new Season();
+		    	  season.setId(resultSet.getString("id"));
+		    	  season.setYear(resultSet.getString("year"));
+		    	  season.setSeason(resultSet.getString("season"));
+		    	  season.setGender(resultSet.getString("gender"));
+		    	  season.setStartDate(resultSet.getString("startDate"));
+		    	  season.setStartTime(ValidationUtilities.toTime(resultSet.getInt("startTime")));
+		    	  season.setDayOfWeek(ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
+		    	  season.setDuration(resultSet.getString("duration"));
+		    	  season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));
+			  		statement = connect.createStatement();
+				    resultSet1 = statement.executeQuery("SELECT * from ch_slot join ch_game on ch_game.seasonid = " + resultSet.getString("id"));
+				    while (resultSet1.next()) {
+				    	season.setStatus("status");
+				    }
 			    	  seasons.add(season);
-			    }
-		    } catch (SQLException e) {
-			      throw e;
-			}
-		  	request.setAttribute("seasons", seasons);
-	} 
+		    	}
+	  		} catch (SQLException e) {
+		      throw e;
+	  		}
+	  		request.setAttribute("seasons", seasons);
+		} 
 
 	
 	 public void listAll(HttpServletRequest request) throws Exception {
-
 		List<Season> seasons = new ArrayList<Season>();
 	  	try{  		
 	  		statement = connect.createStatement();
@@ -257,12 +230,13 @@ public class SeasonDao {
 		}
 	  	request.setAttribute("seasons", seasons);
 	}
+	 
+	 /* 
 	public void listSeasonWithGames(HttpServletRequest request, String seasonID) throws Exception {
 		  List<Slot> slots = new ArrayList<Slot>();
-		  Boolean display = true;
 		  	try{  		 
 		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * from ch_season where id=" + seasonID);
+			    resultSet = statement.executeQuery("SELECT * from ch_season where id = " + seasonID);
 			      
 			    while (resultSet.next()) {
 			    	  Season season = new Season();
@@ -271,12 +245,10 @@ public class SeasonDao {
 			    	  season.setId(resultSet.getString("id"));
 			    	  season.setGender(resultSet.getString("gender"));
 			    	  season.setStartDate(resultSet.getString("startDate"));
-			    	  season.setStartTime(utilities.ValidationUtilities.toTime(request,resultSet.getInt("startTime")));
+			    	  season.setStartTime(utilities.ValidationUtilities.toTime(resultSet.getInt("startTime")));
 			    	  season.setDayOfWeek(utilities.ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
 			    	  season.setDuration(resultSet.getString("duration"));
-			    	  
-			    	  Statement statement1 = null;
-			    	  ResultSet resultSet1 = null;
+			    	  System.out.println(" I am digging this season ");
 			    		
 			    	  statement1 = connect.createStatement();
 					  resultSet1 = statement1.executeQuery("SELECT * from ch_game where seasonID= "+ seasonID);
@@ -342,7 +314,8 @@ public class SeasonDao {
 		  	request.setAttribute("slots", slots);
 		  	
 	} 
-	
+	*/
+	 
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
 		  try {
 			  statement = connect.createStatement();
@@ -373,7 +346,7 @@ public class SeasonDao {
 			    	  season.setId(resultSet.getString("id"));
 			  		  season.setGender(ValidationUtilities.genderName(resultSet.getString("gender")));
 			    	  season.setStartDate(resultSet.getString("startDate"));
-			    	  season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));season.setStartTime(ValidationUtilities.toTime(request, Integer.parseInt(resultSet.getString("startTime"))));
+			    	  season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));season.setStartTime(ValidationUtilities.toTime( Integer.parseInt(resultSet.getString("startTime"))));
 			    	  season.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet.getString("dayOfWeek"))));
 			    	  season.setDuration(resultSet.getString("duration"));
 			    }
