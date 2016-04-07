@@ -178,7 +178,7 @@ public class SeasonDao {
 		
 	}
 
-	public void listSeasonWithStatus(HttpServletRequest request) throws Exception {
+	public void listOpenSeasons(HttpServletRequest request) throws Exception {
 		List<Season> seasons = new ArrayList<Season>();
 	  	try {  		
 	  		statement = connect.createStatement();
@@ -196,7 +196,7 @@ public class SeasonDao {
 		    	  season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));
 		  		  statement = connect.createStatement();
 			      resultSet1 = statement.executeQuery("SELECT * from ch_slot join ch_game on ch_game.seasonid = " + resultSet.getString("id"));
-			      while (resultSet1.next()) {
+			      while (resultSet1.next()) {			    	  
 			    	season.setStatus("status");
 			      }
 		    	  seasons.add(season);

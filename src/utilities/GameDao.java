@@ -370,56 +370,44 @@ public class GameDao {
 		List<User> teamB = new ArrayList<User>();
 		String gameID = request.getParameter("gameID");
 		int teamAscore = 0, teamBscore = 0;
+		boolean isTBD = false;
 		
 	  	try{
 		    statement = connect.createStatement();
 		    resultSet = statement.executeQuery("SELECT * FROM ch_user_game JOIN ch_user ON ch_user_game.Userid = ch_user.id WHERE Gameid= " + gameID);
 		    while (resultSet.next()) {
+		    	
+				User user = new User();
+				user.setUserid(resultSet.getString("id"));
+				user.setScore(resultSet.getString("score"));
+				user.setUsername(resultSet.getString("username"));
+				user.setEmailAddress(resultSet.getString("emailAddress"));
+				user.setUserStatus(resultSet.getString("userStatus"));
+				user.setFirstName(resultSet.getString("firstName"));
+				user.setLastName(resultSet.getString("lastName"));
+				user.setGender(resultSet.getString("gender"));
+				user.setStreetAddress(resultSet.getString("streetAddress"));
+				user.setTelephone(resultSet.getString("phoneNumber"));
+				user.setCity(resultSet.getString("city"));
+				user.setProvince(resultSet.getString("province"));
+				user.setPostalCode(resultSet.getString("postalCode"));
+				user.setCountry(resultSet.getString("country"));
+				user.setDateOfBirth(resultSet.getString("dateOfBirth"));
+				user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
+				user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
+				String score = resultSet.getString("score") != null?resultSet.getString("score"):"0";
+				
 		    	if(resultSet.getString("team").equals("1")) {
-					User user = new User();
-					user.setUserid(resultSet.getString("id"));
-					user.setScore(resultSet.getString("score"));
-					user.setUsername(resultSet.getString("username"));
-					user.setEmailAddress(resultSet.getString("emailAddress"));
-					user.setUserStatus(resultSet.getString("userStatus"));
-					user.setFirstName(resultSet.getString("firstName"));
-					user.setLastName(resultSet.getString("lastName"));
-					user.setGender(resultSet.getString("gender"));
-					user.setStreetAddress(resultSet.getString("streetAddress"));
-					user.setTelephone(resultSet.getString("phoneNumber"));
-					user.setCity(resultSet.getString("city"));
-					user.setProvince(resultSet.getString("province"));
-					user.setPostalCode(resultSet.getString("postalCode"));
-					user.setCountry(resultSet.getString("country"));
-					user.setDateOfBirth(resultSet.getString("dateOfBirth"));
-					user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
-					user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
-					String score = resultSet.getString("score") != null?resultSet.getString("score"):"0";
 		    		teamAscore += Integer.parseInt(score);
 					teamA.add(user);
 		    	}
 		    	if(resultSet.getString("team").equals("2")) {
-					User user = new User();
-					user.setUserid(resultSet.getString("id"));
-					user.setScore(resultSet.getString("score"));
-					user.setUsername(resultSet.getString("username"));
-					user.setEmailAddress(resultSet.getString("emailAddress"));
-					user.setUserStatus(resultSet.getString("userStatus"));
-					user.setFirstName(resultSet.getString("firstName"));
-					user.setLastName(resultSet.getString("lastName"));
-					user.setGender(resultSet.getString("gender"));
-					user.setStreetAddress(resultSet.getString("streetAddress"));
-					user.setTelephone(resultSet.getString("phoneNumber"));
-					user.setCity(resultSet.getString("city"));
-					user.setProvince(resultSet.getString("province"));
-					user.setPostalCode(resultSet.getString("postalCode"));
-					user.setCountry(resultSet.getString("country"));
-					user.setDateOfBirth(resultSet.getString("dateOfBirth"));
-					user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
-					user.setEmergencyContactPhoneNumber(resultSet.getString("emergencyContactPhoneNumber"));
-					String score = resultSet.getString("score") != null?resultSet.getString("score"):"0";
 		    		teamBscore += Integer.parseInt(score);
 					teamB.add(user);
+		    	}
+		    	
+		    	if (resultSet.getString("outcome").equals("TBD")){
+		    		isTBD = true;
 		    	}
 		    }
 	  	}
@@ -429,15 +417,17 @@ public class GameDao {
 	  	
 	  	String winner = null;
 	  	
-	  	if ((teamAscore == 0) && (teamBscore == 0)) 
-	  		{ winner = "TBD"; }
-	  	
-	  	if (teamAscore > teamBscore) {
-	  		winner = "Team A";
-	  	} else if (teamBscore > teamAscore) {
-	  		winner = "Team B";
-	  	} else {
-	  		winner = "Tie";
+	  	if (isTBD){
+	  		winner = "TBD"; 
+	  		}
+	  	else {
+		  	if (teamAscore > teamBscore) {
+		  		winner = "Team A";
+		  	} else if (teamBscore > teamAscore) {
+		  		winner = "Team B";
+		  	} else {
+		  		winner = "Tie";
+		  	}
 	  	}
 	  	
 	  	request.setAttribute("teamA", teamA);
@@ -632,27 +622,30 @@ public class GameDao {
 	public void closeSlot(HttpServletRequest request, String slotID) throws Exception{
 		System.out.println("The slot ID recieved is: "+ slotID);
 		List <String> playerIDs  = new ArrayList<String>();
+		int [] playingPlayers = new int[8];
 		String gameID =  null;
-			System.out.println("Im in closeSlot");
-			//String seasonID = null;
-			//Statement statement1 = null;
-			//ResultSet resultSet1 = null;
-			statement = connect.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * from clubhub.ch_user_slot us JOIN ch_slot slot "
+		int x = 0, team;
+		
+		System.out.println("Im in closeSlot");
+		statement = connect.createStatement();
+		ResultSet resultSet = statement.executeQuery("SELECT * from clubhub.ch_user_slot us JOIN ch_slot slot "
 					+ "ON us.Slotid = slot.id where id="+ slotID); // This should be user_slot
 			  
-			  while(resultSet.next()){
+			while(resultSet.next()){
 				  //Slot slot = new Slot();
 				  playerIDs.add(resultSet.getString("Userid"));
 				  gameID = resultSet.getString("slot.gameID");
-			  }
+			}
 			  
 			System.out.println("Available Players: "+ playerIDs);
 			  
-				List<Integer> indexes = new ArrayList<Integer>();
-				//String [] indexes = new String[4];
-				int hold1,hold2,hold3,hold4;
-
+			List<Integer> indexes = new ArrayList<Integer>();
+			int hold1,hold2,hold3,hold4;
+			
+			for (int y = 0; y < 2; y++){
+				
+				System.out.println("playerIDs size = " + playerIDs.size());
+				
 				hold1 = new Random().nextInt(playerIDs.size());
 				hold1 = Integer.parseInt(playerIDs.get(hold1));
 				hold2 = new Random().nextInt(playerIDs.size());
@@ -661,8 +654,7 @@ public class GameDao {
 				hold3 = Integer.parseInt(playerIDs.get(hold3));
 				hold4 = new Random().nextInt(playerIDs.size());
 				hold4 = Integer.parseInt(playerIDs.get(hold4));
-				
-				int cnt = 0; 
+
 				do{
 					if(hold1==hold2 ||hold1 == hold3 || hold1 == hold4){
 						System.out.println("I am looking at hold1 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
@@ -670,79 +662,85 @@ public class GameDao {
 						hold1 = Integer.parseInt(playerIDs.get(hold1));
 					} else {
 						indexes.add(0,hold1);
-						cnt++;
 						System.out.println("ADD hold #1-----------" + hold1);
 						if (hold2==hold3||hold2==hold4){
 							System.out.println("I am here at hold2 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
 							hold2 = new Random().nextInt(playerIDs.size());
 							hold2 = Integer.parseInt(playerIDs.get(hold2));
 						} else {
-
 							System.out.println("ADD hold #2-----------" +hold2 );
 							indexes.add(1,hold2);
-							cnt++;
 							if(hold3==hold4){
 								System.out.println("I am here at hold 3 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
 								hold3 = new Random().nextInt(playerIDs.size());
 								hold3 = Integer.parseInt(playerIDs.get(hold3));
 							} else {
 								System.out.println("ADD hold #3/4 ----------- " +hold3 + " ----- " +hold4 );
-								cnt++;
-								cnt++;
 								indexes.add(2,hold3);
 								indexes.add(3,hold4);
 							}
 						}
 					}
 				}while(indexes.size()<4);
+					
+				playingPlayers[x++] = indexes.get(0);
+				playingPlayers[x++] = indexes.get(1);
+				playingPlayers[x++] = indexes.get(2);
+				playingPlayers[x++] = indexes.get(3);
 				
+				indexes.clear();
 				
-				int [] playingPlayers = new int[4];
-				/*playingPlayers[0] = players[indexes.get(0)];
-				playingPlayers[1] = players[indexes.get(1)];
-				playingPlayers[2] = players[indexes.get(2)];
-				playingPlayers[3] = players[indexes.get(3)]; */
+				if (y == 0) {
+					for (int k = playerIDs.size()-1; k >= 0; k--) {
+						if (Integer.parseInt(playerIDs.get(k)) == hold1 || Integer.parseInt(playerIDs.get(k)) == hold2
+								|| Integer.parseInt(playerIDs.get(k)) == hold3 || Integer.parseInt(playerIDs.get(k)) == hold4) {
+							playerIDs.remove(k);
+							System.out.println("Removed k = " + k);
+						}
+					}
+				}
+			}
+			
+			for(int i=0; i < playingPlayers.length ;i++){
 
-				playingPlayers[0] = indexes.get(0);
-				playingPlayers[1] = indexes.get(1);
-				playingPlayers[2] = indexes.get(2);
-				playingPlayers[3] = indexes.get(3);
-				
-				for(int i=0; i < playingPlayers.length ;i++){
-					//Statement statement3 = null;
-					statement = connect.createStatement();
-				    PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game values (?,?,null,null,'TBD')");
-				    preparedStatement.setInt(1, playingPlayers[i]);	//userID
-				    preparedStatement.setString(2, gameID); // gameID
-				    preparedStatement.executeUpdate();
-				}
-			    
-				
-				StringBuilder builder = new StringBuilder();
-				
-				if (playingPlayers.length >= 1) {
-					builder.append(playingPlayers[0]);
-				}
-		
-				for (int i = 1; i < playingPlayers.length; i++) { 
-					builder.append(",");
-					builder.append(playingPlayers[i]);
-				}
-				
-				String thePlayers = builder.toString();
-				System.out.println("Playing Players: "+thePlayers);
+				if (i < 4)
+					team = 1;
+				else
+					team = 2;
 				
 				statement = connect.createStatement();
-				ResultSet resultSet1 = statement.executeQuery("Select * from ch_game where id= "+ gameID);
-				while(resultSet1.next()){
-					String seasonID= resultSet1.getString("seasonID");
-					request.setAttribute("seasonID", seasonID);
-				}
+			    PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game values (?,?," + team + ",0,'TBD')");
+			    preparedStatement.setInt(1, playingPlayers[i]);	//userID
+			    preparedStatement.setString(2, gameID); // gameID
+			    preparedStatement.executeUpdate();
+			}
+		    
+			
+			StringBuilder builder = new StringBuilder();
+			
+			if (playingPlayers.length >= 1) {
+				builder.append(playingPlayers[0]);
+			}
+	
+			for (int i = 1; i < playingPlayers.length; i++) { 
+				builder.append(",");
+				builder.append(playingPlayers[i]);
+			}
+			
+			String thePlayers = builder.toString();
+			System.out.println("Playing Players: "+thePlayers);
+			
+			statement = connect.createStatement();
+			ResultSet resultSet1 = statement.executeQuery("Select * from ch_game where id= "+ gameID);
+			while(resultSet1.next()){
+				String seasonID= resultSet1.getString("seasonID");
+				request.setAttribute("seasonID", seasonID);
+			}
 
-				Statement statement2 = null;
-				  statement2 = connect.createStatement();
-				  statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
-				
+			Statement statement2 = null;
+			  statement2 = connect.createStatement();
+			  statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
+			
 		  }
 		
 		public void findOpenGameSlotsForUser(HttpServletRequest request) throws Exception {

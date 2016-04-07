@@ -12,13 +12,13 @@
    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
-<% SeasonDao slot = new SeasonDao();
+<% SeasonDao season = new SeasonDao();
 //Object id = session.getAttribute("loggedInUserID");
 //String str = id.toString();
 //int userID = Integer.parseInt(str);
 String seasonID = request.getParameter("seasonID");
 System.out.println("The current season ID is: " + seasonID);
-slot.listSeasonWithStatus(request);
+season.listOpenSeasons(request);
 
 %>
 
@@ -28,8 +28,7 @@ slot.listSeasonWithStatus(request);
 			
 				<input type="hidden" name="slotID" value="542">
 				<input type="hidden" name="seasonID" value="${season.id}">
-				<button type="submit" value="close" name="option">Close</button>
-				<button type="submit" value="assign" name="option">Assign Players</button>
+				<button type="submit" value="close" name="option">Close/Assign Players</button>
 			
 		</form>
 	</c:forEach>

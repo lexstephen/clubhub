@@ -28,6 +28,7 @@ request.setAttribute("thisPage", "Game Details"); %>
 					Team A
 					<c:if test="${winner == 'Team A' }"><strong> - Winners</strong></c:if>
 					<c:if test="${winner == 'Tie' }"><strong> - Tie</strong></c:if>
+					<c:if test="${winner == 'TBD' }"><strong> - TBD</strong></c:if>
 			</h3>
 			<table class="table table-hover sortable">
 				<thead>
@@ -57,6 +58,7 @@ request.setAttribute("thisPage", "Game Details"); %>
 				Team B
 				<c:if test="${winner == 'Team B' }"><strong> - Winners</strong></c:if>
 				<c:if test="${winner == 'Tie' }"><strong> - Tie</strong></c:if>
+				<c:if test="${winner == 'TBD' }"><strong> - TBD</strong></c:if>
 			</h3>
 			<table class="table table-hover sortable">
 				<thead>
