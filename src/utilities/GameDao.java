@@ -631,51 +631,51 @@ public class GameDao {
 	
 	public void closeSlot(HttpServletRequest request, String slotID) throws Exception{
 		System.out.println("The slot ID recieved is: "+ slotID);
-		String playerIDs  = null;
+		List <String> playerIDs  = new ArrayList<String>();
 		String gameID =  null;
 			System.out.println("Im in closeSlot");
 			//String seasonID = null;
 			//Statement statement1 = null;
 			//ResultSet resultSet1 = null;
 			statement = connect.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * from ch_slot where id= "+ slotID); // This should be user_slot
+			ResultSet resultSet = statement.executeQuery("SELECT * from clubhub.ch_user_slot us JOIN ch_slot slot "
+					+ "ON us.Slotid = slot.id where id="+ slotID); // This should be user_slot
 			  
 			  while(resultSet.next()){
 				  //Slot slot = new Slot();
-				  playerIDs = resultSet.getString("availablePlayers");
-				  gameID = resultSet.getString("gameID");
+				  playerIDs.add(resultSet.getString("Userid"));
+				  gameID = resultSet.getString("slot.gameID");
 			  }
 			  
 			System.out.println("Available Players: "+ playerIDs);
 			  
-				String [] players = playerIDs.split(",");
 				List<Integer> indexes = new ArrayList<Integer>();
 				//String [] indexes = new String[4];
 				int hold1,hold2,hold3,hold4;
 
-				hold1 = new Random().nextInt(players.length);
-				hold1 = Integer.parseInt(players[hold1]);
-				hold2 = new Random().nextInt(players.length);
-				hold2 = Integer.parseInt(players[hold2]);
-				hold3 = new Random().nextInt(players.length);
-				hold3 = Integer.parseInt(players[hold3]);
-				hold4 = new Random().nextInt(players.length);
-				hold4 = Integer.parseInt(players[hold4]);
+				hold1 = new Random().nextInt(playerIDs.size());
+				hold1 = Integer.parseInt(playerIDs.get(hold1));
+				hold2 = new Random().nextInt(playerIDs.size());
+				hold2 = Integer.parseInt(playerIDs.get(hold2));
+				hold3 = new Random().nextInt(playerIDs.size());
+				hold3 = Integer.parseInt(playerIDs.get(hold3));
+				hold4 = new Random().nextInt(playerIDs.size());
+				hold4 = Integer.parseInt(playerIDs.get(hold4));
 				
 				int cnt = 0; 
 				do{
 					if(hold1==hold2 ||hold1 == hold3 || hold1 == hold4){
 						System.out.println("I am looking at hold1 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
-						hold1 = new Random().nextInt(players.length);
-						hold1 = Integer.parseInt(players[hold1]);
+						hold1 = new Random().nextInt(playerIDs.size());
+						hold1 = Integer.parseInt(playerIDs.get(hold1));
 					} else {
 						indexes.add(0,hold1);
 						cnt++;
 						System.out.println("ADD hold #1-----------" + hold1);
 						if (hold2==hold3||hold2==hold4){
 							System.out.println("I am here at hold2 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
-							hold2 = new Random().nextInt(players.length);
-							hold2 = Integer.parseInt(players[hold2]);
+							hold2 = new Random().nextInt(playerIDs.size());
+							hold2 = Integer.parseInt(playerIDs.get(hold2));
 						} else {
 
 							System.out.println("ADD hold #2-----------" +hold2 );
@@ -683,8 +683,8 @@ public class GameDao {
 							cnt++;
 							if(hold3==hold4){
 								System.out.println("I am here at hold 3 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
-								hold3 = new Random().nextInt(players.length);
-								hold3 = Integer.parseInt(players[hold3]);
+								hold3 = new Random().nextInt(playerIDs.size());
+								hold3 = Integer.parseInt(playerIDs.get(hold3));
 							} else {
 								System.out.println("ADD hold #3/4 ----------- " +hold3 + " ----- " +hold4 );
 								cnt++;
@@ -694,7 +694,7 @@ public class GameDao {
 							}
 						}
 					}
-				}while(cnt<4);
+				}while(indexes.size()<4);
 				
 				
 				int [] playingPlayers = new int[4];
