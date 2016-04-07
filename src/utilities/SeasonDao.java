@@ -188,18 +188,18 @@ public class SeasonDao {
 		    	  season.setId(resultSet.getString("id"));
 		    	  season.setYear(resultSet.getString("year"));
 		    	  season.setSeason(resultSet.getString("season"));
-		    	  season.setGender(resultSet.getString("gender"));
+		    	  season.setGender(ValidationUtilities.genderName(resultSet.getString("gender")));
 		    	  season.setStartDate(resultSet.getString("startDate"));
 		    	  season.setStartTime(ValidationUtilities.toTime(resultSet.getInt("startTime")));
 		    	  season.setDayOfWeek(ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
 		    	  season.setDuration(resultSet.getString("duration"));
 		    	  season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));
-			  		statement = connect.createStatement();
-				    resultSet1 = statement.executeQuery("SELECT * from ch_slot join ch_game on ch_game.seasonid = " + resultSet.getString("id"));
-				    while (resultSet1.next()) {
-				    	season.setStatus("status");
-				    }
-			    	  seasons.add(season);
+		  		  statement = connect.createStatement();
+			      resultSet1 = statement.executeQuery("SELECT * from ch_slot join ch_game on ch_game.seasonid = " + resultSet.getString("id"));
+			      while (resultSet1.next()) {
+			    	season.setStatus("status");
+			      }
+		    	  seasons.add(season);
 		    	}
 	  		} catch (SQLException e) {
 		      throw e;
