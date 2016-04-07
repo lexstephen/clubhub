@@ -73,7 +73,7 @@ public class SeasonDao {
 			String theDate = request.getParameter("theDate");
 			
 			Calendar c = Calendar.getInstance();
-			Date date = new SimpleDateFormat("yyyy-mm-dd").parse(theDate);
+			Date date = new SimpleDateFormat("yyyy-MM-dd").parse(theDate);
 			c.setTime(date);
 			int year = c.get(Calendar.YEAR);
 			int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
@@ -177,14 +177,46 @@ public class SeasonDao {
 	  	request.setAttribute("seasons", seasons);
 		
 	}
+	
+	public void closeSeason(HttpServletRequest request) throws Exception {
+		
+		String seasonID = (String) request.getAttribute("seasonID");
+		List <String> slotIDs = new ArrayList<String>();
+		GameDao game = new GameDao();
+		
+		System.out.println("In closeSeason() with seasonID " + seasonID);
+		
+		try {
+			
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT slot.id from ch_game game JOIN ch_season seas ON game.Seasonid = seas.id "
+					+ "JOIN ch_slot slot ON game.id = slot.gameID WHERE seas.id = " + seasonID + " AND slot.status = 1");
+			
+			while (resultSet.next()) {
+				slotIDs.add(resultSet.getString("slot.id"));
+				System.out.println("Adding slot.ids");
+			}
+			
+			for (String k : slotIDs) {
+				game.closeSlot(request, k);
+				System.out.println("closed slto at k = " + k);
+			}
+			
+		} catch (SQLException e){
+			throw e;
+		}
+		
+	}
 
 	public void listOpenSeasons(HttpServletRequest request) throws Exception {
 		List<Season> seasons = new ArrayList<Season>();
+		boolean hasOpenSlots;
 	  	try {  		
 	  		statement = connect.createStatement();
 		    resultSet = statement.executeQuery("SELECT * from ch_season");
 		    while (resultSet.next()) {
 		    	  Season season = new Season();
+		    	  hasOpenSlots = false;
 		    	  season.setId(resultSet.getString("id"));
 		    	  season.setYear(resultSet.getString("year"));
 		    	  season.setSeason(resultSet.getString("season"));
@@ -195,11 +227,16 @@ public class SeasonDao {
 		    	  season.setDuration(resultSet.getString("duration"));
 		    	  season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));
 		  		  statement = connect.createStatement();
-			      resultSet1 = statement.executeQuery("SELECT * from ch_slot join ch_game on ch_game.seasonid = " + resultSet.getString("id"));
+			      resultSet1 = statement.executeQuery("SELECT * from ch_slot slot join ch_game game ON slot.gameID = game.id "
+			      		+ "WHERE Seasonid = " + resultSet.getString("id") + " AND status = 1");
 			      while (resultSet1.next()) {			    	  
-			    	season.setStatus("status");
+			    	  hasOpenSlots = true;
 			      }
-		    	  seasons.add(season);
+			      
+			      if (hasOpenSlots) {
+			    	  seasons.add(season);
+			      } 
+			      
 		    	}
 	  		} catch (SQLException e) {
 		      throw e;

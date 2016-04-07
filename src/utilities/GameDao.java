@@ -673,117 +673,123 @@ public class GameDao {
 		ResultSet resultSet = statement.executeQuery("SELECT * from clubhub.ch_user_slot us JOIN ch_slot slot "
 					+ "ON us.Slotid = slot.id where id="+ slotID); // This should be user_slot
 			  
-			while(resultSet.next()){
-				  //Slot slot = new Slot();
-				  playerIDs.add(resultSet.getString("Userid"));
-				  gameID = resultSet.getString("slot.gameID");
-			}
-			  
-			System.out.println("Available Players: "+ playerIDs);
-			  
-			List<Integer> indexes = new ArrayList<Integer>();
-			int hold1,hold2,hold3,hold4;
+		while(resultSet.next()){
+			  //Slot slot = new Slot();
+			  playerIDs.add(resultSet.getString("Userid"));
+			  gameID = resultSet.getString("slot.gameID");
+		}
+	  
+		System.out.println("Available Players: "+ playerIDs);
+		
+		if (playerIDs.size() > 7){
+		  
+		List<Integer> indexes = new ArrayList<Integer>();
+		int hold1,hold2,hold3,hold4;
+		
+		for (int y = 0; y < 2; y++){
 			
-			for (int y = 0; y < 2; y++){
-				
-				System.out.println("playerIDs size = " + playerIDs.size());
-				
-				hold1 = new Random().nextInt(playerIDs.size());
-				hold1 = Integer.parseInt(playerIDs.get(hold1));
-				hold2 = new Random().nextInt(playerIDs.size());
-				hold2 = Integer.parseInt(playerIDs.get(hold2));
-				hold3 = new Random().nextInt(playerIDs.size());
-				hold3 = Integer.parseInt(playerIDs.get(hold3));
-				hold4 = new Random().nextInt(playerIDs.size());
-				hold4 = Integer.parseInt(playerIDs.get(hold4));
+			System.out.println("playerIDs size = " + playerIDs.size());
+			
+			hold1 = new Random().nextInt(playerIDs.size());
+			hold1 = Integer.parseInt(playerIDs.get(hold1));
+			hold2 = new Random().nextInt(playerIDs.size());
+			hold2 = Integer.parseInt(playerIDs.get(hold2));
+			hold3 = new Random().nextInt(playerIDs.size());
+			hold3 = Integer.parseInt(playerIDs.get(hold3));
+			hold4 = new Random().nextInt(playerIDs.size());
+			hold4 = Integer.parseInt(playerIDs.get(hold4));
 
-				do{
-					if(hold1==hold2 ||hold1 == hold3 || hold1 == hold4){
-						System.out.println("I am looking at hold1 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
-						hold1 = new Random().nextInt(playerIDs.size());
-						hold1 = Integer.parseInt(playerIDs.get(hold1));
+			do{
+				if(hold1==hold2 ||hold1 == hold3 || hold1 == hold4){
+					System.out.println("I am looking at hold1 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
+					hold1 = new Random().nextInt(playerIDs.size());
+					hold1 = Integer.parseInt(playerIDs.get(hold1));
+				} else {
+					indexes.add(0,hold1);
+					System.out.println("ADD hold #1-----------" + hold1);
+					if (hold2==hold3||hold2==hold4){
+						System.out.println("I am here at hold2 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
+						hold2 = new Random().nextInt(playerIDs.size());
+						hold2 = Integer.parseInt(playerIDs.get(hold2));
 					} else {
-						indexes.add(0,hold1);
-						System.out.println("ADD hold #1-----------" + hold1);
-						if (hold2==hold3||hold2==hold4){
-							System.out.println("I am here at hold2 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
-							hold2 = new Random().nextInt(playerIDs.size());
-							hold2 = Integer.parseInt(playerIDs.get(hold2));
+						System.out.println("ADD hold #2-----------" +hold2 );
+						indexes.add(1,hold2);
+						if(hold3==hold4){
+							System.out.println("I am here at hold 3 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
+							hold3 = new Random().nextInt(playerIDs.size());
+							hold3 = Integer.parseInt(playerIDs.get(hold3));
 						} else {
-							System.out.println("ADD hold #2-----------" +hold2 );
-							indexes.add(1,hold2);
-							if(hold3==hold4){
-								System.out.println("I am here at hold 3 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
-								hold3 = new Random().nextInt(playerIDs.size());
-								hold3 = Integer.parseInt(playerIDs.get(hold3));
-							} else {
-								System.out.println("ADD hold #3/4 ----------- " +hold3 + " ----- " +hold4 );
-								indexes.add(2,hold3);
-								indexes.add(3,hold4);
-							}
-						}
-					}
-				}while(indexes.size()<4);
-					
-				playingPlayers[x++] = indexes.get(0);
-				playingPlayers[x++] = indexes.get(1);
-				playingPlayers[x++] = indexes.get(2);
-				playingPlayers[x++] = indexes.get(3);
-				
-				indexes.clear();
-				
-				if (y == 0) {
-					for (int k = playerIDs.size()-1; k >= 0; k--) {
-						if (Integer.parseInt(playerIDs.get(k)) == hold1 || Integer.parseInt(playerIDs.get(k)) == hold2
-								|| Integer.parseInt(playerIDs.get(k)) == hold3 || Integer.parseInt(playerIDs.get(k)) == hold4) {
-							playerIDs.remove(k);
-							System.out.println("Removed k = " + k);
+							System.out.println("ADD hold #3/4 ----------- " +hold3 + " ----- " +hold4 );
+							indexes.add(2,hold3);
+							indexes.add(3,hold4);
 						}
 					}
 				}
-			}
-			
-			for(int i=0; i < playingPlayers.length ;i++){
-
-				if (i < 4)
-					team = 1;
-				else
-					team = 2;
+			}while(indexes.size()<4);
 				
-				statement = connect.createStatement();
-			    PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game values (?,?," + team + ",0,'TBD')");
-			    preparedStatement.setInt(1, playingPlayers[i]);	//userID
-			    preparedStatement.setString(2, gameID); // gameID
-			    preparedStatement.executeUpdate();
-			}
-		    
+			playingPlayers[x++] = indexes.get(0);
+			playingPlayers[x++] = indexes.get(1);
+			playingPlayers[x++] = indexes.get(2);
+			playingPlayers[x++] = indexes.get(3);
 			
-			StringBuilder builder = new StringBuilder();
+			indexes.clear();
 			
-			if (playingPlayers.length >= 1) {
-				builder.append(playingPlayers[0]);
+			if (y == 0) {
+				for (int k = playerIDs.size()-1; k >= 0; k--) {
+					if (Integer.parseInt(playerIDs.get(k)) == hold1 || Integer.parseInt(playerIDs.get(k)) == hold2
+							|| Integer.parseInt(playerIDs.get(k)) == hold3 || Integer.parseInt(playerIDs.get(k)) == hold4) {
+						playerIDs.remove(k);
+						System.out.println("Removed k = " + k);
+					}
+				}
 			}
-	
-			for (int i = 1; i < playingPlayers.length; i++) { 
-				builder.append(",");
-				builder.append(playingPlayers[i]);
-			}
+		}
 			
-			String thePlayers = builder.toString();
-			System.out.println("Playing Players: "+thePlayers);
+		for(int i=0; i < playingPlayers.length ;i++){
+
+			if (i < 4)
+				team = 1;
+			else
+				team = 2;
 			
 			statement = connect.createStatement();
+		    PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game values (?,?," + team + ",0,'TBD')");
+		    preparedStatement.setInt(1, playingPlayers[i]);	//userID
+		    preparedStatement.setString(2, gameID); // gameID
+		    preparedStatement.executeUpdate();
+		}
+	    
+		
+		StringBuilder builder = new StringBuilder();
+		
+		if (playingPlayers.length >= 1) {
+			builder.append(playingPlayers[0]);
+		}
+
+		for (int i = 1; i < playingPlayers.length; i++) { 
+			builder.append(",");
+			builder.append(playingPlayers[i]);
+		}
+		
+		String thePlayers = builder.toString();
+		System.out.println("Playing Players: "+thePlayers);
+		
+/*			statement = connect.createStatement();
 			ResultSet resultSet1 = statement.executeQuery("Select * from ch_game where id= "+ gameID);
 			while(resultSet1.next()){
 				String seasonID= resultSet1.getString("seasonID");
 				request.setAttribute("seasonID", seasonID);
-			}
+			}*/
 
-			Statement statement2 = null;
-			  statement2 = connect.createStatement();
-			  statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
-			
-		  }
+		Statement statement2 = null;
+		  statement2 = connect.createStatement();
+		  statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
+		
+	    } else {
+	    	request.setAttribute("errorString", "All season slots must have at least 8 users before closing a season");
+	    }
+		
+	}
 		
 		public void findOpenGameSlotsForUser(HttpServletRequest request) throws Exception {
 			  //Game game = new Game();
@@ -803,7 +809,7 @@ public class GameDao {
 				    		+ "on ch_game.id = ch_slot.gameID "
 				    		+ "join ch_season "
 				    		+ "on ch_game.seasonid = ch_season.id "
-				    		+ "where ch_slot.gender IN (\""+ userGender +"\", \"X\") and ch_slot.status = 1");
+				    		+ "where ch_slot.gender IN (\""+ userGender +"\", \"X\") and ch_slot.status = 1 ORDER BY ch_game.scheduledDate ASC");
 				    
 				    while (resultSet2.next()) {
 				    	Slot slot = new Slot();
