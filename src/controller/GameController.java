@@ -65,7 +65,7 @@ public class GameController extends HttpServlet {
 	    				dao.closeSlot(request, slotID);
 	    				Object a = request.getAttribute("seasonID");
 	    				String theSeasonID = a.toString();
-		    			errorChecker = "Game Closed";
+		    			errorChecker = "Game Closed?";
 		    			
 		    			address = "ListGames.jsp?seasonID= "+theSeasonID;
 		    			
