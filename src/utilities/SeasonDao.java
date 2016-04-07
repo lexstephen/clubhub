@@ -336,6 +336,7 @@ public class SeasonDao {
 	
 	public void findSeason(HttpServletRequest request, String seasonID) throws Exception {
 		  Season season = new Season();
+		  //String seasonID = null;
 		  	try{
 			    statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT * FROM ch_season WHERE id= " + seasonID);

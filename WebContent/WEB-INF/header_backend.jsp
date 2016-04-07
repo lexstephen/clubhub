@@ -48,6 +48,7 @@
 									<c:if test="${isLoggedIn == true}">
 										<li><a href="${pageContext.request.contextPath}/admin/EditProfile.jsp?userID=${loggedInUserID }">Edit Profile</a></li>
 										<li><a href="${pageContext.request.contextPath}/admin/Availability.jsp">Game Availability</a></li>
+										<li><a href="${pageContext.request.contextPath}/admin/Schedule.jsp">View Schedule</a></li>
 									</c:if>
 									<c:if test="${(isAdmin == true)}">
 										<li><a href="${pageContext.request.contextPath}/Register.jsp">Add New User</a></li>
