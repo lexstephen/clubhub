@@ -41,7 +41,7 @@ slot.findAllOfUsersSlots(request);
 				<c:if test="${(slot.id == uslot) && (slot.conflict == 0) }"> checked</c:if>
 			</c:forEach>>  ${slot.gender} ${slot.seasonName } ${slot.year} ${slot.dayOfWeek} ${slot.scheduledDate} at ${slot.time}  <br>
 	</c:forEach>
-	<button class="btn btn-info" type="submit" value="availability" name="option">Submit</button>
+	<button class="btn btn-primary" type="submit" value="availability" name="option">Submit</button>
 </form>
 
 

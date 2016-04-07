@@ -287,7 +287,7 @@ public class GameDao {
 	}
 	
 	
-	public void findGameSet(HttpServletRequest request, int seasonID) throws Exception{
+	public void findGameSet(HttpServletRequest request, String seasonID) throws Exception{
 		 List<Game> games = new ArrayList<Game>();
 		  	try{  		
 		  		statement = connect.createStatement();
@@ -307,6 +307,7 @@ public class GameDao {
 			    	  Game game = new Game();
 			    	  game.setId(resultSet.getString("id"));
 			    	  game.setScheduledDate(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
+			    	  game.setScheduledDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("scheduledDate")));
 			    	  game.setWeek(resultSet.getString("week"));
 			    	  game.setSeasonId(resultSet.getString("seasonId"));
 				  	  try{  		
@@ -371,7 +372,7 @@ public class GameDao {
 		String gameID = request.getParameter("gameID");
 		int teamAscore = 0, teamBscore = 0;
 		
-	  	try{
+	  	try {
 		    statement = connect.createStatement();
 		    resultSet = statement.executeQuery("SELECT * FROM ch_user_game JOIN ch_user ON ch_user_game.Userid = ch_user.id WHERE Gameid= " + gameID);
 		    while (resultSet.next()) {
@@ -532,6 +533,47 @@ public class GameDao {
 		}
 		user.setSlotid(assignedSlots);
 	  	request.setAttribute("user", user);
+	}
+	
+	public void findAllOfUsersGames(HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		// figure out who is updating their availability
+		String playerToFind = (String) session.getAttribute("loggedInUserID");
+		UserDao userdao = new UserDao();
+		userdao.findUser(request, playerToFind);
+		List<Game> assignedGames = new ArrayList<Game>();
+		
+		// take the CSV of slots that the player will play and split them out into an array
+		try{
+			statement = connect.createStatement();
+			ResultSet results = statement.executeQuery("select * from ch_user_game JOIN ch_game ON ch_user_game.Gameid = ch_game.id where Userid = " + playerToFind); 
+			while(results.next()){
+				Game game = new Game();
+		    	  game.setId(results.getString("Gameid"));
+		    	  game.setScheduledDate(results.getString("scheduledDate"));
+		    	  System.out.println("I am looking at " + results.getString("Gameid") + " which is on " + results.getString("scheduledDate"));
+		    	  game.setScheduledDateFullYear(ValidationUtilities.dateFullYear(results.getString("scheduledDate")));
+		    	  game.setWeek(results.getString("week"));
+		    	  game.setSeasonId(results.getString("seasonId"));
+		  		    // save season details to game object
+		  	  		statement = connect.createStatement();
+		  	  		resultSet2 = statement.executeQuery("SELECT * FROM ch_season WHERE id = " + results.getString("seasonId"));
+			  		while (resultSet2.next()) {
+			  			game.setYear(resultSet2.getString("year"));
+			  			game.setSeason(ValidationUtilities.seasonName(resultSet2.getString("season")));
+			  			game.setGender(ValidationUtilities.genderName(resultSet2.getString("gender")));
+			  			game.setStartDate(resultSet2.getString("startDate"));
+			  			game.setStartTime(ValidationUtilities.toTime(Integer.parseInt(resultSet2.getString("startTime"))));
+			  			game.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet2.getString("dayOfWeek"))));
+			  			game.setDuration(resultSet2.getString("duration"));
+			  		}
+					assignedGames.add(game);
+			}
+		} catch(SQLException e) {
+		      throw e;
+		}
+
+	  	request.setAttribute("assignedGames", assignedGames);
 	}
 	
 
