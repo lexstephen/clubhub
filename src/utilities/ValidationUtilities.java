@@ -298,10 +298,10 @@ public class ValidationUtilities {
 		}
 	}
 
-	public static String toTime (HttpServletRequest request, int givenTime){
+	public static String toTime (int givenTime){
 		String response = null;
-		if(givenTime > 1200) {
-			givenTime = givenTime - 1200;
+		if(givenTime > 12) {
+			givenTime = givenTime - 12;
 			response = givenTime + "PM";
 		} else {
 			response = givenTime + "AM";

@@ -174,7 +174,7 @@ public class GameDao {
 		      
 		    while (resultSet.next()) {
 		    	gender = ValidationUtilities.genderName(resultSet.getString("season.gender"));
-		    	gameDate = ValidationUtilities.toTime(request, Integer.parseInt(resultSet.getString("season.startTime")));
+		    	gameDate = ValidationUtilities.toTime(Integer.parseInt(resultSet.getString("season.startTime")));
 		    	if (isLoggedIn) {
 		    		output += "<a href=\'admin/Game.jsp?gameID=" + resultSet.getString("game.id") + "\'>" + gender + " " + gameDate + "</a><br>";
 		    	} else {
@@ -214,7 +214,7 @@ public class GameDao {
 				  			game.setSeason(ValidationUtilities.seasonName(resultSet2.getString("season")));
 				  			game.setGender(ValidationUtilities.genderName(resultSet2.getString("gender")));
 				  			game.setStartDate(resultSet2.getString("startDate"));
-				  			game.setStartTime(ValidationUtilities.toTime(request, Integer.parseInt(resultSet2.getString("startTime"))));
+				  			game.setStartTime(ValidationUtilities.toTime(Integer.parseInt(resultSet2.getString("startTime"))));
 				  			game.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet2.getString("dayOfWeek"))));
 				  			game.setDuration(resultSet2.getString("duration"));
 				  		}
@@ -317,7 +317,7 @@ public class GameDao {
 				  			game.setSeason(ValidationUtilities.seasonName(resultSet2.getString("season")));
 				  			game.setGender(ValidationUtilities.genderName(resultSet2.getString("gender")));
 				  			game.setStartDate(resultSet2.getString("startDate"));
-				  			game.setStartTime(ValidationUtilities.toTime(request, Integer.parseInt(resultSet2.getString("startTime"))));
+				  			game.setStartTime(ValidationUtilities.toTime( Integer.parseInt(resultSet2.getString("startTime"))));
 				  			game.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet2.getString("dayOfWeek"))));
 				  			game.setDuration(resultSet2.getString("duration"));
 				  		}
@@ -447,7 +447,7 @@ public class GameDao {
 	  	request.setAttribute("winner", winner);
 	}
 	
-	public void findGames(HttpServletRequest request, String gameID) throws Exception {
+	public void findGame(HttpServletRequest request, String gameID) throws Exception {
 		  Game game = new Game();
 		  SeasonDao seasondao = new SeasonDao();
 		  	try{
@@ -471,7 +471,7 @@ public class GameDao {
 				  			game.setSeason(ValidationUtilities.seasonName(resultSet2.getString("season")));
 				  			game.setGender(ValidationUtilities.genderName(resultSet2.getString("gender")));
 				  			game.setStartDate(resultSet2.getString("startDate"));
-				  			game.setStartTime(ValidationUtilities.toTime(request, Integer.parseInt(resultSet2.getString("startTime"))));
+				  			game.setStartTime(ValidationUtilities.toTime(Integer.parseInt(resultSet2.getString("startTime"))));
 				  			game.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet2.getString("dayOfWeek"))));
 				  			game.setDuration(resultSet2.getString("duration"));
 				  		}
@@ -492,79 +492,23 @@ public class GameDao {
 		// take the CSV of slots that the player will play and split them out into an array
 		@SuppressWarnings("unchecked")
 		List<String> slotList = (ArrayList<String>) request.getAttribute("desiredSlotIDs"); // their new availability
-		List<Slot> desiredSlots = new ArrayList<Slot>(); // their old availability
-		System.out.println("Their desired list: ");
-		for (String slot : slotList) {
-			System.out.print (slot + " ");
-			Slot slt = new Slot();
-			slt.setId(slot);
-			slt.setConflict(0);
-			desiredSlots.add(slt);
-		}
-		System.out.println("----------------------");
-		List<Slot> existantSlots = new ArrayList<Slot>(); // their old availability
-		List<String> conflictSlots = new ArrayList<String>(); // where we'll track any conflicts
-		List<String> slots = new ArrayList<String>(); // where we'll store the new user slots
-			// first check if this slot has already been assigned
 			try{
+				// first, drop their current entries
+				// lazy but in a pinch.. 
 				statement = connect.createStatement();
-				  statement.executeUpdate("delete from ch_user_slot WHERE Userid = " + playerToAdd); 
-				  
-/*				ResultSet results = statement.executeQuery("select * from ch_user_slot where Userid = " + playerToAdd); 
-				Slot existantSlot = new Slot();
-				System.out.println("Their existant list: ");
-				while(results.next()){
-					existantSlot.setId(results.getString("Slotid"));
-					existantSlot.setConflict(Integer.parseInt(results.getString("conflict")));
-					System.out.print(results.getString("Slotid") + " ");
-					existantSlots.add(existantSlot);
+				statement.executeUpdate("delete from ch_user_slot WHERE Userid = " + playerToAdd); 
+
+				// add the new user_slots
+				statement = connect.createStatement();
+				for (String slot : slotList) { 
+						PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_slot values (?, ?)");
+						preparedStatement.setString(1, playerToAdd); // Userid
+						preparedStatement.setString(2, slot); // Slotid
+						preparedStatement.executeUpdate();
 				}
-				System.out.println("----------------------");
-				
-				
-				*/
-				// look at their newly selected slots
-				for (Slot a : desiredSlots) {
-							slots.add(a.getId());
-			    }
-				/*
-				for (Slot a : existantSlots) {
-					System.out.println("already in at " + a.getId());
-					for (Slot b : desiredSlots) {
-						if(b.equalsConflict(a)) {
-							System.out.println("They still want " + a.getId());
-						} else {
-							System.out.println("They passed on " + a.getId());
-							conflictSlots.add(a.getId());
-						}
-					}
-			    } */
 			} catch(SQLException e) {
 			      throw e;
 			}
-
-			// add the new user_slots
-			statement = connect.createStatement();
-			for (String slot : slots) { 
-					PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_slot values (?, ?, ?)");
-					preparedStatement.setString(1, playerToAdd); // Userid
-					preparedStatement.setString(2, slot); // Slotid
-					preparedStatement.setBoolean(3, false); // no conflict
-					preparedStatement.executeUpdate();
-			}
-			/*
-			// set the conflict to true for slots they changed availability on
-			statement = connect.createStatement();
-			for (String slot : conflictSlots) { 
-
-				  statement.executeUpdate("delete from ch_user_slot WHERE Userid = " + playerToAdd + " AND Slotid= " + slot); 
-				  
-					
-					 System.out.println("UPDATE ch_user_slot SET conflict = 1 WHERE Userid = " + playerToAdd + " AND Slotid= " + slot);
-					 PreparedStatement preparedStatement = connect.prepareStatement("UPDATE ch_user_slot SET conflict = 1 WHERE Userid = " + playerToAdd + " AND Slotid= " + slot);
-					 preparedStatement.executeUpdate();
-					
-			} */
 	}
 
 	public void findAllOfUsersSlots(HttpServletRequest request) throws Exception {
@@ -592,11 +536,9 @@ public class GameDao {
 	
 
 	public void playersAvailable(HttpServletRequest request, String userID, String slotIDs) throws Exception{
-		
 		String [] slots = slotIDs.split(",");
 		try{
 			statement = connect.createStatement();
-			
 			for (int i = 0; i < slots.length; i++) { 
 				String slotID = slots[i];
 				ResultSet results = statement.executeQuery("select * from ch_slot where id = " + slotID); 
@@ -778,8 +720,10 @@ public class GameDao {
 		}
 			
 		
-		public void findOpenGameSlots(HttpServletRequest request, String userID) throws Exception {
+		public void findOpenGameSlotsForUser(HttpServletRequest request) throws Exception {
 			  //Game game = new Game();
+			HttpSession session = request.getSession();
+			String userID = (String) session.getAttribute("loggedInUserID");
 			List<Slot> slots = new ArrayList<Slot>();
 		  	try {
 			  		statement = connect.createStatement();
@@ -802,7 +746,7 @@ public class GameDao {
 				    	int givenTime = resultSet2.getInt("time");
 				    	String slotID = resultSet2.getString("id");
 				    	String dayOfWeek = utilities.ValidationUtilities.numberToDay(num);
-				    	String time = utilities.ValidationUtilities.toTime(request,givenTime);
+				    	String time = utilities.ValidationUtilities.toTime(givenTime);
 				    	slot.setDayOfWeek(dayOfWeek);
 				    	slot.setTime(time);
 				    	slot.setSeasonName(ValidationUtilities.seasonName(resultSet2.getString("season")));
@@ -811,7 +755,6 @@ public class GameDao {
 				    	slot.setScheduledDate(ValidationUtilities.dateFullYear(resultSet2.getString("scheduledDate")));
 				    	slot.setId(slotID);    
 				    	request.setAttribute("slotID", slot.getId());
-				    	slot.setConflict(checkSlotConflict(userID,slotID));
 				    	slots.add(slot);
 					}
 			    } catch (SQLException e) {
@@ -820,7 +763,7 @@ public class GameDao {
 			  	request.setAttribute("slots", slots);
 		} 
 		
-
+/*
 public int checkSlotConflict(String userID, String slotID) {
     	try {
 			statement2 = connect.createStatement();
@@ -834,6 +777,7 @@ public int checkSlotConflict(String userID, String slotID) {
 		}
 		return 0;
 }
+*/
 		/*
 		public void editSeason(HttpServletRequest request, HttpServletResponse response, String _seasonID) throws Exception {
 		    try {			
