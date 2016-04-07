@@ -695,7 +695,7 @@ public class GameDao {
 			//Statement statement1 = null;
 			//ResultSet resultSet1 = null;
 			statement = connect.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * from ch_slot where id= "+ slotID);
+			ResultSet resultSet = statement.executeQuery("SELECT * from ch_slot where id= "+ slotID); // This should be user_slot
 			  
 			  while(resultSet.first()){
 				  //Slot slot = new Slot();
