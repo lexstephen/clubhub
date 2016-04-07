@@ -647,9 +647,7 @@ public class GameDao {
 			  }
 			  
 			System.out.println("Available Players: "+ playerIDs);
-			Statement statement2 = null;
-			  statement2 = connect.createStatement();
-			  statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
+			  
 				String [] players = playerIDs.split(",");
 				List<Integer> indexes = new ArrayList<Integer>();
 				//String [] indexes = new String[4];
@@ -740,6 +738,10 @@ public class GameDao {
 					String seasonID= resultSet1.getString("seasonID");
 					request.setAttribute("seasonID", seasonID);
 				}
+
+				Statement statement2 = null;
+				  statement2 = connect.createStatement();
+				  statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
 				
 		  }
 		
