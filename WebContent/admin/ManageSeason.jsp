@@ -22,13 +22,11 @@ slot.listSeasonWithStatus(request);
 
 %>
 
-
-	<h3><u> ${dayOfWeek} at ${time}</u> </h3>
-	
 	<c:forEach items="${seasons}" var="season">
 		<form action="/clubhub/GameController" method="post" class="form" role="form">
 			S ${season.id}: ${season.year }-${season.gender }-${season.season } <b>${season.startDateFullYear	 }</b> ${season.dayOfWeek } ${season.startTime } (${season.duration } weeks) 
 			
+				<input type="hidden" name="slotID" value="542">
 				<input type="hidden" name="seasonID" value="${season.id}">
 				<button type="submit" value="close" name="option">Close</button>
 				<button type="submit" value="assign" name="option">Assign Players</button>

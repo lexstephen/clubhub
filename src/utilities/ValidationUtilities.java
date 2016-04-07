@@ -432,9 +432,9 @@ public class ValidationUtilities {
 	public static String genderName(String gender) {
 		switch(gender) {
 		case "M":
-			return "Mens'";
+			return "Men";
 		case "F":
-			return "Womens'";
+			return "Women";
 		default:
 			return "Mixed";
 		}

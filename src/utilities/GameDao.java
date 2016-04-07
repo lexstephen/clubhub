@@ -631,6 +631,8 @@ public class GameDao {
 	
 	public void closeSlot(HttpServletRequest request, String slotID) throws Exception{
 		System.out.println("The slot ID recieved is: "+ slotID);
+		String playerIDs  = null;
+		String gameID =  null;
 			System.out.println("Im in closeSlot");
 			//String seasonID = null;
 			//Statement statement1 = null;
@@ -638,58 +640,81 @@ public class GameDao {
 			statement = connect.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT * from ch_slot where id= "+ slotID); // This should be user_slot
 			  
-			  while(resultSet.first()){
+			  while(resultSet.next()){
 				  //Slot slot = new Slot();
-				  String playerIDs = resultSet.getString("availablePlayers");
-				  String gameID = resultSet.getString("gameID");
-				  
+				  playerIDs = resultSet.getString("availablePlayers");
+				  gameID = resultSet.getString("gameID");
+			  }
 			  
 			System.out.println("Available Players: "+ playerIDs);
 			Statement statement2 = null;
 			  statement2 = connect.createStatement();
 			  statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
-			  
-				String [] players = playerIDs.split(", ");
+				String [] players = playerIDs.split(",");
 				List<Integer> indexes = new ArrayList<Integer>();
 				//String [] indexes = new String[4];
 				int hold1,hold2,hold3,hold4;
+
 				hold1 = new Random().nextInt(players.length);
+				hold1 = Integer.parseInt(players[hold1]);
 				hold2 = new Random().nextInt(players.length);
+				hold2 = Integer.parseInt(players[hold2]);
 				hold3 = new Random().nextInt(players.length);
+				hold3 = Integer.parseInt(players[hold3]);
 				hold4 = new Random().nextInt(players.length);
+				hold4 = Integer.parseInt(players[hold4]);
 				
+				int cnt = 0; 
 				do{
 					if(hold1==hold2 ||hold1 == hold3 || hold1 == hold4){
+						System.out.println("I am looking at hold1 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
 						hold1 = new Random().nextInt(players.length);
-					}else{
+						hold1 = Integer.parseInt(players[hold1]);
+					} else {
 						indexes.add(0,hold1);
-						if(hold2==hold3||hold2==hold4){
+						cnt++;
+						System.out.println("ADD hold #1-----------" + hold1);
+						if (hold2==hold3||hold2==hold4){
+							System.out.println("I am here at hold2 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
 							hold2 = new Random().nextInt(players.length);
-						}
-						else{
+							hold2 = Integer.parseInt(players[hold2]);
+						} else {
+
+							System.out.println("ADD hold #2-----------" +hold2 );
 							indexes.add(1,hold2);
+							cnt++;
 							if(hold3==hold4){
+								System.out.println("I am here at hold 3 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
 								hold3 = new Random().nextInt(players.length);
-							}else{
+								hold3 = Integer.parseInt(players[hold3]);
+							} else {
+								System.out.println("ADD hold #3/4 ----------- " +hold3 + " ----- " +hold4 );
+								cnt++;
+								cnt++;
 								indexes.add(2,hold3);
 								indexes.add(3,hold4);
 							}
 						}
 					}
-				}while(indexes.size()<4);
+				}while(cnt<4);
 				
 				
-				String [] playingPlayers = new String[4];
-				playingPlayers[0] = players[indexes.get(0)];
+				int [] playingPlayers = new int[4];
+				/*playingPlayers[0] = players[indexes.get(0)];
 				playingPlayers[1] = players[indexes.get(1)];
 				playingPlayers[2] = players[indexes.get(2)];
-				playingPlayers[3] = players[indexes.get(3)];
+				playingPlayers[3] = players[indexes.get(3)]; */
+
+				playingPlayers[0] = indexes.get(0);
+				playingPlayers[1] = indexes.get(1);
+				playingPlayers[2] = indexes.get(2);
+				playingPlayers[3] = indexes.get(3);
 				
 				for(int i=0; i < playingPlayers.length ;i++){
 					//Statement statement3 = null;
 					statement = connect.createStatement();
-				    PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game values (?,?,null,null)");
-				    preparedStatement.setString(1, playingPlayers[i]);	//userID
+				    PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game values (?,?,null,null,'TBD')");
+				    preparedStatement.setInt(1, playingPlayers[i]);	//userID
 				    preparedStatement.setString(2, gameID); // gameID
 				    preparedStatement.executeUpdate();
 				}
@@ -716,9 +741,7 @@ public class GameDao {
 					request.setAttribute("seasonID", seasonID);
 				}
 				
-			  };
-		}
-			
+		  }
 		
 		public void findOpenGameSlotsForUser(HttpServletRequest request) throws Exception {
 			  //Game game = new Game();
