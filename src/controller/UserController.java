@@ -159,7 +159,7 @@ public class UserController extends HttpServlet {
 		    	    		String playerInConflict = "2";
 			    	    	String gameInConflict = "42";
 		    	    		String[] theseUsers = {"1", "2", "3", "4"};
-			    	    	email.sendConflictEmail(request, response, playerInConflict, gameInConflict, theseUsers);
+			    	    	email.sendConflictEmail(request, playerInConflict, gameInConflict, theseUsers);
 			    	    	
 				    } catch (MessagingException mex) {
 				        System.out.println("send failed, exception: " + mex);

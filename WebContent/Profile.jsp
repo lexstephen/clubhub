@@ -18,8 +18,9 @@
 
 <%	
 	UserDao user = new UserDao();
-	user.findUser(request, request.getParameter("userID"));
-	request.setAttribute("userID", request.getParameter("userID"));
+	String userID = request.getParameter("userID");
+	user.findUser(request, userID);
+	request.setAttribute("userID", userID);
 	user.getUserAge(request);
 	user.getName(request,"viewprofile");
 	user.getUserId(request,"viewprofile");

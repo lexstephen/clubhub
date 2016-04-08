@@ -15,9 +15,6 @@
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 <% GameDao game = new GameDao();
 String seasonID = session.getAttribute("seasonID").toString();
-//String str = request.getParameter("seasonID");
-//int seasonID = Integer.parseInt(str);
-System.out.println("The current season ID is: " + seasonID);
 game.findGameSet(request, seasonID);
 %>
 

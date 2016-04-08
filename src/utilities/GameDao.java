@@ -20,6 +20,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import javax.mail.MessagingException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -33,6 +36,7 @@ import utilities.ValidationUtilities;
 public class GameDao {
 	private Connection connect = null;
 	private Statement statement = null;
+	private Statement statement2 = null;
 	private ResultSet resultSet = null;
 	private ResultSet resultSet2 = null;
 	private ResultSet resultSet3 = null;
@@ -74,7 +78,6 @@ public class GameDao {
 			
 			while(results.next()) {
 				UserGame game = new UserGame();
-				
 				game.setGameID(results.getString("Gameid"));
 				game.setUserID(results.getString("Userid"));
 				game.setTeam(results.getString("team"));
@@ -637,7 +640,7 @@ public class GameDao {
 			request.setAttribute("gameID", gameID);
 			}
 		}
-	
+
 	public void switchThem(HttpServletRequest request, String currentPlayer, String newPlayer, String gameID) throws Exception{
 		
 		String currentPlayerID = utilities.ValidationUtilities.getPlayerNumber(request, currentPlayer);
@@ -648,7 +651,63 @@ public class GameDao {
 		
 		statement = connect.createStatement();
 		statement.executeUpdate("UPDATE ch_user_game SET Userid= "+ newPlayerID +"  where Gameid= "+ gameID + " && Userid= " + currentPlayerID);
+	}
+
+	public void findAvailableUsersWhoArentScheduled(HttpServletRequest request, String gameID) throws Exception{
+		List<User> backupUsers = new ArrayList<User>();
+		try {
+			String scheduledUsers = ""; 
+			String firstqry = "SELECT Userid from ch_user_game WHERE Gameid = " + gameID;
+			statement = connect.createStatement();
+			ResultSet results0 = statement.executeQuery(firstqry);
+			while(results0.next()) {
+				scheduledUsers += "\"" + results0.getString("Userid") + "\", ";
+			}
+			scheduledUsers = scheduledUsers.substring(0, (scheduledUsers.length() - 2));
+			
+				String qry = "SELECT * FROM ch_user_slot us JOIN ch_slot s ON s.Gameid = " + gameID + " WHERE us.Userid NOT IN (" + scheduledUsers + ")";
+				System.out.print(qry);
+				statement = connect.createStatement();
+				ResultSet results = statement.executeQuery(qry);
+				while(results.next()) {
+				User usr = new User();
+				usr.setUserid(results.getString("Userid"));
+				qry = "SELECT * FROM ch_user WHERE id = " + usr.getUserid();
+				statement2 = connect.createStatement();
+				ResultSet results2 = statement2.executeQuery(qry);
+				while(results2.next()) {
+					usr.setFirstName(results2.getString("firstName"));
+					usr.setLastName(results2.getString("lastName"));
+				}
+				backupUsers.add(usr);
+			}
+			
+		} catch (Exception e) {
+		      throw e;
+	    }
 		
+		
+		request.setAttribute("backupUsers", backupUsers);
+		}
+
+	public void setConflict(HttpServletRequest request, String _gameID) throws Exception {
+		HttpSession session = request.getSession();
+		String userID = (String) session.getAttribute("loggedInUserID");
+		String gameID = _gameID;
+		statement = connect.createStatement();
+	    PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game_conflict values (null,?,?)");
+	    preparedStatement.setString(1, userID); // gameID
+	    preparedStatement.setString(2, gameID); // gameID
+	    preparedStatement.executeUpdate();
+	    try {
+    		SendEmail email = new SendEmail();
+    		String[] theseUsers = {"1", "2", "3", "4"};
+	    	email.sendConflictEmail(request, userID, gameID, theseUsers);
+	    	
+		    } catch (MessagingException mex) {
+		        System.out.println("send failed, exception: " + mex);
+		    }
+	    
 		}
 	
 	

@@ -15,14 +15,32 @@
 String gameID = request.getParameter("gameID");
 game.findGame(request, gameID);
 game.findTeamsForGames(request);
-request.setAttribute("thisPage", "Edit Game Details"); %>
-
+game.findAvailableUsersWhoArentScheduled(request, gameID);
+request.setAttribute("thisPage", "Edit Game Details"); 
+%>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 <form action="${pageContext.request.contextPath}/GameController" method="post" class="form" role="form">
 	<div class="row">
 		<h2>Season ${game.seasonId}: ${game.gender } ${game.season } ${game.year }</h2>
 		<h3>Game ${game.id}: ${game.dayOfWeek}, ${game.scheduledDateFullYear} at ${game.startTime}</h3>
 	</div>
+	<div class="row">
+		<h3>
+			Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear} at ${game.startTime}
+			<small>Season ${game.seasonId}: ${game.gender } ${game.season } ${game.year }</small>
+		</h3>
+		
+		<p>
+			<form action="/clubhub/GameController" method="post" class="form" role="form">
+			<p>(This should only display if the user is scheduled for this game)
+				Can't make this game? Let the admin know:
+				<input type="hidden" name="gameID" value="${game.id}">
+				<button type="submit" name="option" value="conflict">Switch</button>
+			</form>
+		</p>
+
+<form action="/clubhub/GameController" method="post" class="form" role="form">
+
 	<div class="row">
 		<div class="col-md-6 col-xs-12">
 			<h3>
@@ -79,6 +97,7 @@ request.setAttribute("thisPage", "Edit Game Details"); %>
 				</tbody>
 		</table>	
 		</div>
+<<<<<<< HEAD
 		<c:if test="${(isAdmin == true)}">
 			<input type="hidden" name="gameID" value="${game.id}">
 			<button class="btn btn-primary btn-xs" name="option" value="editScores" type="submit">Update</button>
@@ -87,6 +106,14 @@ request.setAttribute("thisPage", "Edit Game Details"); %>
 	</div>
 </form>
 	
+=======
+
+		<div class="row">
+			<button type="submit" value="switchThem">Switch</button>
+		</div>
+	</div>
+</form>
+>>>>>>> refs/remotes/origin/lex
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
 <%@ include file="/WEB-INF/footer_backend.jsp" %>
