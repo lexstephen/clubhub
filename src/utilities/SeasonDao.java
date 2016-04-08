@@ -211,31 +211,37 @@ public class SeasonDao {
 	public void listOpenSeasons(HttpServletRequest request) throws Exception {
 		List<Season> seasons = new ArrayList<Season>();
 		boolean hasOpenSlots;
+		@SuppressWarnings("unused")
+		int usrCnt;
+		
 	  	try {  		
 	  		statement = connect.createStatement();
 		    resultSet = statement.executeQuery("SELECT * from ch_season");
 		    while (resultSet.next()) {
-		    	  Season season = new Season();
-		    	  hasOpenSlots = false;
-		    	  season.setId(resultSet.getString("id"));
-		    	  season.setYear(resultSet.getString("year"));
-		    	  season.setSeason(resultSet.getString("season"));
-		    	  season.setGender(ValidationUtilities.genderName(resultSet.getString("gender")));
-		    	  season.setStartDate(resultSet.getString("startDate"));
-		    	  season.setStartTime(ValidationUtilities.toTime(resultSet.getInt("startTime")));
-		    	  season.setDayOfWeek(ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
-		    	  season.setDuration(resultSet.getString("duration"));
-		    	  season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));
-		  		  statement = connect.createStatement();
-			      resultSet1 = statement.executeQuery("SELECT * from ch_slot slot join ch_game game ON slot.gameID = game.id "
+		    	usrCnt = 0;
+		  	    Season season = new Season();
+			    hasOpenSlots = false;
+			    season.setId(resultSet.getString("id"));
+			    season.setYear(resultSet.getString("year"));
+			    season.setSeason(resultSet.getString("season"));
+			    season.setGender(ValidationUtilities.genderName(resultSet.getString("gender")));
+			    season.setStartDate(resultSet.getString("startDate"));
+			    season.setStartTime(ValidationUtilities.toTime(resultSet.getInt("startTime")));
+			    season.setDayOfWeek(ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
+			    season.setDuration(resultSet.getString("duration"));
+			    season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));
+			    statement = connect.createStatement();
+			    resultSet1 = statement.executeQuery("SELECT * from ch_slot slot join ch_game game ON slot.gameID = game.id "
 			      		+ "WHERE Seasonid = " + resultSet.getString("id") + " AND status = 1");
-			      while (resultSet1.next()) {			    	  
-			    	  hasOpenSlots = true;
-			      }
+			    while (resultSet1.next()) {			    	  
+			    	hasOpenSlots = true;
+			    	usrCnt++;
+			    }
 			      
-			      if (hasOpenSlots) {
-			    	  seasons.add(season);
-			      } 
+			      
+			    if (hasOpenSlots) {
+			    	seasons.add(season);
+			    } 
 			      
 		    	}
 	  		} catch (SQLException e) {
