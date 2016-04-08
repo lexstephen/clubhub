@@ -114,7 +114,14 @@ public class GameController extends HttpServlet {
 	    			errorChecker = "Redirect to listgames";
 	    			address = "admin/ListGames.jsp";
 		    	break;
-		    			    	
+		    	case "editScores":
+		    		gameID = request.getParameter("gameID");
+		    		request.setAttribute("gameID", gameID);
+		    		request.setAttribute("teamAscore", request.getParameter("teamAscore"));
+		    		request.setAttribute("teamBscore", request.getParameter("teamBscore"));
+		    		dao.editScores(request);
+		    		address = "admin/Game.jsp?gameID=" + gameID;
+	    		break;
 		    	default:
 		    		errorChecker = "Something has gone horribly wrong";
 	    		break;
