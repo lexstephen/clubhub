@@ -682,8 +682,8 @@ public class GameDao {
 				statement2 = connect.createStatement();
 				ResultSet results2 = statement2.executeQuery(qry);
 				while(results2.next()) {
-					usr.setFirstName(results.getString("firstName"));
-					usr.setLastName(results.getString("lastName"));
+					usr.setFirstName(results2.getString("firstName"));
+					usr.setLastName(results2.getString("lastName"));
 				}
 				backupUsers.add(usr);
 			}
