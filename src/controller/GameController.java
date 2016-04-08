@@ -37,6 +37,7 @@ public class GameController extends HttpServlet {
 		String address = "", seasonID, gameMonth;
 		//
 		String errorChecker = "n/a";
+		String gameID = request.getParameter("gameID");
 		
 		System.out.println(option);
 		
@@ -74,10 +75,17 @@ public class GameController extends HttpServlet {
 		    	case "switchPlayers":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
-	    			String gameID = request.getParameter("gameID");
 		    		System.out.println("The GameID is: "+gameID);
 	    			
 		    		dao.playersToSwitch(request, gameID);
+		    		address = "admin/EditGame.jsp";
+		    			
+		    	break;
+		    	
+		    	case "conflict":
+		    		//if (ValidationUtilities.isValidSeason(request)) {
+		    			
+		    		dao.setConflict(request, gameID);
 		    		address = "admin/EditGame.jsp";
 		    			
 		    	break;
@@ -111,17 +119,16 @@ public class GameController extends HttpServlet {
 					request.setAttribute("successString", "Availability has been updated.");
 	    			address = "admin/Availability.jsp";
 	    		break;
+	    		
 		    	case "displayGames":
-	    			
 	    			seasonID = request.getParameter("seasonID");
 	    			gameMonth = request.getParameter("gameMonth");  			
 		    		request.setAttribute("seasonID", seasonID);
 		    		request.setAttribute("gameMonth", gameMonth);
 	    			errorChecker = "Redirect to listgames";
 	    			address = "admin/ListGames.jsp";
-		    			
 		    	break;
-		    	
+		    			    	
 		    	default:
 		    		errorChecker = "Something has gone horribly wrong";
 	    		break;

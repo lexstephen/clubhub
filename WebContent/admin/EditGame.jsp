@@ -24,12 +24,22 @@ Object theCuurrentPlayers = session.getAttribute("theCurrentPlayers");
 Object theAvailablePlayers = session.getAttribute("theAvailablePlayers");
 
 %>
-<form action="/clubhub/GameController" method="post" class="form" role="form">
 	<div class="row">
-		<h2>Game ${game.id}: ${game.dayOfWeek}, ${game.scheduledDateFullYear} at ${game.startTime}
-		<small>Season ${game.seasonId}: ${game.gender } ${game.season } ${game.year }</small>
-		</h2>
+		<h3>
+			Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear} at ${game.startTime}
+			<small>Season ${game.seasonId}: ${game.gender } ${game.season } ${game.year }</small>
+		</h3>
+		
+		<p>
+			<form action="/clubhub/GameController" method="post" class="form" role="form">
+			<p>(This should only display if the user is scheduled for this game)
+				Can't make this game? Let the admin know:
+				<input type="hidden" name="gameID" value="${game.id}">
+				<button type="submit" name="option" value="conflict">Switch</button>
+			</form>
+		</p>
 	</div>
+<form action="/clubhub/GameController" method="post" class="form" role="form">
 	<div class="row">
 		<div class="col-md-6 col-xs-12">		
 			<h3>
@@ -89,17 +99,6 @@ Object theAvailablePlayers = session.getAttribute("theAvailablePlayers");
 		</table>	
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-md-6">
-				<c:forEach items="${theCurrentPlayers}" var="theCurrentPlayer">
-						<input type="radio" name="currentPlayer" value="${theCurrentPlayer}" ><c:out value="${theCurrentPlayer}" /><br>
-				</c:forEach>
-			</div>
-			<div class="col-xs-12 col-md-6">
-					<c:forEach items="${theAvailablePlayers}" var="theAvailablePlayer">
-						<input type="radio" name="newPlayer" value="${theAvailablePlayer}" ><c:out value="${theAvailablePlayer}" /><br>
-					</c:forEach>
-			</div>	
-			<br><br>
 			<button type="submit" value="switchThem">Switch</button>
 		</div>
 	</div>

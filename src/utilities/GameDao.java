@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -646,7 +647,7 @@ public class GameDao {
 			request.setAttribute("gameID", gameID);
 			}
 		}
-	
+
 	public void switchThem(HttpServletRequest request, String currentPlayer, String newPlayer, String gameID) throws Exception{
 		
 		String currentPlayerID = utilities.ValidationUtilities.getPlayerNumber(request, currentPlayer);
@@ -658,6 +659,40 @@ public class GameDao {
 		statement = connect.createStatement();
 		statement.executeUpdate("UPDATE ch_user_game SET Userid= "+ newPlayerID +"  where Gameid= "+ gameID + " && Userid= " + currentPlayerID);
 		
+		}
+
+	public void findAvailableUsersWhoArentScheduled(HttpServletRequest request, String gameID) throws Exception{
+/*
+		statement = connect.createStatement();
+		ResultSet resultSet = statement.executeQuery("SELECT * from clubhub.ch_user_slot us JOIN ch_slot slot "
+					+ "ON us.Slotid = slot.id where id="+ slotID); // This should be user_slot
+			  
+			while(resultSet.next()){
+				  //Slot slot = new Slot();
+				  playerIDs.add(resultSet.getString("Userid"));
+				  gameID = resultSet.getString("slot.gameID");
+			}
+			*/  
+		}
+
+	public void setConflict(HttpServletRequest request, String _gameID) throws Exception {
+		HttpSession session = request.getSession();
+		String userID = (String) session.getAttribute("loggedInUserID");
+		String gameID = _gameID;
+		statement = connect.createStatement();
+	    PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game_conflict values (null,?,?)");
+	    preparedStatement.setString(1, userID); // gameID
+	    preparedStatement.setString(2, gameID); // gameID
+	    preparedStatement.executeUpdate();
+	    try {
+    		SendEmail email = new SendEmail();
+    		String[] theseUsers = {"1", "2", "3", "4"};
+	    	email.sendConflictEmail(request, userID, gameID, theseUsers);
+	    	
+		    } catch (MessagingException mex) {
+		        System.out.println("send failed, exception: " + mex);
+		    }
+	    
 		}
 	
 	

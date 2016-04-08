@@ -14,12 +14,7 @@
 <% request.setAttribute("thisPage", "Populate Games"); %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 <% GameDao game = new GameDao();
-Object id = session.getAttribute("seasonID");
-String str = id.toString();
-int seasonID = Integer.parseInt(str);
-//String str = request.getParameter("seasonID");
-//int seasonID = Integer.parseInt(str);
-System.out.println("The current season ID is: " + seasonID);
+String seasonID = session.getAttribute("seasonID").toString();
 game.findGameSet(request, seasonID);
 %>
 
