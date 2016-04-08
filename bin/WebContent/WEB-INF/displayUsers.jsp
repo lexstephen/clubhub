@@ -1,4 +1,4 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%-- 
 	Project: ClubHub Content and User Management System 
@@ -9,20 +9,17 @@
  --%>
 
 <tr>
- 	<td class="col-xs-12 col-md-1 checkbox">
-			<c:choose>
-				<c:when test="${(isAdmin == true)}">
-					<input type="checkbox" name="userSelected" value="${user.userid}">
-				</c:when>
-			</c:choose>
-	</td>
+	<td class="col-xs-12 col-md-1 checkbox"><c:choose>
+			<c:when test="${(isAdmin == true)}">
+				<input type="checkbox" name="userSelected" value="${user.userid}">
+			</c:when>
+		</c:choose></td>
 	<td class="col-xs-12 col-md-3 control-label">${user.username}</td>
 	<td class="col-xs-12 col-md-2">${user.userStatus}</td>
 	<td class="col-xs-12 col-md-2">${user.firstName}</td>
 	<td class="col-xs-12 col-md-2">${user.lastName}</td>
-	<td class="col-xs-12 col-md-2">
-		<span class="expand">
-			<a href="/clubhub/Profile.jsp?userID=${user.userid}" class="btn btn-primary btn-xs">View</a>
-		</span>
-	</td>
+	<td class="col-xs-12 col-md-2"><span class="expand"> <a
+			href="/clubhub/Profile.jsp?userID=${user.userid}"
+			class="btn btn-primary btn-xs">View</a>
+	</span></td>
 </tr>

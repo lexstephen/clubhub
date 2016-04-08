@@ -1,11 +1,12 @@
 
-<c:if test="${(isAdmin == true)}"><fieldset>
-	<legend>Posts</legend>
-	<ul>
-		<li><a href="/clubhub/admin/BatchPosts.jsp">List All</a></li>
-		<li><a href="/clubhub/admin/AddPost.jsp">Add New</a></li>
-	</ul>
-</fieldset>
+<c:if test="${(isAdmin == true)}">
+	<fieldset>
+		<legend>Posts</legend>
+		<ul>
+			<li><a href="/clubhub/admin/BatchPosts.jsp">List All</a></li>
+			<li><a href="/clubhub/admin/AddPost.jsp">Add New</a></li>
+		</ul>
+	</fieldset>
 </c:if>
 
 <fieldset>

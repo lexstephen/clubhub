@@ -20,14 +20,6 @@
 	request.setAttribute("thisPage", "Edit Game Details");
 %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
-<form action="${pageContext.request.contextPath}/GameController"
-	method="post" class="form" role="form">
-	<div class="row">
-		<h2>Season ${game.seasonId}: ${game.gender } ${game.season }
-			${game.year }</h2>
-		<h3>Game ${game.id}: ${game.dayOfWeek},
-			${game.scheduledDateFullYear} at ${game.startTime}</h3>
-	</div>
 	<div class="row">
 		<h3>
 			Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear}
@@ -71,7 +63,7 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${teamA}" var="tm">
-								<%@ include file="/WEB-INF/displayGameTeam.jsp"%>
+								<%@ include file="/WEB-INF/editGameTeam.jsp"%>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -98,12 +90,12 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${teamB}" var="tm">
-								<%@ include file="/WEB-INF/displayGameTeam.jsp"%>
+								<%@ include file="/WEB-INF/editGameTeam.jsp"%>
 							</c:forEach>
 						</tbody>
 					</table>
 				</div>
-				<<<<<<< HEAD
+
 				<c:if test="${(isAdmin == true)}">
 					<input type="hidden" name="gameID" value="${game.id}">
 					<button class="btn btn-primary btn-xs" name="option"
@@ -112,15 +104,7 @@
 
 			</div>
 		</form>
-
-		=======
-
-		<div class="row">
-			<button type="submit" value="switchThem">Switch</button>
-		</div>
 	</div>
-</form>
->>>>>>> refs/remotes/origin/lex
 <!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
 <%@ include file="/WEB-INF/footer_backend.jsp"%>

@@ -62,8 +62,10 @@ public class GameController extends HttpServlet {
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
 		    		System.out.println("The GameID is: "+gameID);
-	    			
-		    		dao.playersToSwitch(request, gameID);
+
+		    		String currentPlayer = request.getParameter("currentPlayer");
+		    		String newUser = request.getParameter("userID");
+		    		dao.switchThem(request, currentPlayer, newUser, gameID);
 		    		address = "admin/EditGame.jsp";
 		    			
 		    	break;
@@ -76,6 +78,7 @@ public class GameController extends HttpServlet {
 		    			
 		    	break;
 
+		    	/*
 		    	case "switchThem":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
@@ -89,7 +92,8 @@ public class GameController extends HttpServlet {
 		    		dao.switchThem(request, currentPlayer, newPlayer, theGameID);
 		    		address = "admin/ListGames.jsp";
 		    			
-		    	break;
+		    	break; */
+		    	
 		    	case "availability":
 		    		HttpSession session = request.getSession();
 		    		String [] ID = request.getParameterValues("slots");
