@@ -26,9 +26,12 @@ request.setAttribute("thisPage", "Game Details"); %>
 		<div class="col-md-6 col-xs-12">
 			<h3>
 					Team A
-					<c:if test="${winner == 'Team A' }"><strong> - Winners - ${teamAscore}</strong></c:if>
-					<c:if test="${winner == 'Tie' }"><strong> - Tie - ${teamAscore}</strong></c:if>
-					<c:if test="${winner == 'TBD' }"><strong> - TBD</strong></c:if>
+					<c:if test="${! empty winner }">
+						<c:if test="${winner == 'Team A' }"><strong> - Winners - ${teamAscore}</strong></c:if>
+						<c:if test="${winner == 'Team B' }"><strong> - ${teamAscore}</strong></c:if>
+						<c:if test="${winner == 'Tie' }"><strong> - Tie - ${teamAscore}</strong></c:if>
+						<c:if test="${winner == 'TBD' }"><strong> - TBD</strong></c:if>
+					</c:if>
 			</h3>
 			<table class="table table-hover sortable">
 				<thead>
@@ -47,10 +50,15 @@ request.setAttribute("thisPage", "Game Details"); %>
 		
 		<div class="col-md-6 col-xs-12">
 			<h3>
+			<c:if test="${! empty winner }">
+				<c:if test="${winner == 'Team B' }"><strong>Winners - ${teamBscore} - </strong></c:if>
+				<c:if test="${winner == 'Team A' }"><strong>${teamBscore} - </strong></c:if>
+				<c:if test="${winner == 'Tie' }"><strong>Tie - ${teamBscore} - </strong></c:if>
+				<c:if test="${winner == 'TBD' }"><strong>TBD - </strong></c:if>
+			</c:if>
+			
 				Team B
-				<c:if test="${winner == 'Team B' }"><strong> - Winners - ${teamBscore}</strong></c:if>
-				<c:if test="${winner == 'Tie' }"><strong> - Tie - ${teamBscore}</strong></c:if>
-				<c:if test="${winner == 'TBD' }"><strong> - TBD</strong></c:if>
+
 			</h3>
 			<table class="table table-hover sortable">
 				<thead>

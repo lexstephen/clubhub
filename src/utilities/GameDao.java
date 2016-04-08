@@ -1,5 +1,5 @@
 package utilities;
-import java.awt.Component;
+
 /****************************************************************************************************
 * Project: ClubHub
 * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
@@ -20,17 +20,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
-
 import model.Game;
-import model.Post;
-import model.Season;
 import model.Slot;
 import model.User;
 import model.UserGame;
@@ -40,8 +33,6 @@ import utilities.ValidationUtilities;
 public class GameDao {
 	private Connection connect = null;
 	private Statement statement = null;
-	private Statement statement2 = null;
-	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	private ResultSet resultSet2 = null;
 	private ResultSet resultSet3 = null;
@@ -832,6 +823,33 @@ public class GameDao {
 			      throw e;
 			}
 			  	request.setAttribute("slots", slots);
+		}
+
+		public void editScores(HttpServletRequest request) throws SQLException {
+			
+			int score[] = {Integer.parseInt((String) request.getAttribute("teamAscore")),Integer.parseInt((String)request.getAttribute("teamBscore"))};
+			int teamID[] = {1,2};
+			String outcome[] = {"TBD","TBD"};
+			String gameID = (String)request.getAttribute("gameID");
+			
+			if (score[0] > score[1]){
+				outcome[0] = "W";
+				outcome[1] = "L";
+			} else if(score[0] < score[1]) {
+				outcome[0] = "L";
+				outcome[1] = "W";
+			} else if (score[0] == score[1]) {
+				outcome[0] = "Tie";
+				outcome[1] = "Tie";
+			}
+				
+					
+			statement = connect.createStatement();
+			
+			for (int i = 0; i < 2; i++) {
+				statement.executeUpdate("UPDATE ch_user_game ug JOIN ch_game game ON ug.gameID = game.id "
+					+ "SET score = " + score[i] + ", outcome = '" + outcome[i] + "' WHERE gameID = " + gameID + " AND team = " + teamID[i]); 
+			}
 		} 
 		
 /*

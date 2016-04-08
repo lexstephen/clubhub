@@ -18,16 +18,25 @@ game.findTeamsForGames(request);
 request.setAttribute("thisPage", "Edit Game Details"); %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
-<div class="row">
+<form action="${pageContext.request.contextPath}/GameController" method="post" class="form" role="form">
+	<div class="row">
 		<h2>Season ${game.seasonId}: ${game.gender } ${game.season } ${game.year }</h2>
 		<h3>Game ${game.id}: ${game.dayOfWeek}, ${game.scheduledDateFullYear} at ${game.startTime}</h3>
 	</div>
 	<div class="row">
 		<div class="col-md-6 col-xs-12">
 			<h3>
-					Team A
-					<input class="form-control" maxlength="50" type="text" name="teamAedit" value="<c:if test="${!empty teamAscore}">${teamAscore}</c:if>">					
+					Team A				
 			</h3>
+			<div class="row">
+				<div class="col-xs-3">
+					<label>Team A score: </label>
+				</div>
+				<div class="col-xs-2">	
+					<input class="form-control col-xs-2" maxlength="3" type="text" name="teamAscore" 
+						value="<c:choose><c:when test="${!empty teamAscore}">${teamAscore}</c:when><c:otherwise>0</c:otherwise></c:choose>">
+				</div>	
+			</div>			
 			<table class="table table-hover sortable">
 				<thead>
 					<tr>
@@ -46,10 +55,16 @@ request.setAttribute("thisPage", "Edit Game Details"); %>
 		<div class="col-md-6 col-xs-12">
 			<h3>
 				Team B
-				<c:if test="${winner == 'Team B' }"><strong> - Winners - ${teamBscore}</strong></c:if>
-				<c:if test="${winner == 'Tie' }"><strong> - Tie - ${teamBscore}</strong></c:if>
-				<c:if test="${winner == 'TBD' }"><strong> - TBD</strong></c:if>
 			</h3>
+			<div class="row">
+				<div class="col-xs-3">
+					<label>Team B score: </label>
+				</div>
+				<div class="col-xs-2">	
+					<input class="form-control col-xs-2" maxlength="3" type="text" name="teamBscore" 
+						value="<c:choose><c:when test="${!empty teamBscore}">${teamBscore}</c:when><c:otherwise>0</c:otherwise></c:choose>">
+				</div>	
+			</div>	
 			<table class="table table-hover sortable">
 				<thead>
 					<tr>
@@ -64,8 +79,13 @@ request.setAttribute("thisPage", "Edit Game Details"); %>
 				</tbody>
 		</table>	
 		</div>
+		<c:if test="${(isAdmin == true)}">
+			<input type="hidden" name="gameID" value="${game.id}">
+			<button class="btn btn-primary btn-xs" name="option" value="editScores" type="submit">Update</button>
+		</c:if>
 		
 	</div>
+</form>
 	
 	<!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
