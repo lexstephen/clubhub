@@ -1,4 +1,4 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%-- 
 	Project: ClubHub Content and User Management System 
@@ -13,12 +13,11 @@
 	<td class="col-xs-12 col-md-2">${blog.category}</td>
 	<td class="col-xs-12 col-md-2">${blog.username}</td>
 	<td class="col-xs-12 col-md-3">${blog.accessLevel}</td>
-	<td class="col-xs-12 col-md-2">
-		<span class="expand">
-			<c:if test="${(isAdmin == true)}">
-				<a href="/clubhub/admin/EditPost.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">Edit</a>
-			</c:if>
-		<a href="/clubhub/Post.jsp?postID=${blog.id}" class="btn btn-primary btn-xs">More</a>
-		</span>
-	</td>
+	<td class="col-xs-12 col-md-2"><span class="expand"> <c:if
+				test="${(isAdmin == true)}">
+				<a href="/clubhub/admin/EditPost.jsp?postID=${blog.id}"
+					class="btn btn-primary btn-xs">Edit</a>
+			</c:if> <a href="/clubhub/Post.jsp?postID=${blog.id}"
+			class="btn btn-primary btn-xs">More</a>
+	</span></td>
 </tr>

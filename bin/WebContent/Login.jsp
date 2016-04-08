@@ -5,16 +5,16 @@
 	Date: February 1, 2016
 	Description: AddPost.jsp
  --%>
- 
+
 <% request.setAttribute("thisPage", "Login"); %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-   pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/header_public.jsp"%>
 
 ${errorString }
 
 <%@ include file="/WEB-INF/login_form.jsp"%>
 
-<%@ include file="/WEB-INF/footer_public.jsp" %>
+<%@ include file="/WEB-INF/footer_public.jsp"%>

@@ -1,15 +1,20 @@
-
-table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
-    content: " \25B4\25BE" 
+table.sortable th:not (.sorttable_sorted ):not (.sorttable_sorted_reverse
+	):not (.sorttable_nosort ):after {
+	content: " \25B4\25BE"
 }
+
 table.sortable tr td {
-	padding:5px;
+	padding: 5px;
 }
 
 textarea {
-    resize: none;
+	resize: none;
 }
 
 .hang_left {
-	text-align:left !important;
+	text-align: left !important;
+}
+
+.jumbotron {
+	background-color: #def0fe;
 }
