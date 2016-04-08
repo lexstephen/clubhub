@@ -15,6 +15,7 @@
 String gameID = request.getParameter("gameID");
 game.findGame(request, gameID);
 game.findTeamsForGames(request);
+game.findAvailableUsersWhoArentScheduled(request, gameID);
 request.setAttribute("thisPage", "Edit Game Details"); 
 %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>

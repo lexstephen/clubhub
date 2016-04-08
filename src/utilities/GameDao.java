@@ -84,7 +84,6 @@ public class GameDao {
 			
 			while(results.next()) {
 				UserGame game = new UserGame();
-				
 				game.setGameID(results.getString("Gameid"));
 				game.setUserID(results.getString("Userid"));
 				game.setTeam(results.getString("team"));
@@ -658,21 +657,43 @@ public class GameDao {
 		
 		statement = connect.createStatement();
 		statement.executeUpdate("UPDATE ch_user_game SET Userid= "+ newPlayerID +"  where Gameid= "+ gameID + " && Userid= " + currentPlayerID);
-		
-		}
+	}
 
 	public void findAvailableUsersWhoArentScheduled(HttpServletRequest request, String gameID) throws Exception{
-/*
-		statement = connect.createStatement();
-		ResultSet resultSet = statement.executeQuery("SELECT * from clubhub.ch_user_slot us JOIN ch_slot slot "
-					+ "ON us.Slotid = slot.id where id="+ slotID); // This should be user_slot
-			  
-			while(resultSet.next()){
-				  //Slot slot = new Slot();
-				  playerIDs.add(resultSet.getString("Userid"));
-				  gameID = resultSet.getString("slot.gameID");
+		List<User> backupUsers = new ArrayList<User>();
+		try {
+			String scheduledUsers = ""; 
+			String firstqry = "SELECT Userid from ch_user_game WHERE Gameid = " + gameID;
+			statement = connect.createStatement();
+			ResultSet results0 = statement.executeQuery(firstqry);
+			while(results0.next()) {
+				scheduledUsers += "\"" + results0.getString("Userid") + "\", ";
 			}
-			*/  
+			scheduledUsers = scheduledUsers.substring(0, (scheduledUsers.length() - 2));
+			
+				String qry = "SELECT * FROM ch_user_slot us JOIN ch_slot s ON s.Gameid = " + gameID + " WHERE us.Userid NOT IN (" + scheduledUsers + ")";
+				System.out.print(qry);
+				statement = connect.createStatement();
+				ResultSet results = statement.executeQuery(qry);
+				while(results.next()) {
+				User usr = new User();
+				usr.setUserid(results.getString("Userid"));
+				qry = "SELECT * FROM ch_user WHERE id = " + usr.getUserid();
+				statement2 = connect.createStatement();
+				ResultSet results2 = statement2.executeQuery(qry);
+				while(results2.next()) {
+					usr.setFirstName(results.getString("firstName"));
+					usr.setLastName(results.getString("lastName"));
+				}
+				backupUsers.add(usr);
+			}
+			
+		} catch (Exception e) {
+		      throw e;
+	    }
+		
+		
+		request.setAttribute("backupUsers", backupUsers);
 		}
 
 	public void setConflict(HttpServletRequest request, String _gameID) throws Exception {
