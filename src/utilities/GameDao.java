@@ -399,11 +399,11 @@ public class GameDao {
 				String score = resultSet.getString("score") != null?resultSet.getString("score"):"0";
 				
 		    	if(resultSet.getString("team").equals("1")) {
-		    		teamAscore += Integer.parseInt(score);
+		    		teamAscore = Integer.parseInt(score);
 					teamA.add(user);
 		    	}
 		    	if(resultSet.getString("team").equals("2")) {
-		    		teamBscore += Integer.parseInt(score);
+		    		teamBscore = Integer.parseInt(score);
 					teamB.add(user);
 		    	}
 		    	

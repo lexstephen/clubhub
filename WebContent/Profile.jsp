@@ -137,7 +137,6 @@
 						      <tr>
 						        <th class="col-xs-12 col-md-3 control-label">Season</th>
 						        <th class="col-xs-12 col-md-2">Game</th>
-						        <th class="col-xs-12 col-md-2">${user.firstName }'s Points</th>
 						        <th class="col-xs-12 col-md-2">Team Points</th>
 						        <th class="col-xs-12 col-md-2">Outcome</th>
 						        

@@ -92,6 +92,7 @@ public class UserDao {
 				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + passwordHashed + "\"");
 				while (resultSet.next()) {
 					session.setAttribute("loggedInUserID", resultSet.getString("id")); 
+					System.out.println("getUserID id = " + session.getAttribute("loggedInUserID"));
 				}
 			} catch (Exception e) {
 				throw e;
