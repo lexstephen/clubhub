@@ -187,18 +187,18 @@ public class UserDao {
 				province = request.getParameter("state");
 				break;
 			}
-			
+
 			/* ********** take care of image uploading *****************/
 
-	        InputStream inputStream = null; // input stream of the upload file
-	         
-	        // obtains the upload file part in this multipart request
-	        Part filePart = request.getPart("profilePhoto");
-	        if (filePart != null) {
-	            // obtains input stream of the upload file
-	            inputStream = filePart.getInputStream();
-	        }
-	         
+			InputStream inputStream = null; // input stream of the upload file
+
+			// obtains the upload file part in this multipart request
+			Part filePart = request.getPart("profilePhoto");
+			if (filePart != null) {
+				// obtains input stream of the upload file
+				inputStream = filePart.getInputStream();
+			}
+
 			statement = connect.createStatement();
 			preparedStatement = connect.prepareStatement("insert into ch_user values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setString(1, request.getParameter("username")); 					// username
@@ -216,10 +216,10 @@ public class UserDao {
 			preparedStatement.setString(13, request.getParameter("postalCode"));				// postalCode
 			preparedStatement.setString(14, request.getParameter("country"));					// country
 			//preparedStatement.setString(15, request.getParameter("profilePhoto"));			// profilePhoto
-			   if (inputStream != null) {
-	                // fetches input stream of the upload file for the blob column
-				   preparedStatement.setBlob(15, inputStream);
-	            }
+			if (inputStream != null) {
+				// fetches input stream of the upload file for the blob column
+				preparedStatement.setBlob(15, inputStream);
+			}
 			preparedStatement.setString(16, request.getParameter("dateOfBirth"));					// dateOfBirth
 			preparedStatement.setString(17, request.getParameter("emergencyContactName"));		// emergencyContactName
 			preparedStatement.setString(18, request.getParameter("emergencyContactPhoneNumber"));	// emergencyContactPhoneNumber
@@ -227,14 +227,14 @@ public class UserDao {
 		} catch (Exception e) {
 			throw e;
 		}  finally {
-            if (connect != null) {
-                // closes the database connection
-                try {
-                	connect.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -295,7 +295,7 @@ public class UserDao {
 				user.setProvince(resultSet.getString("province"));
 				user.setPostalCode(resultSet.getString("postalCode"));
 				user.setCountry(resultSet.getString("country"));
-				
+
 				user.setPhoto(resultSet.getString("photo"));
 				user.setDateOfBirth(resultSet.getString("dateOfBirth"));
 				user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
@@ -346,7 +346,7 @@ public class UserDao {
 			String DisplayDate = formatDate.format(date);
 			user.setFormattedDateOfBirth(DisplayDate);
 			user.setDateOfBirth(MyDate);
-			
+
 			user.setEmergencyContactName(resultSet.getString("emergencyContactName"));
 			String contactNumber = resultSet.getString("emergencyContactPhoneNumber");
 			// String.format("(%s) %s-%s", contactNumber.substring(0, 3), contactNumber.substring(3, 6), contactNumber.substring(6, 10))
@@ -375,44 +375,44 @@ public class UserDao {
 			}
 
 			String qry = "";
-			
+
 			statement = connect.createStatement();
 			/* ********** take care of image uploading *****************/
 
-	        InputStream inputStream = null; // input stream of the upload file
-	         
-	        // obtains the upload file part in this multipart request
-	        Part filePart = request.getPart("profilePhoto");
-	        if (filePart != null) {
-	            // obtains input stream of the upload file
-	            if (filePart.getSize() != 0) {
-	            	inputStream = filePart.getInputStream();
-	            }
-	        }
-	         
-                    
+			InputStream inputStream = null; // input stream of the upload file
+
+			// obtains the upload file part in this multipart request
+			Part filePart = request.getPart("profilePhoto");
+			if (filePart != null) {
+				// obtains input stream of the upload file
+				if (filePart.getSize() != 0) {
+					inputStream = filePart.getInputStream();
+				}
+			}
+
+
 			qry = "UPDATE clubhub.ch_user SET username = ?, password = ?, emailAddress = ?" // 1 2 3
 					+ ", firstName = ?, lastName = ?, gender = ?, phoneNumber = ?"  // 4 5 6 7
 					+ ", streetAddress = ?, city = ?, province = ?, postalCode = ?"  // 8 9 10 11
 					+ ", country = ?, dateOfBirth = ?, emergencyContactName = ?, emergencyContactPhoneNumber = ?";  // 12, 13, 14, 15
-                        
-                    if (userStatus != null) {
-                        // fetches input stream of the upload file for the blob column
-                       qry += ", userStatus = ?"; // 16
-                    }
-                    
-                    if (inputStream != null) {
-                        // fetches input stream of the upload file for the blob column
-                       qry += ", photo = ?"; //inputStream // 17 or 16
-                    }
-                    
-                    qry += " WHERE id = ?"; // 18 or 17 or 16
 
-            		String postalCode = request.getParameter("postalCode");
-            		postalCode = postalCode.replaceAll("\\s+","");
-            		
+			if (userStatus != null) {
+				// fetches input stream of the upload file for the blob column
+				qry += ", userStatus = ?"; // 16
+			}
+
+			if (inputStream != null) {
+				// fetches input stream of the upload file for the blob column
+				qry += ", photo = ?"; //inputStream // 17 or 16
+			}
+
+			qry += " WHERE id = ?"; // 18 or 17 or 16
+
+			String postalCode = request.getParameter("postalCode");
+			postalCode = postalCode.replaceAll("\\s+","");
+
 			preparedStatement = connect.prepareStatement(qry);
-            preparedStatement.setString(1, request.getParameter("username")); 					// username
+			preparedStatement.setString(1, request.getParameter("username")); 					// username
 			preparedStatement.setString(2, passwordHashed); 									// password
 			preparedStatement.setString(3, request.getParameter("emailAddress"));				// emailAddress
 			preparedStatement.setString(4, request.getParameter("firstName"));					// firstName
@@ -427,33 +427,33 @@ public class UserDao {
 			preparedStatement.setString(13, request.getParameter("dateOfBirth"));				// dateOfBirth
 			preparedStatement.setString(14, request.getParameter("emergencyContactName"));		// emergencyContactName
 			preparedStatement.setString(15, request.getParameter("emergencyContactPhoneNumber"));	// emergencyContactPhoneNumber
-            if (userStatus != null) {
-                // we have a userStatus, set that
-                preparedStatement.setString(16, request.getParameter("userStatus"));
-                
-                if (inputStream != null) {
-                    // we have an image, set that
-                    preparedStatement.setBlob(17, inputStream);
-                    // set the WHERE condition
-                    preparedStatement.setString(18, request.getParameter("userID"));
-                } else {
-                    // we do not have an image 
-                    // set the WHERE condition
-                    preparedStatement.setString(17, request.getParameter("userID"));
-                }
-            } else {
-                // we do not have a userStatus
-                if (inputStream != null) {
-                    // we have an image, set that
-                    preparedStatement.setBlob(16, inputStream);
-                    preparedStatement.setString(17, request.getParameter("userID"));
-                } else {
-                    // we do not have an image 
-                    // set the WHERE condition
-                    preparedStatement.setString(16, request.getParameter("userID"));
-                }
-            }
-            
+			if (userStatus != null) {
+				// we have a userStatus, set that
+				preparedStatement.setString(16, request.getParameter("userStatus"));
+
+				if (inputStream != null) {
+					// we have an image, set that
+					preparedStatement.setBlob(17, inputStream);
+					// set the WHERE condition
+					preparedStatement.setString(18, request.getParameter("userID"));
+				} else {
+					// we do not have an image 
+					// set the WHERE condition
+					preparedStatement.setString(17, request.getParameter("userID"));
+				}
+			} else {
+				// we do not have a userStatus
+				if (inputStream != null) {
+					// we have an image, set that
+					preparedStatement.setBlob(16, inputStream);
+					preparedStatement.setString(17, request.getParameter("userID"));
+				} else {
+					// we do not have an image 
+					// set the WHERE condition
+					preparedStatement.setString(16, request.getParameter("userID"));
+				}
+			}
+
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			throw e;
@@ -461,24 +461,24 @@ public class UserDao {
 	}
 
 	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		// this method edits the userType, accessLevel, and/or category in ch_user
-		
+
 		String [] markedForEdit = request.getParameterValues("userSelected");
 		String userID, userStatus, executeString = "";
-		
+
 		userStatus = request.getParameter("userStatus"); // userStatus
-		
-	    if (!userStatus.equals("0")) {
-	    	executeString = "userStatus='" + userStatus;
-	    }
-	    
-	    if (!executeString.equals(""))
-	    {
+
+		if (!userStatus.equals("0")) {
+			executeString = "userStatus='" + userStatus;
+		}
+
+		if (!executeString.equals(""))
+		{
 			for (String x : markedForEdit) 
 			{
 				userID = x;
-			    statement = connect.createStatement();
+				statement = connect.createStatement();
 				statement.executeUpdate("UPDATE ch_user SET " + executeString + "' WHERE id='" + userID + "'");
 			}
 		}				
@@ -488,22 +488,22 @@ public class UserDao {
 		String [] markedForDeletion = request.getParameterValues("userSelected");
 		for (String userID : markedForDeletion) {
 			System.out.println("I just set " + userID);
-	//		request.setAttribute("userID", userID);
+			//		request.setAttribute("userID", userID);
 			deleteUser(request, response, userID);
 		}		
 	}
 
 	public void deleteUser(HttpServletRequest request, HttpServletResponse response, String _userID) throws Exception {
 		String userID = _userID;
-		  try {
-			  statement = connect.createStatement();
-				System.out.println("I am deleting " + userID);
-			  statement.executeUpdate("delete from ch_user where id =" + userID); 
-		  } catch (SQLException e) {
-		      throw e;
-		  }
+		try {
+			statement = connect.createStatement();
+			System.out.println("I am deleting " + userID);
+			statement.executeUpdate("delete from ch_user where id =" + userID); 
+		} catch (SQLException e) {
+			throw e;
+		}
 	}
-/*
+	/*
 	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String userID = request.getParameter("userID");
 		  try {

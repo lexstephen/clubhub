@@ -11,13 +11,13 @@ import java.util.Date;
 import java.util.Enumeration;
 
 /****************************************************************************************************
-* Project: Hackers 1995
-* Assignment: COMP 3095 Assignment 2
-* Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
-* Student Number: 100563954, 100911472, 100898311
-* Date: December 4th, 2016
-* Description: ValidationUtilities - checks user input for validity
-****************************************************************************************************/
+ * Project: Hackers 1995
+ * Assignment: COMP 3095 Assignment 2
+ * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
+ * Student Number: 100563954, 100911472, 100898311
+ * Date: December 4th, 2016
+ * Description: ValidationUtilities - checks user input for validity
+ ****************************************************************************************************/
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -26,7 +26,7 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import model.User;
 
 public class ValidationUtilities {
-	
+
 	// check that email and password match required formatting
 	public static boolean isValidLogin(HttpServletRequest request) {
 		boolean isValid = true;
@@ -80,7 +80,7 @@ public class ValidationUtilities {
 		request.setAttribute("tax_rate", request.getParameter("tax_rate"));
 		request.setAttribute("csid", request.getParameter("csid"));
 
-		
+
 		if (isMissing(request.getParameter("preference_name"))) {
 			isValid = false;
 			request.setAttribute("errorPreference_Name", true);
@@ -108,32 +108,32 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorContactName", true);
 		}
-		
+
 		if (isMissing(request.getParameter("telephone"))) {
 			isValid = false;
 			request.setAttribute("errorTelephone", true);
 		}
-		
+
 		if (!isRightLength(request.getParameter("telephone"),10)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorTelephone", true);}
-		
+
 		if (isMissing(request.getParameter("address"))) {
 			isValid = false;
 			request.setAttribute("errorAddress", true);
 		}
-		
+
 		if (isMissing(request.getParameter("city"))) {
 			isValid = false;
 			request.setAttribute("errorCity", true);
 		}
-		
+
 		if (isMissing(request.getParameter("province"))) {
 			isValid = false;
 			request.setAttribute("errorProvince", true);
 		}
-		
+
 		if (isMissing(request.getParameter("country"))) {
 			isValid = false;
 			request.setAttribute("errorCcountry", true);
@@ -165,7 +165,7 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPostalCode", true);}
-		
+
 		return isValid;
 	}
 
@@ -177,7 +177,7 @@ public class ValidationUtilities {
 		request.setAttribute("light_colour", request.getParameter("light_colour"));
 		request.setAttribute("text_colour", request.getParameter("text_colour"));
 		request.setAttribute("csid", request.getParameter("csid"));
-		
+
 		if (isMissing(request.getParameter("name")) || (request.getParameter("name").equals("--Add New--"))) {
 			isValid = false;
 			request.setAttribute("errorCSName", true);
@@ -185,13 +185,13 @@ public class ValidationUtilities {
 		if ( request.getParameter("dark_colour").equals(request.getParameter("med_colour"))
 				&& request.getParameter("dark_colour").equals(request.getParameter("light_colour"))
 				&& request.getParameter("dark_colour").equals(request.getParameter("text_colour"))	
-			) {
+				) {
 			// they entered the same colour four times.. bad idea
 			isValid = false;
 			request.setAttribute("errorCSName", true);
 			request.setAttribute("errorCSColour", true);
 		}
-		
+
 		if (!isRightLength(request.getParameter("dark_colour"),7) || 
 				!isRightLength(request.getParameter("med_colour"),7) || 
 				!isRightLength(request.getParameter("light_colour"),7) || 
@@ -200,10 +200,10 @@ public class ValidationUtilities {
 			request.setAttribute("errorCSName", true);
 			request.setAttribute("errorCSColour", true);
 		}
-			
+
 		return isValid;
 	}
-	
+
 	public static boolean isValidInvoice(HttpServletRequest request) {
 
 
@@ -220,15 +220,15 @@ public class ValidationUtilities {
 		String charge04qty = request.getParameter("charge04qty");
 		String charge05 = request.getParameter("charge05");
 		String charge05qty = request.getParameter("charge05qty");
-		
-		
+
+
 		try {
 			if ((!charge01.equals("---")) || 
-				(!charge02.equals("---")) || 
-				(!charge03.equals("---")) || 
-				(!charge04.equals("---")) || 
-				(!charge05.equals("---")) ) {
-			// at least one of the dropdowns has a selection so lets check their respective quantities 
+					(!charge02.equals("---")) || 
+					(!charge03.equals("---")) || 
+					(!charge04.equals("---")) || 
+					(!charge05.equals("---")) ) {
+				// at least one of the dropdowns has a selection so lets check their respective quantities 
 				if (!charge01.equals("---")) {
 					if (!charge01qty.equals("0")) 
 						isValidQty = true;
@@ -280,13 +280,13 @@ public class ValidationUtilities {
 				request.setAttribute("errorLineItems", "No line items selected");
 				isValidQty = false;
 			}
-				
-			
+
+
 			// check date format to ensure it is entered yyyy-mm-dd
 			String dateFormat = "yyyy-mm-dd";
 			SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
 			sdf.setLenient(false);
-			
+
 			//if not valid, it will throw ParseException
 			Date date = sdf.parse(invDate);
 			isValid = true;
@@ -311,11 +311,11 @@ public class ValidationUtilities {
 		time = input.replaceAll("..(?!$)", "$0:"); */
 		return response;
 	}
-			
+
 	public static String numberToDay (int num){
 		String dayOfWeek = null;
 		if (num == 1){
-			 dayOfWeek = "Sunday";
+			dayOfWeek = "Sunday";
 		}else if (num == 2){
 			dayOfWeek = "Monday";
 		}else if (num == 3){
@@ -345,7 +345,7 @@ public class ValidationUtilities {
 		SimpleDateFormat formatDate = new SimpleDateFormat("MMM dd, yyyy");
 		Date date = (Date) parseDate.parse(MyDate);
 		String displayDate = formatDate.format(date);
-		
+
 		return displayDate;
 	}
 
@@ -393,20 +393,20 @@ public class ValidationUtilities {
 		int day = numberOfDate(scheduledDate);
 		return monthName + " " + day;
 	}
-	
+
 	public static int monthOfDate (String scheduledDate) throws Exception{
 		// Get month from date //	
-		
+
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = format.parse(scheduledDate);		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);					
 		return cal.get(Calendar.MONTH) + 1;
 	}
-	
+
 	public static int yearOfDate (String scheduledDate) throws Exception{
 		// Get month from date //	
-		
+
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = format.parse(scheduledDate);		
 		Calendar cal = Calendar.getInstance();
@@ -439,10 +439,10 @@ public class ValidationUtilities {
 			return "Mixed";
 		}
 	}
-	
+
 	public static int numberOfDate (String scheduledDate) throws Exception{
 		// Get month from date //	
-		
+
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = format.parse(scheduledDate);		
 		Calendar cal = Calendar.getInstance();
@@ -451,61 +451,61 @@ public class ValidationUtilities {
 	}
 
 	public static String getPlayerNumber (HttpServletRequest request, String PlayerName) throws Exception {
-		
+
 		Connection connect = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
 		String playerID = null;
-		
+
 		connect = DatabaseAccess.connectDataBase();
 		statement = connect.createStatement();
-	    resultSet = statement.executeQuery("SELECT * from ch_user where firstName= '" + PlayerName+"'");
-		
-	    while(resultSet.next()){
-	    	playerID = resultSet.getString("id");
-	    }
-	    return playerID;
+		resultSet = statement.executeQuery("SELECT * from ch_user where firstName= '" + PlayerName+"'");
+
+		while(resultSet.next()){
+			playerID = resultSet.getString("id");
+		}
+		return playerID;
 	}
-	
-	
+
+
 	public static String getPlayerNames (HttpServletRequest request, String playerIDs) throws Exception{
-		
+
 		//String playerNames = null;
 		Connection connect = null;
 		Statement statement = null;
 		//PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		String players = null;
-		
+
 		String [] playerID = playerIDs.split(",");
-		  
-		  
+
+
 		for (int i = 0; i < playerID.length; i++) { 
-				String player = playerID[i];
+			String player = playerID[i];
 			try{	
 				connect = DatabaseAccess.connectDataBase();
 				statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * from ch_user where id= "+ player);
-			    
-			    while(resultSet.next()){
-			    	String playerName = resultSet.getString("firstName");
-			    	
-			    	if (players == null){
-			    		players = playerName;
-			    	
-			    	}else{
-			    		players += ", " + playerName;
-			    	}
-			    }
-			    
-	    		
+				resultSet = statement.executeQuery("SELECT * from ch_user where id= "+ player);
+
+				while(resultSet.next()){
+					String playerName = resultSet.getString("firstName");
+
+					if (players == null){
+						players = playerName;
+
+					}else{
+						players += ", " + playerName;
+					}
+				}
+
+
 			}catch (SQLException e) {
-			      throw e;
+				throw e;
 			}
 		}
 		return players;
 	}
-		
+
 	public static boolean isValidLineItem(HttpServletRequest request) {
 		boolean isValid = false;
 
@@ -523,7 +523,7 @@ public class ValidationUtilities {
 
 		request.setAttribute("lineItem05Description", request.getParameter("lineItem05Description"));
 		request.setAttribute("lineItem05Cost", isInt(request.getParameter("lineItem05Cost"))?request.getParameter("lineItem05Cost"):0);
-		
+
 		if (isInt(request.getParameter("lineItem01Cost"))) {
 			if (!request.getParameter("lineItem01Cost").equals("0")) {
 				if (!isMissing(request.getParameter("lineItem01Description"))) {
@@ -626,7 +626,7 @@ public class ValidationUtilities {
 
 		return isValid;
 	}
-	
+
 	public static boolean isValidRegistration(HttpServletRequest request) {
 		boolean isValid = true;
 		String username = request.getParameter("username");
@@ -662,7 +662,7 @@ public class ValidationUtilities {
 			province = request.getParameter("state");
 			break;
 		}
-		
+
 		request.setAttribute("username", username);
 		request.setAttribute("password", password);
 		request.setAttribute("password2", password2);
@@ -687,7 +687,7 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorUsername", true);}
-		
+
 		if (isMissing(password)) {
 			System.out.println("I died here");
 			isValid = false;
@@ -704,7 +704,7 @@ public class ValidationUtilities {
 			request.setAttribute("errorString4", "Passwords do not match");
 			request.setAttribute("errorPassword1", true);
 			request.setAttribute("errorPassword2", true);}
-		
+
 		if (!isEmail(emailAddress)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
@@ -718,7 +718,7 @@ public class ValidationUtilities {
 			request.setAttribute("errorString3", "Email addresses do not match");
 			request.setAttribute("errorEmail1", true);
 			request.setAttribute("errorEmail2", true);}
-		
+
 		if (!isString(firstName)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
@@ -740,9 +740,9 @@ public class ValidationUtilities {
 			request.setAttribute("errorTelephone", true);} 
 		else {
 			if (!isInt(telephone)) {
-			isValid = false;
-			request.setAttribute("errorString2", "Please enter only numbers in your telephone number");
-			request.setAttribute("errorTelephone", true);}
+				isValid = false;
+				request.setAttribute("errorString2", "Please enter only numbers in your telephone number");
+				request.setAttribute("errorTelephone", true);}
 		}
 
 		if (isMissing(streetAddress)) {
@@ -779,7 +779,7 @@ public class ValidationUtilities {
 			request.setAttribute("errorEmergencyContactPhoneNumber", true);}
 		return isValid;
 	}
-	
+
 	public static boolean isValidUser(HttpServletRequest request) {
 		boolean isValid = true;
 		String username = request.getParameter("username");
@@ -824,7 +824,7 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorUsername", true);}
-		
+
 		if (!isPwd(password)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
@@ -838,12 +838,12 @@ public class ValidationUtilities {
 			request.setAttribute("errorString4", "Passwords do not match");
 			request.setAttribute("errorPassword1", true);
 			request.setAttribute("errorPassword2", true);} */
-		
+
 		if (!isEmail(emailAddress)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorEmail1", true);}
-		
+
 		if (!isString(firstName)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
@@ -885,7 +885,7 @@ public class ValidationUtilities {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPostalCode", true);}
-		
+
 		if (isMissing(country)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
@@ -904,7 +904,7 @@ public class ValidationUtilities {
 			request.setAttribute("errorEmergencyContactPhoneNumber", true);}
 		return isValid;
 	}
-	
+
 	public static boolean isValidPost(HttpServletRequest request) {
 		boolean isValid = true;
 		String title = request.getParameter("blogTitle");
@@ -922,7 +922,7 @@ public class ValidationUtilities {
 		return isValid;
 	}
 
-	
+
 	public static boolean isValidSeason(HttpServletRequest request) {
 		boolean isValid = true;
 		//year, season, gender, StartDate, StartTime, DayOfWeek, Duration
@@ -940,7 +940,7 @@ public class ValidationUtilities {
 		request.setAttribute("startTime", startTime);
 		request.setAttribute("dayOfWeek", dayOfWeek);
 		request.setAttribute("duration", duration);
-		
+
 		if (isMissing(year)) {
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");}
@@ -964,13 +964,13 @@ public class ValidationUtilities {
 			request.setAttribute("errorString", "Please check your input");}
 		return isValid;
 	}
-	
+
 
 	// check that an input field was filled out
 	public static boolean isMissing(String theInput) {
 		return theInput.matches("");
 	}
-	
+
 	// check that an input field is the correct length
 	public static boolean isRightLength(String theInput, int fieldSize ) {
 		return theInput.length() == fieldSize;
@@ -1000,15 +1000,15 @@ public class ValidationUtilities {
 		// return ((!isMissing(theInput)) && (theInput.matches(alpha)));
 		return true;
 	}
-	
+
 	public static boolean isDouble(String theInput) {
-        try {
-            Double.parseDouble(theInput);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
+		try {
+			Double.parseDouble(theInput);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 	// check that value is correct length range
 	public static boolean isRightLength(String theInput, int startLength, int endLength) {
 		return ((theInput.length() >= startLength) && (theInput.length() <= endLength));

@@ -5,7 +5,7 @@
 	Date: February 1, 2016
 	Description: AddPost.jsp
  --%>
- 
+
 <% request.setAttribute("thisPage", "Set Default Site Preferences"); %>
 <%@ page import="utilities.ColourSchemeDao"%>
 <% ColourSchemeDao scheme = new ColourSchemeDao(); %>
@@ -16,14 +16,15 @@
 <% pref.showPrefs(request); %>
 <% pref.showAllPrefs(request,response); %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-   pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-<form action="${pageContext.request.contextPath}/PreferenceController" method="post" class="form" role="form" enctype="multipart/form-data">
-<div class="form-group preferences">
+<form action="${pageContext.request.contextPath}/PreferenceController"
+	method="post" class="form" role="form" enctype="multipart/form-data">
+	<div class="form-group preferences">
 
-	<script type="text/javascript">
+		<script type="text/javascript">
 	var Prefs = new Array();
 	var prefCnt = 0;
 	<c:forEach items="${prefs}" var="preference" varStatus="status"> 
@@ -59,7 +60,7 @@
 	Prefs.push(PrefObj);
 </script>
 
-	<script type="text/javascript">
+		<script type="text/javascript">
 	var Schemes = new Array();
 	
 	<c:forEach items="${colour_schemes}" var="colour_scheme" varStatus="status"> 
@@ -81,31 +82,42 @@
 	SchemeObj.text_colour = ""; 
 	Schemes.push(SchemeObj);
 </script>
-	<div class="row">
-		<div class="col-sm-12">
-			<p>Use this section to set your site's default preferences.  Preferences can be <a href="${pageContext.request.contextPath}/admin/Preferences.jsp">edited here</a>.</p>
-			<c:if test="${prefID == null}"><b>WARNING</b>: you must select a default preference for your site to function correctly!</c:if>
-			<div class="row">
-				<div class="col-sm-7 col-sm-offset-5">
-					<div class="radio">
-						<form action="${pageContext.request.contextPath}/PreferenceController" method="post" class="form" role="form" enctype="multipart/form-data">
-							<c:forEach items="${prefs}" var="preference">
-								<div class="row">
-							    	<label class="checkbox-inline">
-							      		<input type="radio" name="inptPrefID" id="inptPrefID" value="${preference.id}" ${prefID == preference.id ? 'checked' : ''}> ${preference.preference_name}
-							      	</label>
-					      		</div>	
-							</c:forEach>
-				 			<input type="hidden" name="option" value="setPref">
-							<button class="btn btn-info" type="submit">Submit</button>
-						</form>
+		<div class="row">
+			<div class="col-sm-12">
+				<p>
+					Use this section to set your site's default preferences.
+					Preferences can be <a
+						href="${pageContext.request.contextPath}/admin/Preferences.jsp">edited
+						here</a>.
+				</p>
+				<c:if test="${prefID == null}">
+					<b>WARNING</b>: you must select a default preference for your site to function correctly!</c:if>
+				<div class="row">
+					<div class="col-sm-7 col-sm-offset-5">
+						<div class="radio">
+							<form
+								action="${pageContext.request.contextPath}/PreferenceController"
+								method="post" class="form" role="form"
+								enctype="multipart/form-data">
+								<c:forEach items="${prefs}" var="preference">
+									<div class="row">
+										<label class="checkbox-inline"> <input type="radio"
+											name="inptPrefID" id="inptPrefID" value="${preference.id}"
+											${prefID == preference.id ? 'checked' : ''}>
+											${preference.preference_name}
+										</label>
+									</div>
+								</c:forEach>
+								<input type="hidden" name="option" value="setPref">
+								<button class="btn btn-info" type="submit">Submit</button>
+							</form>
+						</div>
 					</div>
-				</div>	
+				</div>
+				<hr>
 			</div>
-			<hr>
 		</div>
 	</div>
-</div>
-</form>		
-			 
-<%@ include file="/WEB-INF/footer_backend.jsp" %>
+</form>
+
+<%@ include file="/WEB-INF/footer_backend.jsp"%>

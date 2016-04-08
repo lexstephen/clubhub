@@ -5,12 +5,12 @@
 	Date: March 18, 2016
 	Description: ListGames.jsp
  --%>
- 
+
 <% request.setAttribute("thisPage", "List of Seasons"); %>
 <%@ page import="utilities.SeasonDao"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-   pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 <% SeasonDao season = new SeasonDao();
 
@@ -22,20 +22,25 @@ season.listOpenSeasons(request);
 
 %>
 
-<form action="/clubhub/GameController" method="post" class="form" role="form">
-	<h3><u>List of Seasons: </u> </h3>
-		
-		<c:forEach items="${seasons}" var="season">
+<form action="/clubhub/GameController" method="post" class="form"
+	role="form">
+	<h3>
+		<u>List of Seasons: </u>
+	</h3>
 
-					<a href="ListGames.jsp?seasonID=${season.id}" /> <b>&nbsp&nbsp&nbsp&nbsp&nbsp
-					${season.dayOfWeek} at ${season.startTime} (${season.duration} weeks) - ${season.gender} </a></b>
+	<c:forEach items="${seasons}" var="season">
 
-			
-		
-		</c:forEach>
-	</form>
-
-
+		<a href="ListGames.jsp?seasonID=${season.id}" />
+		<b>&nbsp&nbsp&nbsp&nbsp&nbsp ${season.dayOfWeek} at
+			${season.startTime} (${season.duration} weeks) - ${season.gender} </a>
+		</b>
 
 
-<%@ include file="/WEB-INF/footer_backend.jsp" %>
+
+	</c:forEach>
+</form>
+
+
+
+
+<%@ include file="/WEB-INF/footer_backend.jsp"%>
