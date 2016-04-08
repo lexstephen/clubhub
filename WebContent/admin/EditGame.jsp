@@ -11,12 +11,13 @@
 <%@ page import="utilities.PostDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<% GameDao game = new GameDao();
-String gameID = request.getParameter("gameID");
-game.findGame(request, gameID);
-game.findTeamsForGames(request);
-game.findAvailableUsersWhoArentScheduled(request, gameID);
-request.setAttribute("thisPage", "Edit Game Details"); 
+<%
+	GameDao game = new GameDao();
+	String gameID = request.getParameter("gameID");
+	game.findGame(request, gameID);
+	game.findTeamsForGames(request);
+	game.findAvailableUsersWhoArentScheduled(request, gameID);
+	request.setAttribute("thisPage", "Edit Game Details");
 %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 	<div class="row">
@@ -42,10 +43,8 @@ request.setAttribute("thisPage", "Edit Game Details");
 			</p>
 		</form>
 
-
 		<form action="/clubhub/GameController" method="post" class="form"
 			role="form">
-
 			<div class="row">
 				<div class="col-md-6 col-xs-12">
 					<h3>Team A</h3>
@@ -100,15 +99,15 @@ request.setAttribute("thisPage", "Edit Game Details");
 						</tbody>
 					</table>
 				</div>
-			</div>
 				<c:if test="${(isAdmin == true)}">
 					<input type="hidden" name="gameID" value="${game.id}">
 					<button class="btn btn-primary btn-xs" name="option"
 						value="editScores" type="submit">Update</button>
 				</c:if>
+
+			</div>
 		</form>
 	</div>
-
 <!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
 <%@ include file="/WEB-INF/footer_backend.jsp"%>

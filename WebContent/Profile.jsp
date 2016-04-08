@@ -63,7 +63,8 @@
 	<div class="col-md-3 col-md-offset-1 col-xs-12">
 		<img src="ImageDao?t=profile&id=${userID }" class="profile_photo">
 	</div>
-	<div class="col-md-7 col-md-offset-1 col-xs-12 ">
+	<div class="col-md-7 col-md-offset-1 col-xs-12">
+
 		<p>
 			<b>${user.firstName } ${user.lastName }</b> [${user.gender }]
 		</p>

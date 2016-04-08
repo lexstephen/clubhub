@@ -34,8 +34,6 @@ public class InvoiceLineItemController extends HttpServlet {
 		//
 		String errorChecker = "n/a";
 		System.out.println(option);
-
-		
 	    try {
 	    	switch(option) {
 		    	case "add":

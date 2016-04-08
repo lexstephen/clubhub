@@ -216,7 +216,6 @@ public class SeasonDao {
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * from ch_season");
 			while (resultSet.next()) {
-
 				Season season = new Season();
 				hasOpenSlots = false;
 				season.setId(resultSet.getString("id"));

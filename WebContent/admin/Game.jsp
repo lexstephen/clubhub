@@ -96,8 +96,9 @@ request.setAttribute("thisPage", "Game Details"); %>
 <c:if test="${(isAdmin == true)}">
 	<a
 		href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.id}"
-		class="btn btn-primary btn-xs">Edit</a>
+		class="btn btn-info btn-xs">Edit</a>
 </c:if>
+
 
 <!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 

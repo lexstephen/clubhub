@@ -27,14 +27,13 @@
 				<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 			</c:when>
 		</c:choose></td>
-	<td class="col-xs-12 col-md-2"><span class="expand"> <c:if
-				test="${(isAdmin == true) || (post.userid == loggedInUserID)}">
-				<a
-					href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${post.id}"
-					class="btn btn-info btn-xs">Edit</a>
-			</c:if> <a
-			href="${pageContext.request.contextPath}/Post.jsp?postID=${post.id}"
-			class="btn btn-info btn-xs">More</a>
-	</span></td>
+	<td class="col-xs-12 col-md-2">
+		<span class="expand"> 
+			<c:if test="${(isAdmin == true) || (post.userid == loggedInUserID)}">
+					<a href="${pageContext.request.contextPath}/admin/EditPost.jsp?postID=${post.id}" class="btn btn-info btn-xs">Edit</a>
+			</c:if> 
+			<a href="${pageContext.request.contextPath}/Post.jsp?postID=${post.id}"	class="btn btn-info btn-xs">More</a>
+		</span>
+	</td>
 </tr>
 

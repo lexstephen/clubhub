@@ -13,9 +13,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% request.setAttribute("thisPage", "Populate Games"); %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
-<% GameDao game = new GameDao();
-String seasonID = session.getAttribute("seasonID").toString();
-game.findGameSet(request, seasonID);
+<%
+	GameDao game = new GameDao();
+	String seasonID = session.getAttribute("seasonID").toString();
+	game.findGameSet(request, seasonID);
 %>
 
 
@@ -45,8 +46,5 @@ game.findGameSet(request, seasonID);
 		</tbody>
 	</table>
 </form>
-
-</form>
-
 
 <%@ include file="/WEB-INF/footer_backend.jsp"%>

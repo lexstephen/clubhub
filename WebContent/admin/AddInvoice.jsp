@@ -247,8 +247,7 @@
 		</div>
 		<div class="col-xs-2">
 			<div class="form-group">
-				<input type="text" name="taxes" id="taxes"
-					class="form-control taxes" readonly value="${taxes}">
+				<input type="text" name="taxes" id="taxes" class="form-control taxes" readonly value="${taxes}">
 			</div>
 		</div>
 	</div>
@@ -259,8 +258,7 @@
 		</div>
 		<div class="col-xs-2">
 			<div class="form-group">
-				<input type="text" name="finalresult" id="finalresult"
-					class="form-control finalresult" readonly value="${finalresult}">
+				<input type="text" name="finalresult" id="finalresult" class="form-control finalresult" readonly value="${finalresult}">
 			</div>
 		</div>
 	</div>
@@ -285,8 +283,8 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="form-group">
-				<input type="hidden" name="option" value="add"> <input
-					type="submit" class="btn btn-info" value="Create Invoice">
+				<input type="hidden" name="option" value="add"> 
+				<input type="submit" class="btn btn-info" value="Create Invoice">
 			</div>
 		</div>
 	</div>

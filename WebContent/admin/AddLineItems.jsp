@@ -122,8 +122,8 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="form-group">
-				<input type="hidden" name="option" value="add"> <input
-					type="submit" class="btn btn-info" value="Add Line Item">
+				<input type="hidden" name="option" value="add"> 
+				<input type="submit" class="btn btn-info" value="Add Line Item">
 			</div>
 		</div>
 	</div>

@@ -27,6 +27,7 @@ season.listOpenSeasons(request);
 		<span class="sr-only">Error:</span> ${errorString }
 	</div>
 </c:if>
+
 <div class="col-md-7">
 	<table class="table table-striped">
 		<c:forEach items="${seasons}" var="season">
@@ -45,10 +46,5 @@ season.listOpenSeasons(request);
 		</c:forEach>
 	</table>
 </div>
-
-
-
-
-
 
 <%@ include file="/WEB-INF/footer_backend.jsp"%>

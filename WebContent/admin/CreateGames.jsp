@@ -52,8 +52,7 @@ season.findSeason(request, seasonID);%>
 			season creation screen.</p>
 		<button class="btn btn-info" type="submit" value="confirm"
 			name="option">Confirm</button>
-		<button class="btn btn-info" type="submit" value="delete"
-			name="option">Cancel</button>
+		<button class="btn btn-danger" type="submit" value="delete"	name="option">Cancel</button>
 	</div>
 </form>
 

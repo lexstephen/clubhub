@@ -18,8 +18,9 @@
 	<td class="col-xs-12 col-md-2">${user.userStatus}</td>
 	<td class="col-xs-12 col-md-2">${user.firstName}</td>
 	<td class="col-xs-12 col-md-2">${user.lastName}</td>
-	<td class="col-xs-12 col-md-2"><span class="expand"> <a
-			href="${pageContext.request.contextPath}/Profile.jsp?userID=${user.userid}"
-			class="btn btn-info btn-xs">View</a>
-	</span></td>
+	<td class="col-xs-12 col-md-2">
+		<span class="expand"> 
+			<a href="${pageContext.request.contextPath}/Profile.jsp?userID=${user.userid}" class="btn btn-info btn-xs">View</a>
+		</span>
+	</td>
 </tr>

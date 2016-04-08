@@ -638,19 +638,14 @@ public class GameDao {
 			request.setAttribute("theCurrentPlayers", theCurrentPlayers);
 			request.setAttribute("theAvailablePlayers", theAvailablePlayers);
 			request.setAttribute("gameID", gameID);
+
 		}
 	}
 
 	public void switchThem(HttpServletRequest request, String currentPlayer, String newPlayer, String gameID) throws Exception{
 
-		String currentPlayerID = utilities.ValidationUtilities.getPlayerNumber(request, currentPlayer);
-		String newPlayerID = utilities.ValidationUtilities.getPlayerNumber(request, newPlayer);
-
-		System.out.println("The current player id is: " + currentPlayerID);
-		System.out.println("The new player id is: " + newPlayerID);
-
 		statement = connect.createStatement();
-		statement.executeUpdate("UPDATE ch_user_game SET Userid= "+ newPlayerID +"  where Gameid= "+ gameID + " && Userid= " + currentPlayerID);
+		statement.executeUpdate("UPDATE ch_user_game SET Userid = " + newPlayer + "  where Gameid = " + gameID + " && Userid = " + currentPlayer);
 	}
 
 	public void findAvailableUsersWhoArentScheduled(HttpServletRequest request, String gameID) throws Exception{

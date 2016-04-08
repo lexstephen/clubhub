@@ -328,9 +328,9 @@
 				<input type="hidden" name="userID" value="${user.userid}"> <input
 					type="hidden" name="option" value="edit"> <input
 					type="submit" class="btn btn-info" value="Update Profile">
-</form>
-</div>
-</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 
