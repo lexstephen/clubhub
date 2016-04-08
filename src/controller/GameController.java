@@ -57,20 +57,6 @@ public class GameController extends HttpServlet {
 		    			address = "admin/PopulateGames.jsp";
 		    			
 		    	break;
-		    			
-		    	case "close":
-		    		//if (ValidationUtilities.isValidSeason(request)) {
-		    		
-		    			String slotID = request.getParameter("slotID");
-		    			System.out.println("The Slot ID is: "+ slotID);
-	    				dao.closeSlot(request, slotID);
-	    				Object a = request.getAttribute("seasonID");
-	    				String theSeasonID = a.toString();
-		    			errorChecker = "Game Closed?";
-		    			
-		    			address = "ListGames.jsp?seasonID= "+theSeasonID;
-		    			
-		    	break;
 		    	
 		    	case "switchPlayers":
 		    		//if (ValidationUtilities.isValidSeason(request)) {

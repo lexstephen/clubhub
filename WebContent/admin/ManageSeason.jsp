@@ -21,12 +21,17 @@ System.out.println("The current season ID is: " + seasonID);
 season.listOpenSeasons(request);
 
 %>
-
+	<c:if test="${!empty errorString}">
+		<div class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		  ${errorString }
+		</div>
+	</c:if>
 	<c:forEach items="${seasons}" var="season">
-		<form action="/clubhub/GameController" method="post" class="form" role="form">
+		<form action="/clubhub/SeasonController" method="post" class="form" role="form">
 			S ${season.id}: ${season.year }-${season.gender }-${season.season } <b>${season.startDateFullYear	 }</b> ${season.dayOfWeek } ${season.startTime } (${season.duration } weeks) 
 			
-				<input type="hidden" name="slotID" value="542">
 				<input type="hidden" name="seasonID" value="${season.id}">
 				<button type="submit" value="close" name="option">Close/Assign Players</button>
 			

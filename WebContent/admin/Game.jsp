@@ -26,8 +26,8 @@ request.setAttribute("thisPage", "Game Details"); %>
 		<div class="col-md-6 col-xs-12">
 			<h3>
 					Team A
-					<c:if test="${winner == 'Team A' }"><strong> - Winners</strong></c:if>
-					<c:if test="${winner == 'Tie' }"><strong> - Tie</strong></c:if>
+					<c:if test="${winner == 'Team A' }"><strong> - Winners - ${teamAscore}</strong></c:if>
+					<c:if test="${winner == 'Tie' }"><strong> - Tie - ${teamAscore}</strong></c:if>
 					<c:if test="${winner == 'TBD' }"><strong> - TBD</strong></c:if>
 			</h3>
 			<table class="table table-hover sortable">
@@ -35,7 +35,6 @@ request.setAttribute("thisPage", "Game Details"); %>
 					<tr>
 						<th class="col-md-4 col-xs-12 sorttable_nosort"></th>
 						<th class="col-md-4 col-xs-12">Member</th>
-						<th class="col-md-4 col-xs-12">Score</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -43,21 +42,14 @@ request.setAttribute("thisPage", "Game Details"); %>
 						<%@ include file="/WEB-INF/displayGameTeam.jsp" %>	
 					</c:forEach>						
 				</tbody>
-				<tfoot>
-					<tr>
-						<th class="col-md-4 col-xs-12 sorttable_nosort">-</th>
-						<th class="col-md-4 col-xs-12 sorttable_nosort">-</th>
-						<th class="col-md-4 col-xs-12 sorttable_nosort">${teamAscore }</th>
-					</tr>
-				</tfoot>
 		</table>	
 		</div>
 		
 		<div class="col-md-6 col-xs-12">
 			<h3>
 				Team B
-				<c:if test="${winner == 'Team B' }"><strong> - Winners</strong></c:if>
-				<c:if test="${winner == 'Tie' }"><strong> - Tie</strong></c:if>
+				<c:if test="${winner == 'Team B' }"><strong> - Winners - ${teamBscore}</strong></c:if>
+				<c:if test="${winner == 'Tie' }"><strong> - Tie - ${teamBscore}</strong></c:if>
 				<c:if test="${winner == 'TBD' }"><strong> - TBD</strong></c:if>
 			</h3>
 			<table class="table table-hover sortable">
@@ -65,7 +57,6 @@ request.setAttribute("thisPage", "Game Details"); %>
 					<tr>
 						<th class="col-md-4 col-xs-12 sorttable_nosort"></th>
 						<th class="col-md-4 col-xs-12">Member</th>
-						<th class="col-md-4 col-xs-12">Score</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -73,15 +64,11 @@ request.setAttribute("thisPage", "Game Details"); %>
 						<%@ include file="/WEB-INF/displayGameTeam.jsp" %>	
 					</c:forEach>										
 				</tbody>
-				<tfoot>
-					<tr>
-						<th class="col-md-4 col-xs-12 sorttable_nosort">-</th>
-						<th class="col-md-4 col-xs-12 sorttable_nosort">-</th>
-						<th class="col-md-4 col-xs-12 sorttable_nosort">${teamBscore }</th>
-					</tr>
-				</tfoot>
 		</table>	
 		</div>
+		<c:if test="${(isAdmin == true)}">
+			<a href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.id}" class="btn btn-primary btn-xs">Edit</a>
+		</c:if>
 		
 	</div>
 	

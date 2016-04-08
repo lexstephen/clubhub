@@ -100,7 +100,7 @@ public class UserController extends HttpServlet {
 						// yes they are, let's log them in
 						session.setAttribute("isLoggedIn", true);
 						request.setAttribute("errorString", null);
-						session.setAttribute("loggedInUserID", request.getAttribute("id")); 
+						//session.setAttribute("loggedInUserID", request.getAttribute("id")); 
 						/* if (setCookie) {
 							Cookie adminCookie = new Cookie("isAdmin", "false");
 							Cookie loggedInCookie = new Cookie("isLoggedIn", "true");

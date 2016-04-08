@@ -81,6 +81,13 @@ public class SeasonController extends HttpServlet {
 					errorChecker = "Games Created";
 		    		address ="admin/PopulateGames.jsp";;
 	    		break;
+		    	case "close":
+		    		System.out.println("I'm in close season");
+		    		request.setAttribute("seasonID", request.getParameter("seasonID"));
+		    		dao.closeSeason(request);
+		    		address="admin/ManageSeason.jsp";
+		    		
+	    		break;
 		    	default:
 	    		errorChecker = "Something has gone horribly wrong";
 	    	}

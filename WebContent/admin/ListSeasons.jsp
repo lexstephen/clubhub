@@ -14,7 +14,7 @@
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 <% SeasonDao season = new SeasonDao();
 
-season.listSeasonWithStatus(request);
+season.listOpenSeasons(request);
 //Object id = session.getAttribute("seasonID");
 //String str = id.toString();
 //int seasonID = Integer.parseInt(str);
