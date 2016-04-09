@@ -74,7 +74,7 @@ public class GameController extends HttpServlet {
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			
 		    		dao.setConflict(request, gameID);
-		    		address = "admin/EditGame.jsp";
+		    		address = "admin/Game.jsp?gameID=" + gameID;
 		    			
 		    	break;
 

@@ -24,6 +24,14 @@ request.setAttribute("thisPage", "Game Details"); %>
 	<h3>Game ${game.week}: ${game.dayOfWeek},
 		${game.scheduledDateFullYear} at ${game.startTime}</h3>
 </div>
+<form action="/clubhub/GameController" method="post" class="form" role="form">
+	<p>
+		(This should only display if the user is scheduled for this game)
+		Can't make this game? Let the admin know: <input type="hidden"
+			name="gameID" value="${game.id}">
+		<button type="submit" name="option" value="conflict">Switch</button>
+	</p>
+</form>
 <div class="row">
 	<div class="col-md-6 col-xs-12">
 		<h3>

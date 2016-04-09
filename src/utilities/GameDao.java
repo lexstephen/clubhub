@@ -369,6 +369,7 @@ public class GameDao {
 
 		try {
 			statement = connect.createStatement();
+			statement2 = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM ch_user_game JOIN ch_user ON ch_user_game.Userid = ch_user.id WHERE Gameid= " + gameID);
 			while (resultSet.next()) {
 
@@ -403,6 +404,12 @@ public class GameDao {
 
 				if (resultSet.getString("outcome").equals("TBD")){
 					isTBD = true;
+				}
+				
+				resultSet2 = statement2.executeQuery("SELECT * FROM clubhub.ch_user_game_conflict WHERE Userid = " + user.getUserid() + " AND Gameid = " + gameID);
+				while (resultSet2.next()) {
+					user.setInConflict(true);
+					System.out.println("isInConflict bro");
 				}
 			}
 		}
@@ -646,6 +653,7 @@ public class GameDao {
 
 		statement = connect.createStatement();
 		statement.executeUpdate("UPDATE ch_user_game SET Userid = " + newPlayer + "  where Gameid = " + gameID + " && Userid = " + currentPlayer);
+		statement.executeUpdate("DELETE FROM ch_user_game_conflict WHERE Userid = " + currentPlayer + " AND Gameid = " + gameID);
 	}
 
 	public void findAvailableUsersWhoArentScheduled(HttpServletRequest request, HttpServletResponse response, String gameID) throws Exception{
@@ -678,9 +686,9 @@ public class GameDao {
 			}
 
 		} catch (Exception e) {
-/*	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/DisplayGames.jsp");
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/DisplayGames.jsp");
 	    	request.setAttribute("errorString", "Game " + gameID + " cannot be edited until it's season has been closed.");
-	    	dispatcher.forward(request, response);*/
+	    	dispatcher.forward(request, response);
 		}
 
 
