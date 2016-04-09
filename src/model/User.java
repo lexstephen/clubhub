@@ -25,6 +25,15 @@ public class User {
 			formattedEmergencyContactPhoneNumber = "",
 			formattedDateOfBirth = "",
 			score = "";
+	private boolean inConflict;
+	public boolean isInConflict() {
+		return inConflict;
+	}
+
+	public void setInConflict(boolean inConflict) {
+		this.inConflict = inConflict;
+	}
+
 	private List<String> slotid = new ArrayList<String>();
 	
     

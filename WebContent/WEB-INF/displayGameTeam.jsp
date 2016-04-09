@@ -8,16 +8,12 @@
 	Description: displayGameTeam.jsp - HTML formatting for Games View
  --%>
 
-<tr>
-	<td class="col-md-4 col-xs-12"><a
-		href="${pageContext.request.contextPath}/Profile.jsp?userID=${tm.userid }"><img
-			src="${pageContext.request.contextPath}/ImageDao?t=profile&id=${tm.userid }"
-			class="game_photo"></a></td>
-
-	<td class="col-md-4 col-xs-12">${tm.firstName } ${tm.lastName } <c:forEach
-			items="${backupUsers}" var="backup">
-		${backup.firstName }	
-	</c:forEach>
-
+<tr <c:if test="${tm.inConflict == true}">class="alert alert-danger" role="alert"></c:if>>
+	<td class="col-md-4 col-xs-12">
+		<a href="${pageContext.request.contextPath}/Profile.jsp?userID=${tm.userid }">
+			<img src="${pageContext.request.contextPath}/ImageDao?t=profile&id=${tm.userid }" class="game_photo"></a>
+	</td>
+	<td class="col-md-4 col-xs-12">
+			${tm.firstName } ${tm.lastName }
 	</td>
 </tr>

@@ -24,14 +24,6 @@
 		<h3>Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear}
 			at ${game.startTime} <small>Season ${game.seasonId}:
 				${game.gender } ${game.season } ${game.year }</small></h3>
-		<form action="/clubhub/GameController" method="post" class="form" role="form">
-			<p>
-				(This should only display if the user is scheduled for this game)
-				Can't make this game? Let the admin know: <input type="hidden"
-					name="gameID" value="${game.id}">
-				<button type="submit" name="option" value="conflict">Switch</button>
-			</p>
-		</form>
 
 		<form action="/clubhub/GameController" method="post" class="form" role="form">
 

@@ -319,7 +319,7 @@ public class PreferenceDao {
 			    			preparedStatement.setBlob(16, input_image_small_logo); // image_small_logo
 		    			} 
 	    			} else if(isImageSmallLogo) {
-			    			preparedStatement.setBlob(17, input_image_small_logo); // image_small_logo
+			    			preparedStatement.setBlob(15, input_image_small_logo); // image_small_logo
 	    			} 
 		    		preparedStatement.executeUpdate(); 
 		    		
