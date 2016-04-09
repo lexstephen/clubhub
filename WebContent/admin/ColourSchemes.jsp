@@ -47,7 +47,7 @@
 			<p>
 				Use this section to customize your frontend colour scheme options.
 				Once entered, default colour scheme can be set in the <a
-					href="Preferences.jsp">Preferences</a> page.
+					href="${pageContext.request.contextPath}/admin/Preferences.jsp">Preferences</a> page.
 			</p>
 			<p>Edit a pre-existing colour scheme by selecting it from the
 				drop down list, or select 'Add New' to enter a new one.</p>
