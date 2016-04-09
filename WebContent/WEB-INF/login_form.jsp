@@ -25,6 +25,6 @@
 		  </div>
 		   -->
 		<input type="hidden" name="option" value="login"> <input
-			type="submit" class="btn btn-default" value="Login">
+			type="submit" class="btn btn-primary" value="Login">
 	</form>
 </div>

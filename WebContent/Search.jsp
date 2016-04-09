@@ -19,10 +19,10 @@
 
 <h1>Search Results</h1>
 <br>
-${fn:length(blogs)} result
-<c:if test="${fn:length(blogs) != 1}">s</c:if>
+${fn:length(blogs)} result<c:if test="${fn:length(blogs) != 1}">s</c:if>
 <br>
 <br>
+<c:if test="${fn:length(blogs) != 0}">
 <table class="table table-hover sortable">
 	<thead>
 		<tr>
@@ -39,6 +39,7 @@ ${fn:length(blogs)} result
 		</c:forEach>
 	</tbody>
 </table>
+</c:if>
 
 <!-- 	<span class="pagination">
 		<a href="first">&lt;&lt;</a> | <a href="previous">&lt;</a> | <a href="next">&gt;</a> | <a href="last">&gt;&gt;</a>

@@ -26,7 +26,7 @@
 	method="post" class="form" role="form" enctype="multipart/form-data">
 	<div class="form-group preferences">
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 	var Prefs = new Array();
 	var prefCnt = 0;
 
@@ -138,7 +138,7 @@
 			class="row <c:if test="${!empty errorPreference_Name}">has-error</c:if>">
 			<label class="col-sm-3 control-label"> Name these settings: </label>
 			<div class="col-sm-9">
-				<input class="form-control" type="text" name="preference_name"
+				<input required class="form-control" type="text" name="preference_name"
 					id="inpt_preference_name" value="${preference_name}">
 			</div>
 		</div>
@@ -148,7 +148,7 @@
 			<h3>Club Settings</h3>
 			<label class="col-sm-3 control-label"> Club Name (Long) </label>
 			<div class="col-sm-9">
-				<input class="form-control" type="text" name="club_name_long"
+				<input required class="form-control" type="text" name="club_name_long"
 					id="inpt_club_name_long" value="${club_name_long }">
 			</div>
 		</div>
@@ -157,7 +157,7 @@
 			class="row form-group <c:if test="${!empty errorClub_Name_Short}">has-error</c:if>">
 			<label class="col-sm-3 control-label"> Club Name (Short) </label>
 			<div class="col-sm-9">
-				<input class="form-control" type="text" name="club_name_short"
+				<input required class="form-control" type="text" name="club_name_short"
 					id="inpt_club_name_short" value="${club_name_short }">
 			</div>
 		</div>
@@ -167,7 +167,7 @@
 			<label class="col-sm-3 control-label"> Club URL (include
 				http://) </label>
 			<div class="col-sm-9">
-				<input class="form-control" type="text" name="clubURL"
+				<input required class="form-control" type="text" name="clubURL"
 					id="inptClubURL" value="${clubURL }">
 			</div>
 		</div>
@@ -176,13 +176,13 @@
 		<div class="row">
 			<div
 				class="form-group col-xs-6 <c:if test="${!empty errorTelephone}">has-error</c:if>">
-				<label for="inptTelephone">Telephone</label> <input
+				<label for="inptTelephone">Telephone</label> <input required
 					class="form-control" type="text" name="telephone"
 					id="inptTelephone" value="${telephone }">
 			</div>
 			<div
 				class="form-group col-xs-6 <c:if test="${!empty errorEmailAddress}">has-error</c:if>">
-				<label for="inptEmailAddress">Email Address</label> <input
+				<label for="inptEmailAddress">Email Address</label> <input required
 					class="form-control" type="text" name="emailAddress"
 					id="inptEmailAddress" value="${emailAddress }">
 			</div>
@@ -192,13 +192,13 @@
 		<div class="row">
 			<div
 				class="form-group col-xs-6 <c:if test="${!empty errorContactName}">has-error</c:if>">
-				<label for="inptContactName">Contact Name</label> <input
+				<label for="inptContactName">Contact Name</label> <input required
 					class="form-control" type="text" name="contactName"
 					id="inptContactName" value="${contactName }">
 			</div>
 			<div
 				class="form-group col-xs-6 <c:if test="${!empty errorAddress}">has-error</c:if>">
-				<label for="inptAddress">Address</label> <input class="form-control"
+				<label for="inptAddress">Address</label> <input required class="form-control"
 					type="text" name="address" id="inptAddress" value="${address }">
 			</div>
 		</div>
@@ -207,7 +207,7 @@
 			<div class="col-xs-6">
 				<div
 					class="form-group <c:if test="${!empty errorCity}">has-error</c:if>">
-					<label for="inptCity">City</label> <input type="text" name="city"
+					<label for="inptCity">City</label> <input required type="text" name="city"
 						class="form-control" id="inptCity" value="${city}">
 				</div>
 			</div>
@@ -219,7 +219,7 @@
 						Postal Code </label> <label for="inptProvince" id="lblZipCode"
 						${country == 'Canada' ? ' class="hiddenest"' : ''}
 						${country == null ? ' class="hiddenest"' : ''}> Zip Code </label>
-					<input type="text" name="postalCode" class="form-control"
+					<input required type="text" name="postalCode" class="form-control"
 						id="inptPostalCode" value="${postalCode}">
 				</div>
 			</div>
@@ -323,7 +323,7 @@
 		<div class="row <c:if test="${!empty errorTax_Rate}">has-error</c:if>">
 			<label class="col-sm-3 control-label"> Tax Rate </label>
 			<div class="col-sm-9">
-				<input class="form-control" type="text" name="tax_rate"
+				<input required class="form-control" type="text" name="tax_rate"
 					id="tax_rate" value="${tax_rate }">
 			</div>
 		</div>

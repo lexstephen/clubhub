@@ -37,7 +37,7 @@
 	</div>
 	<div class="row form-group">
 		<div class="col-md-6 col-md-offset-3 col-xs-12">
-			<label for="inputTheDate">Start Date</label> <input
+			<label for="inputTheDate">Start Date</label> <input required 
 				class="form-control" type="date" name="theDate" id="inputTheDate"
 				value="${theDate }">
 		</div>
@@ -87,7 +87,7 @@
 	</div>
 	<div class="row form-group">
 		<div class="col-md-6 col-md-offset-3 col-xs-12">
-			<label for="duration">Season Duration (weeks)</label> <input
+			<label for="duration">Season Duration (weeks)</label> <input required 
 				class="form-control" type="text" name="duration" value="${duration}">
 		</div>
 	</div>
@@ -96,11 +96,11 @@
 			<label for="inptGender">Gender</label>
 		</div>
 		<div class="col-md-5 control-label">
-			<input type="radio" name="gender" value="M" id="inptGender"
+			<input type="radio" name="gender" value="M" id="inptGender" required 
 				<c:if test="${gender == 'M'}"> checked</c:if>> Men
-			&nbsp;&nbsp; <input type="radio" name="gender" value="F"
+			&nbsp;&nbsp; <input type="radio" name="gender" id="inptGender" value="F" required 
 				<c:if test="${gender == 'F'}"> checked</c:if>> Women
-			&nbsp;&nbsp; <input type="radio" name="gender" value="X"
+			&nbsp;&nbsp; <input type="radio" name="gender" id="inptGender" value="X" required 
 				<c:if test="${gender == 'X'}"> checked</c:if>> Mixed
 			&nbsp;&nbsp;
 		</div>
