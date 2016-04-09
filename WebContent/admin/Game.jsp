@@ -21,7 +21,7 @@ request.setAttribute("thisPage", "Game Details"); %>
 <div class="row">
 	<h2>Season ${game.seasonId}: ${game.gender } ${game.season }
 		${game.year }</h2>
-	<h3>Game ${game.id}: ${game.dayOfWeek},
+	<h3>Game ${game.week}: ${game.dayOfWeek},
 		${game.scheduledDateFullYear} at ${game.startTime}</h3>
 </div>
 <div class="row">
