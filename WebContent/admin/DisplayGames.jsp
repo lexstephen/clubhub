@@ -18,6 +18,13 @@
 <% GameDao gamedao = new GameDao(); %>
 <% gamedao.listAll(request); %>
 
+<c:if test="${!empty errorString}">
+	<div class="alert alert-danger" role="alert">
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		<span class="sr-only">Error:</span> ${errorString }
+	</div>
+</c:if>
+
 <form action="${pageContext.request.contextPath}/GameController"
 	method="post" class="form" role="form">
 	<table class="table table-hover sortable">

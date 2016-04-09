@@ -75,7 +75,7 @@
 		<div class="col-xs-6">
 			<div
 				class="form-group <c:if test="${!empty errorTelephone}">has-error</c:if>">
-				<label for="inptPhoneNumber">Phone Number</label> <input type="text"
+				<label for="inptPhoneNumber">Phone Number</label> <input type="text" maxlength="10" 
 					name="telephone" class="form-control" id="inptPhoneNumber"
 					value="${telephone}">
 			</div>
@@ -282,8 +282,6 @@
 			</div>
 		</div>
 	</div>
-
-
 	<div class="row">
 		<div class="col-xs-6">
 			<div
@@ -297,7 +295,7 @@
 			<div
 				class="form-group <c:if test="${!empty errorEmergencyContactPhoneNumber}">has-error</c:if>">
 				<label for="inptEmergencyContactNumber">Emergency Contact
-					Number</label> <input type="text" name="emergencyContactPhoneNumber"
+					Number</label> <input type="text" maxlength="10"  name="emergencyContactPhoneNumber"
 					class="form-control" id="inptEmergencyContactNumber"
 					value="${emergencyContactPhoneNumber}">
 			</div>

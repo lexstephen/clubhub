@@ -648,7 +648,7 @@ public class GameDao {
 		statement.executeUpdate("UPDATE ch_user_game SET Userid = " + newPlayer + "  where Gameid = " + gameID + " && Userid = " + currentPlayer);
 	}
 
-	public void findAvailableUsersWhoArentScheduled(HttpServletRequest request, String gameID) throws Exception{
+	public void findAvailableUsersWhoArentScheduled(HttpServletRequest request, HttpServletResponse response, String gameID) throws Exception{
 		List<User> backupUsers = new ArrayList<User>();
 		try {
 			String scheduledUsers = ""; 
@@ -660,7 +660,7 @@ public class GameDao {
 			}
 			scheduledUsers = scheduledUsers.substring(0, (scheduledUsers.length() - 2));
 
-			String qry = "SELECT * FROM ch_user_slot us JOIN ch_slot s ON s.Gameid = " + gameID + " WHERE us.Userid NOT IN (" + scheduledUsers + ")";
+			String qry = "SELECT * FROM ch_user_slot us JOIN ch_slot s ON s.id = us.Slotid WHERE s.gameID = " + gameID + " AND us.Userid NOT IN (" + scheduledUsers + ")";
 			System.out.print(qry);
 			statement = connect.createStatement();
 			ResultSet results = statement.executeQuery(qry);
@@ -678,7 +678,9 @@ public class GameDao {
 			}
 
 		} catch (Exception e) {
-			throw e;
+/*	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/DisplayGames.jsp");
+	    	request.setAttribute("errorString", "Game " + gameID + " cannot be edited until it's season has been closed.");
+	    	dispatcher.forward(request, response);*/
 		}
 
 

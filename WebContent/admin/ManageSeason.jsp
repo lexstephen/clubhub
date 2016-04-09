@@ -38,7 +38,7 @@ season.listOpenSeasons(request);
 					<form action="/clubhub/SeasonController" method="post" class="form"
 						role="form">
 						<input type="hidden" name="seasonID" value="${season.id}">
-						<button class="btn btn-primary btn-sm" type="submit" value="close" name="option">Close/Assign
+						<button class="btn btn-info btn-sm" type="submit" value="close" name="option">Close/Assign
 							Players</button>
 					</form>
 				</td>

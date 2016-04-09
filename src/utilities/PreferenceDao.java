@@ -105,7 +105,7 @@ public class PreferenceDao {
 		    				+ "(`id`, `club_name_long`, `club_name_short`, `Colour_Schemeid`, `tax_rate`, "
 		    				+ "`telephone`, `address`, `city`, `province`, `postal_code`, `country`, "
 		    				+ "`status`, `preference_name`, `contactName`, `emailAddress`, `clubURL`, `image_logo`, `image_small_logo`) "
-		    				+ " values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		    				+ " values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	        		System.out.println(qry);
 		    		preparedStatement = connect.prepareStatement(qry);
 		    		preparedStatement.setString(1, request.getParameter("club_name_long")); // club_name_long
