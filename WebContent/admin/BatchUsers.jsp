@@ -63,6 +63,7 @@
 	</c:choose>
 
 </form>
+<br><br>
 <!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
 <%@ include file="/WEB-INF/footer_backend.jsp"%>

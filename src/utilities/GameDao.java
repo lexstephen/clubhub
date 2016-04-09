@@ -648,7 +648,7 @@ public class GameDao {
 		statement.executeUpdate("UPDATE ch_user_game SET Userid = " + newPlayer + "  where Gameid = " + gameID + " && Userid = " + currentPlayer);
 	}
 
-	public void findAvailableUsersWhoArentScheduled(HttpServletRequest request, String gameID) throws Exception{
+	public void findAvailableUsersWhoArentScheduled(HttpServletRequest request, HttpServletResponse response, String gameID) throws Exception{
 		List<User> backupUsers = new ArrayList<User>();
 		try {
 			String scheduledUsers = ""; 
@@ -678,7 +678,9 @@ public class GameDao {
 			}
 
 		} catch (Exception e) {
-			throw e;
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/DisplayGames.jsp");
+	    	request.setAttribute("errorString", "Game " + gameID + " cannot be edited until it's season has been closed.");
+	    	dispatcher.forward(request, response);
 		}
 
 

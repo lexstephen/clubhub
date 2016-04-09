@@ -235,6 +235,7 @@
 		</div>
 	</div>
 </c:if>
+<br><br>
 
 <!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
