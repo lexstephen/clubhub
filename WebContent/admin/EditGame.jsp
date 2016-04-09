@@ -21,20 +21,10 @@
 %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 	<div class="row">
-		<h2>Season ${game.seasonId}: ${game.gender } ${game.season }
-			${game.year }</h2>
-		<h3>Game ${game.id}: ${game.dayOfWeek},
-			${game.scheduledDateFullYear} at ${game.startTime}</h3>
-	</div>
-	<div class="row">
-		<h3>
-			Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear}
+		<h3>Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear}
 			at ${game.startTime} <small>Season ${game.seasonId}:
-				${game.gender } ${game.season } ${game.year }</small>
-		</h3>
-
-		<form action="/clubhub/GameController" method="post" class="form"
-			role="form">
+				${game.gender } ${game.season } ${game.year }</small></h3>
+		<form action="/clubhub/GameController" method="post" class="form" role="form">
 			<p>
 				(This should only display if the user is scheduled for this game)
 				Can't make this game? Let the admin know: <input type="hidden"
@@ -43,8 +33,7 @@
 			</p>
 		</form>
 
-		<form action="/clubhub/GameController" method="post" class="form"
-			role="form">
+		<form action="/clubhub/GameController" method="post" class="form" role="form">
 			<div class="row">
 				<div class="col-md-6 col-xs-12">
 					<h3>Team A</h3>
@@ -58,6 +47,35 @@
 								value="<c:choose><c:when test="${!empty teamAscore}">${teamAscore}</c:when><c:otherwise>0</c:otherwise></c:choose>">
 						</div>
 					</div>
+				</div>
+
+				<div class="col-md-6 col-xs-12">
+					<h3>Team B</h3>
+					<div class="row">
+						<div class="col-xs-3">
+							<label>Team B score: </label>
+						</div>
+						<div class="col-xs-2">
+							<input class="form-control col-xs-2" maxlength="3" type="text"
+								name="teamBscore"
+								value="<c:choose><c:when test="${!empty teamBscore}">${teamBscore}</c:when><c:otherwise>0</c:otherwise></c:choose>">
+						</div>
+					</div>
+				</div>
+				<c:if test="${(isAdmin == true)}">
+					<input type="hidden" name="gameID" value="${game.id}">
+					<button class="btn btn-primary btn-xs" name="option"
+						value="editScores" type="submit">Update</button>
+				</c:if>
+			</div>
+		</form>
+
+
+
+
+		<form action="/clubhub/GameController" method="post" class="form" role="form">
+			<div class="row">
+				<div class="col-md-6 col-xs-12">
 					<table class="table table-hover sortable">
 						<thead>
 							<tr>
@@ -74,17 +92,6 @@
 				</div>
 
 				<div class="col-md-6 col-xs-12">
-					<h3>Team B</h3>
-					<div class="row">
-						<div class="col-xs-3">
-							<label>Team B score: </label>
-						</div>
-						<div class="col-xs-2">
-							<input class="form-control col-xs-2" maxlength="3" type="text"
-								name="teamBscore"
-								value="<c:choose><c:when test="${!empty teamBscore}">${teamBscore}</c:when><c:otherwise>0</c:otherwise></c:choose>">
-						</div>
-					</div>
 					<table class="table table-hover sortable">
 						<thead>
 							<tr>
@@ -99,12 +106,6 @@
 						</tbody>
 					</table>
 				</div>
-				<c:if test="${(isAdmin == true)}">
-					<input type="hidden" name="gameID" value="${game.id}">
-					<button class="btn btn-primary btn-xs" name="option"
-						value="editScores" type="submit">Update</button>
-				</c:if>
-
 			</div>
 		</form>
 	</div>

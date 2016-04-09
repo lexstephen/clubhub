@@ -1,3 +1,10 @@
+function toggleBox(source) {
+  checkboxes = document.getElementsByName('slots');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+
 $('.hiddenest').hide(); // default hides all American labels and inputs
 
 $('#inptCountry').bind('change', function(event) {

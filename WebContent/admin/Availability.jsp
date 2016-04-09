@@ -36,7 +36,7 @@ slot.findAllOfUsersSlots(request);
 		will be used by the league administrator to schedule games. If a
 		conflict arises, deselect the checkbox in question and this
 		information will be provided to the administrator.</p>
-
+	<p><label><input type="checkbox" name="selectall" onClick="toggleBox(this)"/> Select all</label></p>
 	<!--   -->
 	<c:forEach items="${slots}" var="slot">
 		<input type="checkbox" name="slots" value="${slot.id}"
