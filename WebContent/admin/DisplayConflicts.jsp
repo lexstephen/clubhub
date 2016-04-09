@@ -10,7 +10,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="utilities.GameDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<% request.setAttribute("thisPage", "Showing All Games"); %>
+<% request.setAttribute("thisPage", "Games with Scheduling Conflicts"); %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
 <!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
@@ -44,7 +44,9 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${games}" var="game">
-				<%@ include file="/WEB-INF/displayGames.jsp"%>
+				<c:if test="${game.inConflict == true }">
+					<%@ include file="/WEB-INF/displayGames.jsp"%>
+				</c:if>
 			</c:forEach>
 		</tbody>
 	</table>

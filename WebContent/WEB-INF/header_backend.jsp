@@ -106,7 +106,7 @@
 								href="${pageContext.request.contextPath}/admin/ManageSeason.jsp">Manage
 									Season</a></li>
 							<li><a
-								href="${pageContext.request.contextPath}/admin/Conflicts.jsp">View
+								href="${pageContext.request.contextPath}/admin/DisplayConflicts.jsp">View
 									Outstanding Conflicts</a></li>
 						</c:if>
 					</ul></li>

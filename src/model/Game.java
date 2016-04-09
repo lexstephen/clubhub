@@ -11,8 +11,25 @@ public class Game {
 	private int schedMonth;
 	private String year, season, gender, startDate, startTime, dayOfWeek, duration;
 	private String scheduledDateFullYear;
-	private String slotid, slotStatus, slotAvailablePlayers; 
+	private String slotid, slotStatus, slotStatusWord, slotAvailablePlayers; 
+	private boolean inConflict;
 	
+	public boolean isInConflict() {
+		return inConflict;
+	}
+
+	public void setInConflict(boolean inConflict) {
+		this.inConflict = inConflict;
+	}
+
+	public String getSlotStatusWord() {
+		return slotStatusWord;
+	}
+
+	public void setSlotStatusWord(String slotStatusWord) {
+		this.slotStatusWord = slotStatusWord;
+	}
+
 	public String getDateFormatted() {
 		return dateFormatted;
 	}

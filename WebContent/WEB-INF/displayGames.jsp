@@ -10,9 +10,6 @@
 
 
 <tr>
-	<td class="col-md-1"><c:if test="${(isAdmin == true)}">
-			<input type="checkbox" name="gameSelected" value="${game.id}">
-		</c:if></td>
 	<td class="col-md-1">${game.seasonId}</td>
 	<td class="col-md-1">${game.id}</td>
 	<td class="col-md-1">${game.gender}</td>
@@ -20,6 +17,7 @@
 	<td class="col-md-1">${game.year}</td>
 	<td class="col-md-1">${game.week}</td>
 	<td class="col-md-1">${game.dayOfWeek}</td>
+	<td class="col-md-1">${game.slotStatusWord}</td>
 	<td class="col-md-1" sorttable_customkey="${game.scheduledDate}">${game.dateFormatted}</td>
 	<td class="col-md-1"><span class="expand"> <c:if
 				test="${(isAdmin == true)}">

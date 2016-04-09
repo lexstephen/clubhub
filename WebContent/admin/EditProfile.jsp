@@ -49,6 +49,28 @@
 	</div>
 </c:if>
 
+	<c:if test="${isAdmin == true}">
+<div class="row">
+	<div class="col-md-2 col-md-offset-6 col-xs-6">View another
+		profile:</div>
+	<div class="col-md-3 col-xs-6">
+		<% user.listAllUsers(request); %>
+		<noscript>This form requires that you have JavaScript
+			enabled to work properly. Please enable JavaScript in your browser.</noscript>
+		<form action="EditProfile.jsp" class="form-group">
+			<select name="userID" class="form-control" id="inptUserID"
+				onchange="this.form.submit()">
+				<c:forEach items="${users}" var="user">
+					<option value="${user.userid}"
+						${userID == user.userid ? 'selected' : ''}>${user.firstName}
+						${user.lastName}</option>
+				</c:forEach>
+			</select>
+		</form>
+	</div>
+</div>
+<hr>
+</c:if>
 <form action="${pageContext.request.contextPath}/UserController"
 	method="post" class="form" role="form" enctype="multipart/form-data">
 	<div class="row">

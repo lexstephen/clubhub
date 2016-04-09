@@ -15,7 +15,7 @@
 	GameDao game = new GameDao();
 	String gameID = request.getParameter("gameID");
 	game.findGame(request, gameID);
-	game.findTeamsForGames(request);
+	game.findTeamsForGames(request, response);
 	game.findAvailableUsersWhoArentScheduled(request, response, gameID);
 	request.setAttribute("thisPage", "Edit Game Details");
 %>
@@ -24,11 +24,8 @@
 		<h3>Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear}
 			at ${game.startTime} <small>Season ${game.seasonId}:
 				${game.gender } ${game.season } ${game.year }</small></h3>
-
 		<form action="/clubhub/GameController" method="post" class="form" role="form">
-
 			<div class="row">
-
 				<div class="col-md-4 col-xs-12">
 					<div class="row">
 						<div class="col-xs-8">

@@ -33,9 +33,10 @@ slot.findAllOfUsersSlots(request);
 		</div>
 	</c:if>
 	<p>Select the games you are available to play. This information
-		will be used by the league administrator to schedule games. If a
-		conflict arises, deselect the checkbox in question and this
-		information will be provided to the administrator.</p>
+		will be used by the league administrator to schedule games. When the schedule is created, you will be notified at the email address provided in your profile.
+		
+		<p>If a conflict arises, deselect the checkbox in question and this
+		information will be provided to the administrator. Conflicts that occur after scheduling can be managed on their individual game pages.</p>
 	<p><label><input type="checkbox" name="selectall" onClick="toggleBox(this)"/> Select all</label></p>
 	<!--   -->
 	<c:forEach items="${slots}" var="slot">

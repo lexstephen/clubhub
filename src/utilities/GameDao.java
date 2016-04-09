@@ -1,5 +1,6 @@
 package utilities;
 
+import java.io.IOException;
 /****************************************************************************************************
  * Project: ClubHub
  * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Random;
 import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -94,6 +96,21 @@ public class GameDao {
 
 		request.setAttribute("games", games);
 
+	}
+	
+	public void gameIsOpen(HttpServletRequest request, HttpServletResponse response, String gameID) throws SQLException, ServletException, IOException {
+		boolean hasOpenSlots = true;
+		statement = connect.createStatement();
+		resultSet = statement.executeQuery("SELECT * from ch_slot slot join ch_game game ON slot.gameID = game.id "
+				+ "WHERE gameID = " + gameID + " AND status = 1");
+		if (resultSet.next()) {
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/DisplayGames.jsp");
+	    	request.setAttribute("errorString", "Game " + gameID + " cannot be viewed until its season has been closed.");
+	    	dispatcher.forward(request, response);
+		} else {			    	  
+			hasOpenSlots = false;
+		}
+		request.setAttribute("gameIsOpen", hasOpenSlots);
 	}
 
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
@@ -223,6 +240,11 @@ public class GameDao {
 					while (resultSet3.next()) {
 						game.setSlotid(resultSet3.getString("id"));
 						game.setSlotStatus(resultSet3.getString("status"));
+						if(resultSet3.getString("status").equals("1")) {
+							game.setSlotStatusWord("Open");
+						} else {
+							game.setSlotStatusWord("Closed");
+						}
 					}
 				}
 				catch (SQLException e) {
@@ -236,6 +258,17 @@ public class GameDao {
 					while (resultSet3.next()) {
 						game.setSlotid(resultSet3.getString("id"));
 						game.setSlotStatus(resultSet3.getString("status"));
+					}
+				}
+				catch (SQLException e) {
+					throw e;
+				}
+				try {  		
+					// save slot details to game object
+					statement = connect.createStatement();
+					resultSet3 = statement.executeQuery("SELECT * FROM ch_user_game_conflict WHERE gameid = " + game.getId());
+					while (resultSet3.next()) {
+						game.setInConflict(true);
 					}
 				}
 				catch (SQLException e) {
@@ -360,7 +393,7 @@ public class GameDao {
 		request.setAttribute("games", games);
 	}
 
-	public void findTeamsForGames(HttpServletRequest request) throws SQLException {
+	public void findTeamsForGames(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
 		List<User> teamA = new ArrayList<User>();
 		List<User> teamB = new ArrayList<User>();
 		String gameID = request.getParameter("gameID");
@@ -407,14 +440,14 @@ public class GameDao {
 				}
 				
 				resultSet2 = statement2.executeQuery("SELECT * FROM clubhub.ch_user_game_conflict WHERE Userid = " + user.getUserid() + " AND Gameid = " + gameID);
-				while (resultSet2.next()) {
+				if (resultSet2.next()) {
+					while (resultSet2.next()) {
 					user.setInConflict(true);
 					System.out.println("isInConflict bro");
+					}
 				}
 			}
-		}
-		catch (SQLException e) {
-			throw e;
+		} catch (Exception e) {
 		}
 
 		String winner = null;
@@ -687,7 +720,7 @@ public class GameDao {
 
 		} catch (Exception e) {
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/DisplayGames.jsp");
-	    	request.setAttribute("errorString", "Game " + gameID + " cannot be edited until it's season has been closed.");
+	    	request.setAttribute("errorString", "Game " + gameID + " cannot be edited until its season has been closed.");
 	    	dispatcher.forward(request, response);
 		}
 

@@ -211,7 +211,6 @@ public class SeasonDao {
 	public void listOpenSeasons(HttpServletRequest request) throws Exception {
 		List<Season> seasons = new ArrayList<Season>();
 		boolean hasOpenSlots;
-
 		try {  		
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * from ch_season");

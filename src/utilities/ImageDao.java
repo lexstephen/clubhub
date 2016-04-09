@@ -77,9 +77,6 @@ public class ImageDao extends HttpServlet {
 		                    response.getOutputStream().
 		                    write(bytearray,0,size);
 		                }
-		                resultSet.close();
-		                preparedStatement.close();
-		                statement.close();
 		            } else {
 			            response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404.
 		            }	
@@ -105,9 +102,6 @@ public class ImageDao extends HttpServlet {
 			                    write(bytearray,0,size);
 			                }
 			            }
-		                resultSet.close();
-		                preparedStatement.close();
-		                statement.close();
 
 			        } catch (Exception e){
 			            e.printStackTrace();
@@ -128,9 +122,6 @@ public class ImageDao extends HttpServlet {
 			                    write(bytearray,0,size);
 			                }
 			            }
-		                resultSet.close();
-		                preparedStatement.close();
-		                statement.close();
 
 			        } catch (Exception e){
 			            e.printStackTrace();
@@ -155,9 +146,6 @@ public class ImageDao extends HttpServlet {
 			                    write(bytearray,0,size);
 			                }
 			            }
-		                resultSet.close();
-		                preparedStatement.close();
-		                statement.close();
 
 			        } catch (Exception e){
 			            e.printStackTrace();
@@ -179,9 +167,6 @@ public class ImageDao extends HttpServlet {
 			                    write(bytearray,0,size);
 			                }
 			            }
-		                resultSet.close();
-		                preparedStatement.close();
-		                statement.close();
 
 			        } catch (Exception e){
 			            e.printStackTrace();
