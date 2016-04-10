@@ -30,7 +30,6 @@
 	<table class="table table-hover sortable">
 		<thead>
 			<tr>
-				<th class="col-md-1 sorttable_nosort"></th>
 				<th class="col-md-1">Season ID</th>
 				<th class="col-md-1">Game ID</th>
 				<th class="col-md-1">Gender</th>
