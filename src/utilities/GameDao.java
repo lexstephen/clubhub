@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -580,8 +581,7 @@ public class GameDao {
 		String playerToFind = (String) session.getAttribute("loggedInUserID");
 		UserDao userdao = new UserDao();
 		userdao.findUser(request, playerToFind);
-		List<List<Game>> assignedGames = new ArrayList<List<Game>>();
-		List<Game> recentGames = new ArrayList<Game>();
+		List<Game> pastGames = new ArrayList<Game>();
 		List<Game> upcomingGames = new ArrayList<Game>();
 		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -611,7 +611,7 @@ public class GameDao {
 					game.setDuration(resultSet2.getString("duration"));
 				}
 				if (format.parse(game.getScheduledDate()).equals(date1) || format.parse(game.getScheduledDate()).before(date1)){
-					recentGames.add(game);
+					pastGames.add(game);
 				} else {
 					upcomingGames.add(game);
 				}
@@ -619,12 +619,10 @@ public class GameDao {
 		} catch(SQLException e) {
 			throw e;
 		}
-			
-		assignedGames.add(recentGames);
-		assignedGames.add(upcomingGames);
-
-		request.setAttribute("assignedGames", assignedGames);
-		System.out.println("assignedGames = " + assignedGames.toString());
+		
+		Collections.reverse(pastGames);
+		request.setAttribute("pastGames", pastGames);
+		request.setAttribute("upcomingGames", upcomingGames);
 	}
 
 
