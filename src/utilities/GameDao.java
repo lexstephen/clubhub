@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -545,6 +546,7 @@ public class GameDao {
 				preparedStatement.setString(1, playerToAdd); // Userid
 				preparedStatement.setString(2, slot); // Slotid
 				preparedStatement.executeUpdate();
+				System.out.println("slot id now available: " + slot);
 			}
 		} catch(SQLException e) {
 			throw e;
@@ -580,8 +582,7 @@ public class GameDao {
 		String playerToFind = (String) session.getAttribute("loggedInUserID");
 		UserDao userdao = new UserDao();
 		userdao.findUser(request, playerToFind);
-		List<List<Game>> assignedGames = new ArrayList<List<Game>>();
-		List<Game> recentGames = new ArrayList<Game>();
+		List<Game> pastGames = new ArrayList<Game>();
 		List<Game> upcomingGames = new ArrayList<Game>();
 		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -611,7 +612,7 @@ public class GameDao {
 					game.setDuration(resultSet2.getString("duration"));
 				}
 				if (format.parse(game.getScheduledDate()).equals(date1) || format.parse(game.getScheduledDate()).before(date1)){
-					recentGames.add(game);
+					pastGames.add(game);
 				} else {
 					upcomingGames.add(game);
 				}
@@ -619,12 +620,10 @@ public class GameDao {
 		} catch(SQLException e) {
 			throw e;
 		}
-			
-		assignedGames.add(recentGames);
-		assignedGames.add(upcomingGames);
-
-		request.setAttribute("assignedGames", assignedGames);
-		System.out.println("assignedGames = " + assignedGames.toString());
+		
+		Collections.reverse(pastGames);
+		request.setAttribute("pastGames", pastGames);
+		request.setAttribute("upcomingGames", upcomingGames);
 	}
 
 
@@ -792,114 +791,107 @@ public class GameDao {
 
 		System.out.println("Available Players: "+ playerIDs);
 
-		if (playerIDs.size() > 7){
-
 			List<Integer> indexes = new ArrayList<Integer>();
 			int hold1,hold2,hold3,hold4;
 
 			for (int y = 0; y < 2; y++) {
 
-				System.out.println("playerIDs size = " + playerIDs.size());
+			System.out.println("playerIDs size = " + playerIDs.size());
 
-				hold1 = new Random().nextInt(playerIDs.size());
-				hold1 = Integer.parseInt(playerIDs.get(hold1));
-				hold2 = new Random().nextInt(playerIDs.size());
-				hold2 = Integer.parseInt(playerIDs.get(hold2));
-				hold3 = new Random().nextInt(playerIDs.size());
-				hold3 = Integer.parseInt(playerIDs.get(hold3));
-				hold4 = new Random().nextInt(playerIDs.size());
-				hold4 = Integer.parseInt(playerIDs.get(hold4));
+			hold1 = new Random().nextInt(playerIDs.size());
+			hold1 = Integer.parseInt(playerIDs.get(hold1));
+			hold2 = new Random().nextInt(playerIDs.size());
+			hold2 = Integer.parseInt(playerIDs.get(hold2));
+			hold3 = new Random().nextInt(playerIDs.size());
+			hold3 = Integer.parseInt(playerIDs.get(hold3));
+			hold4 = new Random().nextInt(playerIDs.size());
+			hold4 = Integer.parseInt(playerIDs.get(hold4));
 
-				do{
-					if (hold1 == hold2 || hold1 == hold3 || hold1 == hold4) {
-						System.out.println("I am looking at hold1 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
-						hold1 = new Random().nextInt(playerIDs.size());
-						hold1 = Integer.parseInt(playerIDs.get(hold1));
+			do{
+				if (hold1 == hold2 || hold1 == hold3 || hold1 == hold4) {
+					System.out.println("I am looking at hold1 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
+					hold1 = new Random().nextInt(playerIDs.size());
+					hold1 = Integer.parseInt(playerIDs.get(hold1));
+				} else {
+					indexes.add(0,hold1);
+					System.out.println("ADD hold #1-----------" + hold1);
+					if (hold2==hold3||hold2==hold4){
+						System.out.println("I am here at hold2 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
+						hold2 = new Random().nextInt(playerIDs.size());
+						hold2 = Integer.parseInt(playerIDs.get(hold2));
 					} else {
-						indexes.add(0,hold1);
-						System.out.println("ADD hold #1-----------" + hold1);
-						if (hold2==hold3||hold2==hold4){
-							System.out.println("I am here at hold2 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
-							hold2 = new Random().nextInt(playerIDs.size());
-							hold2 = Integer.parseInt(playerIDs.get(hold2));
+						System.out.println("ADD hold #2-----------" +hold2 );
+						indexes.add(1,hold2);
+						if(hold3==hold4){
+							System.out.println("I am here at hold 3 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
+							hold3 = new Random().nextInt(playerIDs.size());
+							hold3 = Integer.parseInt(playerIDs.get(hold3));
 						} else {
-							System.out.println("ADD hold #2-----------" +hold2 );
-							indexes.add(1,hold2);
-							if(hold3==hold4){
-								System.out.println("I am here at hold 3 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
-								hold3 = new Random().nextInt(playerIDs.size());
-								hold3 = Integer.parseInt(playerIDs.get(hold3));
-							} else {
-								System.out.println("ADD hold #3/4 ----------- " +hold3 + " ----- " +hold4 );
-								indexes.add(2,hold3);
-								indexes.add(3,hold4);
-							}
-						}
-					}
-				}while(indexes.size()<4);
-
-				playingPlayers[x++] = indexes.get(0);
-				playingPlayers[x++] = indexes.get(1);
-				playingPlayers[x++] = indexes.get(2);
-				playingPlayers[x++] = indexes.get(3);
-
-				indexes.clear();
-
-				if (y == 0) {
-					for (int k = playerIDs.size()-1; k >= 0; k--) {
-						if (Integer.parseInt(playerIDs.get(k)) == hold1 || Integer.parseInt(playerIDs.get(k)) == hold2
-								|| Integer.parseInt(playerIDs.get(k)) == hold3 || Integer.parseInt(playerIDs.get(k)) == hold4) {
-							playerIDs.remove(k);
-							System.out.println("Removed k = " + k);
+							System.out.println("ADD hold #3/4 ----------- " +hold3 + " ----- " +hold4 );
+							indexes.add(2,hold3);
+							indexes.add(3,hold4);
 						}
 					}
 				}
+			}while(indexes.size()<4);
+
+			playingPlayers[x++] = indexes.get(0);
+			playingPlayers[x++] = indexes.get(1);
+			playingPlayers[x++] = indexes.get(2);
+			playingPlayers[x++] = indexes.get(3);
+
+			indexes.clear();
+
+			if (y == 0) {
+				for (int k = playerIDs.size()-1; k >= 0; k--) {
+					if (Integer.parseInt(playerIDs.get(k)) == hold1 || Integer.parseInt(playerIDs.get(k)) == hold2
+							|| Integer.parseInt(playerIDs.get(k)) == hold3 || Integer.parseInt(playerIDs.get(k)) == hold4) {
+						playerIDs.remove(k);
+						System.out.println("Removed k = " + k);
+					}
+				}
 			}
-
-			for(int i=0; i < playingPlayers.length ;i++){
-
-				if (i < 4)
-					team = 1;
-				else
-					team = 2;
-
-				statement = connect.createStatement();
-				PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game values (?,?," + team + ",0,'TBD')");
-				preparedStatement.setInt(1, playingPlayers[i]);	//userID
-				preparedStatement.setString(2, gameID); // gameID
-				preparedStatement.executeUpdate();
-			}
-
-
-			StringBuilder builder = new StringBuilder();
-
-			if (playingPlayers.length >= 1) {
-				builder.append(playingPlayers[0]);
-			}
-
-			for (int i = 1; i < playingPlayers.length; i++) { 
-				builder.append(",");
-				builder.append(playingPlayers[i]);
-			}
-
-			String thePlayers = builder.toString();
-			System.out.println("Playing Players: "+thePlayers);
-
-			/*			statement = connect.createStatement();
-			ResultSet resultSet1 = statement.executeQuery("Select * from ch_game where id= "+ gameID);
-			while(resultSet1.next()){
-				String seasonID= resultSet1.getString("seasonID");
-				request.setAttribute("seasonID", seasonID);
-			}*/
-
-			Statement statement2 = null;
-			statement2 = connect.createStatement();
-			statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
-
-		} else {
-			request.setAttribute("errorString", "All slots in a season must have at least 8 users before closing a season");
 		}
 
+		for(int i=0; i < playingPlayers.length ;i++){
+
+			if (i < 4)
+				team = 1;
+			else
+				team = 2;
+
+			statement = connect.createStatement();
+			PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game values (?,?," + team + ",0,'TBD')");
+			preparedStatement.setInt(1, playingPlayers[i]);	//userID
+			preparedStatement.setString(2, gameID); // gameID
+			preparedStatement.executeUpdate();
+		}
+
+
+		StringBuilder builder = new StringBuilder();
+
+		if (playingPlayers.length >= 1) {
+			builder.append(playingPlayers[0]);
+		}
+
+		for (int i = 1; i < playingPlayers.length; i++) { 
+			builder.append(",");
+			builder.append(playingPlayers[i]);
+		}
+
+		String thePlayers = builder.toString();
+		System.out.println("Playing Players: "+thePlayers);
+
+		/*			statement = connect.createStatement();
+		ResultSet resultSet1 = statement.executeQuery("Select * from ch_game where id= "+ gameID);
+		while(resultSet1.next()){
+			String seasonID= resultSet1.getString("seasonID");
+			request.setAttribute("seasonID", seasonID);
+		}*/
+
+		Statement statement2 = null;
+		statement2 = connect.createStatement();
+		statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
 	}
 
 	public void findOpenGameSlotsForUser(HttpServletRequest request) throws Exception {

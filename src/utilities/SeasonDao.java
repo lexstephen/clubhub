@@ -185,6 +185,8 @@ public class SeasonDao {
 		GameDao game = new GameDao();
 		String gameIDforError= null;
 		System.out.println("In closeSeason() with seasonID " + seasonID);
+		List <String> playerIDs  = new ArrayList<String>();
+		boolean slotsFull = true;
 
 		try {
 
@@ -200,8 +202,28 @@ public class SeasonDao {
 
 			try {
 				for (String k : slotIDs) {
-					game.closeSlot(request, k);
-					System.out.println("closed slot at k = " + k);
+					resultSet = statement.executeQuery("SELECT * from clubhub.ch_user_slot us JOIN ch_slot slot "
+							+ "ON us.Slotid = slot.id where id="+ k); // This should be user_slot
+
+					while(resultSet.next()){
+						playerIDs.add(resultSet.getString("Userid"));
+					}
+					
+					if (playerIDs.size() < 8) {
+						slotsFull = false;
+					}
+
+					System.out.println("playersIDs size = " + playerIDs.size());
+					System.out.println("slotsFUll = " + slotsFull);
+				}
+				
+				if (slotsFull) {
+					for (String k : slotIDs) {
+						game.closeSlot(request, k);
+						System.out.println("closed slot at k = " + k);
+					}
+				} else {
+					request.setAttribute("errorString", "All slots in a season must have at least 8 users before closing a season");
 				}
 			} catch (SQLException e) {
 				System.out.println("SQLException: " + e);
@@ -213,9 +235,6 @@ public class SeasonDao {
 			}
 		} catch (SQLException e){
 			throw e;
-			// delete inserted user_games and resets season to 0
-			
-			
 		}
 
 	}
