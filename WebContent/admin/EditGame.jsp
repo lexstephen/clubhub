@@ -10,6 +10,8 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="utilities.PostDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 
 <%
 	GameDao game = new GameDao();
@@ -20,6 +22,8 @@
 	request.setAttribute("thisPage", "Edit Game Details");
 %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
+	<jsp:useBean id="now" class="java.util.Date"/>
+		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate" />
 	<c:if test="${isAdmin == false}">
 		<c:redirect url="index.jsp" />
 	</c:if>
@@ -77,7 +81,7 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${teamA}" var="tm">
-								<%@ include file="/WEB-INF/editGameTeam.jsp"%>
+								<%@ include file="/WEB-INF/displayEditGameTeam.jsp"%>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -93,7 +97,7 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${teamB}" var="tm">
-								<%@ include file="/WEB-INF/editGameTeam.jsp"%>
+								<%@ include file="/WEB-INF/displayEditGameTeam.jsp"%>
 							</c:forEach>
 						</tbody>
 					</table>

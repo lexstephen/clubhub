@@ -72,8 +72,9 @@ public class GameController extends HttpServlet {
 		    	
 		    	case "conflict":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
-		    			
-		    		dao.setConflict(request, gameID);
+
+		    		String conflictUser = request.getParameter("userID");
+		    		dao.setConflict(request, gameID, conflictUser);
 		    		address = "admin/Game.jsp?gameID=" + gameID;
 		    			
 		    	break;

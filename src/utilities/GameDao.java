@@ -440,11 +440,8 @@ public class GameDao {
 				}
 				
 				resultSet2 = statement2.executeQuery("SELECT * FROM ch_user_game_conflict WHERE Userid = " + user.getUserid() + " AND Gameid = " + gameID);
-				if (resultSet2.next()) {
-					while (resultSet2.next()) {
+				while (resultSet2.next()) {
 					user.setInConflict(true);
-					System.out.println("isInConflict bro setting on " + user.getUserid());
-					}
 				}
 			}
 		} catch (Exception e) {
@@ -729,20 +726,16 @@ public class GameDao {
 		request.setAttribute("backupUsers", backupUsers);
 	}
 
-	public void setConflict(HttpServletRequest request, String _gameID) throws Exception {
-		HttpSession session = request.getSession();
-		String userID = (String) session.getAttribute("loggedInUserID");
-		String gameID = _gameID;
+	public void setConflict(HttpServletRequest request, String _gameID, String _userID) throws Exception {
 		statement = connect.createStatement();
 		PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game_conflict values (null,?,?)");
-		preparedStatement.setString(1, userID); // gameID
-		preparedStatement.setString(2, gameID); // gameID
+		preparedStatement.setString(1, _userID); // gameID
+		preparedStatement.setString(2, _gameID); // gameID
 		preparedStatement.executeUpdate();
 		try {
 			SendEmail email = new SendEmail();
-			String[] theseUsers = {"1", "2", "3", "4"};
-			email.sendConflictEmail(request, userID, gameID, theseUsers);
-
+			email.sendConflictToAdmin(request, _userID, _gameID);
+			
 		} catch (MessagingException mex) {
 			System.out.println("send failed, exception: " + mex);
 		}

@@ -1,6 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
 <%-- 
 	Project: ClubHub Content and User Management System 
 	Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
@@ -15,13 +13,13 @@
 			<img src="${pageContext.request.contextPath}/ImageDao?t=profile&id=${tm.userid }" class="game_photo"></a>
 	</td>
 	<td class="col-md-4 col-xs-12">
-				${tm.firstName } ${tm.lastName } ${tm.inConflict }
+				${tm.firstName } ${tm.lastName }
 	</td>
 	<td class="col-md-4 col-xs-12">
 	<form action="/clubhub/GameController" method="post" class="form" role="form">
-		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate" />
 	    <c:if test="${(game.scheduledDateWithYear ge nowDate) && (tm.userid == loggedInUserID)}"> 
 			<input type="hidden" name="gameID" value="${game.id}">
+			<input type="hidden" name="userID" value="${tm.userid}">
 			<button type="submit" name="option" value="conflict" class="btn btn-primary">I can't play</button>
 	    </c:if>
 	</form>

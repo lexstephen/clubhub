@@ -10,6 +10,8 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="utilities.PostDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 
 <% GameDao game = new GameDao();
 String gameID = request.getParameter("gameID");
@@ -19,13 +21,18 @@ game.gameIsOpen(request, response, gameID);
 request.setAttribute("thisPage", "Game Details"); %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
+<jsp:useBean id="now" class="java.util.Date"/>
+		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate" />
 <div class="row">
-	<jsp:useBean id="now" class="java.util.Date"/>
 		<h3>Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear}
 			at ${game.startTime} <small>Season ${game.seasonId}:
-				${game.gender } ${game.season } ${game.year }</small></h3>
-
-	
+				${game.gender } ${game.season } ${game.year }</small> 
+			<c:if test="${(isAdmin == true)}">
+				<a
+					href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.id}"
+					class="btn btn-info">Edit</a>
+			</c:if>
+		</h3>	
 </div>
 
 <div class="row">
@@ -43,7 +50,7 @@ request.setAttribute("thisPage", "Game Details"); %>
 					<strong> - Tie - ${teamAscore}</strong>
 				</c:if>
 				<c:if test="${winner == 'TBD' }">
-					<strong> - TBD</strong>
+					<strong> - Winner TBD</strong>
 				</c:if>
 			</c:if>
 		</h3>
@@ -76,7 +83,7 @@ request.setAttribute("thisPage", "Game Details"); %>
 					<strong>Tie - ${teamBscore} - </strong>
 				</c:if>
 				<c:if test="${winner == 'TBD' }">
-					<strong>TBD - </strong>
+					<strong>Winner TBD - </strong>
 				</c:if>
 			</c:if>
 
@@ -99,12 +106,6 @@ request.setAttribute("thisPage", "Game Details"); %>
 		</table>
 	</div>
 </div>
-<c:if test="${(isAdmin == true)}">
-	<a
-		href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.id}"
-		class="btn btn-info btn-xs">Edit</a>
-</c:if>
-
 
 <!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 
