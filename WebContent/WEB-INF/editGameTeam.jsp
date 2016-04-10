@@ -13,7 +13,7 @@
 	user.listAllUsers(request);
 %>
 
-<tr <c:if test="${tm.inConflict == true}">class="alert alert-danger" role="alert"></c:if>>
+<tr <c:if test="${tm.inConflict == true}">class="alert alert-danger" role="alert"</c:if>>
 	<form action="/clubhub/GameController" method="post" class="form" role="form">
 		<td class="col-md-2 col-xs-12 form-group"><a
 			href="${pageContext.request.contextPath}/Profile.jsp?userID=${tm.userid }"><img

@@ -10,10 +10,20 @@ public class Game {
 	private String id, gameid, scheduledDate, week, seasonId, dateFormatted; 
 	private int schedMonth;
 	private String year, season, gender, startDate, startTime, dayOfWeek, duration;
-	private String scheduledDateFullYear;
+	private String scheduledDateFullYear, scheduledDateWithYear;
 	private String slotid, slotStatus, slotStatusWord, slotAvailablePlayers; 
 	private boolean inConflict;
 	
+	
+	
+	public String getScheduledDateWithYear() {
+		return scheduledDateWithYear;
+	}
+
+	public void setScheduledDateWithYear(String scheduledDateWithYear) {
+		this.scheduledDateWithYear = scheduledDateWithYear;
+	}
+
 	public boolean isInConflict() {
 		return inConflict;
 	}

@@ -483,6 +483,7 @@ public class GameDao {
 			while (resultSet.next()) {
 				seasondao.findSeason(request, resultSet.getString("seasonId"));
 				game.setId(resultSet.getString("id"));
+				game.setScheduledDateWithYear(resultSet.getString("scheduledDate"));
 				game.setScheduledDate(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
 				game.setScheduledDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("scheduledDate")));
 				game.setWeek(resultSet.getString("week"));
@@ -774,7 +775,7 @@ public class GameDao {
 			List<Integer> indexes = new ArrayList<Integer>();
 			int hold1,hold2,hold3,hold4;
 
-			for (int y = 0; y < 2; y++){
+			for (int y = 0; y < 2; y++) {
 
 				System.out.println("playerIDs size = " + playerIDs.size());
 
@@ -788,7 +789,7 @@ public class GameDao {
 				hold4 = Integer.parseInt(playerIDs.get(hold4));
 
 				do{
-					if(hold1==hold2 ||hold1 == hold3 || hold1 == hold4){
+					if (hold1 == hold2 || hold1 == hold3 || hold1 == hold4) {
 						System.out.println("I am looking at hold1 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
 						hold1 = new Random().nextInt(playerIDs.size());
 						hold1 = Integer.parseInt(playerIDs.get(hold1));

@@ -24,34 +24,34 @@
 		<h3>Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear}
 			at ${game.startTime} <small>Season ${game.seasonId}:
 				${game.gender } ${game.season } ${game.year }</small></h3>
+		<hr>
 		<form action="/clubhub/GameController" method="post" class="form" role="form">
 			<div class="row">
-				<div class="col-md-4 col-xs-12">
+				<div class="col-md-3 col-md-offset-2 col-xs-12">
 					<div class="row">
-						<div class="col-xs-8">
+						<div class="col-xs-6">
 							<label>Team A score: </label>
 						</div>
-						<div class="col-xs-4">
+						<div class="col-xs-6">
 							<input class="form-control col-xs-2" maxlength="3" type="text"
 								name="teamAscore"
 								value="<c:choose><c:when test="${!empty teamAscore}">${teamAscore}</c:when><c:otherwise>0</c:otherwise></c:choose>">
 						</div>
 					</div>
 				</div>
-
-				<div class="col-md-4 col-xs-12">
+				<div class="col-md-3 col-xs-12">
 					<div class="row">
-						<div class="col-xs-8">
+						<div class="col-xs-6">
 							<label>Team B score: </label>
 						</div>
-						<div class="col-xs-4">
+						<div class="col-xs-6">
 							<input class="form-control col-xs-2" maxlength="3" type="text"
 								name="teamBscore"
 								value="<c:choose><c:when test="${!empty teamBscore}">${teamBscore}</c:when><c:otherwise>0</c:otherwise></c:choose>">
 						</div>
 					</div>
 				</div>
-				<div class="col-md-4 col-xs-12">
+				<div class="col-md-3 col-xs-12">
 					<c:if test="${(isAdmin == true)}">
 						<input type="hidden" name="gameID" value="${game.id}">
 						<button class="btn btn-primary btn-xs" name="option"
@@ -60,15 +60,15 @@
 				</div>
 			</div>
 		</form>
+		<hr>
 
 		<form action="/clubhub/GameController" method="post" class="form" role="form">
 			<div class="row">
 				<div class="col-md-6 col-xs-12">
-					<h3>Team A</h3>
 					<table class="table table-hover sortable">
 						<thead>
 							<tr>
-								<th class="col-md-4 col-xs-12 sorttable_nosort"></th>
+								<th class="col-md-4 col-xs-12 sorttable_nosort">Team A</th>
 								<th class="col-md-4 col-xs-12">Member</th>
 							</tr>
 						</thead>
@@ -81,11 +81,10 @@
 				</div>
 
 				<div class="col-md-6 col-xs-12">
-					<h3>Team B</h3>
 					<table class="table table-hover sortable">
 						<thead>
 							<tr>
-								<th class="col-md-4 col-xs-12 sorttable_nosort"></th>
+								<th class="col-md-4 col-xs-12 sorttable_nosort">Team B</th>
 								<th class="col-md-4 col-xs-12">Member</th>
 							</tr>
 						</thead>

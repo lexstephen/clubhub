@@ -20,19 +20,14 @@ request.setAttribute("thisPage", "Game Details"); %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 <div class="row">
+	<jsp:useBean id="now" class="java.util.Date"/>
 		<h3>Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear}
 			at ${game.startTime} <small>Season ${game.seasonId}:
 				${game.gender } ${game.season } ${game.year }</small></h3>
-		${gameIsOpen }
+
+	
 </div>
-<form action="/clubhub/GameController" method="post" class="form" role="form">
-	<p>
-		(This should only display if the user is scheduled for this game)
-		Can't make this game? Let the admin know: <input type="hidden"
-			name="gameID" value="${game.id}">
-		<button type="submit" name="option" value="conflict">Switch</button>
-	</p>
-</form>
+
 <div class="row">
 	<div class="col-md-6 col-xs-12">
 		<h3>
@@ -57,6 +52,7 @@ request.setAttribute("thisPage", "Game Details"); %>
 				<tr>
 					<th class="col-md-4 col-xs-12 sorttable_nosort"></th>
 					<th class="col-md-4 col-xs-12">Member</th>
+					<th class="col-md-4 col-xs-12"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -92,6 +88,7 @@ request.setAttribute("thisPage", "Game Details"); %>
 				<tr>
 					<th class="col-md-4 col-xs-12 sorttable_nosort"></th>
 					<th class="col-md-4 col-xs-12">Member</th>
+					<th class="col-md-4 col-xs-12"></th>
 				</tr>
 			</thead>
 			<tbody>
