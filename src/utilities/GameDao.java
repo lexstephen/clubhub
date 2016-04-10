@@ -439,11 +439,11 @@ public class GameDao {
 					isTBD = true;
 				}
 				
-				resultSet2 = statement2.executeQuery("SELECT * FROM clubhub.ch_user_game_conflict WHERE Userid = " + user.getUserid() + " AND Gameid = " + gameID);
+				resultSet2 = statement2.executeQuery("SELECT * FROM ch_user_game_conflict WHERE Userid = " + user.getUserid() + " AND Gameid = " + gameID);
 				if (resultSet2.next()) {
 					while (resultSet2.next()) {
 					user.setInConflict(true);
-					System.out.println("isInConflict bro");
+					System.out.println("isInConflict bro setting on " + user.getUserid());
 					}
 				}
 			}

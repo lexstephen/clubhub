@@ -15,6 +15,9 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
+	<c:if test="${isAdmin == false}">
+		<c:redirect url="index.jsp" />
+	</c:if>
 
 <script type="text/javascript">
 	var Schemes = new Array();

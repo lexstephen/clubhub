@@ -13,6 +13,9 @@
 <% request.setAttribute("thisPage", "Games with Scheduling Conflicts"); %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
+	<c:if test="${isAdmin == false}">
+		<c:redirect url="index.jsp" />
+	</c:if>
 <!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
 
 <% GameDao gamedao = new GameDao(); %>

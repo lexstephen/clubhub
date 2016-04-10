@@ -15,7 +15,7 @@
 			<img src="${pageContext.request.contextPath}/ImageDao?t=profile&id=${tm.userid }" class="game_photo"></a>
 	</td>
 	<td class="col-md-4 col-xs-12">
-				${tm.firstName } ${tm.lastName }
+				${tm.firstName } ${tm.lastName } ${tm.inConflict }
 	</td>
 	<td class="col-md-4 col-xs-12">
 	<form action="/clubhub/GameController" method="post" class="form" role="form">

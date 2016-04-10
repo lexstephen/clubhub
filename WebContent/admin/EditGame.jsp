@@ -20,6 +20,9 @@
 	request.setAttribute("thisPage", "Edit Game Details");
 %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
+	<c:if test="${isAdmin == false}">
+		<c:redirect url="index.jsp" />
+	</c:if>
 	<div class="row">
 		<h3>Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear}
 			at ${game.startTime} <small>Season ${game.seasonId}:
@@ -27,7 +30,7 @@
 		<hr>
 		<form action="/clubhub/GameController" method="post" class="form" role="form">
 			<div class="row">
-				<div class="col-md-3 col-md-offset-2 col-xs-12">
+				<div class="col-md-3 col-md-offset-3 col-xs-12">
 					<div class="row">
 						<div class="col-xs-6">
 							<label>Team A score: </label>

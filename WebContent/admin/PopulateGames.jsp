@@ -13,6 +13,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% request.setAttribute("thisPage", "Populate Games"); %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
+	<c:if test="${isAdmin == false}">
+		<c:redirect url="index.jsp" />
+	</c:if>
 <%
 	GameDao game = new GameDao();
 	String seasonID = session.getAttribute("seasonID").toString();
