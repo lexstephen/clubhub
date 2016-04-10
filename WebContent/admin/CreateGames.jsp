@@ -16,6 +16,7 @@
 String seasonID = (String) request.getAttribute("seasonID");
 System.out.println("The current season ID is: " + seasonID);
 season.findSeason(request, seasonID);
+request.setAttribute("seasonID", seasonID);
 request.setAttribute("thisPage", "Confirm New Season"); %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
@@ -52,7 +53,7 @@ request.setAttribute("thisPage", "Confirm New Season"); %>
 		</div>
 		<p>Click Confirm to create games, or Cancel to return to the
 			season creation screen.</p>
-		<input type="hidden" name="seasonID" value="${season.id}">
+		<input type="hidden" name="sID" value="${season.id}">
 		<button class="btn btn-info" type="submit" value="confirm"
 			name="option">Confirm</button>
 		<button class="btn btn-danger" type="submit" value="delete"	name="option">Cancel</button>

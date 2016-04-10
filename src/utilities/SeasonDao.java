@@ -204,6 +204,7 @@ public class SeasonDao {
 					System.out.println("closed slot at k = " + k);
 				}
 			} catch (SQLException e) {
+				System.out.println("SQLException: " + e);
 				statement.executeUpdate("DELETE FROM ch_user_game WHERE Gameid = " + gameIDforError);
 				for (String k : slotIDs) {
 					statement.executeUpdate("UPDATE ch_slot SET status = 1 WHERE id = " + k);

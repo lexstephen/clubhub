@@ -21,8 +21,8 @@ slot.findAllOfUsersGames(request);
 		<table class="table table-striped">
 			<c:choose>
 				<c:when test="${! empty assignedGames}">
-					<c:forEach items="${assignedGames}" var="allGames">
-						<c:forEach items="${allGames[0].id}" var="game">
+					<c:forEach items="${assignedGames}" var="allGames" varStatus="i">
+						<c:forEach items="${allGames}" var="game">
 						<tr>
 							<td>
 								<strong>Season ${game.seasonId}</strong>

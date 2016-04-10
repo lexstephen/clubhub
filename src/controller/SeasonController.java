@@ -71,12 +71,10 @@ public class SeasonController extends HttpServlet {
 		    	case "confirm":
 
 		    		System.out.println("I'm in case confirm");
-		    		Object id1 = session.getAttribute("seasonID");
-		    		String sID = id1.toString();
-		    		//String id1 =request.getParameter("seasonID");
+		    		String sID = request.getParameter("sID");
 		    		System.out.println("The ID is:" + sID);
 					gameDao.addToDatabase(request, response, sID);
-					
+					request.setAttribute("seasonID", sID);
 					errorChecker = "Games Created";
 		    		address ="admin/PopulateGames.jsp";;
 	    		break;
@@ -84,8 +82,7 @@ public class SeasonController extends HttpServlet {
 		    		System.out.println("I'm in close season");
 		    		request.setAttribute("seasonID", request.getParameter("seasonID"));
 		    		dao.closeSeason(request, response);
-		    		address="admin/ListSeasons.jsp";
-		    		
+		    		address="admin/ListSeasons.jsp";		    		
 	    		break;
 		    	default:
 	    		errorChecker = "Something has gone horribly wrong";

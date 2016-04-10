@@ -35,7 +35,7 @@ season.listOpenSeasons(request);
 	<table class="table table-striped">
 		<c:forEach items="${seasons}" var="season">
 			<tr>	
-				<td>S ${season.id}: ${season.year }-${season.gender }-${season.season } <b>${season.startDateFullYear	 }</b>
+				<td>S ${season.id}: ${season.year }-${season.gender }-${season.season } <b>${season.startDateFullYear }</b>
 				${season.dayOfWeek } ${season.startTime } (${season.duration } weeks)</td>
 				<td>
 					<form action="/clubhub/SeasonController" method="post" class="form"

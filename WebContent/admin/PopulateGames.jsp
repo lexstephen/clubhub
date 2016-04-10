@@ -18,7 +18,7 @@
 	</c:if>
 <%
 	GameDao game = new GameDao();
-	String seasonID = session.getAttribute("seasonID").toString();
+	String seasonID = (String)request.getAttribute("seasonID");
 	game.findGameSet(request, seasonID);
 %>
 
