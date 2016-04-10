@@ -93,34 +93,6 @@
 				href="${pageContext.request.contextPath}/admin/EditProfile.jsp?userID=${user.userid}"
 				class="btn btn-info btn-primary">Edit</a>
 			</span>
-			<br><br>
-			<form action="${pageContext.request.contextPath}/UserController"
-				method="post">
-				<input type="hidden" name="userID" value="${user.userid}"> <input
-					type="hidden" name="option" value="email"> <input
-					type="hidden" name="emailType" value="conflict"> <input
-					class="btn btn-warning" type="submit"
-					value="Email Available Users & Admin about a conflict">
-			</form>
-			<br>
-			<form action="${pageContext.request.contextPath}/UserController"
-				method="post">
-				<input type="hidden" name="userID" value="${user.userid}"> <input
-					type="hidden" name="option" value="email"> <input
-					type="hidden" name="emailType" value="availability"> <input
-					class="btn btn-warning" type="submit"
-					value="Email users that game registration is now available">
-			</form>
-			<br>
-			<form action="${pageContext.request.contextPath}/UserController"
-				method="post">
-				<input type="hidden" name="userID" value="${user.userid}"> <input
-					type="hidden" name="option" value="email"> <input
-					type="hidden" name="emailType" value="registration"> <input
-					class="btn btn-warning" type="submit"
-					value="Email admin to inform of new registration">
-			</form>
-
 		</c:if>
 	</div>
 </div>

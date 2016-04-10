@@ -10,9 +10,6 @@
 
 
 <tr>
-	<td class="col-md-1"><c:if test="${(isAdmin == true)}">
-			<input type="checkbox" name="gameSelected" value="${game.id}">
-		</c:if></td>
 	<td class="col-md-1">${game.seasonId}</td>
 	<td class="col-md-1">${game.id}</td>
 	<td class="col-md-1">${game.gender}</td>

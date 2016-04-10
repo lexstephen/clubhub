@@ -71,6 +71,8 @@ public class ColourSchemeDao {
 			  	      while(rs.next()){
 			  	    	  request.setAttribute("csid", rs.getString("LAST_INSERT_ID()"));
   			  	      }
+			  	      
+			  	      rs.close();
 	    		break;
     		default:
 	    	// connect to the database
@@ -86,7 +88,7 @@ public class ColourSchemeDao {
 			    		preparedStatement.setString(4, request.getParameter("light_colour")); // light_colour
 			    		preparedStatement.setString(5, request.getParameter("text_colour")); // text_colour
 			    		preparedStatement.executeUpdate();
-		    
+			    		preparedStatement.close();
     			break;
 	    	}
 	    } catch (Exception e) {
@@ -106,6 +108,7 @@ public class ColourSchemeDao {
 			    	cscheme.setLight_colour(resultSet.getString("light_colour"));
 			    	cscheme.setText_colour(resultSet.getString("text_colour"));
 			    }
+			    resultSet.close();
 				request.setAttribute("colour_scheme", cscheme);
 		    } catch (SQLException e) {
 			      throw e;
@@ -127,6 +130,7 @@ public class ColourSchemeDao {
 			    	cscheme.setText_colour(resultSet.getString("text_colour"));
 			    	colour_schemes.add(cscheme);
 			    }
+			    resultSet.close();
 				request.setAttribute("colour_schemes", colour_schemes);
 		    } catch (SQLException e) {
 			      throw e;
@@ -139,25 +143,10 @@ public class ColourSchemeDao {
 		  try {
 			  statement = connect.createStatement();
 			  statement.executeUpdate("delete from ch_colour_scheme where id ="  + csID); 
+			  statement.close();
 		  } catch (SQLException e) {
 		      throw e;
 		  }	
-	}
-
-	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception { 
-		
-	}
-	
-	public void findColourScheme(HttpServletRequest request, String ColourSchemeID) throws Exception { 
-		
-	} 
-	
-	public void editColourScheme(HttpServletRequest request, HttpServletResponse response, String _ColourSchemeID) throws Exception {
-		
-	}
-
-	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 	}
 }
 

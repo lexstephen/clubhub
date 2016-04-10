@@ -84,8 +84,8 @@ public class SeasonController extends HttpServlet {
 		    	case "close":
 		    		System.out.println("I'm in close season");
 		    		request.setAttribute("seasonID", request.getParameter("seasonID"));
-		    		dao.closeSeason(request);
-		    		address="admin/ManageSeason.jsp";
+		    		dao.closeSeason(request, response);
+		    		address="admin/ListSeasons.jsp";
 		    		
 	    		break;
 		    	default:

@@ -13,6 +13,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
+	<c:if test="${isAdmin == false}">
+		<c:redirect url="index.jsp" />
+	</c:if>
 <%@ page import="utilities.InvoiceLineItemDao"%>
 <%	InvoiceLineItemDao lineitem = new InvoiceLineItemDao(); %>
 <% lineitem.listAllLineItems(request); %>

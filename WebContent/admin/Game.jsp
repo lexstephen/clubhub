@@ -10,28 +10,31 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="utilities.PostDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 
 <% GameDao game = new GameDao();
 String gameID = request.getParameter("gameID");
 game.findGame(request, gameID);
-game.findTeamsForGames(request);
+game.findTeamsForGames(request, response);
+game.gameIsOpen(request, response, gameID);
 request.setAttribute("thisPage", "Game Details"); %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
+<jsp:useBean id="now" class="java.util.Date"/>
+		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate" />
 <div class="row">
-	<h2>Season ${game.seasonId}: ${game.gender } ${game.season }
-		${game.year }</h2>
-	<h3>Game ${game.week}: ${game.dayOfWeek},
-		${game.scheduledDateFullYear} at ${game.startTime}</h3>
+		<h3>Game ${game.week}: ${game.dayOfWeek}, ${game.scheduledDateFullYear}
+			at ${game.startTime} <small>Season ${game.seasonId}:
+				${game.gender } ${game.season } ${game.year }</small> 
+			<c:if test="${(isAdmin == true)}">
+				<a
+					href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.id}"
+					class="btn btn-info">Edit</a>
+			</c:if>
+		</h3>	
 </div>
-<form action="/clubhub/GameController" method="post" class="form" role="form">
-	<p>
-		(This should only display if the user is scheduled for this game)
-		Can't make this game? Let the admin know: <input type="hidden"
-			name="gameID" value="${game.id}">
-		<button type="submit" name="option" value="conflict">Switch</button>
-	</p>
-</form>
+
 <div class="row">
 	<div class="col-md-6 col-xs-12">
 		<h3>
@@ -47,7 +50,7 @@ request.setAttribute("thisPage", "Game Details"); %>
 					<strong> - Tie - ${teamAscore}</strong>
 				</c:if>
 				<c:if test="${winner == 'TBD' }">
-					<strong> - TBD</strong>
+					<strong> - Winner TBD</strong>
 				</c:if>
 			</c:if>
 		</h3>
@@ -56,6 +59,7 @@ request.setAttribute("thisPage", "Game Details"); %>
 				<tr>
 					<th class="col-md-4 col-xs-12 sorttable_nosort"></th>
 					<th class="col-md-4 col-xs-12">Member</th>
+					<th class="col-md-4 col-xs-12"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -79,7 +83,7 @@ request.setAttribute("thisPage", "Game Details"); %>
 					<strong>Tie - ${teamBscore} - </strong>
 				</c:if>
 				<c:if test="${winner == 'TBD' }">
-					<strong>TBD - </strong>
+					<strong>Winner TBD - </strong>
 				</c:if>
 			</c:if>
 
@@ -91,6 +95,7 @@ request.setAttribute("thisPage", "Game Details"); %>
 				<tr>
 					<th class="col-md-4 col-xs-12 sorttable_nosort"></th>
 					<th class="col-md-4 col-xs-12">Member</th>
+					<th class="col-md-4 col-xs-12"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -101,12 +106,6 @@ request.setAttribute("thisPage", "Game Details"); %>
 		</table>
 	</div>
 </div>
-<c:if test="${(isAdmin == true)}">
-	<a
-		href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.id}"
-		class="btn btn-info btn-xs">Edit</a>
-</c:if>
-
 
 <!--  INDIVIDUAL PAGE CONTENT ENDS HERE -->
 

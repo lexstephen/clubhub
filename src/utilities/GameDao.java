@@ -1,5 +1,6 @@
 package utilities;
 
+import java.io.IOException;
 /****************************************************************************************************
  * Project: ClubHub
  * Author(s): A. Dicks-Stephen, B. Lamaa, J. Thiessen
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Random;
 import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -94,6 +96,21 @@ public class GameDao {
 
 		request.setAttribute("games", games);
 
+	}
+	
+	public void gameIsOpen(HttpServletRequest request, HttpServletResponse response, String gameID) throws SQLException, ServletException, IOException {
+		boolean hasOpenSlots = true;
+		statement = connect.createStatement();
+		resultSet = statement.executeQuery("SELECT * from ch_slot slot join ch_game game ON slot.gameID = game.id "
+				+ "WHERE gameID = " + gameID + " AND status = 1");
+		if (resultSet.next()) {
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/DisplayGames.jsp");
+	    	request.setAttribute("errorString", "Game " + gameID + " cannot be viewed until its season has been closed.");
+	    	dispatcher.forward(request, response);
+		} else {			    	  
+			hasOpenSlots = false;
+		}
+		request.setAttribute("gameIsOpen", hasOpenSlots);
 	}
 
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
@@ -196,6 +213,7 @@ public class GameDao {
 				Game game = new Game();
 				game.setId(resultSet.getString("id"));
 				game.setScheduledDate(resultSet.getString("scheduledDate"));
+				game.setScheduledDateWithYear(resultSet.getString("scheduledDate"));
 				game.setDateFormatted(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
 				game.setWeek(resultSet.getString("week"));
 				game.setSeasonId(resultSet.getString("seasonId"));
@@ -223,6 +241,11 @@ public class GameDao {
 					while (resultSet3.next()) {
 						game.setSlotid(resultSet3.getString("id"));
 						game.setSlotStatus(resultSet3.getString("status"));
+						if(resultSet3.getString("status").equals("1")) {
+							game.setSlotStatusWord("Open");
+						} else {
+							game.setSlotStatusWord("Closed");
+						}
 					}
 				}
 				catch (SQLException e) {
@@ -236,6 +259,17 @@ public class GameDao {
 					while (resultSet3.next()) {
 						game.setSlotid(resultSet3.getString("id"));
 						game.setSlotStatus(resultSet3.getString("status"));
+					}
+				}
+				catch (SQLException e) {
+					throw e;
+				}
+				try {  		
+					// save slot details to game object
+					statement = connect.createStatement();
+					resultSet3 = statement.executeQuery("SELECT * FROM ch_user_game_conflict WHERE gameid = " + game.getId());
+					while (resultSet3.next()) {
+						game.setInConflict(true);
 					}
 				}
 				catch (SQLException e) {
@@ -357,10 +391,25 @@ public class GameDao {
 		}
 
 
-		request.setAttribute("games", games);
+		request.setAttribute("recentGames", games);
 	}
-
-	public void findTeamsForGames(HttpServletRequest request) throws SQLException {
+	
+	public void findRecentUserGames(HttpServletRequest request, HttpServletResponse response) {
+		@SuppressWarnings("unchecked")
+		List<Game> recentGames = (ArrayList<Game>)request.getAttribute("recentGames");
+		@SuppressWarnings("unchecked")
+		List<Game> assignedGames = (ArrayList<Game>)request.getAttribute("assignedGames");
+		List<Game> recentAssignedGames = new ArrayList<Game>();
+		
+		for(Game ele : assignedGames){
+		    if(recentGames.contains(ele)){
+		        recentAssignedGames.add(ele);
+		    }
+		}
+		request.setAttribute("recentAssignedGames", recentAssignedGames);
+	}
+	
+	public void findTeamsForGames(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
 		List<User> teamA = new ArrayList<User>();
 		List<User> teamB = new ArrayList<User>();
 		String gameID = request.getParameter("gameID");
@@ -406,15 +455,12 @@ public class GameDao {
 					isTBD = true;
 				}
 				
-				resultSet2 = statement2.executeQuery("SELECT * FROM clubhub.ch_user_game_conflict WHERE Userid = " + user.getUserid() + " AND Gameid = " + gameID);
+				resultSet2 = statement2.executeQuery("SELECT * FROM ch_user_game_conflict WHERE Userid = " + user.getUserid() + " AND Gameid = " + gameID);
 				while (resultSet2.next()) {
 					user.setInConflict(true);
-					System.out.println("isInConflict bro");
 				}
 			}
-		}
-		catch (SQLException e) {
-			throw e;
+		} catch (Exception e) {
 		}
 
 		String winner = null;
@@ -450,6 +496,7 @@ public class GameDao {
 			while (resultSet.next()) {
 				seasondao.findSeason(request, resultSet.getString("seasonId"));
 				game.setId(resultSet.getString("id"));
+				game.setScheduledDateWithYear(resultSet.getString("scheduledDate"));
 				game.setScheduledDate(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
 				game.setScheduledDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("scheduledDate")));
 				game.setWeek(resultSet.getString("week"));
@@ -542,7 +589,6 @@ public class GameDao {
 				Game game = new Game();
 				game.setId(results.getString("Gameid"));
 				game.setScheduledDate(results.getString("scheduledDate"));
-				System.out.println("I am looking at " + results.getString("Gameid") + " which is on " + results.getString("scheduledDate"));
 				game.setScheduledDateFullYear(ValidationUtilities.dateFullYear(results.getString("scheduledDate")));
 				game.setWeek(results.getString("week"));
 				game.setSeasonId(results.getString("seasonId"));
@@ -687,7 +733,7 @@ public class GameDao {
 
 		} catch (Exception e) {
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/DisplayGames.jsp");
-	    	request.setAttribute("errorString", "Game " + gameID + " cannot be edited until it's season has been closed.");
+	    	request.setAttribute("errorString", "Game " + gameID + " cannot be edited until its season has been closed.");
 	    	dispatcher.forward(request, response);
 		}
 
@@ -695,20 +741,16 @@ public class GameDao {
 		request.setAttribute("backupUsers", backupUsers);
 	}
 
-	public void setConflict(HttpServletRequest request, String _gameID) throws Exception {
-		HttpSession session = request.getSession();
-		String userID = (String) session.getAttribute("loggedInUserID");
-		String gameID = _gameID;
+	public void setConflict(HttpServletRequest request, String _gameID, String _userID) throws Exception {
 		statement = connect.createStatement();
 		PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game_conflict values (null,?,?)");
-		preparedStatement.setString(1, userID); // gameID
-		preparedStatement.setString(2, gameID); // gameID
+		preparedStatement.setString(1, _userID); // gameID
+		preparedStatement.setString(2, _gameID); // gameID
 		preparedStatement.executeUpdate();
 		try {
 			SendEmail email = new SendEmail();
-			String[] theseUsers = {"1", "2", "3", "4"};
-			email.sendConflictEmail(request, userID, gameID, theseUsers);
-
+			email.sendConflictToAdmin(request, _userID, _gameID);
+			
 		} catch (MessagingException mex) {
 			System.out.println("send failed, exception: " + mex);
 		}
@@ -741,7 +783,7 @@ public class GameDao {
 			List<Integer> indexes = new ArrayList<Integer>();
 			int hold1,hold2,hold3,hold4;
 
-			for (int y = 0; y < 2; y++){
+			for (int y = 0; y < 2; y++) {
 
 				System.out.println("playerIDs size = " + playerIDs.size());
 
@@ -755,7 +797,7 @@ public class GameDao {
 				hold4 = Integer.parseInt(playerIDs.get(hold4));
 
 				do{
-					if(hold1==hold2 ||hold1 == hold3 || hold1 == hold4){
+					if (hold1 == hold2 || hold1 == hold3 || hold1 == hold4) {
 						System.out.println("I am looking at hold1 but have a problem " + hold1 + " " +hold2 + " " +hold3 + " " +hold4 );
 						hold1 = new Random().nextInt(playerIDs.size());
 						hold1 = Integer.parseInt(playerIDs.get(hold1));
@@ -875,6 +917,7 @@ public class GameDao {
 				String time = utilities.ValidationUtilities.toTime(givenTime);
 				slot.setDayOfWeek(dayOfWeek);
 				slot.setTime(time);
+				slot.setScheduledDateWithYear(resultSet2.getString("scheduledDate"));
 				slot.setSeasonName(ValidationUtilities.seasonName(resultSet2.getString("season")));
 				slot.setYear(resultSet2.getString("year"));
 				slot.setGender(ValidationUtilities.genderName(resultSet2.getString("gender")));

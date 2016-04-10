@@ -20,24 +20,17 @@ GameDao gamedao = new GameDao();
 gamedao.findGameSet(request, seasonID); 
 %>
 
-<form action="/clubhub/GameController" method="post" class="form"
-	role="form">
-	S ${season.id}: ${season.year }-${season.gender }-${season.season } <b>${season.startDateFullYear	 }</b>
-	${season.dayOfWeek } ${season.startTime } (${season.duration } weeks)<br>
+
+		<h3>
+	S#${season.id}: ${season.year }-${season.gender }-${season.season } | <small>
+	${season.dayOfWeek }s at ${season.startTime } (${season.duration } weeks)</small><br><br>
 
 
 	<c:forEach items="${games}" var="game">
 		<a
 			href="${pageContext.request.contextPath}/admin/Game.jsp?gameID=${game.id }"
-			class="btn btn-default">Game ${game.week}</a> ${game.dayOfWeek}, ${game.scheduledDateFullYear} at ${game.startTime}<br>
+			class="form-control btn btn-info">Game ${game.week} - ${game.scheduledDateFullYear}</a> 
 	</c:forEach>
-	<input type="hidden" name="slotID" value="542"> <input
-		type="hidden" name="seasonID" value="${season.id}">
-	<button type="submit" value="close" name="option">Close</button>
-	<button type="submit" value="assign" name="option">Assign
-		Players</button>
-
-</form>
 
 
 

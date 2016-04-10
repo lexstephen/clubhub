@@ -13,6 +13,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% request.setAttribute("thisPage", "Populate Games"); %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
+	<c:if test="${isAdmin == false}">
+		<c:redirect url="index.jsp" />
+	</c:if>
 <%
 	GameDao game = new GameDao();
 	String seasonID = session.getAttribute("seasonID").toString();
@@ -27,7 +30,6 @@
 	<table class="table table-hover sortable">
 		<thead>
 			<tr>
-				<th class="col-md-1 sorttable_nosort"></th>
 				<th class="col-md-1">Season ID</th>
 				<th class="col-md-1">Game ID</th>
 				<th class="col-md-1">Gender</th>

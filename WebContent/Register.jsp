@@ -48,7 +48,7 @@
 		<div class="col-xs-6">
 			<div
 				class="form-group <c:if test="${!empty errorFirstName}">has-error</c:if>">
-				<label for="inptFirstName">First Name</label> <input type="text"
+				<label for="inptFirstName">First Name</label> <input required type="text"
 					name="firstName" class="form-control" id="inptFirstName"
 					value="${firstName}">
 			</div>
@@ -56,7 +56,7 @@
 		<div class="col-xs-6">
 			<div
 				class="form-group <c:if test="${!empty errorLastName}">has-error</c:if>">
-				<label for="inptLastName">Last Name</label> <input type="text"
+				<label for="inptLastName">Last Name</label> <input required type="text"
 					name="lastName" class="form-control" id="inptLastName"
 					value="${lastName}">
 			</div>
@@ -67,7 +67,7 @@
 		<div class="col-xs-6">
 			<div
 				class="form-group <c:if test="${!empty errorUsername}">has-error</c:if>">
-				<label for="inptUserName">User Name</label> <input type="text"
+				<label for="inptUserName">User Name</label> <input required type="text"
 					name="username" class="form-control" id="inptUserName"
 					value="${username}">
 			</div>
@@ -75,7 +75,7 @@
 		<div class="col-xs-6">
 			<div
 				class="form-group <c:if test="${!empty errorTelephone}">has-error</c:if>">
-				<label for="inptPhoneNumber">Phone Number</label> <input type="text" maxlength="10" 
+				<label for="inptPhoneNumber">Phone Number</label> <input required type="text" maxlength="10" 
 					name="telephone" class="form-control" id="inptPhoneNumber"
 					value="${telephone}">
 			</div>
@@ -86,7 +86,7 @@
 		<div class="col-xs-6">
 			<div
 				class="form-group <c:if test="${!empty errorEmail1}">has-error</c:if>">
-				<label for="inptEmailAddress">Email Address</label> <input
+				<label for="inptEmailAddress">Email Address</label> <input required
 					type="text" name="emailAddress" class="form-control"
 					id="inptEmailAddress" value="${emailAddress}">
 			</div>
@@ -94,7 +94,7 @@
 		<div class="col-xs-6">
 			<div
 				class="form-group <c:if test="${!empty errorEmail2}">has-error</c:if>">
-				<label for="inptEmailAddress2">Confirm Email Address</label> <input
+				<label for="inptEmailAddress2">Confirm Email Address</label> <input required
 					type="text" name="emailAddress2" class="form-control"
 					id="inptEmailAddress2" value="${emailAddress2}">
 			</div>
@@ -105,14 +105,14 @@
 		<div class="col-xs-6">
 			<div
 				class="form-group <c:if test="${!empty errorPassword1}">has-error</c:if>">
-				<label for="inptPassword">Password</label> <input type="password"
+				<label for="inptPassword">Password</label> <input required type="password"
 					name="password" class="form-control" id="inptPassword">
 			</div>
 		</div>
 		<div class="col-xs-6">
 			<div
 				class="form-group <c:if test="${!empty errorPassword2}">has-error</c:if>">
-				<label for="inptPassword2">Confirm Password</label> <input
+				<label for="inptPassword2">Confirm Password</label> <input required
 					type="password" name="password2" class="form-control"
 					id="inptPassword2">
 			</div>
@@ -124,10 +124,10 @@
 			<label
 				for="inptGender <c:if test="${!empty errorGender}">has-error</c:if>">Gender</label>
 			<div class="radio">
-				<label class="checkbox-inline"> <input type="radio"
+				<label class="checkbox-inline"> <input required type="radio"
 					name="gender" id="inptGenderF" value="F" checked ${gender=='F' ? 'checked' : ''}>
 					Female
-				</label> <label class="checkbox-inline"> <input type="radio"
+				</label> <label class="checkbox-inline"> <input required type="radio"
 					name="gender" id="inptGenderM" value="M"
 					${gender == 'M' ? 'checked' : ''}> Male
 				</label>
@@ -136,7 +136,7 @@
 		<div class="col-xs-6">
 			<div
 				class="form-group <c:if test="${!empty errorDateOfBirth}">has-error</c:if>">
-				<label for="inptDOB">Date of Birth</label> <input type="date"
+				<label for="inptDOB">Date of Birth</label> <input required type="date"
 					name="dateOfBirth" class="form-control" id="inptDOB"
 					value="${dateOfBirth}">
 			</div>
@@ -147,7 +147,7 @@
 		<div class="col-xs-12">
 			<div
 				class="form-group <c:if test="${!empty errorStreetAddress}">has-error</c:if>">
-				<label for="inptStreetAddress">Street Address</label> <input
+				<label for="inptStreetAddress">Street Address</label> <input required
 					type="text" name="streetAddress" class="form-control"
 					id="inptStreetAddress" value="${streetAddress}">
 			</div>
@@ -158,7 +158,7 @@
 		<div class="col-xs-6">
 			<div
 				class="form-group <c:if test="${!empty errorCity}">has-error</c:if>">
-				<label for="inptCity">City</label> <input type="text" name="city"
+				<label for="inptCity">City</label> <input required type="text" name="city"
 					class="form-control" id="inptCity" value="${city}">
 			</div>
 		</div>
@@ -264,7 +264,7 @@
 					${country == 'United States of America' ? ' class="hiddenest"' : ''}>
 					Postal Code </label> <label for="inptProvince" id="lblZipCode"
 					${country == 'Canada' ? ' class="hiddenest"' : ''}
-					${country == null ? ' class="hiddenest"' : ''}> Zip Code </label> <input
+					${country == null ? ' class="hiddenest"' : ''}> Zip Code </label> <input required
 					type="text" name="postalCode" class="form-control"
 					id="inptPostalCode" value="${postalCode}">
 			</div>
@@ -275,7 +275,7 @@
 		<div class="col-xs-12">
 			<div
 				class="form-group <c:if test="${!empty errorProfilePhoto}">has-error</c:if>">
-				<label for="inptProfilePhoto">Profile Photo</label> <input
+				<label for="inptProfilePhoto">Profile Photo</label> <input required
 					type="file" name="profilePhoto" class="form-control file"
 					id="inptProfilePhoto">
 				<p class="help-block">Upload a square jpg.</p>
@@ -287,7 +287,7 @@
 			<div
 				class="form-group <c:if test="${!empty errorEmergencyContactName}">has-error</c:if>">
 				<label for="inptEmergencyContactName">Emergency Contact Name</label>
-				<input type="text" name="emergencyContactName" class="form-control"
+				<input required type="text" name="emergencyContactName" class="form-control"
 					id="inptEmergencyContactName" value="${emergencyContactName}">
 			</div>
 		</div>
@@ -295,7 +295,7 @@
 			<div
 				class="form-group <c:if test="${!empty errorEmergencyContactPhoneNumber}">has-error</c:if>">
 				<label for="inptEmergencyContactNumber">Emergency Contact
-					Number</label> <input type="text" maxlength="10"  name="emergencyContactPhoneNumber"
+					Number</label> <input required type="text" maxlength="10" name="emergencyContactPhoneNumber"
 					class="form-control" id="inptEmergencyContactNumber"
 					value="${emergencyContactPhoneNumber}">
 			</div>
@@ -304,7 +304,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="form-group">
-				<input type="hidden" name="option" value="register"> <input
+				<input type="hidden" name="option" value="register"> <input 
 					type="submit" class="btn btn-default" value="Submit Registration">
 			</div>
 		</div>

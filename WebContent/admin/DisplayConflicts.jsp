@@ -10,9 +10,15 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="utilities.GameDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<% request.setAttribute("thisPage", "Showing All Games"); %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<% request.setAttribute("thisPage", "Games with Scheduling Conflicts"); %>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
+	<c:if test="${isAdmin == false}">
+		<c:redirect url="index.jsp" />
+	</c:if>
+	<jsp:useBean id="now" class="java.util.Date"/>
+		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate" />
 <!--  INDIVIDUAL PAGE CONTENT BEGINS HERE -->
 
 <% GameDao gamedao = new GameDao(); %>
@@ -24,7 +30,6 @@
 		<span class="sr-only">Error:</span> ${errorString }
 	</div>
 </c:if>
-
 <form action="${pageContext.request.contextPath}/GameController"
 	method="post" class="form" role="form">
 	<table class="table table-hover sortable">
@@ -44,7 +49,9 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${games}" var="game">
-				<%@ include file="/WEB-INF/displayGames.jsp"%>
+				<c:if test="${(game.inConflict == true) && (game.scheduledDateWithYear ge nowDate)}">
+					<%@ include file="/WEB-INF/displayGames.jsp"%>
+				</c:if>
 			</c:forEach>
 		</tbody>
 	</table>

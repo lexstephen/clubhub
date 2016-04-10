@@ -48,10 +48,8 @@
 				<div class="col-sm-2 control-label">User Status:</div>
 				<div class="col-sm-3">
 					<select class="form-control" name="userStatus">
-						<option value="unverified">Unverified</option>
 						<option value="user">User</option>
 						<option value="admin">Administrator</option>
-						<option value="inactive">Inactive</option>
 					</select>
 				</div>
 				<div class="col-sm-4">

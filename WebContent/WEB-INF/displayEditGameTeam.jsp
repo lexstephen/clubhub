@@ -13,7 +13,7 @@
 	user.listAllUsers(request);
 %>
 
-<tr <c:if test="${tm.inConflict == true}">class="alert alert-danger" role="alert"></c:if>>
+<tr <c:if test="${(tm.inConflict == true) && (game.scheduledDateWithYear ge nowDate)}">class="alert alert-danger" role="alert"</c:if>>
 	<form action="/clubhub/GameController" method="post" class="form" role="form">
 		<td class="col-md-2 col-xs-12 form-group"><a
 			href="${pageContext.request.contextPath}/Profile.jsp?userID=${tm.userid }"><img
@@ -22,6 +22,7 @@
 		<td class="col-md-6 col-xs-12 form-group">
 			<div class="row">
 				<div class="col-xs-12">
+	    			<c:if test="${(game.scheduledDateWithYear ge nowDate)}"> 
 					<select name="userID" class="form-control" id="inptUserID">
 							<option value="${tm.userid}"
 								${tm.userid == backup.userid ? 'selected' : ''}>${tm.firstName}
@@ -32,11 +33,15 @@
 								${backup.lastName}</option>
 						</c:forEach>
 					</select>
+					</c:if>
+				    <c:if test="${(game.scheduledDateWithYear le nowDate)}">
+				    	${tm.firstName} ${tm.lastName}
+				    </c:if> 
 				</div>
 			</div>
 		</td>
-		<td class="col-md-4 col-xs-12">			
-			<c:if test="${(isAdmin == true)}">
+		<td class="col-md-4 col-xs-12">		
+			<c:if test="${(isAdmin == true) && (game.scheduledDateWithYear ge nowDate)}">
 				<input type="hidden" name="gameID" value="${game.id}">
 				<input type="hidden" name="currentPlayer" value="${tm.userid}">
 				<button class="btn btn-primary btn-xs" name="option"

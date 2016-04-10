@@ -21,6 +21,9 @@ season.findSeason(request, seasonID);%>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
+	<c:if test="${isAdmin == false}">
+		<c:redirect url="index.jsp" />
+	</c:if>
 <form action="${pageContext.request.contextPath}/SeasonController"
 	method="post" class="form" role="form">
 
