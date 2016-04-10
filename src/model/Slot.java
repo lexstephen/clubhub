@@ -8,9 +8,17 @@ package model;
 ****************************************************************************************************/
 public class Slot {
 	private String id, dayOfWeek, week, gender, players, scheduledDate, gameID, seasonName;
-	String time, year;
+	private String time, year, scheduledDateWithYear;
 	private int status, conflict;
 	
+	public String getScheduledDateWithYear() {
+		return scheduledDateWithYear;
+	}
+
+	public void setScheduledDateWithYear(String scheduledDateWithYear) {
+		this.scheduledDateWithYear = scheduledDateWithYear;
+	}
+
 	public String  getYear() {
 		return year;
 	}

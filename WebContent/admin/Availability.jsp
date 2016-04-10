@@ -11,7 +11,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
+	<jsp:useBean id="now" class="java.util.Date"/>
+		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate" />
 <% GameDao slot = new GameDao();
 slot.findOpenGameSlotsForUser(request);
 slot.findAllOfUsersSlots(request);
@@ -40,10 +43,13 @@ slot.findAllOfUsersSlots(request);
 	<p><label><input type="checkbox" name="selectall" onClick="toggleBox(this)"/> Select all</label></p>
 	<!--   -->
 	<c:forEach items="${slots}" var="slot">
-		<input type="checkbox" name="slots" value="${slot.id}"
-			<c:forEach items="${user.slotid}" var="uslot">
-				<c:if test="${(slot.id == uslot) && (slot.conflict == 0) }"> checked</c:if>
-			</c:forEach>>  ${slot.gender} ${slot.seasonName } ${slot.year} ${slot.dayOfWeek} ${slot.scheduledDate} at ${slot.time}  <br>
+	
+		<!--  c:if test="${slot.scheduledDateWithYear le nowDate}" -->
+			<input type="checkbox" name="slots" value="${slot.id}"
+				<c:forEach items="${user.slotid}" var="uslot">
+					<c:if test="${(slot.id == uslot) && (slot.conflict == 0) }"> checked</c:if>
+				</c:forEach>>   ${slot.scheduledDate} | ${slot.dayOfWeek}s at ${slot.time} | ${slot.gender} ${slot.seasonName } ${slot.year}  <br>
+		<!-- /c:if>  -->
 	</c:forEach>
 	<button class="btn btn-primary" type="submit" value="availability"
 		name="option">Submit</button>

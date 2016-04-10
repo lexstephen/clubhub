@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -178,7 +179,7 @@ public class SeasonDao {
 
 	}
 
-	public void closeSeason(HttpServletRequest request) throws Exception {
+	public void closeSeason(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String seasonID = (String) request.getAttribute("seasonID");
 		List <String> slotIDs = new ArrayList<String>();
@@ -201,7 +202,13 @@ public class SeasonDao {
 				game.closeSlot(request, k);
 				System.out.println("closed slot at k = " + k);
 			}
-
+			try {
+				SendEmail email = new SendEmail();
+				email.sendAvailabiltyOpenEmail(request, response, seasonID);
+				
+			} catch (MessagingException mex) {
+				System.out.println("send failed, exception: " + mex);
+			}
 		} catch (SQLException e){
 			throw e;
 		}

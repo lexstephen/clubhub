@@ -917,6 +917,7 @@ public class GameDao {
 				String time = utilities.ValidationUtilities.toTime(givenTime);
 				slot.setDayOfWeek(dayOfWeek);
 				slot.setTime(time);
+				slot.setScheduledDateWithYear(resultSet2.getString("scheduledDate"));
 				slot.setSeasonName(ValidationUtilities.seasonName(resultSet2.getString("season")));
 				slot.setYear(resultSet2.getString("year"));
 				slot.setGender(ValidationUtilities.genderName(resultSet2.getString("gender")));
