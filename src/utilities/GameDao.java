@@ -213,6 +213,7 @@ public class GameDao {
 				Game game = new Game();
 				game.setId(resultSet.getString("id"));
 				game.setScheduledDate(resultSet.getString("scheduledDate"));
+				game.setScheduledDateWithYear(resultSet.getString("scheduledDate"));
 				game.setDateFormatted(ValidationUtilities.dateWithoutYear(resultSet.getString("scheduledDate")));
 				game.setWeek(resultSet.getString("week"));
 				game.setSeasonId(resultSet.getString("seasonId"));
@@ -390,9 +391,24 @@ public class GameDao {
 		}
 
 
-		request.setAttribute("games", games);
+		request.setAttribute("recentGames", games);
 	}
-
+	
+	public void findRecentUserGames(HttpServletRequest request, HttpServletResponse response) {
+		@SuppressWarnings("unchecked")
+		List<Game> recentGames = (ArrayList<Game>)request.getAttribute("recentGames");
+		@SuppressWarnings("unchecked")
+		List<Game> assignedGames = (ArrayList<Game>)request.getAttribute("assignedGames");
+		List<Game> recentAssignedGames = new ArrayList<Game>();
+		
+		for(Game ele : assignedGames){
+		    if(recentGames.contains(ele)){
+		        recentAssignedGames.add(ele);
+		    }
+		}
+		request.setAttribute("recentAssignedGames", recentAssignedGames);
+	}
+	
 	public void findTeamsForGames(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
 		List<User> teamA = new ArrayList<User>();
 		List<User> teamB = new ArrayList<User>();
@@ -573,7 +589,6 @@ public class GameDao {
 				Game game = new Game();
 				game.setId(results.getString("Gameid"));
 				game.setScheduledDate(results.getString("scheduledDate"));
-				System.out.println("I am looking at " + results.getString("Gameid") + " which is on " + results.getString("scheduledDate"));
 				game.setScheduledDateFullYear(ValidationUtilities.dateFullYear(results.getString("scheduledDate")));
 				game.setWeek(results.getString("week"));
 				game.setSeasonId(results.getString("seasonId"));

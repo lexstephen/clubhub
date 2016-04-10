@@ -32,7 +32,7 @@ slot.findAllOfUsersSlots(request);
 			<span class="sr-only">Success:</span> ${successString }
 		</div>
 	</c:if>
-	<p>Select the games you are available to play. This information
+	<p>Games listed below are open for user registration; please select those that you are available to play. This information
 		will be used by the league administrator to schedule games. When the schedule is created, you will be notified at the email address provided in your profile.
 		
 		<p>If a conflict arises, deselect the checkbox in question and this

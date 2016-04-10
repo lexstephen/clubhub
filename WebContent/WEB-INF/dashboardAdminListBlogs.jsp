@@ -1,7 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <%@ page import="utilities.PostDao"%>
-
 <% PostDao post = new PostDao(); %>
 <% post.getLastBlogs(request, response); %>
 <table class="table table-hover sortable jumbotron">

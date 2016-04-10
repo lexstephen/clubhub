@@ -7,7 +7,7 @@
 	Description: displayGameTeam.jsp - HTML formatting for Games View
  --%>
 
-<tr <c:if test="${tm.inConflict == true}">class="alert alert-danger" role="alert"</c:if>>
+<tr <c:if test="${(tm.inConflict == true) && (game.scheduledDateWithYear ge nowDate)}">class="alert alert-danger" role="alert"</c:if>>
 	<td class="col-md-4 col-xs-12">
 		<a href="${pageContext.request.contextPath}/Profile.jsp?userID=${tm.userid }">
 			<img src="${pageContext.request.contextPath}/ImageDao?t=profile&id=${tm.userid }" class="game_photo"></a>
@@ -17,10 +17,13 @@
 	</td>
 	<td class="col-md-4 col-xs-12">
 	<form action="/clubhub/GameController" method="post" class="form" role="form">
-	    <c:if test="${(game.scheduledDateWithYear ge nowDate) && (tm.userid == loggedInUserID)}"> 
+	    <c:if test="${(game.scheduledDateWithYear ge nowDate) && (tm.userid == loggedInUserID) && (tm.inConflict == false)}"> 
 			<input type="hidden" name="gameID" value="${game.id}">
 			<input type="hidden" name="userID" value="${tm.userid}">
 			<button type="submit" name="option" value="conflict" class="btn btn-primary">I can't play</button>
+	    </c:if>
+	    <c:if test="${(tm.inConflict == true) && (game.scheduledDateWithYear ge nowDate)}">
+	    	<i>Conflict noted</i>
 	    </c:if>
 	</form>
 	</td>

@@ -32,6 +32,8 @@
 			at ${game.startTime} <small>Season ${game.seasonId}:
 				${game.gender } ${game.season } ${game.year }</small></h3>
 		<hr>
+		
+	    <c:if test="${(game.scheduledDateWithYear le nowDate)}">
 		<form action="/clubhub/GameController" method="post" class="form" role="form">
 			<div class="row">
 				<div class="col-md-3 col-md-offset-3 col-xs-12">
@@ -68,7 +70,8 @@
 			</div>
 		</form>
 		<hr>
-
+		</c:if>
+		
 		<form action="/clubhub/GameController" method="post" class="form" role="form">
 			<div class="row">
 				<div class="col-md-6 col-xs-12">
