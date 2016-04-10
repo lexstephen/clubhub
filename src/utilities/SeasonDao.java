@@ -224,7 +224,8 @@ public class SeasonDao {
 
 		try {
 			SendEmail email = new SendEmail();
-			email.sendAvailabiltyOpenEmail(request, response, seasonID);
+			String thisSeasonID = request.getParameter("seasonID");
+			email.sendAvailabiltyOpenEmail(request, response, thisSeasonID);
 			
 		} catch (MessagingException mex) {
 			System.out.println("send failed, exception: " + mex);
