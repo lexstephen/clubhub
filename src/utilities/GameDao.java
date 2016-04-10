@@ -546,6 +546,7 @@ public class GameDao {
 				preparedStatement.setString(1, playerToAdd); // Userid
 				preparedStatement.setString(2, slot); // Slotid
 				preparedStatement.executeUpdate();
+				System.out.println("slot id now available: " + slot);
 			}
 		} catch(SQLException e) {
 			throw e;
