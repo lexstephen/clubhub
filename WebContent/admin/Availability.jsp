@@ -43,13 +43,12 @@ slot.findAllOfUsersSlots(request);
 	<p><label><input type="checkbox" name="selectall" onClick="toggleBox(this)"/> Select all</label></p>
 	<!--   -->
 	<c:forEach items="${slots}" var="slot">
-	
-		<!--  c:if test="${slot.scheduledDateWithYear le nowDate}" -->
+		<c:if test="${slot.scheduledDateWithYear ge nowDate}">
 			<input type="checkbox" name="slots" value="${slot.id}"
 				<c:forEach items="${user.slotid}" var="uslot">
 					<c:if test="${(slot.id == uslot) && (slot.conflict == 0) }"> checked</c:if>
 				</c:forEach>>   ${slot.scheduledDate} | ${slot.dayOfWeek}s at ${slot.time} | ${slot.gender} ${slot.seasonName } ${slot.year}  <br>
-		<!-- /c:if>  -->
+		</c:if>
 	</c:forEach>
 	<button class="btn btn-primary" type="submit" value="availability"
 		name="option">Submit</button>

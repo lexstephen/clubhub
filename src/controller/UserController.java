@@ -169,7 +169,7 @@ public class UserController extends HttpServlet {
 				case "availability":
 					try {
 						SendEmail email = new SendEmail();
-						String seasonID = "4";
+						String seasonID = request.getParameter("seasonID");
 						email.sendAvailabiltyOpenEmail(request, response, seasonID);
 
 					} catch (MessagingException mex) {

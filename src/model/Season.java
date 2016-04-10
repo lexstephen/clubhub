@@ -8,7 +8,15 @@ package model;
 ****************************************************************************************************/
 public class Season {
 	private String id, year, season, gender, startDate, startTime, dayOfWeek, duration;
-	private String startDateFullYear, status;
+	private String startDateFullYear, status, slotStatusWord;
+
+	public String getSlotStatusWord() {
+		return slotStatusWord;
+	}
+
+	public void setSlotStatusWord(String slotStatusWord) {
+		this.slotStatusWord = slotStatusWord;
+	}
 
 	public String getStatus() {
 		return status;

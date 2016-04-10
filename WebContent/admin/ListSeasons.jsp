@@ -6,7 +6,7 @@
 	Description: ListGames.jsp
  --%>
 
-<% request.setAttribute("thisPage", "List of Seasons"); %>
+<% request.setAttribute("thisPage", "Manage Seasons"); %>
 <%@ page import="utilities.SeasonDao"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -15,29 +15,61 @@
 <% SeasonDao season = new SeasonDao();
 
 season.listOpenSeasons(request);
+season.listClosedSeasons(request);
 //Object id = session.getAttribute("seasonID");
 //String str = id.toString();
 //int seasonID = Integer.parseInt(str);
 //System.out.println("The current user ID is: " + seasonID);
 
 %>
+<c:if test="${!empty errorString}">
+	<div class="alert alert-danger" role="alert">
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		<span class="sr-only">Error:</span> ${errorString }
+	</div>
+</c:if>
+
 
 <form action="/clubhub/GameController" method="post" class="form"
 	role="form">
-	<h3>
-		<u>List of Seasons: </u>
-	</h3>
-
-	<c:forEach items="${seasons}" var="season">
-
-		<a href="ListGames.jsp?seasonID=${season.id}" />
-		<b>&nbsp&nbsp&nbsp&nbsp&nbsp ${season.dayOfWeek} at
-			${season.startTime} (${season.duration} weeks) - ${season.gender} </a>
-		</b>
-
-
-
-	</c:forEach>
+	<h2>Open Seasons</h2>
+	<table class="table table-hover sortable">
+		<thead>
+			<tr>
+				<th class="col-md-1">Gender</th>
+				<th class="col-md-2">Season</th>
+				<th class="col-md-2">Year</th>
+				<th class="col-md-2">Day</th>
+				<th class="col-md-2">Date</th>
+				<th class="col-md-3 sorttable_nosort"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${seasons}" var="season">
+				<%@ include file="/WEB-INF/displaySeasons.jsp"%>
+			</c:forEach>
+		</tbody>
+	</table>
+	<c:if test="${!empty closedSeasons }">
+	<h2>Closed Seasons</h2>
+	<table class="table table-hover sortable">
+		<thead>
+			<tr>
+				<th class="col-md-1">Gender</th>
+				<th class="col-md-2">Season</th>
+				<th class="col-md-1">Year</th>
+				<th class="col-md-2">Day</th>
+				<th class="col-md-2">Date</th>
+				<th class="col-md-4 sorttable_nosort"></th>
+			</tr>	
+		</thead>
+		<tbody>
+			<c:forEach items="${closedSeasons}" var="season">
+				<%@ include file="/WEB-INF/displayClosedSeasons.jsp"%>
+			</c:forEach>
+		</tbody>
+	</table>
+	</c:if>
 </form>
 
 

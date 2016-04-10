@@ -95,20 +95,21 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">Games <span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a
-							href="${pageContext.request.contextPath}/admin/DisplayGames.jsp">List
-								All Games</a></li>
+						<li>
 						<c:if test="${(isAdmin == true)}">
 							<li><a
 								href="${pageContext.request.contextPath}/admin/CreateSeason.jsp">Add
 									New Season</a></li>
 							<li><a
-								href="${pageContext.request.contextPath}/admin/ManageSeason.jsp">Manage
+								href="${pageContext.request.contextPath}/admin/ListSeasons.jsp">Manage
 									Season</a></li>
 							<li><a
 								href="${pageContext.request.contextPath}/admin/DisplayConflicts.jsp">View
 									Outstanding Conflicts</a></li>
 						</c:if>
+						<li><a
+							href="${pageContext.request.contextPath}/admin/DisplayGames.jsp">List
+								All Games</a></li>
 					</ul></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"

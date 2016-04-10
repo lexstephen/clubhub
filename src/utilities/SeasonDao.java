@@ -202,17 +202,21 @@ public class SeasonDao {
 				game.closeSlot(request, k);
 				System.out.println("closed slot at k = " + k);
 			}
-			try {
-				SendEmail email = new SendEmail();
-				email.sendAvailabiltyOpenEmail(request, response, seasonID);
-				
-			} catch (MessagingException mex) {
-				System.out.println("send failed, exception: " + mex);
-			}
 		} catch (SQLException e){
 			throw e;
 		}
 
+	}
+	
+	public void notifyUsersOfSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
+
+		try {
+			SendEmail email = new SendEmail();
+			email.sendAvailabiltyOpenEmail(request, response, seasonID);
+			
+		} catch (MessagingException mex) {
+			System.out.println("send failed, exception: " + mex);
+		}
 	}
 
 	public void listOpenSeasons(HttpServletRequest request) throws Exception {
@@ -226,7 +230,7 @@ public class SeasonDao {
 				hasOpenSlots = false;
 				season.setId(resultSet.getString("id"));
 				season.setYear(resultSet.getString("year"));
-				season.setSeason(resultSet.getString("season"));
+				season.setSeason(ValidationUtilities.seasonName(resultSet.getString("season")));
 				season.setGender(ValidationUtilities.genderName(resultSet.getString("gender")));
 				season.setStartDate(resultSet.getString("startDate"));
 				season.setStartTime(ValidationUtilities.toTime(resultSet.getInt("startTime")));
@@ -249,6 +253,41 @@ public class SeasonDao {
 			throw e;
 		}
 		request.setAttribute("seasons", seasons);
+	} 
+	public void listClosedSeasons(HttpServletRequest request) throws Exception {
+		List<Season> seasons = new ArrayList<Season>();
+		boolean hasOpenSlots;
+		try {  		
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery("SELECT * from ch_season");
+			while (resultSet.next()) {
+				Season season = new Season();
+				hasOpenSlots = false;
+				season.setId(resultSet.getString("id"));
+				season.setYear(resultSet.getString("year"));
+				season.setSeason(ValidationUtilities.seasonName(resultSet.getString("season")));
+				season.setGender(ValidationUtilities.genderName(resultSet.getString("gender")));
+				season.setStartDate(resultSet.getString("startDate"));
+				season.setStartTime(ValidationUtilities.toTime(resultSet.getInt("startTime")));
+				season.setDayOfWeek(ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
+				season.setDuration(resultSet.getString("duration"));
+				season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));
+				statement = connect.createStatement();
+				resultSet1 = statement.executeQuery("SELECT * from ch_slot slot join ch_game game ON slot.gameID = game.id "
+						+ "WHERE Seasonid = " + resultSet.getString("id") + " AND status = 0");
+				while (resultSet1.next()) {			    	  
+					hasOpenSlots = true;
+				}
+
+				if (hasOpenSlots) {
+					seasons.add(season);
+				} 
+
+			}
+		} catch (SQLException e) {
+			throw e;
+		}
+		request.setAttribute("closedSeasons", seasons);
 	} 
 
 
