@@ -7,6 +7,6 @@
 	<td class="col-xs-12 col-md-2"><a
 		href="${pageContext.request.contextPath}/admin/Game.jsp?gameID=${game.gameID}">${game.gameID}</a></td>
 	<td class="col-xs-12 col-md-2">${game.score}</td>
-	<td class="col-xs-12 col-md-2">${game.team}</td>
+	<%-- <td class="col-xs-12 col-md-2">${game.team}</td> --%>
 	<td class="col-xs-12 col-md-2">${game.outcome}</td>
 </tr>

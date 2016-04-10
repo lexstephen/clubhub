@@ -44,11 +44,10 @@ public class SeasonController extends HttpServlet {
 		    	case "add":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			String id = dao.addToDatabase(request, response);
-		    			int ID = Integer.parseInt(id);
 		    			System.out.println(id+"In controller");
 		    			errorChecker = "Season Created";
 		    			//HttpSession session = request.getSession();
-		    			session.setAttribute("seasonID", ID);
+		    			request.setAttribute("seasonID", id);
 		    			address = "admin/CreateGames.jsp";
 		    			
 		    		

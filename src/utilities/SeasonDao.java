@@ -69,7 +69,6 @@ public class SeasonDao {
 	public String addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String season_id = null;
 		try {
-			HttpSession session = request.getSession();
 
 			String theDate = request.getParameter("theDate");
 
@@ -184,26 +183,38 @@ public class SeasonDao {
 		String seasonID = (String) request.getAttribute("seasonID");
 		List <String> slotIDs = new ArrayList<String>();
 		GameDao game = new GameDao();
-
+		String gameIDforError= null;
 		System.out.println("In closeSeason() with seasonID " + seasonID);
 
 		try {
 
 			statement = connect.createStatement();
-			resultSet = statement.executeQuery("SELECT slot.id from ch_game game JOIN ch_season seas ON game.Seasonid = seas.id "
+			resultSet = statement.executeQuery("SELECT slot.id, game.id from ch_game game JOIN ch_season seas ON game.Seasonid = seas.id "
 					+ "JOIN ch_slot slot ON game.id = slot.gameID WHERE seas.id = " + seasonID + " AND slot.status = 1");
 
 			while (resultSet.next()) {
+				gameIDforError = resultSet.getString("game.id");
 				slotIDs.add(resultSet.getString("slot.id"));
 				System.out.println("Adding slot.ids");
 			}
 
-			for (String k : slotIDs) {
-				game.closeSlot(request, k);
-				System.out.println("closed slot at k = " + k);
+			try {
+				for (String k : slotIDs) {
+					game.closeSlot(request, k);
+					System.out.println("closed slot at k = " + k);
+				}
+			} catch (SQLException e) {
+				statement.executeUpdate("DELETE FROM ch_user_game WHERE Gameid = " + gameIDforError);
+				for (String k : slotIDs) {
+					statement.executeUpdate("UPDATE ch_slot SET status = 1 WHERE id = " + k);
+					System.out.println("opened slot at k = " + k);
+				}
 			}
 		} catch (SQLException e){
 			throw e;
+			// delete inserted user_games and resets season to 0
+			
+			
 		}
 
 	}

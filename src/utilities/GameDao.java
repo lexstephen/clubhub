@@ -367,6 +367,7 @@ public class GameDao {
 
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date1 = format.parse(new SimpleDateFormat("yyyy-MM-dd").format((new Date())));
+		
 
 		try{  		
 			statement = connect.createStatement();
@@ -579,7 +580,12 @@ public class GameDao {
 		String playerToFind = (String) session.getAttribute("loggedInUserID");
 		UserDao userdao = new UserDao();
 		userdao.findUser(request, playerToFind);
-		List<Game> assignedGames = new ArrayList<Game>();
+		List<List<Game>> assignedGames = new ArrayList<List<Game>>();
+		List<Game> recentGames = new ArrayList<Game>();
+		List<Game> upcomingGames = new ArrayList<Game>();
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = format.parse(new SimpleDateFormat("yyyy-MM-dd").format((new Date())));
 
 		// take the CSV of slots that the player will play and split them out into an array
 		try{
@@ -604,13 +610,21 @@ public class GameDao {
 					game.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet2.getString("dayOfWeek"))));
 					game.setDuration(resultSet2.getString("duration"));
 				}
-				assignedGames.add(game);
+				if (format.parse(game.getScheduledDate()).equals(date1) || format.parse(game.getScheduledDate()).before(date1)){
+					recentGames.add(game);
+				} else {
+					upcomingGames.add(game);
+				}
 			}
 		} catch(SQLException e) {
 			throw e;
 		}
+			
+		assignedGames.add(recentGames);
+		assignedGames.add(upcomingGames);
 
 		request.setAttribute("assignedGames", assignedGames);
+		System.out.println("assignedGames = " + assignedGames.toString());
 	}
 
 

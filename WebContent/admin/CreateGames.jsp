@@ -13,11 +13,10 @@
 <%@ page import="utilities.SeasonDao"%>
 
 <% SeasonDao season = new SeasonDao();
-Object id = session.getAttribute("seasonID");
-String seasonID = id.toString();
+String seasonID = (String) request.getAttribute("seasonID");
 System.out.println("The current season ID is: " + seasonID);
-season.findSeason(request, seasonID);%>
-<% request.setAttribute("thisPage", "Confirm New Season"); %>
+season.findSeason(request, seasonID);
+request.setAttribute("thisPage", "Confirm New Season"); %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
@@ -53,6 +52,7 @@ season.findSeason(request, seasonID);%>
 		</div>
 		<p>Click Confirm to create games, or Cancel to return to the
 			season creation screen.</p>
+		<input type="hidden" name="seasonID" value="${season.id}">
 		<button class="btn btn-info" type="submit" value="confirm"
 			name="option">Confirm</button>
 		<button class="btn btn-danger" type="submit" value="delete"	name="option">Cancel</button>

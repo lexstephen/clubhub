@@ -16,10 +16,6 @@
 
 season.listOpenSeasons(request);
 season.listClosedSeasons(request);
-//Object id = session.getAttribute("seasonID");
-//String str = id.toString();
-//int seasonID = Integer.parseInt(str);
-//System.out.println("The current user ID is: " + seasonID);
 
 %>
 <c:if test="${!empty errorString}">

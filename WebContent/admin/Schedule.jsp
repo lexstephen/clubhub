@@ -21,7 +21,8 @@ slot.findAllOfUsersGames(request);
 		<table class="table table-striped">
 			<c:choose>
 				<c:when test="${! empty assignedGames}">
-					<c:forEach items="${assignedGames}" var="game">
+					<c:forEach items="${assignedGames}" var="allGames">
+						<c:forEach items="${allGames[0].id}" var="game">
 						<tr>
 							<td>
 								<strong>Season ${game.seasonId}</strong>
@@ -34,6 +35,7 @@ slot.findAllOfUsersGames(request);
 							<td>${game.dayOfWeek}, ${game.scheduledDateFullYear} at ${game.startTime}<br>
 							</td>
 						</tr>
+						</c:forEach>
 					</c:forEach>
 				</c:when>
 				<c:otherwise>
