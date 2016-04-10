@@ -42,6 +42,16 @@ slot.findAllOfUsersSlots(request);
 		information will be provided to the administrator. Conflicts that occur after scheduling can be managed on their individual game pages.</p>
 	<p><label><input type="checkbox" name="selectall" onClick="toggleBox(this)"/> Select all</label></p>
 	<!--   -->
+	<h4>Past Slots</h4>
+	<c:forEach items="${slots}" var="slot">
+		<c:if test="${slot.scheduledDateWithYear le nowDate}">
+			<input type="checkbox" name="slots" value="${slot.id}"
+				<c:forEach items="${user.slotid}" var="uslot">
+					<c:if test="${(slot.id == uslot) && (slot.conflict == 0) }"> checked</c:if>
+				</c:forEach>>   ${slot.scheduledDate} | ${slot.dayOfWeek}s at ${slot.time} | ${slot.gender} ${slot.seasonName } ${slot.year}  <br>
+		</c:if>
+	</c:forEach>
+	<h4>Future Slots</h4>
 	<c:forEach items="${slots}" var="slot">
 		<c:if test="${slot.scheduledDateWithYear ge nowDate}">
 			<input type="checkbox" name="slots" value="${slot.id}"
