@@ -25,9 +25,6 @@ season.listClosedSeasons(request);
 	</div>
 </c:if>
 
-
-<form action="/clubhub/GameController" method="post" class="form"
-	role="form">
 	<h2>Open Seasons</h2>
 	<table class="table table-hover sortable">
 		<thead>
@@ -66,7 +63,6 @@ season.listClosedSeasons(request);
 		</tbody>
 	</table>
 	</c:if>
-</form>
 
 
 

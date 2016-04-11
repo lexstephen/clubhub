@@ -20,7 +20,7 @@
 				<form action="${pageContext.request.contextPath}/SeasonController" method="post" class="form" role="form">
 					<input type="hidden" name="seasonID" value="${season.id}">
 					<input type="hidden" name="option" value="close">
-					<button class="btn btn-warning btn-sm" type="submit" value="close" name="option">Close/Assign Players</button>
+					<button class="btn btn-warning btn-sm" type="submit">Close/Assign Players</button>
 				</form>
 			</c:if> 
 	</td>
