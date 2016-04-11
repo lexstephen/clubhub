@@ -111,24 +111,26 @@
 							href="${pageContext.request.contextPath}/admin/DisplayGames.jsp">List
 								All Games</a></li>
 					</ul></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">Settings <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a
-							href="${pageContext.request.contextPath}/admin/UserGuide.jsp">User
-								Guide</a></li>
-						<c:if test="${(isAdmin == true)}">
-							<li><a
-								href="${pageContext.request.contextPath}/admin/ColourSchemes.jsp">Colour
-									Scheme</a></li>
-							<li><a
-								href="${pageContext.request.contextPath}/admin/Preferences.jsp">Preferences</a></li>
-							<li><a
-								href="${pageContext.request.contextPath}/admin/SetPreferences.jsp">Set
-									Default</a></li>
+					<c:if test="${(isAdmin == true)}">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">Settings <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a
+									href="${pageContext.request.contextPath}/admin/UserGuide.jsp">User
+										Guide</a></li>
+								
+									<li><a
+										href="${pageContext.request.contextPath}/admin/ColourSchemes.jsp">Colour
+											Scheme</a></li>
+									<li><a
+										href="${pageContext.request.contextPath}/admin/Preferences.jsp">Preferences</a></li>
+									<li><a
+										href="${pageContext.request.contextPath}/admin/SetPreferences.jsp">Set
+											Default</a></li>
+		
+							</ul></li>
 						</c:if>
-					</ul></li>
 				<li><a href="${pageContext.request.contextPath}/admin/">Dashboard</a></li>
 				<c:if test="${isLoggedIn == true}">
 					<li><a
