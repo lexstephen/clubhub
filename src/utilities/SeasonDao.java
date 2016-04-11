@@ -273,7 +273,6 @@ public class SeasonDao {
 			email.sendAvailabiltyOpenEmail(request, response, thisSeasonID);
 			
 		} catch (MessagingException mex) {
-			System.out.println("send failed, exception: " + mex);
 		}
 	}
 

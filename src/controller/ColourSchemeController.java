@@ -45,7 +45,6 @@ public class ColourSchemeController extends HttpServlet {
 						// ColourScheme was entered successfully and is new!
 						// Add ColourScheme to database then redirect to login form
 						request.setAttribute("errorString", "ColourScheme added!");
-						System.out.println("CS ID is " + request.getParameter("csid"));
 						dao.addToDatabase(request, response);
 						address = "/admin/ColourSchemes.jsp";
 					// the form is not filled out correctly. send an error back and send them 

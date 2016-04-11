@@ -38,31 +38,20 @@ public class GameController extends HttpServlet {
 		//
 		String errorChecker = "n/a";
 		String gameID = request.getParameter("gameID");
-		
-		System.out.println(option);
-		
+			
 	    try {
 	    	switch(option) {
 		    	case "add":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
-		    			
 	    			seasonID = request.getParameter("seasonID");
-		    		
-		    		System.out.println("The Id is: "+ seasonID);
 		    		dao.addToDatabase(request, response, seasonID);
-		    			
-		    			
-		    			errorChecker = "Games Created";
-		    			
-		    			address = "admin/PopulateGames.jsp";
+		    		errorChecker = "Games Created";
+		    		address = "admin/PopulateGames.jsp";
 		    			
 		    	break;
 		    	
 		    	case "switchPlayers":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
-		    			
-		    		System.out.println("The GameID is: "+gameID);
-
 		    		String currentPlayer = request.getParameter("currentPlayer");
 		    		String newUser = request.getParameter("userID");
 		    		dao.switchThem(request, currentPlayer, newUser, gameID);
@@ -72,29 +61,12 @@ public class GameController extends HttpServlet {
 		    	
 		    	case "conflict":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
-
 		    		String conflictUser = request.getParameter("userID");
 		    		dao.setConflict(request, gameID, conflictUser);
 		    		address = "admin/Game.jsp?gameID=" + gameID;
 		    			
 		    	break;
 
-		    	/*
-		    	case "switchThem":
-		    		//if (ValidationUtilities.isValidSeason(request)) {
-		    			
-	    			String currentPlayer = request.getParameter("currentPlayer");
-	    			String newPlayer = request.getParameter("newPlayer");
-	    			String theGameID = request.getParameter("gameID");
-	    			
-		    		System.out.println("The Current Player is: "+currentPlayer);
-		    		System.out.println("The New Player is: "+newPlayer);
-		    		System.out.println("The gameID is: "+ theGameID);
-		    		dao.switchThem(request, currentPlayer, newPlayer, theGameID);
-		    		address = "admin/ListGames.jsp";
-		    			
-		    	break; */
-		    	
 		    	case "availability":
 		    		HttpSession session = request.getSession();
 		    		String [] ID = request.getParameterValues("slots");
@@ -119,6 +91,7 @@ public class GameController extends HttpServlet {
 	    			errorChecker = "Redirect to listgames";
 	    			address = "admin/ListGames.jsp";
 		    	break;
+		    	
 		    	case "editScores":
 		    		gameID = request.getParameter("gameID");
 		    		request.setAttribute("gameID", gameID);
@@ -131,7 +104,6 @@ public class GameController extends HttpServlet {
 		    		errorChecker = "Something has gone horribly wrong";
 	    		break;
 	    	}
-	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 	    	dispatcher.forward(request, response);
 	    	

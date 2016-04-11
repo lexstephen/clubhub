@@ -53,6 +53,7 @@ public class UserDao {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			String passwordHashed = HashPassword.hashPassword(password);
+			System.out.println(passwordHashed);
 			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement();
 

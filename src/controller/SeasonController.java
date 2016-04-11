@@ -29,22 +29,18 @@ public class SeasonController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("I start here");
 		String option = request.getParameter("option");
 		SeasonDao dao = new SeasonDao();
 		GameDao gameDao = new GameDao();
 		String address = "";
 		HttpSession session = request.getSession();
 		String errorChecker = "n/a";
-		
-		System.out.println("Option is " + option);
-		
+			
 	    try {
 	    	switch(option) {
 		    	case "add":
 		    		//if (ValidationUtilities.isValidSeason(request)) {
 		    			String id = dao.addToDatabase(request, response);
-		    			System.out.println(id+"In controller");
 		    			errorChecker = "Season Created";
 		    			//HttpSession session = request.getSession();
 		    			request.setAttribute("seasonID", id);
@@ -57,29 +53,19 @@ public class SeasonController extends HttpServlet {
 		    		
 	    		break;
 		    	case "delete":
-		    		System.out.println("I'm in case delete");
 		    		String seasonID = request.getParameter("seasonID");
-	    			System.out.println("Delete seasonID = " + seasonID);
 					dao.deleteSeason(request, response, seasonID);
-					
 					errorChecker = "Season deleted";
-
-						System.out.println("You have canceled the creation of you season and will be taken back to create a new one, Sucker!!");
-					
-		    		address = "admin/CreateSeason.jsp";
+					address = "admin/CreateSeason.jsp";
 	    		break;
 		    	case "confirm":
-
-		    		System.out.println("I'm in case confirm");
 		    		String sID = request.getParameter("sID");
-		    		System.out.println("The ID is:" + sID);
-					gameDao.addToDatabase(request, response, sID);
+		    		gameDao.addToDatabase(request, response, sID);
 					request.setAttribute("seasonID", sID);
 					errorChecker = "Games Created";
 		    		address ="admin/PopulateGames.jsp";;
 	    		break;
 		    	case "close":
-		    		System.out.println("I'm in close season");
 		    		request.setAttribute("seasonID", request.getParameter("seasonID"));
 		    		dao.closeSeason(request, response);
 		    		address="admin/ListSeasons.jsp";		    		
@@ -87,7 +73,6 @@ public class SeasonController extends HttpServlet {
 		    	default:
 	    		errorChecker = "Something has gone borribly wrong";
 	    	}
-	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 	    	dispatcher.forward(request, response);
 	    	
@@ -99,5 +84,4 @@ public class SeasonController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

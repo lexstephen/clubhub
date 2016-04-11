@@ -95,9 +95,7 @@ public class InvoiceController extends HttpServlet {
 						request.setAttribute("errorString", "Please correct highlighted fields");
 		    			e.printStackTrace();
 		    		}
-		    		
-		    		System.out.println("attribute profile = " + request.getParameter("profileRedirect"));
-		    		
+		    				    		
 		    		if (request.getParameter("profileRedirect") != null) {
 		    			address = (String) request.getParameter("profileRedirect");
 		    		} else {
@@ -131,7 +129,6 @@ public class InvoiceController extends HttpServlet {
 					request.setAttribute("errorString", "Something went wrong.");
 				break;
 	    	}
-	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 	    	dispatcher.forward(request, response);
 	    	

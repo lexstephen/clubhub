@@ -153,20 +153,6 @@ public class UserController extends HttpServlet {
 			case "email":
 				String emailType = request.getParameter("emailType");
 				switch(emailType) {
-				case "conflict":
-
-					try {
-						SendEmail email = new SendEmail();
-						String playerInConflict = "2";
-						String gameInConflict = "42";
-						String[] theseUsers = {"1", "2", "3", "4"};
-						email.sendConflictEmail(request, playerInConflict, gameInConflict, theseUsers);
-
-					} catch (MessagingException mex) {
-						System.out.println("send failed, exception: " + mex);
-					}
-					address = "/admin/index.jsp";
-					break;
 				case "availability":
 					try {
 						SendEmail email = new SendEmail();

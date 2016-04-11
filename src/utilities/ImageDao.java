@@ -156,7 +156,6 @@ public class ImageDao extends HttpServlet {
 						preparedStatement = connect.prepareStatement("SELECT image_small_logo from ch_preferences where status = 1");
 						resultSet = preparedStatement.executeQuery();
 			            if(resultSet.next()){
-			                System.out.println("Inside RS");
 			                byte[] bytearray = new byte[1048576];
 			                int size=0;
 			                sImage = resultSet.getBinaryStream("image_small_logo");
@@ -167,7 +166,6 @@ public class ImageDao extends HttpServlet {
 			                    write(bytearray,0,size);
 			                }
 			            }
-
 			        } catch (Exception e){
 			            e.printStackTrace();
 			        } 
