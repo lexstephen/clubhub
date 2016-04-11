@@ -78,7 +78,16 @@ public class UserDao {
 
 		} catch (Exception e) {
 			throw e;
-		} 
+		}  finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void getUserId(HttpServletRequest request, String option) throws Exception {
@@ -86,14 +95,12 @@ public class UserDao {
 		case "login":
 			try {
 				String password = request.getParameter("password");
-				System.out.println("Password here is " + password);
 				String passwordHashed = HashPassword.hashPassword(password);
 				HttpSession session = request.getSession();
 				statement = connect.createStatement();
 				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\" and password = \"" + passwordHashed + "\"");
 				while (resultSet.next()) {
 					session.setAttribute("loggedInUserID", resultSet.getString("id")); 
-					System.out.println("getUserID id = " + session.getAttribute("loggedInUserID"));
 				}
 			} catch (Exception e) {
 				throw e;
@@ -109,6 +116,15 @@ public class UserDao {
 				}
 			} catch (Exception e) {
 				throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 			break;
 		}
@@ -128,6 +144,15 @@ public class UserDao {
 			}
 		} catch (Exception e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -142,6 +167,15 @@ public class UserDao {
 			}
 		} catch (Exception e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -169,6 +203,15 @@ public class UserDao {
 				}
 			} catch (Exception e) {
 				throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 			break;
 		}
@@ -244,7 +287,15 @@ public class UserDao {
 				email.sendNewRegistrationEmail(request, response, userName, userMail);
 
 			} catch (MessagingException mex) {
-				System.out.println("send failed, exception: " + mex);
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		}
 	}
@@ -279,6 +330,15 @@ public class UserDao {
 
 		} catch (SQLException e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		request.setAttribute("users", users);
 	} 
@@ -316,6 +376,15 @@ public class UserDao {
 
 		} catch (SQLException e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		request.setAttribute("users", users);
 	}
@@ -372,7 +441,6 @@ public class UserDao {
 		try {			
 			String userStatus = request.getParameter("userStatus");
 			String password = request.getParameter("password");
-			System.out.println("This userDao password is " + password);
 			String passwordHashed = HashPassword.hashPassword(password);
 
 			String province = null;
@@ -468,6 +536,15 @@ public class UserDao {
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -498,8 +575,6 @@ public class UserDao {
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String [] markedForDeletion = request.getParameterValues("userSelected");
 		for (String userID : markedForDeletion) {
-			System.out.println("I just set " + userID);
-			//		request.setAttribute("userID", userID);
 			deleteUser(request, response, userID);
 		}		
 	}
@@ -508,21 +583,18 @@ public class UserDao {
 		String userID = _userID;
 		try {
 			statement = connect.createStatement();
-			System.out.println("I am deleting " + userID);
 			statement.executeUpdate("delete from ch_user where id =" + userID); 
 		} catch (SQLException e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
-	/*
-	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String userID = request.getParameter("userID");
-		  try {
-			  statement = connect.createStatement();
-				System.out.println("I am deleting " + userID);
-			  statement.executeUpdate("delete from ch_user where id =" + userID); 
-		  } catch (SQLException e) {
-		      throw e;
-		  }
-	} */
 }

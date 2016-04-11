@@ -56,7 +56,16 @@ public class PostDao {
 			}
 	    } catch (Exception e) {
 	    	throw e;
-	    } 
+	    }  finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -77,7 +86,16 @@ public class PostDao {
 		    preparedStatement.executeUpdate();
 		    } catch (Exception e) {
 		      throw e;
-		    }
+		    } finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
 	}
 
 	public void listAll(HttpServletRequest request) throws Exception {
@@ -118,6 +136,15 @@ public class PostDao {
 			    }
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("posts", posts);
 	} 
@@ -172,6 +199,15 @@ public class PostDao {
 			    }
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("blogs", posts);
 	} 
@@ -223,6 +259,15 @@ public class PostDao {
 			    }
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("posts", posts);
 	} 
@@ -235,10 +280,18 @@ public class PostDao {
 		  try {
 			  statement = connect.createStatement();
 			  statement.executeUpdate("delete from ch_post where id =" + postID); 
-			  System.out.println("delte postID = " + postID);
 		  } catch (SQLException e) {
 		      throw e;
-		  }
+		  } finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
 	}
 	
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -246,7 +299,6 @@ public class PostDao {
 		String [] markedForDeletion = request.getParameterValues("postSelected");
 		for (String postID : markedForDeletion) {
 			request.setAttribute("postID", postID);
-			System.out.println("batchDelete postID: " + request.getAttribute("postID"));
 			deletePost(request, response);
 		}		
 	}
@@ -284,10 +336,18 @@ public class PostDao {
 			    	  post.setPostDate(resultSet.getString("Postdate"));
 			    	  post.setPostMatchUser(post.getUserid().equals(loggedInUserID));
 			    	  
-			    	  System.out.println("PostDate = " + post.getPostDate());
 			    }
 			} catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("post", post);
 		  	request.setAttribute("postTitle", post.getTitle());
@@ -318,7 +378,16 @@ public class PostDao {
 
 	    } catch (Exception e) {
 	      throw e;
-	    }
+	    } finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -350,8 +419,6 @@ public class PostDao {
 	    
 	    if (!executeString.equals(""))
 	    {
-	    	System.out.println("executeString is not null. Here's pageType, accessLevel, pageCategory values: " + pageType + accessLevel + category);
-	    	System.out.println("And here's executeString: " + executeString);
 			for (String x : markedForEdit) 
 			{
 				postID = x;
@@ -373,7 +440,6 @@ public class PostDao {
 		int numOfPages = 0, ppp = 3;   // Posts Per Page. this can be changed, maybe in preferences even?
 		double numOfRows = 0;
 		String pageNav = (request.getAttribute("pageNav") == null ? "first" : request.getAttribute("pageNav").toString()) ;
-		System.out.println(pageNav);
 		List<Post> posts = new ArrayList<Post>();	
 		@SuppressWarnings("unchecked")
 		List<Post> allBlogs = (List<Post>) request.getAttribute("blogs");
@@ -422,7 +488,6 @@ public class PostDao {
 		List<Post> posts = new ArrayList<Post>();
 		boolean isLoggedIn = false;
 		String searchTerm = request.getParameter("searchTerm");
-		System.out.println("searchTerm = " + searchTerm);
 		
 		HttpSession session = request.getSession();
 	
@@ -469,6 +534,15 @@ public class PostDao {
 			    }
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("blogs", posts);
 

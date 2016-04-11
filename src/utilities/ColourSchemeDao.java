@@ -49,7 +49,6 @@ public class ColourSchemeDao {
 	    try {	
 	    	
 	    	String option = request.getParameter("csid");
-	    	System.out.println("I see this option: " + option);
 	    	switch(option) {
 	    	case "000":
 	    	// connect to the database
@@ -93,7 +92,16 @@ public class ColourSchemeDao {
 	    	}
 	    } catch (Exception e) {
 	      throw e;
-	    }
+	    } finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void showColourScheme(HttpServletRequest request) throws Exception {
@@ -112,6 +120,15 @@ public class ColourSchemeDao {
 				request.setAttribute("colour_scheme", cscheme);
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 	} 
 
@@ -134,6 +151,15 @@ public class ColourSchemeDao {
 				request.setAttribute("colour_schemes", colour_schemes);
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 	} 
 
@@ -146,7 +172,16 @@ public class ColourSchemeDao {
 			  statement.close();
 		  } catch (SQLException e) {
 		      throw e;
-		  }	
+		  }	 finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
 	}
 }
 

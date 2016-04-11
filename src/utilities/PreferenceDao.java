@@ -62,7 +62,16 @@ public class PreferenceDao {
 			}
 		} catch (Exception e) {
 			throw e;
-		} 
+		}  finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -106,7 +115,6 @@ public class PreferenceDao {
 		    				+ "`telephone`, `address`, `city`, `province`, `postal_code`, `country`, "
 		    				+ "`status`, `preference_name`, `contactName`, `emailAddress`, `clubURL`, `image_logo`, `image_small_logo`) "
 		    				+ " values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	        		System.out.println(qry);
 		    		preparedStatement = connect.prepareStatement(qry);
 		    		preparedStatement.setString(1, request.getParameter("club_name_long")); // club_name_long
 		    		preparedStatement.setString(2, request.getParameter("club_name_short")); // club_name_short 
@@ -130,7 +138,16 @@ public class PreferenceDao {
 
     } catch (Exception e) {
       throw e;
-    }
+    } finally {
+		if (connect != null) {
+			// closes the database connection
+			try {
+				connect.close();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
 }
 
 	public void showPrefs(HttpServletRequest request) throws Exception {
@@ -206,6 +223,15 @@ public class PreferenceDao {
 			  	session.setAttribute("prefs", prefs);
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 	} 
 
@@ -214,7 +240,6 @@ public class PreferenceDao {
 		String delPrefID = request.getParameter("prefID");
 		String defaultPrefID = (String) session.getAttribute("prefID");
 //		showPrefs(request);
-		System.out.println("Preference ID is " + defaultPrefID + " deleting " + delPrefID);
 //		Preference delPref = (Preference) request.getAttribute("preference");
 	    try {
 			  statement = connect.createStatement();
@@ -224,7 +249,6 @@ public class PreferenceDao {
 		  }
 	    
 		if (defaultPrefID.equals(delPrefID)) {
-			System.out.println("Matched - now I will find a new number");
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select * from ch_Preferences ORDER BY id ASC LIMIT 1"); 
 
@@ -232,7 +256,6 @@ public class PreferenceDao {
 			// if it is not, there are not
 			while(resultSet.next()) {
 		    	String firstPref = resultSet.getString("id");
-		    	System.out.println("The ID is " + firstPref);
 				preparedStatement = connect.prepareStatement("UPDATE ch_preferences set status = '1' WHERE id = " + firstPref);
 				preparedStatement.executeUpdate();
 			} 
@@ -326,7 +349,16 @@ public class PreferenceDao {
 		    		
     } catch (Exception e) {
       throw e;
-    }
+    } finally {
+		if (connect != null) {
+			// closes the database connection
+			try {
+				connect.close();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
 }
 
 	public void taxRate(HttpServletRequest request) { 
@@ -342,6 +374,15 @@ public class PreferenceDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 }
