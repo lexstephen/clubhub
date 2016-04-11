@@ -29,7 +29,7 @@ public class SeasonController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		System.out.println("I start here");
 		String option = request.getParameter("option");
 		SeasonDao dao = new SeasonDao();
 		GameDao gameDao = new GameDao();
@@ -85,7 +85,7 @@ public class SeasonController extends HttpServlet {
 		    		address="admin/ListSeasons.jsp";		    		
 	    		break;
 		    	default:
-	    		errorChecker = "Something has gone horribly wrong";
+	    		errorChecker = "Something has gone borribly wrong";
 	    	}
 	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);

@@ -17,7 +17,7 @@
 	<td class="col-md-2" sorttable_customkey="${season.startDateFullYear}">${season.startDateFullYear}</td>
 	<td class="col-md-3">
 			<c:if test="${(isAdmin == true)}">
-				<form action="{pageContext.request.contextPath}/SeasonController" method="post" class="form" role="form">
+				<form action="${pageContext.request.contextPath}/SeasonController" method="post" class="form" role="form">
 					<input type="hidden" name="seasonID" value="${season.id}">
 					<input type="hidden" name="option" value="close">
 					<button class="btn btn-warning btn-sm" type="submit">Close/Assign Players</button>
