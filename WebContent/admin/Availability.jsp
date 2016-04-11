@@ -40,28 +40,64 @@ slot.findAllOfUsersSlots(request);
 		
 		<p>If a conflict arises, deselect the checkbox in question and this
 		information will be provided to the administrator. Conflicts that occur after scheduling can be managed on their individual game pages.</p>
-	<p><label><input type="checkbox" name="selectall" onClick="toggleBox(this)"/> Select all</label></p>
-	<!--   -->
-	<h4>Past Slots</h4>
-	<c:forEach items="${slots}" var="slot">
-		<c:if test="${slot.scheduledDateWithYear le nowDate}">
-			<input type="checkbox" name="slots" value="${slot.id}"
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-5 col-sm-offset-1">
+						<h3>Upcoming Slots <small> <input type="checkbox" name="selectall" onClick="toggleBox(this)"/> Select all?</small></h3>
+			<table class="table table-striped">
+				<c:choose>
+					<c:when test="${!empty slot.scheduledDateWithYear ge nowDate}">
+						<c:forEach items="${slots}" var="slot" >
+						<c:if test="${slot.scheduledDateWithYear ge nowDate}">
+							<tr>
+								<td>
+									<input type="checkbox" name="slots" value="${slot.id}"
 				<c:forEach items="${user.slotid}" var="uslot">
-					<c:if test="${(slot.id == uslot) && (slot.conflict == 0) }"> checked</c:if>
-				</c:forEach>>   ${slot.scheduledDate} | ${slot.dayOfWeek}s at ${slot.time} | ${slot.gender} ${slot.seasonName } ${slot.year}  <br>
-		</c:if>
-	</c:forEach>
-	<h4>Future Slots</h4>
-	<c:forEach items="${slots}" var="slot">
-		<c:if test="${slot.scheduledDateWithYear ge nowDate}">
-			<input type="checkbox" name="slots" value="${slot.id}"
-				<c:forEach items="${user.slotid}" var="uslot">
-					<c:if test="${(slot.id == uslot) && (slot.conflict == 0) }"> checked</c:if>
-				</c:forEach>>   ${slot.scheduledDate} | ${slot.dayOfWeek}s at ${slot.time} | ${slot.gender} ${slot.seasonName } ${slot.year}  <br>
-		</c:if>
-	</c:forEach>
+					<c:if test="${(slot.id == uslot) && (slot.conflict == 0) }"> checked</c:if> 
+				</c:forEach>>
+								</td>
+								<td>${slot.scheduledDate}</td><td>${slot.dayOfWeek}s at ${slot.time}</td><td>${slot.gender} ${slot.seasonName } ${slot.year}
+								</td>
+							</tr>
+						</c:if>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<div class="alert alert-info"><strong>No games exist for you to join!</strong></div>
+					</c:otherwise>
+				</c:choose>
+			</table>
 	<button class="btn btn-primary" type="submit" value="availability"
 		name="option">Submit</button>
+			</div>
+			<div class="col-xs-12 col-sm-5 col-sm-offset-1">
+			<h3>Past Slots</h3>
+			<table class="table table-striped">
+				<c:choose>
+					<c:when test="${! empty slot.scheduledDateWithYear le nowDate}">
+						<c:forEach items="${slots}" var="slot" >
+						<c:if test="${slot.scheduledDateWithYear le nowDate}">
+							<tr>
+								<td>
+									<input type="checkbox" name="slots" value="${slot.id}"
+				<c:forEach items="${user.slotid}" var="uslot">
+					<c:if test="${(slot.id == uslot) && (slot.conflict == 0) }"> checked</c:if> disabled
+				</c:forEach>>
+								</td>
+								<td>${slot.scheduledDate}</td><td>${slot.dayOfWeek}s at ${slot.time}</td><td>${slot.gender} ${slot.seasonName } ${slot.year}
+								</td>
+							</tr>
+							</c:if>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<div class="alert alert-info"><strong>No games exist for you to join!</strong></div>
+					</c:otherwise>
+				</c:choose>
+			</table>
+		</div>
+	</div>
+
 </form>
 
 
