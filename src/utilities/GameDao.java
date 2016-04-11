@@ -54,6 +54,7 @@ public class GameDao {
 
 	public boolean isInDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
+			connect = DatabaseAccess.connectDataBase();
 			String id = request.getParameter("id");
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select * from ch_season where id = \"" + id + "\""); 
@@ -83,7 +84,7 @@ public class GameDao {
 		List<UserGame> games = new ArrayList<UserGame>();
 
 		try {
-
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			ResultSet results = statement.executeQuery("SELECT * FROM ch_user_game ug JOIN ch_game game ON ug.Gameid = game.id "
 					+ "WHERE Userid = " + request.getAttribute("userID") + " ORDER BY game.scheduledDate DESC");
@@ -119,6 +120,7 @@ public class GameDao {
 	
 	public void gameIsOpen(HttpServletRequest request, HttpServletResponse response, String gameID) throws SQLException, ServletException, IOException {
 		boolean hasOpenSlots = true;
+		
 		statement = connect.createStatement();
 		resultSet = statement.executeQuery("SELECT * from ch_slot slot join ch_game game ON slot.gameID = game.id "
 				+ "WHERE gameID = " + gameID + " AND status = 1");
@@ -134,8 +136,7 @@ public class GameDao {
 
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
 		try {
-			HttpSession session = request.getSession();
-
+			connect = DatabaseAccess.connectDataBase();
 			// First we need to check how many games are in the current season we have passed in. 
 			// We also need to get the start date because we have to add 7 days to it everytime we go through the loop
 			statement = connect.createStatement();
@@ -205,7 +206,8 @@ public class GameDao {
 		boolean isMatched = false;
 		boolean isLoggedIn = session.getAttribute("isLoggedIn") == null ? false : (boolean) session.getAttribute("isLoggedIn");
 		String output = "", gender = "", gameDate = "";
-		try{  		
+		try{  	
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT game.id, game.Seasonid, season.gender, season.startTime FROM clubhub.ch_game game JOIN clubhub.ch_season season "
 					+ "ON game.Seasonid = season.id "
@@ -242,7 +244,8 @@ public class GameDao {
 
 	public void listAll(HttpServletRequest request) throws Exception {
 		List<Game> games = new ArrayList<Game>();
-		try{  		
+		try{  	
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM ch_game ORDER BY scheduledDate DESC");
 			while (resultSet.next()) {
@@ -333,6 +336,7 @@ public class GameDao {
 
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
 		try {
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			statement.executeUpdate("delete from ch_season where id =" + seasonID); 
 
@@ -372,7 +376,8 @@ public class GameDao {
 
 	public void findGameSet(HttpServletRequest request, String seasonID) throws Exception{
 		List<Game> games = new ArrayList<Game>();
-		try{  		
+		try{  	
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * "
 					+ "FROM ch_game JOIN ch_season ON ch_game.seasonID = ch_season.id AND seasonID= " + seasonID);
@@ -433,7 +438,8 @@ public class GameDao {
 		Date date1 = format.parse(new SimpleDateFormat("yyyy-MM-dd").format((new Date())));
 		
 
-		try{  		
+		try{  	
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * "
 					+ "FROM ch_game game JOIN ch_season season ON game.seasonID = season.id "
@@ -491,6 +497,7 @@ public class GameDao {
 		boolean isTBD = false;
 
 		try {
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			statement2 = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM ch_user_game JOIN ch_user ON ch_user_game.Userid = ch_user.id WHERE Gameid= " + gameID);
@@ -572,6 +579,7 @@ public class GameDao {
 		Game game = new Game();
 		SeasonDao seasondao = new SeasonDao();
 		try{
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM ch_game WHERE id= " + gameID );
 
@@ -626,6 +634,7 @@ public class GameDao {
 		try{
 			// first, drop their current entries
 			// lazy but in a pinch.. 
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			statement.executeUpdate("delete from ch_user_slot WHERE Userid = " + playerToAdd); 
 
@@ -662,6 +671,7 @@ public class GameDao {
 
 		// take the CSV of slots that the player will play and split them out into an array
 		try{
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			ResultSet results = statement.executeQuery("select Slotid from ch_user_slot where Userid = " + playerToFind); 
 			while(results.next()){
@@ -697,6 +707,7 @@ public class GameDao {
 
 		// take the CSV of slots that the player will play and split them out into an array
 		try{
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			ResultSet results = statement.executeQuery("select * from ch_user_game JOIN ch_game ON ch_user_game.Gameid = ch_game.id where Userid = " + playerToFind); 
 			while(results.next()){
@@ -746,6 +757,7 @@ public class GameDao {
 	public void playersAvailable(HttpServletRequest request, String userID, String slotIDs) throws Exception{
 		String [] slots = slotIDs.split(",");
 		try{
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			for (int i = 0; i < slots.length; i++) { 
 				String slotID = slots[i];
@@ -840,6 +852,7 @@ public class GameDao {
 	public void findAvailableUsersWhoArentScheduled(HttpServletRequest request, HttpServletResponse response, String gameID) throws Exception{
 		List<User> backupUsers = new ArrayList<User>();
 		try {
+			connect = DatabaseAccess.connectDataBase();
 			String scheduledUsers = ""; 
 			String firstqry = "SELECT Userid from ch_user_game WHERE Gameid = " + gameID;
 			statement = connect.createStatement();
@@ -1060,6 +1073,7 @@ public class GameDao {
 		String userID = (String) session.getAttribute("loggedInUserID");
 		List<Slot> slots = new ArrayList<Slot>();
 		try {
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM ch_user WHERE id= " + userID );
 			//String userGender = null;

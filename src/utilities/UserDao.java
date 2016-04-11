@@ -48,7 +48,7 @@ public class UserDao {
 
 	public boolean isInDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
-
+			connect = DatabaseAccess.connectDataBase();
 			String option = request.getParameter("option");
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
@@ -94,6 +94,7 @@ public class UserDao {
 		switch(option) {
 		case "login":
 			try {
+				connect = DatabaseAccess.connectDataBase();
 				String password = request.getParameter("password");
 				String passwordHashed = HashPassword.hashPassword(password);
 				HttpSession session = request.getSession();
@@ -108,6 +109,7 @@ public class UserDao {
 			break;
 		case "viewprofile":
 			try {
+				connect = DatabaseAccess.connectDataBase();
 				HttpSession session = request.getSession();
 				statement = connect.createStatement();
 				resultSet = statement.executeQuery("select id from ch_user where username = \"" + request.getParameter("username") + "\"");
@@ -132,6 +134,7 @@ public class UserDao {
 
 	public void getUserAge(HttpServletRequest request) throws Exception {
 		try {
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select dateCreated from ch_user where id = '" + request.getParameter("userID") + "'");
 			while (resultSet.next()) {
@@ -158,6 +161,7 @@ public class UserDao {
 
 	public void isAdmin(HttpServletRequest request) throws Exception {
 		try {
+			connect = DatabaseAccess.connectDataBase();
 			HttpSession session = request.getSession();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select userStatus from ch_user where id = '" + session.getAttribute("loggedInUserID") + "'");
@@ -183,6 +187,7 @@ public class UserDao {
 		switch (option) {
 		case "login": 
 			try {
+				connect = DatabaseAccess.connectDataBase();
 				HttpSession session = request.getSession();
 				statement = connect.createStatement();
 				resultSet = statement.executeQuery("select firstName, lastName from ch_user where id = \"" + session.getAttribute("loggedInUserID") + "\"");
@@ -195,6 +200,7 @@ public class UserDao {
 			break;
 		case "viewprofile":
 			try {
+				connect = DatabaseAccess.connectDataBase();
 				HttpSession session = request.getSession();
 				statement = connect.createStatement();
 				resultSet = statement.executeQuery("select firstName, lastName from ch_user where id = \"" + request.getParameter("userID") + "\"");
@@ -221,6 +227,7 @@ public class UserDao {
 		String password = request.getParameter("password");
 		String passwordHashed = HashPassword.hashPassword(password);
 		try {
+			
 			// determine whether we should be looking for the province or state variable, based on their country
 			String province = null;
 			switch(request.getParameter("country")) {
@@ -242,7 +249,7 @@ public class UserDao {
 				// obtains input stream of the upload file
 				inputStream = filePart.getInputStream();
 			}
-
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			preparedStatement = connect.prepareStatement("insert into ch_user values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			preparedStatement.setString(1, request.getParameter("username")); 					// username
@@ -281,6 +288,7 @@ public class UserDao {
 			}
 
 			try {
+				connect = DatabaseAccess.connectDataBase();
 				SendEmail email = new SendEmail();
 				String userName = request.getParameter("firstName") + " " + request.getParameter("lastName");
 				String userMail = request.getParameter("emailAddress");
@@ -303,6 +311,7 @@ public class UserDao {
 	public void listAllUsers(HttpServletRequest request) throws Exception {
 		List<User> users = new ArrayList<User>();
 		try{
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select * from ch_user ORDER BY username");
 
@@ -347,6 +356,7 @@ public class UserDao {
 		//this method returns the latest 3 users
 		List<User> users = new ArrayList<User>();
 		try{
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select * from ch_user ORDER BY id DESC LIMIT 3");
 
@@ -392,7 +402,7 @@ public class UserDao {
 	public void findUser(HttpServletRequest request, String _userID) throws Exception {
 		User user = new User();
 		String userID = _userID;
-
+		connect = DatabaseAccess.connectDataBase();
 		statement = connect.createStatement();
 		resultSet = statement.executeQuery(
 				"SELECT * FROM clubhub.ch_user WHERE id = '" + userID + "'");
@@ -454,7 +464,7 @@ public class UserDao {
 			}
 
 			String qry = "";
-
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			/* ********** take care of image uploading *****************/
 
@@ -582,6 +592,7 @@ public class UserDao {
 	public void deleteUser(HttpServletRequest request, HttpServletResponse response, String _userID) throws Exception {
 		String userID = _userID;
 		try {
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			statement.executeUpdate("delete from ch_user where id =" + userID); 
 		} catch (SQLException e) {

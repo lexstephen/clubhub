@@ -65,6 +65,7 @@ public class ImageDao extends HttpServlet {
 		        }
 	
 		        try{
+		        	connect = DatabaseAccess.connectDataBase();
 					statement = connect.createStatement();
 					preparedStatement = connect.prepareStatement("SELECT photo from ch_user where id = " + imageId);
 					resultSet = preparedStatement.executeQuery();
@@ -98,6 +99,7 @@ public class ImageDao extends HttpServlet {
 			case "image_logo":
 				if(prefId != null) {
 			        try{
+			        	connect = DatabaseAccess.connectDataBase();
 						statement = connect.createStatement();
 						preparedStatement = connect.prepareStatement("SELECT image_logo from ch_preferences where id = " + prefId);
 						resultSet = preparedStatement.executeQuery();
@@ -127,6 +129,7 @@ public class ImageDao extends HttpServlet {
 					}
 				} else {
 			        try{
+			        	connect = DatabaseAccess.connectDataBase();
 						statement = connect.createStatement();
 						preparedStatement = connect.prepareStatement("SELECT image_logo from ch_preferences where status = 1");
 						resultSet = preparedStatement.executeQuery();
@@ -159,6 +162,7 @@ public class ImageDao extends HttpServlet {
 			case "image_small_logo":
 				if(prefId != null) {
 					try{
+						connect = DatabaseAccess.connectDataBase();
 						statement = connect.createStatement();
 						preparedStatement = connect.prepareStatement("SELECT image_small_logo from ch_preferences where id = " + prefId);
 						resultSet = preparedStatement.executeQuery();
@@ -188,6 +192,7 @@ public class ImageDao extends HttpServlet {
 					}
 				} else {
 					try{
+						connect = DatabaseAccess.connectDataBase();
 						statement = connect.createStatement();
 						preparedStatement = connect.prepareStatement("SELECT image_small_logo from ch_preferences where status = 1");
 						resultSet = preparedStatement.executeQuery();

@@ -33,7 +33,6 @@ public class ValidationUtilities {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		HashPassword hp = new HashPassword();
-		String passwordHashed = hp.hashPassword(password);
 		request.setAttribute("username", username);		
 		request.setAttribute("password", password);
 		if (isMissing(username)) {
@@ -500,6 +499,15 @@ public class ValidationUtilities {
 
 			}catch (SQLException e) {
 				throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		}
 		return players;

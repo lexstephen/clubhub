@@ -9,23 +9,16 @@ package utilities;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import model.Post;
-import model.User;
 import utilities.DatabaseAccess;
 
 public class PostDao {
@@ -44,6 +37,7 @@ public class PostDao {
 	
 	public boolean isInDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {
+	    	connect = DatabaseAccess.connectDataBase();
 			String id = request.getParameter("id");
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select * from ch_post where id = \"" + id + "\""); 
@@ -71,7 +65,7 @@ public class PostDao {
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {
 			HttpSession session = request.getSession();
-			
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			preparedStatement = connect.prepareStatement("insert into ch_post values (default, ?, ?, ?, ?, ?, ?, ?)");
 			// columns are title, content, Userid, Posttypeid, Accessid, Categoryid
@@ -102,6 +96,7 @@ public class PostDao {
 		HttpSession session = request.getSession();  
 		List<Post> posts = new ArrayList<Post>();
 		  	try{
+		  		connect = DatabaseAccess.connectDataBase();
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, post.Postdate, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_post post "
@@ -159,6 +154,7 @@ public class PostDao {
 		  }
 
 		  	try{
+		  		connect = DatabaseAccess.connectDataBase();
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, post.Postdate, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_post post "
@@ -222,6 +218,7 @@ public class PostDao {
 		  }
 
 		  	try{
+		  		connect = DatabaseAccess.connectDataBase();
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_post post "
@@ -278,6 +275,7 @@ public class PostDao {
 		String postID = (request.getAttribute("postID")) == null ? request.getParameter("postID") : (String) request.getAttribute("postID");
 				
 		  try {
+			  connect = DatabaseAccess.connectDataBase();
 			  statement = connect.createStatement();
 			  statement.executeUpdate("delete from ch_post where id =" + postID); 
 		  } catch (SQLException e) {
@@ -310,6 +308,7 @@ public class PostDao {
 		String loggedInUserID = session.getAttribute("loggedInUserID") == null ? "nil" : (String)session.getAttribute("loggedInUserID");
 		  
 		  	try{
+		  		connect = DatabaseAccess.connectDataBase();
 			    statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.id, post.Postdate, post.Userid, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_post post "
@@ -362,7 +361,7 @@ public class PostDao {
 		    String pageType = request.getParameter("pageType"); // Posttypeid
 		    String accessLevel = request.getParameter("accessLevel"); // Accessid
 		    String category = (request.getParameter("pageCategory") != null) ? request.getParameter("pageCategory"): "1"; // Categoryid
-	      
+		    connect = DatabaseAccess.connectDataBase();
 		    statement = connect.createStatement();
 		    preparedStatement = connect.prepareStatement("UPDATE ch_post SET title = ?, content = ?, Posttypeid = ?, "
 		    		+ "Accessid= ?, Categoryid= ?, Postdate= ? WHERE id='" + postID + "'");
@@ -483,7 +482,7 @@ public class PostDao {
 
 	}
 
-	public void searchPosts(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+	public void searchPosts(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		List<Post> posts = new ArrayList<Post>();
 		boolean isLoggedIn = false;
@@ -496,6 +495,7 @@ public class PostDao {
 		}
 	
 	  		try{
+	  			connect = DatabaseAccess.connectDataBase();
 	  			statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT post.title, post.content, post.Userid, post.id, post.Postdate, user.username, user.firstName, user.lastName, posttype.type, access.type, category.type " 
 				+ "FROM clubhub.ch_post post "
