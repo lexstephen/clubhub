@@ -55,7 +55,12 @@ public class InvoiceController extends HttpServlet {
 		request.setAttribute("result", request.getParameter("result"));
 		request.setAttribute("taxes", request.getParameter("taxes"));
 		request.setAttribute("finalresult", request.getParameter("finalresult"));
-		pref.taxRate(request);
+		try {
+			pref.taxRate(request);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	    try {
 	    	switch(option) {
 		    	case "add":

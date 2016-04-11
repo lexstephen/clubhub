@@ -17,27 +17,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import javax.mail.MessagingException;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
-
-import model.Game;
 import model.Season;
-import model.Slot;
-import model.UserGame;
 import model.UserSeason;
 import utilities.DatabaseAccess;
 
 public class SeasonDao {
 	private Connection connect = null;
 	private Statement statement = null;
-	private Statement statement1 = null;
-	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	private ResultSet resultSet1 = null;
 
@@ -51,6 +40,7 @@ public class SeasonDao {
 
 	public boolean isInDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
+			connect = DatabaseAccess.connectDataBase();
 			String id = request.getParameter("id");
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("select * from ch_season where id = \"" + id + "\""); 
@@ -86,7 +76,7 @@ public class SeasonDao {
 			c.setTime(date);
 			int year = c.get(Calendar.YEAR);
 			int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_season values (default, ?, ?, ?, ?, ?, ?, ?)");
 
@@ -132,7 +122,7 @@ public class SeasonDao {
 		String userID = (String) request.getAttribute("userID");
 
 		try {
-
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 
 			ResultSet results = statement.executeQuery("SELECT DISTINCT Seasonid FROM clubhub.ch_user_game ug "
@@ -187,6 +177,7 @@ public class SeasonDao {
 		List<String> seasons = new ArrayList<String>();
 
 		try {
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT id from ch_season");
 
@@ -221,7 +212,7 @@ public class SeasonDao {
 		boolean slotsFull = true;
 
 		try {
-
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT slot.id, game.id from ch_game game JOIN ch_season seas ON game.Seasonid = seas.id "
 					+ "JOIN ch_slot slot ON game.id = slot.gameID WHERE seas.id = " + seasonID + " AND slot.status = 1");
@@ -288,7 +279,8 @@ public class SeasonDao {
 	public void listOpenSeasons(HttpServletRequest request) throws Exception {
 		List<Season> seasons = new ArrayList<Season>();
 		boolean hasOpenSlots;
-		try {  		
+		try { 
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * from ch_season");
 			while (resultSet.next()) {
@@ -332,7 +324,8 @@ public class SeasonDao {
 	public void listClosedSeasons(HttpServletRequest request) throws Exception {
 		List<Season> seasons = new ArrayList<Season>();
 		boolean hasOpenSlots;
-		try {  		
+		try { 
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * from ch_season");
 			while (resultSet.next()) {
@@ -377,7 +370,8 @@ public class SeasonDao {
 
 	public void listAll(HttpServletRequest request) throws Exception {
 		List<Season> seasons = new ArrayList<Season>();
-		try{  		
+		try{  	
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM ch_season");
 			while (resultSet.next()) {
@@ -409,6 +403,7 @@ public class SeasonDao {
 
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
 		try {
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			statement.executeUpdate("delete from ch_season where id =" + seasonID); 
 
@@ -438,6 +433,7 @@ public class SeasonDao {
 		Season season = new Season();
 		//String seasonID = null;
 		try{
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			resultSet = statement.executeQuery("SELECT * FROM ch_season WHERE id= " + seasonID);
 
@@ -479,7 +475,7 @@ public class SeasonDao {
 			String duration = request.getParameter("duration"); // duration
 
 
-
+			connect = DatabaseAccess.connectDataBase();
 			statement = connect.createStatement();
 			statement.executeUpdate("UPDATE ch_season SET year='" + year + "', season='" + season + "', gender='" + gender + 
 					"', startDate='" + startDate + "', startTime='" + startTime + "' dayOfWeek='" + dayOfWeek + "'duration='" 

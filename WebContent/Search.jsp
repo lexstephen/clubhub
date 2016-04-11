@@ -26,10 +26,10 @@ ${fn:length(blogs)} result<c:if test="${fn:length(blogs) != 1}">s</c:if>
 <table class="table table-hover sortable">
 	<thead>
 		<tr>
-			<th class="col-xs-12 col-md-3 control-label">Title</th>
-			<th class="col-xs-12 col-md-2">Category</th>
+			<th class="col-xs-12 col-md-5 control-label">Title</th>
+			<th class="col-xs-12 col-md-3">Category</th>
 			<th class="col-xs-12 col-md-2">Author</th>
-			<th class="col-xs-12 col-md-3">Access Level</th>
+			<th class="col-xs-12 col-md-1">Access Level</th>
 			<th class="sorttable_nosort"></th>
 		</tr>
 	</thead>

@@ -84,15 +84,6 @@ public class ImageDao extends HttpServlet {
 	
 		        } catch (Exception e){
 		            e.printStackTrace();
-		        } finally {
-					if (connect != null) {
-						// closes the database connection
-						try {
-							connect.close();
-						} catch (SQLException ex) {
-							ex.printStackTrace();
-						}
-					}
 				}
 	        break;
 			case "image_logo":
@@ -115,15 +106,6 @@ public class ImageDao extends HttpServlet {
 
 			        } catch (Exception e){
 			            e.printStackTrace();
-			        } finally {
-						if (connect != null) {
-							// closes the database connection
-							try {
-								connect.close();
-							} catch (SQLException ex) {
-								ex.printStackTrace();
-							}
-						}
 					}
 				} else {
 			        try{
@@ -144,16 +126,7 @@ public class ImageDao extends HttpServlet {
 
 			        } catch (Exception e){
 			            e.printStackTrace();
-			        } finally {
-						if (connect != null) {
-							// closes the database connection
-							try {
-								connect.close();
-							} catch (SQLException ex) {
-								ex.printStackTrace();
-							}
-						}
-					}
+			        } 
 				}
 	        break;
 			case "image_small_logo":
@@ -176,15 +149,6 @@ public class ImageDao extends HttpServlet {
 
 			        } catch (Exception e){
 			            e.printStackTrace();
-			        } finally {
-						if (connect != null) {
-							// closes the database connection
-							try {
-								connect.close();
-							} catch (SQLException ex) {
-								ex.printStackTrace();
-							}
-						}
 					}
 				} else {
 					try{
@@ -204,16 +168,7 @@ public class ImageDao extends HttpServlet {
 			            }
 			        } catch (Exception e){
 			            e.printStackTrace();
-			        } finally {
-						if (connect != null) {
-							// closes the database connection
-							try {
-								connect.close();
-							} catch (SQLException ex) {
-								ex.printStackTrace();
-							}
-						}
-					}
+			        } 
 				}
 	        break;
 		}

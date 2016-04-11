@@ -66,7 +66,7 @@ public class InvoiceDao {
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    try {	    	
-	        
+	    	connect = DatabaseAccess.connectDataBase();
 	    	// if editing an invoice, Parameter will be set and we will use that in the new insert
 	    	// if adding new, Parameter does not exist and we will use 'default'
 	    	String sqlDefault = (request.getParameter("invoiceID")) == null ? "default" : request.getParameter("invoiceID");
@@ -179,6 +179,7 @@ public class InvoiceDao {
 	public void listAllUsers(HttpServletRequest request) throws Exception {
 		  List<User> users = new ArrayList<User>();
 		  	try{
+		  		connect = DatabaseAccess.connectDataBase();
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT id, username, firstName, lastName from ch_user ORDER BY lastName");
 			    while (resultSet.next()) {
@@ -208,6 +209,7 @@ public class InvoiceDao {
 	public void listAllLineItems(HttpServletRequest request) throws Exception {
 		  List<InvoiceLineItem> lineitems = new ArrayList<InvoiceLineItem>();
 		  	try{
+		  		connect = DatabaseAccess.connectDataBase();
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT * from ch_invoice_line_items");
 			    while (resultSet.next()) {
@@ -235,6 +237,7 @@ public class InvoiceDao {
 	public void listAllLineItemsForInvoice(HttpServletRequest request) throws Exception {
 		  List<InvoiceLineItem> lineitemsforinvoice = new ArrayList<InvoiceLineItem>();
 		  	try{
+		  		connect = DatabaseAccess.connectDataBase();
 		  		statement = connect.createStatement();
 		  		String qry = "SELECT * from ch_invoice_line_items ili"
 					+ " JOIN clubhub.ch_invoice_line_items_invoice ilii"
@@ -269,6 +272,7 @@ public class InvoiceDao {
 	public void listAll(HttpServletRequest request) throws Exception { 
 		  List<Invoice> invoices = new ArrayList<Invoice>();
 		  	try{
+		  		connect = DatabaseAccess.connectDataBase();
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT i.id, i.invDate, i.status, i.Userid, u.username, u.firstName, u.lastName"
 		    				+ " FROM clubhub.ch_invoice i JOIN clubhub.ch_user u on i.Userid = u.id");
@@ -307,6 +311,7 @@ public class InvoiceDao {
 		String userID = request.getParameter("userID");
 				
 		  	try{
+		  		connect = DatabaseAccess.connectDataBase();
 		  		statement = connect.createStatement();
 			    resultSet = statement.executeQuery("SELECT id, invDate, status"
 		    				+ " FROM clubhub.ch_invoice WHERE Userid = " + userID + " ORDER BY invDate DESC");
@@ -339,9 +344,9 @@ public class InvoiceDao {
 		// if coming from batchDelte, attribute will be set. otherwise, parameter will be set
 		String invoiceID = (request.getAttribute("invoiceID")) == null ? request.getParameter("invoiceID") : (String) request.getAttribute("invoiceID");
 				
-		try {	    	
+		try {	    
+			connect = DatabaseAccess.connectDataBase();
 			  statement = connect.createStatement();
-			  
 			  statement.executeUpdate("delete FROM ch_invoice_line_items_invoice where Invoiceid = + " + invoiceID + ";");
 			  statement.executeUpdate("delete FROM ch_invoice where id = + " + invoiceID + ";");
 			  		  
@@ -370,6 +375,7 @@ public class InvoiceDao {
 	
 	public void countLineItemsForInvoice(HttpServletRequest request, HttpServletResponse response) throws Exception { 
 	  	try{
+	  		connect = DatabaseAccess.connectDataBase();
 	  		int numItems = 0;
 		    statement = connect.createStatement();
 		    String qry = "SELECT count(*) AS numItems FROM clubhub.ch_invoice_line_items_invoice ili WHERE ili.Invoiceid = " + request.getParameter("invoiceID");
@@ -454,6 +460,7 @@ public class InvoiceDao {
 
 
 		  	try{
+		  		connect = DatabaseAccess.connectDataBase();
 			    statement = connect.createStatement();
 			    String qry = "SELECT invoice.id, invoice.invDate, "
 			    		+ "invoice.status, invoice.Userid, "
@@ -540,7 +547,8 @@ public class InvoiceDao {
 		
 		String invoiceID = request.getParameter("invoiceID");
 				
-		try {	    	
+		try {	
+			connect = DatabaseAccess.connectDataBase();
 			  statement = connect.createStatement();
 			  
 			  statement.executeUpdate("delete FROM ch_invoice_line_items_invoice where Invoiceid = " + invoiceID + ";");
