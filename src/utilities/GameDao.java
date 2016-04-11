@@ -118,9 +118,9 @@ public class GameDao {
 
 	}
 	
-	public void gameIsOpen(HttpServletRequest request, HttpServletResponse response, String gameID) throws SQLException, ServletException, IOException {
+	public void gameIsOpen(HttpServletRequest request, HttpServletResponse response, String gameID) throws Exception {
 		boolean hasOpenSlots = true;
-		
+		connect = DatabaseAccess.connectDataBase();
 		statement = connect.createStatement();
 		resultSet = statement.executeQuery("SELECT * from ch_slot slot join ch_game game ON slot.gameID = game.id "
 				+ "WHERE gameID = " + gameID + " AND status = 1");

@@ -180,7 +180,7 @@
 			<div
 				class="form-group col-xs-6 <c:if test="${!empty errorTelephone}">has-error</c:if>">
 				<label for="inptTelephone">Telephone</label> <input required
-					class="form-control" type="text" name="telephone"
+					class="form-control" type="text" name="telephone" maxlength="10"
 					id="inptTelephone" value="${telephone }">
 			</div>
 			<div

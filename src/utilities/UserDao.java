@@ -118,18 +118,18 @@ public class UserDao {
 				}
 			} catch (Exception e) {
 				throw e;
-			} finally {
-				if (connect != null) {
-					// closes the database connection
-					try {
-						connect.close();
-					} catch (SQLException ex) {
-						ex.printStackTrace();
-					}
-				}
-			}
+			} 
 			break;
 		}
+		if (connect != null) {
+			// closes the database connection
+			try {
+				connect.close();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+
 	}
 
 	public void getUserAge(HttpServletRequest request) throws Exception {
@@ -227,7 +227,7 @@ public class UserDao {
 		String password = request.getParameter("password");
 		String passwordHashed = HashPassword.hashPassword(password);
 		try {
-			
+
 			// determine whether we should be looking for the province or state variable, based on their country
 			String province = null;
 			switch(request.getParameter("country")) {
