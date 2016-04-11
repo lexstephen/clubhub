@@ -32,9 +32,6 @@ public class PostController extends HttpServlet {
 		PostDao dao = new PostDao();
 		String address = "";
 		String errorChecker = "errorChecker is null";
-		
-		System.out.println("option: " + option);
-		
 	    try {
 	    	switch(option) {
 		    	case "add":
@@ -110,7 +107,6 @@ public class PostController extends HttpServlet {
 					request.setAttribute("errorString", "Something went wrong!");
 				break;
 	    	}
-	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 	    	dispatcher.forward(request, response);
 	    	

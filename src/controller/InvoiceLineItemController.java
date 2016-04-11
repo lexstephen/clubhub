@@ -33,7 +33,6 @@ public class InvoiceLineItemController extends HttpServlet {
 		String address = "";
 		//
 		String errorChecker = "n/a";
-		System.out.println(option);
 	    try {
 	    	switch(option) {
 		    	case "add":
@@ -73,7 +72,6 @@ public class InvoiceLineItemController extends HttpServlet {
 		    	case "delete":
 		    		try {
 		    			String invoiceID = request.getParameter("invoiceID");
-		    			System.out.println("Delete invoiceID = " + invoiceID);
 						dao.deleteInvoice(request, response, invoiceID);
 						//
 						errorChecker = "Invoice deleted";
@@ -95,7 +93,6 @@ public class InvoiceLineItemController extends HttpServlet {
 	    		default:
 	    			errorChecker = "Something has gone horribly wrong";
 	    	}
-	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 	    	dispatcher.forward(request, response);
 	    	

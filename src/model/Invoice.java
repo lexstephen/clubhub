@@ -7,7 +7,8 @@ package model;
 * Description: Invoice model
 ****************************************************************************************************/
 public class Invoice {
-	private String id, invDate, status, userID, username, firstName, lastName;	private String charge01, charge02, charge03, charge04, charge05;
+	private String id, invDate, status, userID, username, firstName, lastName;	
+	private String charge01, charge02, charge03, charge04, charge05;
 	private String charge01qty, charge02qty, charge03qty, charge04qty, charge05qty;
 	private String charge01subtotal, charge02subtotal, charge03subtotal, charge04subtotal, charge05subtotal;
 	private String result, taxes, finalresult;

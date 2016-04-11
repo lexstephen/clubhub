@@ -35,9 +35,7 @@ public class CalendarController extends HttpServlet {
 		String address = "Main.jsp";
 		int month, year;
 		String errorChecker = "n/a";
-		
-		System.out.println(option);
-		
+				
 	    try {
 	    	switch(option) {
 		    	case "prev":
@@ -65,7 +63,6 @@ public class CalendarController extends HttpServlet {
 		    	default:
 	    		errorChecker = "Something has gone horribly wrong";
 	    	}
-	    	System.out.println(errorChecker);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher(address);
 	    	dispatcher.forward(request, response);
 	    	
