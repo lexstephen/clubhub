@@ -8,7 +8,6 @@
 %>
 
 <%	PostDao postHead = new PostDao(); 
-	
 	postHead.listStatic(request); %>
 <%--
 

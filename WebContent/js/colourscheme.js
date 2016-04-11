@@ -67,14 +67,14 @@
 	        				var image_logo = document.createElement("IMG");
 	        				image_logo.alt = "Preview of image"
 	        				image_logo.setAttribute('class', 'photo');
-	        				image_logo.src="/clubhub/ImageDao?t=image_logo&p=" + Prefs[index].prefid;
+	        				image_logo.src="/ImageDao?t=image_logo&p=" + Prefs[index].prefid;
 	        				$('#display_image_logo').html(image_logo);
 	  				}
 					if(Prefs[index].image_small_logo_exists == "true") {
 	      				var image_small_logo = document.createElement("IMG");
 	      				image_small_logo.alt = "Preview of image"
 	      				image_small_logo.setAttribute('class', 'photo');
-	      				image_small_logo.src="/clubhub/ImageDao?t=image_small_logo&p=" + Prefs[index].prefid;
+	      				image_small_logo.src="/ImageDao?t=image_small_logo&p=" + Prefs[index].prefid;
 	      				$('#display_image_small_logo').html(image_small_logo);
 					}
 
