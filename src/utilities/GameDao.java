@@ -97,6 +97,7 @@ public class GameDao {
 				game.setScore(results.getString("score"));
 				game.setSeasonID(results.getString("Seasonid"));
 				game.setOutcome(results.getString("outcome"));
+				game.setWeekNum(results.getString("game.week"));
 
 				games.add(game);
 			}

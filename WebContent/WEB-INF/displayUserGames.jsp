@@ -5,8 +5,7 @@
 <tr>
 	<td class="col-xs-12 col-md-3 control-label">${game.seasonID }</td>
 	<td class="col-xs-12 col-md-2"><a
-		href="${pageContext.request.contextPath}/admin/Game.jsp?gameID=${game.gameID}">${game.gameID}</a></td>
+		href="${pageContext.request.contextPath}/admin/Game.jsp?gameID=${game.gameID}">${game.weekNum}</a></td>
 	<td class="col-xs-12 col-md-2">${game.score}</td>
-	<%-- <td class="col-xs-12 col-md-2">${game.team}</td> --%>
-	<td class="col-xs-12 col-md-2">${game.outcome}</td>
+	<td class="col-xs-12 col-md-2">${game.outcome}</td>	
 </tr>

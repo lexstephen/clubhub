@@ -152,7 +152,12 @@ public class SeasonDao {
 				}
 
 				season.setGames(season.getWins() + season.getLosses());
+				if (season.getGames() == 0 || season.getWins() == 0) {
+					season.setPercentage(0);
+				} else {
+					season.setPercentage(season.getWins()*100/season.getGames());
 
+				}
 				seasons.add(season);
 			}
 

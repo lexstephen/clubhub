@@ -21,6 +21,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
+<script>var ctx = "${pageContext.request.contextPath}"</script>
 
 	<c:if test="${isAdmin == false}">
 		<c:redirect url="index.jsp" />
@@ -416,6 +417,5 @@
 <br>
 <!--  	<input type="hidden" name="option" value="add"> -->
 </div>
-
 
 <%@ include file="/WEB-INF/footer_backend.jsp"%>

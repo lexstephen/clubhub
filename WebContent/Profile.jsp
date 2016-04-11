@@ -110,6 +110,7 @@
 							<th class="col-xs-12 col-md-2">Games</th>
 							<th class="col-xs-12 col-md-2">Wins</th>
 							<th class="col-xs-12 col-md-2">Losses</th>
+							<th class="col-xs-12 col-md-1">Win %</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -135,7 +136,7 @@
 					<thead>
 						<tr>
 							<th class="col-xs-12 col-md-3 control-label">Season</th>
-							<th class="col-xs-12 col-md-2">Game</th>
+							<th class="col-xs-12 col-md-2">Week of Season</th>
 							<th class="col-xs-12 col-md-2">Team Points</th>
 							<th class="col-xs-12 col-md-2">Outcome</th>
 

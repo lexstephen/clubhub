@@ -358,5 +358,6 @@ ${errorString }
 	lineItemObj.id = '---'; 
 	lineItemObj.cost = 0; 
 	lineItems.push(lineItemObj);
+</script>
 
 <%@ include file="/WEB-INF/footer_backend.jsp"%>

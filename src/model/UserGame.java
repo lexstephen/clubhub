@@ -7,7 +7,15 @@ package model;
 * Description: Game model
 ****************************************************************************************************/
 public class UserGame {
-	private String userID, gameID, team, score, seasonID, outcome;
+	private String userID, gameID, team, score, seasonID, outcome, weekNum;
+
+	public String getWeekNum() {
+		return weekNum;
+	}
+
+	public void setWeekNum(String weekNum) {
+		this.weekNum = weekNum;
+	}
 
 	public String getOutcome() {
 		return outcome;

@@ -9,6 +9,15 @@ package model;
 public class UserSeason {
 	private String seasonID;
 	private int games, wins, losses;
+	double percentage;
+
+	public double getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(double percentage) {
+			this.percentage = percentage;
+	}
 
 	public String getSeasonID() {
 		return seasonID;
