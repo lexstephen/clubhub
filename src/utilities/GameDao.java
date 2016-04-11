@@ -789,7 +789,7 @@ public class GameDao {
 			gameID = resultSet.getString("slot.gameID");
 		}
 
-		System.out.println("Available Players: "+ playerIDs);
+		System.out.println("Available Players: " + playerIDs);
 
 			List<Integer> indexes = new ArrayList<Integer>();
 			int hold1,hold2,hold3,hold4;
