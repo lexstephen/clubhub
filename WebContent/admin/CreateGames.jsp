@@ -14,14 +14,13 @@
 
 <% SeasonDao season = new SeasonDao();
 String seasonID = (String) request.getAttribute("seasonID");
-System.out.println("The current season ID is: " + seasonID);
 season.findSeason(request, seasonID);
 request.setAttribute("seasonID", seasonID);
 request.setAttribute("thisPage", "Confirm New Season"); %>
 
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-	<c:if test="${isAdmin == false}">
+	<c:if test="${sessionScope.isAdmin == false}">
 		<c:redirect url="index.jsp" />
 	</c:if>
 <form action="${pageContext.request.contextPath}/SeasonController"

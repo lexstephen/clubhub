@@ -24,7 +24,7 @@
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 	<jsp:useBean id="now" class="java.util.Date"/>
 		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate" />
-	<c:if test="${isAdmin == false}">
+	<c:if test="${sessionScope.isAdmin == false}">
 		<c:redirect url="index.jsp" />
 	</c:if>
 	<div class="row">

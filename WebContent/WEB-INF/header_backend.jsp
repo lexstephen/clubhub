@@ -19,7 +19,7 @@
 <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
 </head>
 <body class="backend">
-	<c:if test="${isLoggedIn == false || isLoggedIn == null}">
+	<c:if test="${sessionScope.isLoggedIn == false || sessionScope.isLoggedIn == null}">
 		<c:redirect url="/Main.jsp" />
 	</c:if>
 

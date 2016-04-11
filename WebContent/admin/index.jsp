@@ -13,10 +13,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/header_backend.jsp"%>
 
-<c:if test="${isAdmin == true}">
+<c:if test="${sessionScope.isAdmin == true}">
 	<%@ include file="/WEB-INF/dashboardAdmin.jsp"%>
 </c:if>
-<c:if test="${isAdmin == false}">
+<c:if test="${sessionScope.isAdmin == false}">
 	<%@ include file="/WEB-INF/dashboardUser.jsp"%>
 </c:if>
 
