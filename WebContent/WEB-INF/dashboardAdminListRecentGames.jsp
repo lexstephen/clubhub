@@ -15,7 +15,7 @@ game.findRecentGames(request);
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${games}" var="game">
+		<c:forEach items="${recentGames}" var="game">
 			<tr>
 				<td class="col-xs-12 col-md-3 control-label"><a
 					href="${pageContext.request.contextPath}/admin/EditGame.jsp?gameID=${game.id}">${game.id}</a></td>
