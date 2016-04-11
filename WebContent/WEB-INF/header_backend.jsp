@@ -62,12 +62,6 @@
 							<li><a
 								href="${pageContext.request.contextPath}/admin/EditProfile.jsp?userID=${loggedInUserID }">Edit
 									Profile</a></li>
-							<li><a
-								href="${pageContext.request.contextPath}/admin/Availability.jsp">Game
-									Availability</a></li>
-							<li><a
-								href="${pageContext.request.contextPath}/admin/Schedule.jsp">View
-									Schedule</a></li>
 						</c:if>
 						<c:if test="${(isAdmin == true)}">
 							<li><a
@@ -95,6 +89,12 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">Games <span class="caret"></span></a>
 					<ul class="dropdown-menu">
+						<li><a
+							href="${pageContext.request.contextPath}/admin/Availability.jsp">Game
+								Availability</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/admin/Schedule.jsp">View
+								Schedule</a></li>
 						<li>
 						<c:if test="${(isAdmin == true)}">
 							<li><a
