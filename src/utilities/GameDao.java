@@ -774,6 +774,75 @@ public class GameDao {
 	public void closeSlot(HttpServletRequest request, String slotID) throws Exception{
 		System.out.println("The slot ID recieved is: "+ slotID);
 		List <String> playerIDs  = new ArrayList<String>();
+		String [] playingPlayers = new String[8];
+		String gameID =  null;
+		int x = 0, team;
+
+		System.out.println("Im in closeSlot");
+		statement = connect.createStatement();
+		ResultSet resultSet = statement.executeQuery("SELECT * from clubhub.ch_user_slot us JOIN ch_slot slot "
+				+ "ON us.Slotid = slot.id where id="+ slotID); // This should be user_slot
+
+		while(resultSet.next()){
+			//Slot slot = new Slot();
+			playerIDs.add(resultSet.getString("Userid"));
+			gameID = resultSet.getString("slot.gameID");
+		}
+
+		System.out.println("Available Players: " + playerIDs);
+
+		Collections.shuffle(playerIDs);
+		
+		for (int y = 0; y < 8; y++) {
+			playingPlayers[y] = playerIDs.get(y);
+		}
+
+		for(int i=0; i < playingPlayers.length ;i++){
+
+			if (i < 4)
+				team = 1;
+			else
+				team = 2;
+
+			statement = connect.createStatement();
+			PreparedStatement preparedStatement = connect.prepareStatement("insert into ch_user_game values (?,?," + team + ",0,'TBD')");
+			preparedStatement.setString(1, playingPlayers[i]);	//userID
+			preparedStatement.setString(2, gameID); // gameID
+			preparedStatement.executeUpdate();
+		}
+
+		/*	
+
+		StringBuilder builder = new StringBuilder();
+
+		if (playingPlayers.length >= 1) {
+			builder.append(playingPlayers[0]);
+		}
+
+		for (int i = 1; i < playingPlayers.length; i++) { 
+			builder.append(",");
+			builder.append(playingPlayers[i]);
+		}
+
+		String thePlayers = builder.toString();
+		System.out.println("Playing Players: "+thePlayers);
+		statement = connect.createStatement();
+		ResultSet resultSet1 = statement.executeQuery("Select * from ch_game where id= "+ gameID);
+		while(resultSet1.next()){
+			String seasonID= resultSet1.getString("seasonID");
+			request.setAttribute("seasonID", seasonID);
+		}*/
+
+		Statement statement2 = null;
+		statement2 = connect.createStatement();
+		statement2.executeUpdate("UPDATE ch_slot SET status= 0 Where id = " + slotID); 
+	}
+	
+
+
+	public void oldcloseSlot(HttpServletRequest request, String slotID) throws Exception{
+		System.out.println("The slot ID recieved is: "+ slotID);
+		List <String> playerIDs  = new ArrayList<String>();
 		int [] playingPlayers = new int[8];
 		String gameID =  null;
 		int x = 0, team;
