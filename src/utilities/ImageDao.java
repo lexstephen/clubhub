@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.servlet.ServletException;
@@ -83,7 +84,16 @@ public class ImageDao extends HttpServlet {
 	
 		        } catch (Exception e){
 		            e.printStackTrace();
-		        }
+		        } finally {
+					if (connect != null) {
+						// closes the database connection
+						try {
+							connect.close();
+						} catch (SQLException ex) {
+							ex.printStackTrace();
+						}
+					}
+				}
 	        break;
 			case "image_logo":
 				if(prefId != null) {
@@ -105,7 +115,16 @@ public class ImageDao extends HttpServlet {
 
 			        } catch (Exception e){
 			            e.printStackTrace();
-			        }
+			        } finally {
+						if (connect != null) {
+							// closes the database connection
+							try {
+								connect.close();
+							} catch (SQLException ex) {
+								ex.printStackTrace();
+							}
+						}
+					}
 				} else {
 			        try{
 						statement = connect.createStatement();
@@ -125,7 +144,16 @@ public class ImageDao extends HttpServlet {
 
 			        } catch (Exception e){
 			            e.printStackTrace();
-			        }
+			        } finally {
+						if (connect != null) {
+							// closes the database connection
+							try {
+								connect.close();
+							} catch (SQLException ex) {
+								ex.printStackTrace();
+							}
+						}
+					}
 				}
 	        break;
 			case "image_small_logo":
@@ -135,7 +163,6 @@ public class ImageDao extends HttpServlet {
 						preparedStatement = connect.prepareStatement("SELECT image_small_logo from ch_preferences where id = " + prefId);
 						resultSet = preparedStatement.executeQuery();
 			            if(resultSet.next()){
-			                System.out.println("Inside RS");
 			                byte[] bytearray = new byte[1048576];
 			                int size=0;
 			                sImage = resultSet.getBinaryStream("image_small_logo");
@@ -149,7 +176,16 @@ public class ImageDao extends HttpServlet {
 
 			        } catch (Exception e){
 			            e.printStackTrace();
-			        }
+			        } finally {
+						if (connect != null) {
+							// closes the database connection
+							try {
+								connect.close();
+							} catch (SQLException ex) {
+								ex.printStackTrace();
+							}
+						}
+					}
 				} else {
 					try{
 						statement = connect.createStatement();
@@ -170,7 +206,16 @@ public class ImageDao extends HttpServlet {
 
 			        } catch (Exception e){
 			            e.printStackTrace();
-			        }
+			        } finally {
+						if (connect != null) {
+							// closes the database connection
+							try {
+								connect.close();
+							} catch (SQLException ex) {
+								ex.printStackTrace();
+							}
+						}
+					}
 				}
 	        break;
 		}

@@ -52,7 +52,16 @@ public class InvoiceDao {
 			}
 	    } catch (Exception e) {
 	    	throw e;
-	    } 
+	    } finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public void addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -61,10 +70,7 @@ public class InvoiceDao {
 	    	// if editing an invoice, Parameter will be set and we will use that in the new insert
 	    	// if adding new, Parameter does not exist and we will use 'default'
 	    	String sqlDefault = (request.getParameter("invoiceID")) == null ? "default" : request.getParameter("invoiceID");
-	    	String last_id = sqlDefault;
-	    	
-	    	System.out.println("default string = " + sqlDefault);
-	    	
+	    	String last_id = sqlDefault;	    	
 	    	
 			  statement = connect.createStatement();
 			  preparedStatement = connect.prepareStatement("insert into ch_invoice values (" + sqlDefault + ", ?, ?, ?)");
@@ -92,7 +98,6 @@ public class InvoiceDao {
 				 
 				    while (insertedId.next()) {
 				    	last_id = insertedId.getString("LAST_INSERT_ID()");
-				    	System.out.println("Inserted ID is " + last_id);
 				    }
 			  }
 
@@ -158,7 +163,15 @@ public class InvoiceDao {
 			String userID = request.getParameter("userID");
 			email.sendInvoiceEmail(request, response, userID);
 		} catch (MessagingException mex) {
-			System.out.println("send failed, exception: " + mex);
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -178,6 +191,15 @@ public class InvoiceDao {
 			    }
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("users", users);
 	} 
@@ -198,6 +220,15 @@ public class InvoiceDao {
 			    }
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("lineitems", lineitems);
 	} 
@@ -222,6 +253,15 @@ public class InvoiceDao {
 			    }
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("lineitemsforinvoice", lineitemsforinvoice);
 	} 
@@ -247,6 +287,15 @@ public class InvoiceDao {
 			    }
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("invoices", invoices);
 
@@ -272,19 +321,24 @@ public class InvoiceDao {
 			    }
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("invoices", invoices);
-		  	System.out.println("invoices = " + invoices);
-
 	}
 	
 	public void deleteInvoice(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		// if coming from batchDelte, attribute will be set. otherwise, parameter will be set
 		String invoiceID = (request.getAttribute("invoiceID")) == null ? request.getParameter("invoiceID") : (String) request.getAttribute("invoiceID");
-		
-		System.out.println("invoiceID to be deleted = " + invoiceID);
-		
+				
 		try {	    	
 			  statement = connect.createStatement();
 			  
@@ -293,7 +347,16 @@ public class InvoiceDao {
 			  		  
 	    } catch (Exception e) {
 	      throw e;
-	    }
+	    } finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void batchDelete(HttpServletRequest request, HttpServletResponse response) throws Exception { 
@@ -301,7 +364,6 @@ public class InvoiceDao {
 		String [] markedForDeletion = request.getParameterValues("invoiceSelected");
 		for (String invoiceID : markedForDeletion) {
 			request.setAttribute("invoiceID", invoiceID);
-			System.out.println("batchDelete invoiceID: " + request.getAttribute("invoiceID"));
 			deleteInvoice(request, response);
 		}	
 	}
@@ -311,7 +373,6 @@ public class InvoiceDao {
 	  		int numItems = 0;
 		    statement = connect.createStatement();
 		    String qry = "SELECT count(*) AS numItems FROM clubhub.ch_invoice_line_items_invoice ili WHERE ili.Invoiceid = " + request.getParameter("invoiceID");
-		    System.out.println(qry);
 		    resultSet = statement.executeQuery(qry);
 		    while (resultSet.next()) {
 		    	numItems = Integer.parseInt(resultSet.getString("numItems"));
@@ -319,6 +380,15 @@ public class InvoiceDao {
 		    }
 		} catch (SQLException e) {
 		      throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 		
@@ -401,13 +471,11 @@ public class InvoiceDao {
 				+ " JOIN clubhub.ch_preferences pref"
 				+ " ON pref.id = 1"
 				+ " WHERE invoice.id = " + invoiceID;
-			    System.out.println(qry);
 			    resultSet = statement.executeQuery(qry);
 			    while (resultSet.next()) {
 			    	  invoice.setInvDate(resultSet.getString("invDate"));
 			    	  invoice.setStatus(resultSet.getString("status"));
 			    	  invoice.setUserID(resultSet.getString("Userid"));
-			    	  System.out.println("Invoice is " + resultSet.getString("id") + " and count is " + resultSet.getString("numItems") + " from user number " + resultSet.getString("Userid"));
 			    }
 		    	invoice.setId(invoiceID);
 			    
@@ -455,6 +523,15 @@ public class InvoiceDao {
 			  }
 			} catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("invoice", invoice);
 	} 
@@ -462,9 +539,7 @@ public class InvoiceDao {
 	public void editInvoice(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String invoiceID = request.getParameter("invoiceID");
-		
-		System.out.println("invoiceID to be edited = " + invoiceID);
-		
+				
 		try {	    	
 			  statement = connect.createStatement();
 			  
@@ -475,7 +550,16 @@ public class InvoiceDao {
 			  		  
 	    } catch (Exception e) {
 	      throw e;
-	    }
+	    } finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void batchEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {

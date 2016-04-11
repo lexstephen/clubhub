@@ -63,7 +63,16 @@ public class SeasonDao {
 			}
 		} catch (Exception e) {
 			throw e;
-		} 
+		}  finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public String addToDatabase(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -100,11 +109,17 @@ public class SeasonDao {
 
 			}
 
-			System.out.println(season_id+"In seasonDao");
-
-
 		}catch (Exception e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 
 		return season_id;
@@ -153,6 +168,15 @@ public class SeasonDao {
 
 		} catch (Exception e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 
 		request.setAttribute("seasons", seasons);
@@ -172,6 +196,15 @@ public class SeasonDao {
 
 		} catch (SQLException e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 
 		request.setAttribute("seasons", seasons);
@@ -184,7 +217,6 @@ public class SeasonDao {
 		List <String> slotIDs = new ArrayList<String>();
 		GameDao game = new GameDao();
 		String gameIDforError= null;
-		System.out.println("In closeSeason() with seasonID " + seasonID);
 		List <String> playerIDs  = new ArrayList<String>();
 		boolean slotsFull = true;
 
@@ -197,7 +229,6 @@ public class SeasonDao {
 			while (resultSet.next()) {
 				gameIDforError = resultSet.getString("game.id");
 				slotIDs.add(resultSet.getString("slot.id"));
-				System.out.println("Adding slot.ids");
 			}
 
 			try {
@@ -213,28 +244,32 @@ public class SeasonDao {
 						slotsFull = false;
 					}
 
-					System.out.println("playersIDs size = " + playerIDs.size());
-					System.out.println("slotsFUll = " + slotsFull);
 				}
 				
 				if (slotsFull) {
 					for (String k : slotIDs) {
 						game.closeSlot(request, k);
-						System.out.println("closed slot at k = " + k);
 					}
 				} else {
 					request.setAttribute("errorString", "All slots in a season must have at least 8 users before closing a season");
 				}
 			} catch (SQLException e) {
-				System.out.println("SQLException: " + e);
 				statement.executeUpdate("DELETE FROM ch_user_game WHERE Gameid = " + gameIDforError);
 				for (String k : slotIDs) {
 					statement.executeUpdate("UPDATE ch_slot SET status = 1 WHERE id = " + k);
-					System.out.println("opened slot at k = " + k);
 				}
 			}
 		} catch (SQLException e){
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 
 	}
@@ -283,6 +318,15 @@ public class SeasonDao {
 			}
 		} catch (SQLException e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		request.setAttribute("seasons", seasons);
 	} 
@@ -318,6 +362,15 @@ public class SeasonDao {
 			}
 		} catch (SQLException e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		request.setAttribute("closedSeasons", seasons);
 	} 
@@ -342,94 +395,18 @@ public class SeasonDao {
 			}
 		} catch (SQLException e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		request.setAttribute("seasons", seasons);
 	}
-
-	/* 
-	public void listSeasonWithGames(HttpServletRequest request, String seasonID) throws Exception {
-		  List<Slot> slots = new ArrayList<Slot>();
-		  	try{  		 
-		  		statement = connect.createStatement();
-			    resultSet = statement.executeQuery("SELECT * from ch_season where id = " + seasonID);
-
-			    while (resultSet.next()) {
-			    	  Season season = new Season();
-			    	  season.setYear(resultSet.getString("year"));
-			    	  season.setSeason(resultSet.getString("season"));
-			    	  season.setId(resultSet.getString("id"));
-			    	  season.setGender(resultSet.getString("gender"));
-			    	  season.setStartDate(resultSet.getString("startDate"));
-			    	  season.setStartTime(utilities.ValidationUtilities.toTime(resultSet.getInt("startTime")));
-			    	  season.setDayOfWeek(utilities.ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
-			    	  season.setDuration(resultSet.getString("duration"));
-			    	  System.out.println(" I am digging this season ");
-
-			    	  statement1 = connect.createStatement();
-					  resultSet1 = statement1.executeQuery("SELECT * from ch_game where seasonID= "+ seasonID);
-
-					  while(resultSet1.next()){
-						  Game game = new Game();
-						  String gameID = resultSet1.getString("id");
-						  System.out.println("Game id is: " + gameID);
-
-						  Statement statement2 = null;
-				    	  ResultSet resultSet2 = null;
-
-				    	  statement2 = connect.createStatement();
-						  resultSet2 = statement2.executeQuery("SELECT * from ch_slot where gameID= "+ gameID);
-
-						  while(resultSet2.next()){
-							  int status = resultSet2.getInt("status");
-
-							  Slot slot = new Slot();
-							  if (status == 1){
-							  String playerIDs = resultSet2.getString("availablePlayers");
-							  String playerNames = utilities.ValidationUtilities.getPlayerNames(request, playerIDs);
-							  System.out.println("Player Names: " +playerNames);
-
-							  slot.setPlayers(playerNames);
-							  slot.setScheduledDate(resultSet2.getString("scheduledDate"));
-							  slot.setStatus(resultSet2.getInt("status"));
-							  slot.setGameID(resultSet2.getString("gameID"));
-							  slot.setId(resultSet2.getString("id"));
-
-							  } else if (status == 0) {
-								  Statement statement3 = null;
-						    	  ResultSet resultSet3 = null;
-
-						    	  slot.setScheduledDate(resultSet2.getString("scheduledDate"));
-						    	  slot.setGameID(resultSet2.getString("gameID"));
-						    	  statement3 = connect.createStatement();
-								  resultSet3 = statement3.executeQuery("SELECT * from ch_user_game where Gameid= "+ gameID);
-								  String playerIDs = null;
-								  while(resultSet3.next()){
-									  if (playerIDs != null){
-										  playerIDs += ", " + resultSet3.getString("Userid");
-										  System.out.println(resultSet3.getString("Userid"));
-									  }else {
-										  playerIDs = resultSet3.getString("Userid");
-									  }
-								  }
-								  System.out.println(playerIDs);
-								  String playerNames = utilities.ValidationUtilities.getPlayerNames(request, playerIDs);
-								  System.out.println("Player Names: " +playerNames);
-								  slot.setPlayers(playerNames);
-							  }
-							  slots.add(slot);
-						  }
-						  }
-					  request.setAttribute("dayOfWeek", utilities.ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
-					  request.setAttribute("time", utilities.ValidationUtilities.numberToDay(resultSet.getInt("dayOfWeek")));
-					  }
-
-		    } catch (SQLException e) {
-			      throw e;
-			}
-		  	request.setAttribute("slots", slots);
-
-	} 
-	 */
 
 	public void deleteSeason(HttpServletRequest request, HttpServletResponse response, String seasonID) throws Exception {
 		try {
@@ -438,6 +415,15 @@ public class SeasonDao {
 
 		} catch (SQLException e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -468,6 +454,15 @@ public class SeasonDao {
 			}
 		} catch (SQLException e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		request.setAttribute("season", season);
 
@@ -494,6 +489,15 @@ public class SeasonDao {
 			//preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			throw e;
+		} finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 

@@ -128,7 +128,16 @@ public class InvoiceLineItemDao {
 			    
 	    } catch (Exception e) {
 	      throw e;
-	    }
+	    } finally {
+			if (connect != null) {
+				// closes the database connection
+				try {
+					connect.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void listAllLineItems(HttpServletRequest request) throws Exception {
@@ -146,6 +155,15 @@ public class InvoiceLineItemDao {
 			    }
 		    } catch (SQLException e) {
 			      throw e;
+			} finally {
+				if (connect != null) {
+					// closes the database connection
+					try {
+						connect.close();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		  	request.setAttribute("lineitems", lineitems);
 	} 

@@ -100,8 +100,6 @@ public class CalendarBuilder {
 	        // starting day
 	        int d = day(M, 1, Y);
 	        
-	        System.out.println("d = " + d);
-
 	        // print the calendar
 	        for (int i = 0; i < d; i++) {
 	            output += "<td></td>"; }

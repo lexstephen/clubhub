@@ -34,7 +34,6 @@ public class ValidationUtilities {
 		String password = request.getParameter("password");
 		HashPassword hp = new HashPassword();
 		String passwordHashed = hp.hashPassword(password);
-		System.out.println(passwordHashed); 
 		request.setAttribute("username", username);		
 		request.setAttribute("password", password);
 		if (isMissing(username)) {
@@ -630,11 +629,8 @@ public class ValidationUtilities {
 	public static boolean isValidRegistration(HttpServletRequest request) {
 		boolean isValid = true;
 		String username = request.getParameter("username");
-		System.out.println("Username is " + username);
 		String password = request.getParameter("password");	
-		System.out.println("Password is " + password);
 		String password2 = request.getParameter("password2");	
-		System.out.println("Password is " + password2);
 		String emailAddress = request.getParameter("emailAddress");	
 		String emailAddress2 = request.getParameter("emailAddress2");	
 		String firstName = request.getParameter("firstName");
@@ -689,17 +685,14 @@ public class ValidationUtilities {
 			request.setAttribute("errorUsername", true);}
 
 		if (isMissing(password)) {
-			System.out.println("I died here");
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPassword1", true);}
 		if (isMissing(password2)) {
-			System.out.println("I died here");
 			isValid = false;
 			request.setAttribute("errorString", "Please check your input");
 			request.setAttribute("errorPassword2", true);}
 		if (!password.equals(password2)) {
-			System.out.println("I died here");
 			isValid = false;
 			request.setAttribute("errorString4", "Passwords do not match");
 			request.setAttribute("errorPassword1", true);
