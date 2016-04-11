@@ -37,7 +37,7 @@ public class SeasonController extends HttpServlet {
 		HttpSession session = request.getSession();
 		String errorChecker = "n/a";
 		
-		System.out.println(option);
+		System.out.println("Option is " + option);
 		
 	    try {
 	    	switch(option) {
