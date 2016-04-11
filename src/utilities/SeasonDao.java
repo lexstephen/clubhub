@@ -460,7 +460,7 @@ public class SeasonDao {
 				season.setYear(resultSet.getString("year"));
 				season.setSeason(ValidationUtilities.seasonName(resultSet.getString("season")));
 				season.setId(resultSet.getString("id"));
-				season.setGender(ValidationUtilities.genderName(resultSet.getString("gender")));
+				season.setGender(resultSet.getString("gender"));
 				season.setStartDate(resultSet.getString("startDate"));
 				season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));season.setStartTime(ValidationUtilities.toTime( Integer.parseInt(resultSet.getString("startTime"))));
 				season.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet.getString("dayOfWeek"))));

@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Invoice;
@@ -151,6 +153,13 @@ public class InvoiceDao {
 	    } catch (Exception e) {
 	      throw e;
 	    }
+	    try {
+			SendEmail email = new SendEmail();
+			String userID = request.getParameter("userID");
+			email.sendInvoiceEmail(request, response, userID);
+		} catch (MessagingException mex) {
+			System.out.println("send failed, exception: " + mex);
+		}
 	}
 
 	
