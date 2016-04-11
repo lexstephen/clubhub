@@ -243,7 +243,8 @@ public class SeasonDao {
 
 		try {
 			SendEmail email = new SendEmail();
-			email.sendAvailabiltyOpenEmail(request, response, seasonID);
+			String thisSeasonID = request.getParameter("seasonID");
+			email.sendAvailabiltyOpenEmail(request, response, thisSeasonID);
 			
 		} catch (MessagingException mex) {
 			System.out.println("send failed, exception: " + mex);
@@ -459,7 +460,7 @@ public class SeasonDao {
 				season.setYear(resultSet.getString("year"));
 				season.setSeason(ValidationUtilities.seasonName(resultSet.getString("season")));
 				season.setId(resultSet.getString("id"));
-				season.setGender(ValidationUtilities.genderName(resultSet.getString("gender")));
+				season.setGender(resultSet.getString("gender"));
 				season.setStartDate(resultSet.getString("startDate"));
 				season.setStartDateFullYear(ValidationUtilities.dateFullYear(resultSet.getString("startDate")));season.setStartTime(ValidationUtilities.toTime( Integer.parseInt(resultSet.getString("startTime"))));
 				season.setDayOfWeek(ValidationUtilities.numberToDay(Integer.parseInt(resultSet.getString("dayOfWeek"))));

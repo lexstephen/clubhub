@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletRequest;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
@@ -234,6 +235,16 @@ public class UserDao {
 				} catch (SQLException ex) {
 					ex.printStackTrace();
 				}
+			}
+
+			try {
+				SendEmail email = new SendEmail();
+				String userName = request.getParameter("firstName") + " " + request.getParameter("lastName");
+				String userMail = request.getParameter("emailAddress");
+				email.sendNewRegistrationEmail(request, response, userName, userMail);
+
+			} catch (MessagingException mex) {
+				System.out.println("send failed, exception: " + mex);
 			}
 		}
 	}

@@ -48,6 +48,7 @@ public class UserController extends HttpServlet {
 						request.setAttribute("successString", "You are now registered! Please log in.");
 						dao.addToDatabase(request, response);
 						address = "Login.jsp";
+
 					}
 					// the form is not filled out correctly. send an error back and send them 
 					// back to the registration form
@@ -171,18 +172,18 @@ public class UserController extends HttpServlet {
 						SendEmail email = new SendEmail();
 						String seasonID = request.getParameter("seasonID");
 						email.sendAvailabiltyOpenEmail(request, response, seasonID);
-
+			    		address="admin/ListSeasons.jsp";	
 					} catch (MessagingException mex) {
 						System.out.println("send failed, exception: " + mex);
 					}
 					address = "/admin/index.jsp";
 					break;
-				case "registration":
+				case "invoice":
 					try {
 						SendEmail email = new SendEmail();
-						String userID = "4";
-						email.sendNewRegistrationEmail(request, response, userID);
-
+						String userID = request.getParameter("userID");
+						email.sendInvoiceEmail(request, response, userID);
+			    		address="admin/ListSeasons.jsp";	
 					} catch (MessagingException mex) {
 						System.out.println("send failed, exception: " + mex);
 					}
